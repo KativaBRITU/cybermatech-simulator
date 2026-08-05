@@ -3,99 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Cybermatech</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 100%);
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .login-container {
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            padding: 2rem;
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid #00ff88;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #00ff88;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid #00ff88;
-            border-radius: 5px;
-            color: white;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #00ff88;
-            color: #0a0a2a;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 1rem;
-        }
-
-        button:hover {
-            background: #00cc66;
-        }
-
-        .error {
-            color: #ff4444;
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .success {
-            color: #00ff88;
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .register-link {
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .register-link a {
-            color: #00ff88;
-            text-decoration: none;
-        }
-    </style>
+    <title>Login — Cybermatech</title>
+    <link rel="stylesheet" href="/css/theme.css">
 </head>
-<body>
+<body class="auth-page">
     <div class="login-container">
-        <h1>Cybermatech Login</h1>
+        <h1>Cybermatech</h1>
+        <p class="auth-sub">Sign in to continue training</p>
         <form id="loginForm">
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
+            <input type="email" id="email" placeholder="Email" required autocomplete="email">
+            <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
             <button type="submit">Login</button>
         </form>
         <div id="message" class="error"></div>
         <div class="register-link">
-            Don't have an account? <a href="/register">Register here</a>
+            Don't have an account? <a href="/register">Register</a>
         </div>
     </div>
 

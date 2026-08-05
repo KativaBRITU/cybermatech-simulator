@@ -3,143 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Cybermatech</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 100%);
-            color: #ffffff;
-        }
-
-        header {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 1rem 0;
-            border-bottom: 2px solid #00ff88;
-        }
-
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #00ff88;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .nav-links a:hover {
-            color: #00ff88;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        h1 {
-            margin-bottom: 2rem;
-            color: #00ff88;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid #00ff88;
-            border-radius: 10px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #00ff88;
-        }
-
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .module-card {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            border-radius: 10px;
-            padding: 1.5rem;
-        }
-
-        .module-card h3 {
-            color: #00ff88;
-            margin-bottom: 0.5rem;
-        }
-
-        .start-btn {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 8px 20px;
-            background: #00ff88;
-            color: #0a0a2a;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        .logout {
-            color: #ff4444;
-            text-decoration: none;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            margin-top: 1rem;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: #00ff88;
-            border-radius: 5px;
-            width: 0%;
-        }
-    </style>
+    <title>Dashboard — Cybermatech</title>
+    <link rel="stylesheet" href="/css/theme.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">Cybermatech</div>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a class="logo" href="/">Cybermatech</a>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/training/phishing">Training</a></li>
@@ -150,43 +20,43 @@
     </header>
 
     <div class="container">
-        <h1>Your Dashboard</h1>
+        <h1>Your dashboard</h1>
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-number" id="completedCount">0</div>
-                <div>Modules Completed</div>
+                <div>Modules completed</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="avgScore">0%</div>
-                <div>Average Score</div>
+                <div>Average score</div>
             </div>
         </div>
 
-        <h2>Training Modules</h2>
+        <h2>Training modules</h2>
         <div class="modules-grid">
             <div class="module-card">
-                <h3>🛡️ Phishing Detection</h3>
+                <h3>Phishing Detection</h3>
                 <p>Learn to identify and prevent phishing attacks.</p>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-phishing"></div>
                 </div>
-                <a href="/training/phishing" class="start-btn">Start Module</a>
+                <a href="/training/phishing" class="start-btn">Start module</a>
             </div>
             <div class="module-card">
-                <h3>🐛 Malware Analysis</h3>
+                <h3>Malware Analysis</h3>
                 <p>Understand different types of malware.</p>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-malware"></div>
                 </div>
-                <a href="/training/malware" class="start-btn">Start Module</a>
+                <a href="/training/malware" class="start-btn">Start module</a>
             </div>
             <div class="module-card">
-                <h3>🔒 Network Security</h3>
+                <h3>Network Security</h3>
                 <p>Master network security fundamentals.</p>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-network"></div>
                 </div>
-                <a href="/training/network" class="start-btn">Start Module</a>
+                <a href="/training/network" class="start-btn">Start module</a>
             </div>
         </div>
     </div>
@@ -195,17 +65,17 @@
         async function loadProgress() {
             const response = await fetch('/api/progress');
             const data = await response.json();
-            
+
             if (data.success && data.scores) {
                 let completed = 0;
                 let totalScore = 0;
-                
+
                 const scores = {
                     phishing: 0,
                     malware: 0,
                     network: 0
                 };
-                
+
                 data.scores.forEach(score => {
                     if (score.module_name === 'phishing') scores.phishing = score.score;
                     if (score.module_name === 'malware') scores.malware = score.score;
@@ -213,16 +83,16 @@
                     if (score.score > 0) completed++;
                     totalScore += score.score;
                 });
-                
+
                 document.getElementById('completedCount').textContent = completed;
                 document.getElementById('avgScore').textContent = completed > 0 ? Math.round(totalScore / completed) + '%' : '0%';
-                
+
                 document.getElementById('progress-phishing').style.width = scores.phishing + '%';
                 document.getElementById('progress-malware').style.width = scores.malware + '%';
                 document.getElementById('progress-network').style.width = scores.network + '%';
             }
         }
-        
+
         loadProgress();
     </script>
 </body>
