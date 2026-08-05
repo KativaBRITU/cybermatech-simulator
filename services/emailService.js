@@ -261,6 +261,16 @@ async function sendPaymentConfirmationEmail(email, username, details = {}) {
     });
 }
 
+async function sendTestEmail(to) {
+    const target = to || EMAIL_USER;
+    return sendMail({
+        to: target,
+        subject: 'TRIBAMS email test',
+        html: `<p>SMTP works. Sent at ${new Date().toISOString()}</p>`,
+        text: `SMTP works. Sent at ${new Date().toISOString()}`
+    });
+}
+
 module.exports = {
     APP_BASE_URL,
     isConfigured,
@@ -270,5 +280,6 @@ module.exports = {
     sendPasswordResetEmail,
     sendCertificateEmail,
     sendVerificationEmail,
-    sendPaymentConfirmationEmail
+    sendPaymentConfirmationEmail,
+    sendTestEmail
 };
