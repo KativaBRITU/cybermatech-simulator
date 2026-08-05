@@ -1,5 +1,9 @@
 const path = require('path');
+// Load .env first, then disable TLS cert rejection for Windows AV SMTP MITM
 require('dotenv').config({ path: path.join(__dirname, '.env') });
+if (process.env.EMAIL_TLS_INSECURE !== 'false') {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
 
 const express = require('express');
 const session = require('express-session');

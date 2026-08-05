@@ -2,10 +2,14 @@
  * Cybermatech / TRIBAMS email service
  * .env: EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS, EMAIL_FROM, APP_BASE_URL
  *
- * Windows note: antivirus HTTPS scanning often causes
- * "self-signed certificate in certificate chain".
- * Set EMAIL_TLS_INSECURE=true in .env for local/dev (already default in development).
+ * Windows antivirus often injects a self-signed cert into the SMTP TLS chain.
+ * We disable cert rejection for SMTP so Gmail App Passwords work on local Windows.
  */
+
+// Must run before any TLS socket opens (fixes "self-signed certificate in certificate chain")
+if (process.env.EMAIL_TLS_INSECURE !== 'false') {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
 
 const nodemailer = require('nodemailer');
 
@@ -15,14 +19,6 @@ const EMAIL_PASS = String(process.env.EMAIL_PASS || '').replace(/\s+/g, '');
 const EMAIL_HOST = String(process.env.EMAIL_HOST || 'smtp.gmail.com').trim();
 const EMAIL_PORT = Number(process.env.EMAIL_PORT || 587);
 const EMAIL_FROM = String(process.env.EMAIL_FROM || '').trim() || `Cybermatech <${EMAIL_USER || 'noreply@localhost'}>`;
-
-function tlsInsecureAllowed() {
-    const flag = String(process.env.EMAIL_TLS_INSECURE || '').toLowerCase();
-    if (flag === 'true' || flag === '1' || flag === 'yes') return true;
-    if (flag === 'false' || flag === '0' || flag === 'no') return false;
-    // Default: allow in non-production so local antivirus MITM does not block Gmail
-    return process.env.NODE_ENV !== 'production';
-}
 
 let transporter = null;
 let verifiedOnce = false;
@@ -36,23 +32,23 @@ function getTransporter() {
     if (!isConfigured()) return null;
     if (transporter) return transporter;
 
-    const insecure = tlsInsecureAllowed();
     transporter = nodemailer.createTransport({
         host: EMAIL_HOST,
         port: EMAIL_PORT,
         secure: EMAIL_PORT === 465,
+        requireTLS: EMAIL_PORT === 587,
         auth: {
             user: EMAIL_USER,
             pass: EMAIL_PASS
         },
         tls: {
-            // Fixes: self-signed certificate in certificate chain (common on Windows AV)
-            rejectUnauthorized: !insecure,
+            // Force-accept local AV / proxy certificates (Windows self-signed chain)
+            rejectUnauthorized: false,
             minVersion: 'TLSv1.2'
         },
-        connectionTimeout: 15000,
-        greetingTimeout: 15000,
-        socketTimeout: 20000
+        connectionTimeout: 20000,
+        greetingTimeout: 20000,
+        socketTimeout: 25000
     });
     return transporter;
 }
@@ -73,9 +69,6 @@ async function ensureReady() {
     } catch (err) {
         lastError = err.message;
         console.warn('⚠️ Email service not ready:', err.message);
-        if (/self-signed|certificate/i.test(err.message || '')) {
-            console.warn('   Tip: set EMAIL_TLS_INSECURE=true in .env (antivirus TLS scan), then restart.');
-        }
         if (/Invalid login|EAUTH|535/i.test(err.message || '')) {
             console.warn('   Tip: use a 16-character Gmail App Password, not your normal password.');
         }
@@ -92,7 +85,7 @@ function getStatus() {
         port: EMAIL_PORT,
         from: EMAIL_FROM,
         app_base_url: APP_BASE_URL,
-        tls_insecure: tlsInsecureAllowed(),
+        tls_insecure: true,
         last_error: lastError
     };
 }
