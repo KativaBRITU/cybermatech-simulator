@@ -1,24 +1,41 @@
 /**
  * TRIBAMS / Cybermatech email service
- * DROP THIS FILE OVER: services/emailService.js on your Desktop app, then restart.
  *
- * Fixes Windows antivirus error:
+ * Drop this file over Desktop: services/emailService.js then restart.
+ * Fixes Windows antivirus MITM error:
  *   "self-signed certificate in certificate chain"
  */
 
-// Force BEFORE nodemailer opens any TLS socket
+'use strict';
+
+// Must run before any SMTP/TLS socket is opened.
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
+const tls = require('tls');
 const nodemailer = require('nodemailer');
 
-const APP_BASE_URL = (process.env.APP_BASE_URL || `http://localhost:${process.env.PORT || 3080}`).replace(/\/$/, '');
+// Soften global TLS defaults for AV-inspected SMTP on Windows.
+try {
+    tls.DEFAULT_MIN_VERSION = 'TLSv1.2';
+} catch (_) {
+    /* ignore on older Node */
+}
+
+const APP_BASE_URL = String(
+    process.env.APP_BASE_URL || `http://127.0.0.1:${process.env.PORT || 3080}`
+).replace(/\/$/, '');
+
 const EMAIL_USER = String(process.env.EMAIL_USER || '').trim();
 const EMAIL_PASS = String(process.env.EMAIL_PASS || '').replace(/\s+/g, '');
 const EMAIL_HOST = String(process.env.EMAIL_HOST || 'smtp.gmail.com').trim();
-const EMAIL_PORT = Number(process.env.EMAIL_PORT || 587);
-const EMAIL_FROM = String(process.env.EMAIL_FROM || '').trim() || `TRIBAMS <${EMAIL_USER || 'noreply@localhost'}>`;
+const EMAIL_FROM =
+    String(process.env.EMAIL_FROM || '').trim() ||
+    `TRIBAMS <${EMAIL_USER || 'noreply@localhost'}>`;
+
+const PRIMARY_PORT = Number(process.env.EMAIL_PORT || 587);
 
 let transporter = null;
+let activePort = PRIMARY_PORT;
 let verifiedOnce = false;
 let lastError = null;
 
@@ -35,49 +52,110 @@ function isConfigured() {
     return Boolean(EMAIL_USER && EMAIL_PASS);
 }
 
-function getTransporter() {
-    if (!isConfigured()) return null;
-    if (transporter) return transporter;
+function isCertError(err) {
+    const msg = String(err && err.message ? err.message : err || '').toLowerCase();
+    return (
+        msg.includes('self-signed') ||
+        msg.includes('certificate') ||
+        msg.includes('cert_') ||
+        msg.includes('unable to verify') ||
+        err.code === 'UNABLE_TO_VERIFY_LEAF_SIGNATURE' ||
+        err.code === 'DEPTH_ZERO_SELF_SIGNED_CERT' ||
+        err.code === 'SELF_SIGNED_CERT_IN_CHAIN'
+    );
+}
 
-    transporter = nodemailer.createTransport({
+function buildTransportOptions(port) {
+    const use465 = Number(port) === 465;
+    return {
         host: EMAIL_HOST,
-        port: EMAIL_PORT,
-        secure: EMAIL_PORT === 465,
-        requireTLS: EMAIL_PORT === 587,
+        port: Number(port),
+        secure: use465,
+        requireTLS: !use465,
+        ignoreTLS: false,
         auth: {
             user: EMAIL_USER,
             pass: EMAIL_PASS
         },
         tls: {
-            // REQUIRED on many Windows PCs (AV HTTPS scanning)
+            // Required when Windows antivirus inspects SMTP/TLS.
             rejectUnauthorized: false,
+            servername: EMAIL_HOST,
             minVersion: 'TLSv1.2'
         },
         connectionTimeout: 20000,
         greetingTimeout: 20000,
-        socketTimeout: 25000
-    });
+        socketTimeout: 25000,
+        logger: false,
+        debug: false
+    };
+}
+
+function createTransporter(port) {
+    return nodemailer.createTransport(buildTransportOptions(port));
+}
+
+function resetTransporter() {
+    transporter = null;
+    verifiedOnce = false;
+}
+
+function getTransporter() {
+    if (!isConfigured()) return null;
+    if (transporter) return transporter;
+    transporter = createTransporter(activePort);
     return transporter;
 }
 
+async function tryVerify(port) {
+    const tx = createTransporter(port);
+    await tx.verify();
+    return tx;
+}
+
 async function ensureReady() {
-    const tx = getTransporter();
-    if (!tx) {
+    if (!isConfigured()) {
         lastError = 'EMAIL_USER or EMAIL_PASS missing in .env';
         return false;
     }
-    if (verifiedOnce) return true;
-    try {
-        await tx.verify();
-        verifiedOnce = true;
-        lastError = null;
-        console.log(`✅ Email service ready (${EMAIL_USER} via ${EMAIL_HOST}:${EMAIL_PORT})`);
-        return true;
-    } catch (err) {
-        lastError = err.message;
-        console.warn('⚠️ Email service not ready:', err.message);
-        return false;
+    if (verifiedOnce && transporter) return true;
+
+    // Force global bypass again in case another module overwrote it.
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+    const portsToTry = [];
+    const primary = PRIMARY_PORT || 587;
+    portsToTry.push(primary);
+    if (primary !== 465) portsToTry.push(465);
+    if (primary !== 587) portsToTry.push(587);
+
+    let lastErr = null;
+    for (const port of portsToTry) {
+        try {
+            const tx = await tryVerify(port);
+            transporter = tx;
+            activePort = port;
+            verifiedOnce = true;
+            lastError = null;
+            console.log(
+                `✅ Email service ready (${EMAIL_USER} via ${EMAIL_HOST}:${port}, TLS verify off)`
+            );
+            return true;
+        } catch (err) {
+            lastErr = err;
+            const hint = isCertError(err)
+                ? ' (TLS/AV intercept — will retry next port)'
+                : '';
+            console.warn(
+                `⚠️ Email verify failed on ${EMAIL_HOST}:${port}: ${err.message}${hint}`
+            );
+        }
     }
+
+    resetTransporter();
+    lastError = lastErr ? lastErr.message : 'SMTP verify failed';
+    console.warn('⚠️ Email service not ready:', lastError);
+    return false;
 }
 
 function getStatus() {
@@ -86,10 +164,11 @@ function getStatus() {
         ready: verifiedOnce,
         user: EMAIL_USER || null,
         host: EMAIL_HOST,
-        port: EMAIL_PORT,
+        port: activePort,
         from: EMAIL_FROM,
         app_base_url: APP_BASE_URL,
         tls_insecure: true,
+        node_tls_reject_unauthorized: process.env.NODE_TLS_REJECT_UNAUTHORIZED,
         last_error: lastError
     };
 }
@@ -127,10 +206,18 @@ function ctaButton(href, label) {
 }
 
 async function sendMail({ to, subject, html, text }) {
-    const ready = await ensureReady();
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+    let ready = await ensureReady();
+    if (!ready) {
+        // One hard reset + retry for flaky AV TLS inspection.
+        resetTransporter();
+        ready = await ensureReady();
+    }
     if (!ready) {
         return { sent: false, reason: lastError || 'not_configured' };
     }
+
     try {
         await getTransporter().sendMail({
             from: EMAIL_FROM,
@@ -144,6 +231,29 @@ async function sendMail({ to, subject, html, text }) {
     } catch (err) {
         lastError = err.message;
         console.error(`❌ Email failed → ${to}:`, err.message);
+
+        if (isCertError(err) || /timeout|econn|socket/i.test(String(err.message))) {
+            resetTransporter();
+            const retried = await ensureReady();
+            if (retried) {
+                try {
+                    await getTransporter().sendMail({
+                        from: EMAIL_FROM,
+                        to,
+                        subject,
+                        html,
+                        text: text || undefined
+                    });
+                    console.log(`📧 Email sent on retry → ${to} (${subject})`);
+                    return { sent: true };
+                } catch (err2) {
+                    lastError = err2.message;
+                    console.error(`❌ Email retry failed → ${to}:`, err2.message);
+                    return { sent: false, reason: err2.message };
+                }
+            }
+        }
+
         return { sent: false, reason: err.message };
     }
 }
@@ -182,12 +292,17 @@ async function sendPasswordResetEmail(email, username, resetLink) {
           <p style="font-size:12px;color:#64748b;word-break:break-all;">Or paste: ${escapeHtml(link)}</p>
         `
     });
-    return sendMail({
+    const result = await sendMail({
         to: email,
         subject: 'Reset your TRIBAMS password',
         html,
         text: `Reset your TRIBAMS password (expires in 1 hour): ${link}`
     });
+    if (!result.sent) {
+        // Match Desktop TRIBAMS log wording so screenshots are easier to diagnose.
+        console.warn('Forgot-password email not sent:', result.reason || lastError);
+    }
+    return result;
 }
 
 async function sendCertificateEmail(email, username, moduleName, score, certificateId) {
@@ -238,9 +353,13 @@ async function sendPaymentConfirmationEmail(email, username, details = {}) {
     const planLabel = escapeHtml(details.planLabel || details.tier || 'Pro');
     const tier = escapeHtml(details.tier || 'pro');
     const expires = details.expiresAt
-        ? escapeHtml(new Date(details.expiresAt).toLocaleDateString('en-GB', {
-            year: 'numeric', month: 'short', day: 'numeric'
-        }))
+        ? escapeHtml(
+              new Date(details.expiresAt).toLocaleDateString('en-GB', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric'
+              })
+          )
         : 'end of billing period';
     const amount = details.amountUsd ? `US$${escapeHtml(String(details.amountUsd))}` : '';
     const dash = `${APP_BASE_URL}/dashboard`;

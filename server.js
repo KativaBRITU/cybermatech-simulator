@@ -14,7 +14,7 @@ const contentMedia = require('./modules/contentMedia');
 const emailService = require('./services/emailService');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = Number(process.env.PORT || 3080);
 const IS_PROD = process.env.NODE_ENV === 'production';
 const SESSION_SECRET = process.env.SESSION_SECRET || 'cybermatech-dev-secret-change-me';
 
@@ -282,20 +282,23 @@ app.post('/api/forgot-password', async (req, res) => {
         if (emailService.isConfigured()) {
             mailed = await emailService.sendPasswordResetEmail(user.email, user.username, resetLink);
             if (!mailed.sent) {
-                console.warn('Password reset email failed:', mailed.reason);
+                console.warn('Forgot-password email not sent:', mailed.reason);
             }
+        } else {
+            console.warn('Forgot-password email not sent: EMAIL_USER/EMAIL_PASS missing in .env');
         }
 
         const payload = {
             success: true,
             message: mailed.sent
                 ? 'Reset link sent. Check your inbox and spam folder.'
-                : 'Reset link created. Email could not be sent — use the link shown below or check server logs.',
-            email_sent: !!mailed.sent
+                : 'Email could not be sent (SMTP/TLS). Use the reset link below — it works the same as the email link.',
+            email_sent: !!mailed.sent,
+            // Always include when mail failed so Desktop users can recover without PowerShell.
+            reset_link: mailed.sent ? undefined : resetLink,
+            // Keep legacy key used by older frontend builds.
+            dev_reset_link: mailed.sent ? undefined : resetLink
         };
-        if (process.env.NODE_ENV !== 'production' || !mailed.sent) {
-            payload.dev_reset_link = resetLink;
-        }
         return res.json(payload);
     } catch (err) {
         console.error('Forgot password error:', err);
@@ -458,15 +461,21 @@ app.post('/api/email-test', requireLogin, async (req, res) => {
 
 app.listen(PORT, '0.0.0.0', () => {
     const catalog = contentMedia.listModulesPublic();
-    console.log(`Cybermatech running at http://127.0.0.1:${PORT}`);
-    console.log(`Also try: http://localhost:${PORT}`);
-    console.log(`Modules loaded: ${catalog.modules.length} (edit content/modules.json)`);
-    console.log('Media: drop files in public/media — see content/HOW-TO-ADD-MEDIA.md');
-    const emailNote = emailService.isConfigured()
-        ? 'Email: SMTP configured'
-        : 'Email: not configured (set EMAIL_USER / EMAIL_PASS)';
-    console.log(emailNote);
+    console.log('');
+    console.log('╔══════════════════════════════════════════╗');
+    console.log('║   TRIBAMS / Cybermatech                  ║');
+    console.log('╚══════════════════════════════════════════╝');
+    console.log(`Server URL:  http://127.0.0.1:${PORT}`);
+    console.log(`Also try:    http://localhost:${PORT}`);
+    console.log(`Database:    SQLite (database/cybermatech.db)`);
+    console.log(`Modules:     ${catalog.modules.length} (edit content/modules.json)`);
+    console.log(`Health:      /api/health`);
     if (emailService.isConfigured()) {
+        console.log('Email:       SMTP configured');
         emailService.ensureReady().catch(() => {});
+    } else {
+        console.log('Email:       not configured — set EMAIL_USER / EMAIL_PASS in .env');
+        console.log('             or run: node scripts/apply-email-fix.js');
     }
+    console.log('');
 });

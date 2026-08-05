@@ -4,3 +4,5 @@ node_modules/
 database/*.db
 *.log
 .DS_Store
+*.bak
+services/*.bak

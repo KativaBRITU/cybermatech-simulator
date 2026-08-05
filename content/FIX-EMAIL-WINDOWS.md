@@ -1,49 +1,42 @@
 # Fix email on your Desktop TRIBAMS app
 
-Your earlier error was:
+Error:
 
 `self-signed certificate in certificate chain`
 
-That is almost never a wrong App Password. It is Windows antivirus inspecting HTTPS.
+This is almost never a wrong App Password. It is Windows antivirus inspecting TLS.
 
-## 1. Update Desktop `.env`
+## Recommended
 
-In `C:\Users\CASH CONVERTERS\Desktop\cybermatech-simulator\.env` set:
+Double-click `fix-email.bat` in the project root, then restart:
+
+```bat
+node server.js
+```
+
+Or:
+
+```bat
+node scripts\apply-email-fix.js
+node scripts\test-email.js
+```
+
+## What the fix changes
+
+1. `services/emailService.js` — forces `rejectUnauthorized: false`, sets `NODE_TLS_REJECT_UNAUTHORIZED=0`, and retries port **587** then **465**.
+2. `.env` — adds:
 
 ```env
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=tribamszetu@gmail.com
-EMAIL_PASS=hhslcfmfcgmtpphs
-EMAIL_FROM=TRIBAMS <tribamszetu@gmail.com>
 EMAIL_TLS_INSECURE=true
+NODE_TLS_REJECT_UNAUTHORIZED=0
+APP_BASE_URL=http://127.0.0.1:3080
+PORT=3080
 ```
 
-## 2. Patch `services/emailService.js` transporter
+Your existing `EMAIL_USER` / `EMAIL_PASS` are preserved.
 
-Find `nodemailer.createTransport({...})` and make sure it includes:
+## After restart
 
-```js
-tls: {
-  rejectUnauthorized: process.env.EMAIL_TLS_INSECURE === 'true' ? false : process.env.NODE_ENV === 'production'
-}
-```
+Look for: `✅ Email service ready (... TLS verify off)`
 
-Or copy this project's `services/emailService.js` over your Desktop one.
-
-## 3. Restart and test
-
-```powershell
-cd "C:\Users\CASH CONVERTERS\Desktop\cybermatech-simulator"
-npm start
-```
-
-Look for: `✅ Email service ready`
-
-Or run:
-
-```powershell
-node scripts/test-email.js
-```
-
-Optional: in antivirus, turn off HTTPS/SSL scanning for Node, or whitelist `node.exe`.
+Then use Forgot password. If SMTP still fails, the UI shows a reset link so you can continue.

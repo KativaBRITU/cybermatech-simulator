@@ -1,96 +1,65 @@
 # Fix Desktop TRIBAMS email (forgot password)
 
-Your server screenshot shows the app is healthy on **port 3080**, but email still fails with:
+Your server can be healthy on **port 3080** while email still fails with:
 
 `self-signed certificate in certificate chain`
 
-That means Desktop is still running the **old** `emailService.js` (TLS check still on). The App Password is fine — Gmail works once TLS verify is disabled.
+That is Windows antivirus TLS inspection — not a bad Gmail App Password.
 
-## Fastest fix (PowerShell on your PC)
+## Easiest fix (no PowerShell paste)
 
-1. **Stop** the server (`Ctrl+C` in that terminal).
+1. Stop the server (`Ctrl+C`).
+2. Make sure this project folder is your Desktop TRIBAMS folder  
+   (example: `Desktop\cybermatech-simulator`).
+3. **Double-click** `fix-email.bat`  
+   — or run:
 
-2. Paste this in PowerShell:
+```bat
+node scripts\apply-email-fix.js
+```
 
-```powershell
-cd "C:\Users\CASH CONVERTERS\Desktop\cybermatech-simulator"
+4. Open `.env` and confirm these exist (keep your real App Password):
 
-# Backup old file
-Copy-Item .\services\emailService.js .\services\emailService.js.bak -Force
+```env
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your-gmail@gmail.com
+EMAIL_PASS=your-16-char-app-password
+EMAIL_FROM=TRIBAMS <your-gmail@gmail.com>
+APP_BASE_URL=http://127.0.0.1:3080
+EMAIL_TLS_INSECURE=true
+NODE_TLS_REJECT_UNAUTHORIZED=0
+PORT=3080
+```
 
-# Download the fixed file from GitHub
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/KativaBRITU/cybermatech-simulator/cursor/remove-ai-visual-style-ac76/services/emailService.js" -OutFile ".\services\emailService.js"
+5. Start the app:
 
-# Patch .env (adds missing lines; does not wipe other vars)
-$envPath = ".\.env"
-if (-not (Test-Path $envPath)) { New-Item $envPath -ItemType File | Out-Null }
-$needed = @(
-  "EMAIL_HOST=smtp.gmail.com",
-  "EMAIL_PORT=587",
-  "EMAIL_USER=tribamszetu@gmail.com",
-  "EMAIL_PASS=hhslcfmfcgmtpphs",
-  "EMAIL_FROM=TRIBAMS <tribamszetu@gmail.com>",
-  "APP_BASE_URL=http://127.0.0.1:3080",
-  "EMAIL_TLS_INSECURE=true",
-  "NODE_TLS_REJECT_UNAUTHORIZED=0"
-)
-$existing = Get-Content $envPath -ErrorAction SilentlyContinue
-foreach ($line in $needed) {
-  $key = ($line -split "=", 2)[0]
-  if ($existing -notmatch "^$key=") {
-    Add-Content $envPath $line
-  } else {
-    (Get-Content $envPath) | ForEach-Object {
-      if ($_ -match "^$key=") { $line } else { $_ }
-    } | Set-Content $envPath
-  }
-}
-
-# Restart
+```bat
 node server.js
 ```
 
-3. In the banner you must see:
+6. Banner must show:
 
-`✅ Email service ready (...via smtp.gmail.com:587)`
+`✅ Email service ready (... TLS verify off)`
 
 **Not** `self-signed certificate in certificate chain`.
 
-4. Open the site in **Windows Chrome** (not Cursor’s Simple Browser):
+7. Open Chrome (not Cursor Simple Browser):
 
-`http://127.0.0.1:3080`
+`http://127.0.0.1:3080/forgot-password`
 
-5. Use **Forgot password** again → check Gmail **Inbox + Spam**.
+8. If mail still fails, the page will show a **clickable reset link** so you can still change the password. Also check the terminal for a `🔑` line.
 
-## If download fails (manual)
+## Manual fallback
 
-1. Open: https://github.com/KativaBRITU/cybermatech-simulator/blob/cursor/remove-ai-visual-style-ac76/services/emailService.js  
-2. Click **Raw** → Ctrl+A → Ctrl+C  
-3. Overwrite `Desktop\cybermatech-simulator\services\emailService.js`  
+1. Open:  
+   https://github.com/KativaBRITU/cybermatech-simulator/blob/cursor/fix-email-tls-553d/services/emailService.js
+2. Click **Raw** → select all → copy
+3. Overwrite `services\emailService.js` on Desktop
 4. Restart with `node server.js`
 
-## Keep Desktop file — surgical TLS patch only
+## Quick SMTP test
 
-If you do not want to replace the whole file, open Desktop `services\emailService.js` and do **both**:
-
-**A.** Put this as the **first line** of the file (before `require('nodemailer')`):
-
-```js
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+```bat
+node scripts\test-email.js
 ```
-
-**B.** In every `createTransport({...})` / transporter config, force:
-
-```js
-tls: { rejectUnauthorized: false, minVersion: 'TLSv1.2' }
-```
-
-Do **not** leave `rejectUnauthorized: true` or omit `tls` entirely.
-
-Save → restart → look for `✅ Email service ready`.
-
-## Localhost note
-
-- Server banner says **http://localhost:3080** → use that (or `127.0.0.1:3080`).
-- Port **5000** will fail if nothing is listening there.
-- Cursor cloud preview cannot open your Windows localhost.
