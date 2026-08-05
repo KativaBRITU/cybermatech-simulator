@@ -12,9 +12,14 @@
             <a class="logo" href="/">Cybermatech</a>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
-                <li><a href="#features">Training</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/login">Login</a></li>
+                <li><a href="#features">What you practice</a></li>
+                <!-- Members only -->
+                <li data-auth="member"><a href="/dashboard">Dashboard</a></li>
+                <li data-auth="member"><a href="/training/phishing">Training</a></li>
+                <li data-auth="member"><a href="/logout" class="logout">Logout</a></li>
+                <!-- Guests only -->
+                <li data-auth="guest"><a href="/login">Login</a></li>
+                <li data-auth="guest"><a href="/register">Register</a></li>
             </ul>
         </nav>
     </header>
@@ -25,8 +30,12 @@
             <h1>Train defenders for real African cyber ops</h1>
             <p>Hands-on modules that build judgment under pressure — phishing, malware, and network defense in one clear path.</p>
             <div class="hero-actions">
-                <a href="/register" class="cta-button">Start training</a>
-                <a href="#features" class="cta-button secondary">See the path</a>
+                <!-- Guests: join first -->
+                <a href="/register" class="cta-button" data-auth="guest">Create free account</a>
+                <a href="/login" class="cta-button secondary" data-auth="guest">Sign in</a>
+                <!-- Members: go to work -->
+                <a href="/dashboard" class="cta-button" data-auth="member">Open dashboard</a>
+                <a href="/training/phishing" class="cta-button secondary" data-auth="member">Continue training</a>
             </div>
         </div>
     </section>
@@ -48,10 +57,15 @@
                 <p>Segment, verify identity, and shrink blast radius when a host looks wrong.</p>
             </div>
         </div>
+        <p class="section-lead" style="margin-top:2rem;">
+            <a href="/register" data-auth="guest">Register to unlock modules</a>
+            <a href="/dashboard" data-auth="member">Go to your modules</a>
+        </p>
     </section>
 
     <footer class="site-footer">
         <p>&copy; 2026 Cybermatech. Building cyber resilience across Africa.</p>
     </footer>
+    <script src="/js/auth-nav.js" defer></script>
 </body>
 </html>

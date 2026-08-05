@@ -12,9 +12,11 @@
             <a class="logo" href="/">Cybermatech</a>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
-                <li><a href="/training/phishing">Training</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/logout" class="logout">Logout</a></li>
+                <li data-auth="member"><a href="/training/phishing">Training</a></li>
+                <li data-auth="member"><a href="/dashboard">Dashboard</a></li>
+                <li data-auth="member"><a href="/logout" class="logout">Logout</a></li>
+                <li data-auth="guest"><a href="/login">Login</a></li>
+                <li data-auth="guest"><a href="/register">Register</a></li>
             </ul>
         </nav>
     </header>
@@ -95,5 +97,6 @@
 
         loadProgress();
     </script>
+    <script src="/js/auth-nav.js" defer></script>
 </body>
 </html>
