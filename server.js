@@ -57,6 +57,16 @@ db.serialize(() => {
         score INTEGER,
         completed_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )`);
+
+    db.run(`CREATE TABLE IF NOT EXISTS password_resets (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        email TEXT NOT NULL,
+        token_hash TEXT NOT NULL,
+        expires_at DATETIME NOT NULL,
+        used INTEGER DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`);
 });
 
 app.use(express.json({ limit: '100kb' }));
@@ -128,6 +138,16 @@ app.get('/login', (req, res) => {
 app.get('/register', (req, res) => {
     if (req.session.user) return res.redirect('/dashboard');
     sendView(res, 'register.html');
+});
+
+app.get('/forgot-password', (req, res) => {
+    if (req.session.user) return res.redirect('/dashboard');
+    sendView(res, 'forgot-password.html');
+});
+
+app.get('/reset-password', (req, res) => {
+    if (req.session.user) return res.redirect('/dashboard');
+    sendView(res, 'reset-password.html');
 });
 
 // ——— Member pages (no guest leak) ———
@@ -222,6 +242,101 @@ app.post('/api/login', async (req, res) => {
     } catch (err) {
         console.error('Login error:', err);
         res.json({ success: false, message: 'Server error' });
+    }
+});
+
+app.post('/api/forgot-password', async (req, res) => {
+    const ip = req.ip || req.socket.remoteAddress || 'unknown';
+    if (!rateLimitLogin(ip)) {
+        return res.status(429).json({ success: false, message: 'Too many attempts. Try again later.' });
+    }
+
+    const email = sanitizeText(req.body.email, 120).toLowerCase();
+    const generic =
+        'If that email is registered, a reset link was sent. Check inbox and spam.';
+
+    if (!isValidEmail(email)) {
+        return res.json({ success: false, message: 'Enter a valid email' });
+    }
+
+    try {
+        const user = await dbGet(`SELECT id, username, email FROM users WHERE email = ?`, [email]);
+        if (!user) {
+            return res.json({ success: true, message: generic });
+        }
+
+        const rawToken = crypto.randomBytes(32).toString('hex');
+        const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
+        const expiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+
+        await dbRun(`UPDATE password_resets SET used = 1 WHERE user_id = ? AND used = 0`, [user.id]);
+        await dbRun(
+            `INSERT INTO password_resets (user_id, email, token_hash, expires_at, used) VALUES (?, ?, ?, ?, 0)`,
+            [user.id, user.email, tokenHash, expiresAt]
+        );
+
+        const resetLink = `${emailService.APP_BASE_URL}/reset-password?token=${rawToken}&email=${encodeURIComponent(user.email)}`;
+        console.log(`🔑 Password reset link for ${user.email}: ${resetLink}`);
+
+        let mailed = { sent: false, reason: 'email_not_configured' };
+        if (emailService.isConfigured()) {
+            mailed = await emailService.sendPasswordResetEmail(user.email, user.username, resetLink);
+            if (!mailed.sent) {
+                console.warn('Password reset email failed:', mailed.reason);
+            }
+        }
+
+        const payload = {
+            success: true,
+            message: mailed.sent
+                ? 'Reset link sent. Check your inbox and spam folder.'
+                : 'Reset link created. Email could not be sent — use the link shown below or check server logs.',
+            email_sent: !!mailed.sent
+        };
+        if (process.env.NODE_ENV !== 'production' || !mailed.sent) {
+            payload.dev_reset_link = resetLink;
+        }
+        return res.json(payload);
+    } catch (err) {
+        console.error('Forgot password error:', err);
+        return res.status(500).json({ success: false, message: 'Server error. Please try again.' });
+    }
+});
+
+app.post('/api/reset-password', async (req, res) => {
+    const email = sanitizeText(req.body.email, 120).toLowerCase();
+    const token = String(req.body.token || '').trim();
+    const password = String(req.body.password || '');
+
+    if (!isValidEmail(email) || !token) {
+        return res.json({ success: false, message: 'Invalid reset request' });
+    }
+    if (password.length < 8) {
+        return res.json({ success: false, message: 'Password must be at least 8 characters' });
+    }
+
+    try {
+        const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+        const row = await dbGet(
+            `SELECT * FROM password_resets WHERE email = ? AND token_hash = ? AND used = 0 ORDER BY id DESC LIMIT 1`,
+            [email, tokenHash]
+        );
+        if (!row) {
+            return res.json({ success: false, message: 'Reset link is invalid or already used' });
+        }
+        if (new Date(row.expires_at).getTime() < Date.now()) {
+            return res.json({ success: false, message: 'Reset link has expired. Request a new one.' });
+        }
+
+        const hashed = await bcrypt.hash(password, 10);
+        await dbRun(`UPDATE users SET password = ? WHERE id = ?`, [hashed, row.user_id]);
+        await dbRun(`UPDATE password_resets SET used = 1 WHERE id = ?`, [row.id]);
+        await dbRun(`UPDATE password_resets SET used = 1 WHERE user_id = ? AND used = 0`, [row.user_id]);
+
+        return res.json({ success: true, message: 'Password updated. You can sign in now.' });
+    } catch (err) {
+        console.error('Reset password error:', err);
+        return res.status(500).json({ success: false, message: 'Server error. Please try again.' });
     }
 });
 
@@ -341,9 +456,10 @@ app.post('/api/email-test', requireLogin, async (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     const catalog = contentMedia.listModulesPublic();
-    console.log(`Cybermatech running at http://localhost:${PORT}`);
+    console.log(`Cybermatech running at http://127.0.0.1:${PORT}`);
+    console.log(`Also try: http://localhost:${PORT}`);
     console.log(`Modules loaded: ${catalog.modules.length} (edit content/modules.json)`);
     console.log('Media: drop files in public/media — see content/HOW-TO-ADD-MEDIA.md');
     const emailNote = emailService.isConfigured()
