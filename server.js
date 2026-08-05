@@ -1,10 +1,13 @@
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
+
 const express = require('express');
 const session = require('express-session');
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
-const path = require('path');
 const crypto = require('crypto');
 const contentMedia = require('./modules/contentMedia');
+const emailService = require('./services/emailService');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -171,6 +174,8 @@ app.post('/api/register', async (req, res) => {
             `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`,
             [username, email, hashedPassword]
         );
+        // Fire-and-forget welcome mail (does not block register if SMTP fails)
+        emailService.sendWelcomeEmail(email, username).catch(() => {});
         res.json({ success: true, message: 'Registration successful! You can sign in now.' });
     } catch (err) {
         if (String(err.message || '').includes('UNIQUE')) {
@@ -301,12 +306,34 @@ app.post('/api/save-score', requireLogin, async (req, res) => {
     });
 });
 
-app.get('/api/health', (req, res) => {
+app.get('/api/health', async (req, res) => {
     res.json({
         ok: true,
         service: 'Cybermatech',
         modules: contentMedia.listModulesPublic().modules.length,
+        email: emailService.isConfigured() ? 'configured' : 'not_configured',
         time: new Date().toISOString()
+    });
+});
+
+app.get('/api/email-status', requireLogin, async (req, res) => {
+    let ready = false;
+    if (emailService.isConfigured()) {
+        ready = await emailService.ensureReady();
+    }
+    res.json({ success: true, ...emailService.getStatus(), ready });
+});
+
+app.post('/api/email-test', requireLogin, async (req, res) => {
+    const to = sanitizeText(req.body?.to || req.session.user.email, 120).toLowerCase();
+    if (!isValidEmail(to)) {
+        return res.json({ success: false, message: 'Valid email required' });
+    }
+    const result = await emailService.sendTestEmail(to);
+    res.json({
+        success: result.sent,
+        ...result,
+        status: emailService.getStatus()
     });
 });
 
@@ -315,4 +342,11 @@ app.listen(PORT, () => {
     console.log(`Cybermatech running at http://localhost:${PORT}`);
     console.log(`Modules loaded: ${catalog.modules.length} (edit content/modules.json)`);
     console.log('Media: drop files in public/media — see content/HOW-TO-ADD-MEDIA.md');
+    const emailNote = emailService.isConfigured()
+        ? 'Email: SMTP configured'
+        : 'Email: not configured (set EMAIL_USER / EMAIL_PASS)';
+    console.log(emailNote);
+    if (emailService.isConfigured()) {
+        emailService.ensureReady().catch(() => {});
+    }
 });
