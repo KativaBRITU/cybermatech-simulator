@@ -3,196 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cybermatech - Cybersecurity Training Simulator</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 100%);
-            color: #ffffff;
-            min-height: 100vh;
-        }
-
-        header {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 2px solid #00ff88;
-        }
-
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #00ff88;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #00ff88;
-        }
-
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #00ff88, #0088ff);
-            
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            max-width: 600px;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 12px 30px;
-            background: #00ff88;
-            color: #0a0a2a;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
-            margin: 0 10px;
-            transition: transform 0.3s;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-        }
-
-        .cta-button.secondary {
-            background: transparent;
-            color: #00ff88;
-            border: 2px solid #00ff88;
-        }
-
-        .features {
-            padding: 80px 0;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .features h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .features-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 0 2rem;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: #00ff88;
-        }
-
-        footer {
-            background: rgba(0, 0, 0, 0.9);
-            text-align: center;
-            padding: 2rem;
-            border-top: 1px solid #00ff88;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .nav-links { display: none; }
-        }
-    </style>
+    <title>Cybermatech — Cybersecurity Training</title>
+    <link rel="stylesheet" href="/css/theme.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">Cybermatech</div>
+    <header class="site-header fixed">
+        <nav class="site-nav">
+            <a class="logo" href="/" data-brand-name>Cybermatech</a>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="/training/phishing">Training</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/login">Login</a></li>
+                <li><a href="#features">What you practice</a></li>
+                <li data-auth="member"><a href="/resources">Resources</a></li>
+                <li data-auth="member"><a href="/dashboard">Dashboard</a></li>
+                <li data-auth="member"><a href="/logout" class="logout">Logout</a></li>
+                <li data-auth="guest"><a href="/login">Login</a></li>
+                <li data-auth="guest"><a href="/register">Register</a></li>
             </ul>
         </nav>
     </header>
 
     <section class="hero">
         <div class="hero-content">
-            <h1>AI-Powered Cybersecurity Training Simulator</h1>
-            <p>Master cybersecurity skills through immersive, AI-driven simulations. Learn to defend against real-world threats in a safe, controlled environment.</p>
-            <a href="/register" class="cta-button">Get Started</a>
-            <a href="#features" class="cta-button secondary">Learn More</a>
+            <p class="brand-hero" data-brand-name>Cybermatech</p>
+            <h1>Train defenders for real African cyber ops</h1>
+            <p>Hands-on modules that build judgment under pressure — phishing, malware, and network defense in one clear path.</p>
+            <div class="hero-actions">
+                <a href="/register" class="cta-button" data-auth="guest">Create free account</a>
+                <a href="/login" class="cta-button secondary" data-auth="guest">Sign in</a>
+                <a href="/dashboard" class="cta-button" data-auth="member">Open dashboard</a>
+                <a href="/resources" class="cta-button secondary" data-auth="member">Member resources</a>
+            </div>
         </div>
     </section>
 
     <section class="features" id="features">
-        <h2>Advanced Training Features</h2>
+        <h2>What you practice</h2>
+        <p class="section-lead">One skill focus per section — clear drills without the visual noise.</p>
         <div class="features-grid">
-            <div class="feature-card">
-                <h3>🛡️ AI-Powered Scenarios</h3>
-                <p>Dynamic, adaptive training scenarios that evolve based on your performance.</p>
+            <div class="feature-block">
+                <h3>Phishing judgment</h3>
+                <p>Spot urgency theatre, spoofed senders, and payment redirects before money moves.</p>
             </div>
-            <div class="feature-card">
-                <h3>⚡ Real-Time Threat Analysis</h3>
-                <p>Practice identifying and responding to live cyber threats.</p>
+            <div class="feature-block">
+                <h3>Malware response</h3>
+                <p>Contain first, preserve evidence, recover from known-good backups — not panic clicks.</p>
             </div>
-            <div class="feature-card">
-                <h3>📊 Performance Analytics</h3>
-                <p>Detailed insights into your cybersecurity skills.</p>
+            <div class="feature-block">
+                <h3>Network defense</h3>
+                <p>Segment, verify identity, and shrink blast radius when a host looks wrong.</p>
             </div>
         </div>
+        <p class="section-lead" style="margin-top:2rem;">
+            <a href="/register" data-auth="guest">Register to unlock modules</a>
+            <a href="/dashboard" data-auth="member">Go to your modules</a>
+        </p>
     </section>
 
-    <footer>
-        <p>&copy; 2025 Cybermatech. All rights reserved. | Empowering cybersecurity professionals worldwide.</p>
+    <footer class="site-footer">
+        <p>&copy; 2026 Cybermatech. Building cyber resilience across Africa.</p>
     </footer>
+    <script src="/js/auth-nav.js" defer></script>
+    <script src="/js/site-media.js" defer></script>
 </body>
 </html>

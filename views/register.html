@@ -3,100 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Cybermatech</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 100%);
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .register-container {
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            padding: 2rem;
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid #00ff88;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #00ff88;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid #00ff88;
-            border-radius: 5px;
-            color: white;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #00ff88;
-            color: #0a0a2a;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 1rem;
-        }
-
-        button:hover {
-            background: #00cc66;
-        }
-
-        .error {
-            color: #ff4444;
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .success {
-            color: #00ff88;
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .login-link {
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .login-link a {
-            color: #00ff88;
-            text-decoration: none;
-        }
-    </style>
+    <title>Register — Cybermatech</title>
+    <link rel="stylesheet" href="/css/theme.css">
 </head>
-<body>
+<body class="auth-page">
     <div class="register-container">
-        <h1>Create Account</h1>
+        <h1>Cybermatech</h1>
+        <p class="auth-sub">Create your training account</p>
         <form id="registerForm">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
+            <input type="text" id="username" placeholder="Username" required autocomplete="username">
+            <input type="email" id="email" placeholder="Email" required autocomplete="email">
+            <input type="password" id="password" placeholder="Password (min 8 characters)" required autocomplete="new-password" minlength="8">
             <button type="submit">Register</button>
         </form>
         <div id="message" class="error"></div>
         <div class="login-link">
-            Already have an account? <a href="/login">Login here</a>
+            Already have an account? <a href="/login">Login</a>
         </div>
     </div>
 
@@ -125,5 +47,6 @@
             }
         });
     </script>
+    <script src="/js/site-media.js" defer></script>
 </body>
 </html>

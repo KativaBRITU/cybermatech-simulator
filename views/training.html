@@ -3,343 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Training - Cybermatech Cybersecurity Simulator</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 100%);
-            color: #ffffff;
-            min-height: 100vh;
-        }
-
-        header {
-            background: rgba(0, 0, 0, 0.95);
-            padding: 1rem 0;
-            border-bottom: 2px solid #00ff88;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #00ff88;
-        }
-
-        .logo span {
-            font-size: 0.8rem;
-            color: #ffffff;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-            font-weight: 500;
-        }
-
-        .nav-links a:hover {
-            color: #00ff88;
-        }
-
-        .logout {
-            color: #ff4444;
-        }
-
-        .logout:hover {
-            color: #ff6666;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        /* Module Info Bar */
-        .module-info {
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
-            padding: 1rem 2rem;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            border-left: 4px solid #00ff88;
-        }
-
-        .module-badge {
-            background: #00ff88;
-            color: #0a0a2a;
-            padding: 0.3rem 1rem;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.8rem;
-        }
-
-        /* Quiz Container */
-        .quiz-container {
-            background: rgba(0, 0, 0, 0.75);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .question-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.3);
-        }
-
-        .question-counter {
-            background: rgba(0, 255, 136, 0.2);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-
-        .question-text {
-            font-size: 1.3rem;
-            line-height: 1.5;
-            margin-bottom: 2rem;
-            font-weight: 500;
-        }
-
-        .options-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .option {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-
-        .option:hover {
-            background: rgba(0, 255, 136, 0.15);
-            transform: translateX(5px);
-        }
-
-        .option.selected {
-            background: rgba(0, 255, 136, 0.25);
-            border-color: #00ff88;
-        }
-
-        .option-letter {
-            width: 35px;
-            height: 35px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        .option.selected .option-letter {
-            background: #00ff88;
-            color: #0a0a2a;
-        }
-
-        .option-text {
-            flex: 1;
-            font-size: 1rem;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            justify-content: space-between;
-            margin-top: 1rem;
-        }
-
-        button {
-            padding: 12px 30px;
-            background: #00ff88;
-            color: #0a0a2a;
-            border: none;
-            border-radius: 30px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            background: #00cc66;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 1px solid #00ff88;
-            color: #00ff88;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(0, 255, 136, 0.1);
-        }
-
-        /* Result Screen */
-        .result-container {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .score-circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: conic-gradient(#00ff88 0deg, #333 0deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 1.5rem auto;
-            position: relative;
-        }
-
-        .score-inner {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: #0a0a2a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        .score-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #00ff88;
-        }
-
-        .score-label {
-            font-size: 0.8rem;
-            color: #aaa;
-        }
-
-        .result-message {
-            font-size: 1.2rem;
-            margin: 1rem 0;
-            padding: 1rem;
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .certificate-btn {
-            background: #ffaa00;
-            color: #0a0a2a;
-            margin-top: 1rem;
-        }
-
-        .certificate-btn:hover {
-            background: #ffcc33;
-        }
-
-        /* Loading State */
-        .loading {
-            text-align: center;
-            padding: 3rem;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(0, 255, 136, 0.3);
-            border-top-color: #00ff88;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 1rem;
-            }
-            .quiz-container {
-                padding: 1.5rem;
-            }
-            .question-text {
-                font-size: 1.1rem;
-            }
-            .option {
-                padding: 0.8rem;
-            }
-            button {
-                padding: 10px 20px;
-            }
-            .nav-links {
-                gap: 1rem;
-            }
-            .logo {
-                font-size: 1.2rem;
-            }
-        }
-    </style>
+    <title>Training — Cybermatech</title>
+    <link rel="stylesheet" href="/css/theme.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">Cybermatech <span>Training Simulator</span></div>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a class="logo" href="/">Cybermatech <span>Training</span></a>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/logout" class="logout">🚪 Logout</a></li>
+                <li data-auth="member"><a href="/resources">Resources</a></li>
+                <li data-auth="member"><a href="/dashboard">Dashboard</a></li>
+                <li data-auth="member"><a href="/logout" class="logout">Logout</a></li>
+                <li data-auth="guest"><a href="/login">Login</a></li>
             </ul>
         </nav>
     </header>
 
     <div class="container">
+        <div id="moduleMediaSlot" hidden></div>
         <div id="quizApp">
             <div class="loading">
                 <div class="spinner"></div>
@@ -349,345 +31,44 @@
     </div>
 
     <script>
-        // Get module name from URL (e.g., /training/phishing -> 'phishing')
         const moduleName = window.location.pathname.split('/')[2] || 'phishing';
-        
-        // ============================================================
-        // TRAINING MODULES WITH COMPLETE QUESTIONS
-        // ============================================================
-        
-        const modules = {
-            phishing: {
-                title: '🛡️ Phishing Detection & Awareness',
-                icon: '🎣',
-                description: 'Learn to identify and prevent phishing attacks, one of the most common cyber threats.',
-                questions: [
-                    {
-                        question: 'What is a common sign of a phishing email?',
-                        options: [
-                            'The email comes from a known sender',
-                            'The email contains urgent language asking for immediate action',
-                            'The email has perfect spelling and grammar',
-                            'The email offers a legitimate discount'
-                        ],
-                        correct: 1,
-                        explanation: 'Phishing emails often create a false sense of urgency to trick you into acting quickly without thinking.'
-                    },
-                    {
-                        question: 'What should you do if you receive a suspicious email?',
-                        options: [
-                            'Click the link to see where it goes',
-                            'Reply and ask for more information',
-                            'Report it to your IT security team',
-                            'Forward it to all your colleagues'
-                        ],
-                        correct: 2,
-                        explanation: 'Always report suspicious emails to your security team. They have tools to analyze them safely.'
-                    },
-                    {
-                        question: 'What is "spear phishing"?',
-                        options: [
-                            'A phishing attack targeting random people',
-                            'A phishing attack targeting a specific individual or organization',
-                            'A phishing attack sent via SMS',
-                            'A phishing attack using phone calls'
-                        ],
-                        correct: 1,
-                        explanation: 'Spear phishing is highly targeted, using personal information to appear legitimate to specific victims.'
-                    },
-                    {
-                        question: 'What does HTTPS indicate in a website URL?',
-                        options: [
-                            'The website is completely safe and verified',
-                            'The connection between your browser and the website is encrypted',
-                            'The website cannot be hacked',
-                            'The website is from a government organization'
-                        ],
-                        correct: 1,
-                        explanation: 'HTTPS encrypts data between you and the website, but doesn\'t guarantee the website itself is legitimate.'
-                    },
-                    {
-                        question: 'Which of these is a red flag in an email?',
-                        options: [
-                            'Generic greeting like "Dear Customer"',
-                            'Your actual name in the greeting',
-                            'A known company logo',
-                            'Proper spelling and grammar'
-                        ],
-                        correct: 0,
-                        explanation: 'Legitimate companies usually address you by name. Generic greetings are a common phishing tactic.'
-                    },
-                    {
-                        question: 'What is "whaling" in cybersecurity?',
-                        options: [
-                            'A phishing attack targeting executives or high-profile individuals',
-                            'A type of computer virus that spreads through email',
-                            'A method of encrypting sensitive data',
-                            'A network security protocol for wireless connections'
-                        ],
-                        correct: 0,
-                        explanation: 'Whaling targets "big fish" like CEOs and CFOs to gain access to sensitive company information.'
-                    },
-                    {
-                        question: 'What should you check before clicking a link in an email?',
-                        options: [
-                            'The sender\'s display name only',
-                            'Hover over the link to see the actual URL',
-                            'The email subject line only',
-                            'The time the email was sent'
-                        ],
-                        correct: 1,
-                        explanation: 'Hovering reveals the true destination URL. Fake links often look legitimate but point to malicious sites.'
-                    },
-                    {
-                        question: 'What is domain spoofing?',
-                        options: [
-                            'Creating a website that looks identical to a legitimate one',
-                            'Speeding up your internet connection',
-                            'A type of antivirus software',
-                            'A method to recover deleted emails'
-                        ],
-                        correct: 0,
-                        explanation: 'Attackers create fake websites with similar domain names (e.g., amaz0n.com instead of amazon.com).'
-                    }
-                ]
-            },
-            
-            malware: {
-                title: '🐛 Malware Analysis & Protection',
-                icon: '🦠',
-                description: 'Understand different types of malware and how to protect against them.',
-                questions: [
-                    {
-                        question: 'What type of malware locks your files and demands payment for release?',
-                        options: ['Virus', 'Trojan', 'Ransomware', 'Spyware'],
-                        correct: 2,
-                        explanation: 'Ransomware encrypts your files and demands a ransom (usually cryptocurrency) for the decryption key.'
-                    },
-                    {
-                        question: 'What is a "Trojan Horse" in cybersecurity?',
-                        options: [
-                            'A virus that spreads rapidly through email',
-                            'A worm that self-replicates across networks',
-                            'Malware disguised as legitimate software',
-                            'A type of hardware firewall device'
-                        ],
-                        correct: 2,
-                        explanation: 'Trojans trick users by appearing as legitimate software while carrying malicious payloads.'
-                    },
-                    {
-                        question: 'Which of these is a common way malware spreads?',
-                        options: ['Email attachments', 'Software downloads', 'USB drives', 'All of the above'],
-                        correct: 3,
-                        explanation: 'Malware can spread through multiple vectors. Always be cautious with any external files or devices.'
-                    },
-                    {
-                        question: 'What does a keylogger do?',
-                        options: [
-                            'Logs and records every keystroke you make',
-                            'Deletes all your files permanently',
-                            'Encrypts your data for ransom',
-                            'Slows down your computer performance'
-                        ],
-                        correct: 0,
-                        explanation: 'Keyloggers capture passwords, credit card numbers, and sensitive information typed on your keyboard.'
-                    },
-                    {
-                        question: 'What is a computer worm?',
-                        options: [
-                            'Malware that requires user interaction to spread',
-                            'Malware that self-replicates across networks without user interaction',
-                            'A type of antivirus software',
-                            'A hardware security device'
-                        ],
-                        correct: 1,
-                        explanation: 'Worms spread automatically across networks, causing damage without any user action.'
-                    },
-                    {
-                        question: 'What is a "zero-day" vulnerability?',
-                        options: [
-                            'A vulnerability that has existed for zero days (just discovered)',
-                            'A vulnerability that only works at midnight',
-                            'A vulnerability that affects only old software',
-                            'A vulnerability that cannot be exploited'
-                        ],
-                        correct: 0,
-                        explanation: 'Zero-day vulnerabilities are unknown to software vendors, giving zero days to prepare a fix.'
-                    },
-                    {
-                        question: 'Which of these is a sign of malware infection?',
-                        options: [
-                            'Computer running very slowly',
-                            'Unexpected pop-up windows',
-                            'Files being encrypted or deleted',
-                            'All of the above'
-                        ],
-                        correct: 3,
-                        explanation: 'Multiple symptoms can indicate infection. Run regular antivirus scans if you notice these signs.'
-                    },
-                    {
-                        question: 'What is a botnet?',
-                        options: [
-                            'A network of compromised computers controlled by an attacker',
-                            'A type of antivirus software',
-                            'A robot used for physical security',
-                            'A network security protocol'
-                        ],
-                        correct: 0,
-                        explanation: 'Botnets are used for DDoS attacks, spam distribution, and other malicious activities.'
-                    }
-                ]
-            },
-            
-            network: {
-                title: '🔒 Network Security Fundamentals',
-                icon: '🌐',
-                description: 'Master the fundamentals of securing computer networks.',
-                questions: [
-                    {
-                        question: 'What does a firewall do?',
-                        options: [
-                            'Speeds up your internet connection',
-                            'Blocks unauthorized network traffic based on rules',
-                            'Encrypts all data on your computer',
-                            'Creates automatic backups of your files'
-                        ],
-                        correct: 1,
-                        explanation: 'Firewalls act as gatekeepers, allowing or blocking traffic based on predefined security rules.'
-                    },
-                    {
-                        question: 'What is a VPN (Virtual Private Network) used for?',
-                        options: [
-                            'To make your computer run faster',
-                            'To securely connect to a private network over the internet',
-                            'To block all online advertisements',
-                            'To clean your hard drive of temporary files'
-                        ],
-                        correct: 1,
-                        explanation: 'VPNs create encrypted tunnels, protecting your data from interception on public networks.'
-                    },
-                    {
-                        question: 'What is a DDoS attack?',
-                        options: [
-                            'A virus that deletes system files',
-                            'Overwhelming a server with traffic to make it unavailable',
-                            'Stealing passwords through fake websites',
-                            'Encrypting data and demanding a ransom'
-                        ],
-                        correct: 1,
-                        explanation: 'DDoS attacks flood targets with traffic, exhausting resources and causing service outages.'
-                    },
-                    {
-                        question: 'What does WPA stand for in WiFi security?',
-                        options: [
-                            'Wireless Protected Access',
-                            'Wired Privacy Authentication',
-                            'Web Protection Algorithm',
-                            'WiFi Personal Access'
-                        ],
-                        correct: 0,
-                        explanation: 'WPA is the standard for securing wireless networks. Always use WPA2 or WPA3 for security.'
-                    },
-                    {
-                        question: 'Which port does HTTPS use by default?',
-                        options: ['80 (HTTP)', '443 (HTTPS)', '8080 (Proxy)', '22 (SSH)'],
-                        correct: 1,
-                        explanation: 'HTTPS uses port 443. HTTP uses port 80. Secure websites should use HTTPS on port 443.'
-                    },
-                    {
-                        question: 'What is a MAC address?',
-                        options: [
-                            'A unique identifier for network devices',
-                            'An Apple computer model',
-                            'A type of encryption algorithm',
-                            'A network protocol for email'
-                        ],
-                        correct: 0,
-                        explanation: 'MAC addresses are factory-assigned unique identifiers for every network interface card.'
-                    },
-                    {
-                        question: 'What is DNS (Domain Name System)?',
-                        options: [
-                            'A security protocol for websites',
-                            'The system that translates domain names to IP addresses',
-                            'A type of firewall rule',
-                            'A virus scanning technique'
-                        ],
-                        correct: 1,
-                        explanation: 'DNS is like the phonebook of the internet, converting human-readable names to IP addresses.'
-                    },
-                    {
-                        question: 'What is the "principle of least privilege"?',
-                        options: [
-                            'Giving users only the minimum access needed to do their job',
-                            'Making all passwords as short as possible',
-                            'Using the least expensive security solutions',
-                            'Having minimal security to maximize convenience'
-                        ],
-                        correct: 0,
-                        explanation: 'This principle limits damage by restricting unnecessary access. Users get only what they need.'
-                    }
-                ]
-            }
-        };
-        
-        // Get the selected module or default to phishing
-        const currentModule = modules[moduleName] || modules.phishing;
-        
-        // Quiz state variables
+        let quiz = null;
+        let quizToken = null;
         let currentQuestionIndex = 0;
-        let userScore = 0;
-        let userAnswers = []; // Stores selected answer indices
-        let quizCompleted = false;
+        let userAnswers = [];
         let username = '';
-        
-        // Try to get username from session or URL
-        async function fetchUsername() {
-            try {
-                const response = await fetch('/api/user');
-                const data = await response.json();
-                if (data.success && data.username) {
-                    username = data.username;
-                }
-            } catch (e) {
-                username = 'Student';
+
+        const app = () => document.getElementById('quizApp');
+
+        async function loadQuiz() {
+            const res = await fetch(`/api/modules/${encodeURIComponent(moduleName)}/quiz`, {
+                credentials: 'same-origin'
+            });
+            if (res.status === 401) {
+                window.location.href = '/login?next=' + encodeURIComponent(location.pathname);
+                return;
             }
-        }
-        
-        // Save score to server
-        async function saveScoreToServer(finalScore) {
-            try {
-                const response = await fetch('/api/save-score', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        module_name: moduleName, 
-                        score: finalScore 
-                    })
-                });
-                return await response.json();
-            } catch (error) {
-                console.log('Score saved locally only (server not accessible)');
-                return { success: true };
+            const data = await res.json();
+            if (!data.success || !data.quiz) {
+                app().innerHTML = `<div class="quiz-container"><p>Module not found. <a href="/dashboard">Back to dashboard</a></p></div>`;
+                return;
             }
+            quiz = data.quiz;
+            quizToken = data.quizToken;
+            if (window.CybermatechMedia) window.CybermatechMedia.applyModuleMedia(quiz);
+            renderQuestion();
         }
-        
-        // Render the current question
+
         function renderQuestion() {
-            const question = currentModule.questions[currentQuestionIndex];
-            const isAnswered = userAnswers[currentQuestionIndex] !== undefined;
-            
-            const app = document.getElementById('quizApp');
-            
-            app.innerHTML = `
+            const question = quiz.questions[currentQuestionIndex];
+            app().innerHTML = `
                 <div class="quiz-container">
                     <div class="question-header">
-                        <div class="module-badge">${currentModule.icon} ${currentModule.title}</div>
-                        <div class="question-counter">Question ${currentQuestionIndex + 1} of ${currentModule.questions.length}</div>
+                        <div class="module-badge">${quiz.icon || ''} ${quiz.title}</div>
+                        <div class="question-counter">Question ${currentQuestionIndex + 1} of ${quiz.questions.length}</div>
                     </div>
-                    <div class="question-text">
-                        ${question.question}
-                    </div>
+                    <p class="auth-sub" style="text-align:left;margin:0 0 1rem;">${quiz.description || ''}</p>
+                    <div class="question-text">${question.question}</div>
                     <div class="options-list">
                         ${question.options.map((opt, idx) => `
                             <div class="option ${userAnswers[currentQuestionIndex] === idx ? 'selected' : ''}" data-index="${idx}">
@@ -697,179 +78,117 @@
                         `).join('')}
                     </div>
                     <div class="button-group">
-                        <button class="btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled style="opacity:0.5"' : ''}>
-                            ← Previous
-                        </button>
+                        <button class="btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled style="opacity:0.5"' : ''}>← Previous</button>
                         <button onclick="nextQuestion()">
-                            ${currentQuestionIndex === currentModule.questions.length - 1 ? 'Finish Quiz' : 'Next Question →'}
+                            ${currentQuestionIndex === quiz.questions.length - 1 ? 'Submit drill' : 'Next question →'}
                         </button>
                     </div>
                 </div>
             `;
-            
-            // Add click handlers to options
-            document.querySelectorAll('.option').forEach(opt => {
+            document.querySelectorAll('.option').forEach((opt) => {
                 opt.addEventListener('click', () => {
-                    const selectedIdx = parseInt(opt.dataset.index);
-                    selectAnswer(selectedIdx);
+                    userAnswers[currentQuestionIndex] = parseInt(opt.dataset.index, 10);
+                    renderQuestion();
                 });
             });
         }
-        
-        function selectAnswer(answerIndex) {
-            userAnswers[currentQuestionIndex] = answerIndex;
-            renderQuestion(); // Re-render to show selected state
-        }
-        
+
         function previousQuestion() {
             if (currentQuestionIndex > 0) {
                 currentQuestionIndex--;
                 renderQuestion();
             }
         }
-        
-        function nextQuestion() {
-            // Check if answered
+
+        async function nextQuestion() {
             if (userAnswers[currentQuestionIndex] === undefined) {
-                alert('Please select an answer before continuing.');
+                alert('Select an answer before continuing.');
                 return;
             }
-            
-            // Check if answer is correct and add to score
-            const currentQuestion = currentModule.questions[currentQuestionIndex];
-            if (userAnswers[currentQuestionIndex] === currentQuestion.correct) {
-                // Score is calculated fresh in final calculation
-            }
-            
-            if (currentQuestionIndex === currentModule.questions.length - 1) {
-                // Quiz completed - calculate final score
-                calculateAndShowResults();
+            if (currentQuestionIndex === quiz.questions.length - 1) {
+                await submitQuiz();
             } else {
                 currentQuestionIndex++;
                 renderQuestion();
             }
         }
-        
-        function calculateAndShowResults() {
-            // Calculate score
-            let correctCount = 0;
-            for (let i = 0; i < currentModule.questions.length; i++) {
-                if (userAnswers[i] === currentModule.questions[i].correct) {
-                    correctCount++;
-                }
+
+        async function submitQuiz() {
+            app().innerHTML = `<div class="loading"><div class="spinner"></div><p>Scoring on server...</p></div>`;
+            const res = await fetch(`/api/modules/${encodeURIComponent(moduleName)}/submit`, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ answers: userAnswers, quizToken })
+            });
+            const data = await res.json();
+            if (!data.success) {
+                app().innerHTML = `<div class="quiz-container"><p>${data.message || 'Submit failed'}</p><button onclick="location.reload()">Reload module</button></div>`;
+                return;
             }
-            
-            const finalScore = Math.round((correctCount / currentModule.questions.length) * 100);
-            userScore = finalScore;
-            
-            // Save score to server
-            saveScoreToServer(finalScore);
-            
-            // Show results
-            showResults(correctCount, finalScore);
+            showResults(data);
         }
-        
-        function showResults(correctCount, finalScore) {
-            quizCompleted = true;
-            
-            let message = '';
-            let messageClass = '';
+
+        function showResults(data) {
+            const angle = (data.score / 100) * 360;
+            let message = 'Keep studying and retry this module.';
             let certificateOption = '';
-            
-            if (finalScore >= 80) {
-                message = '🎉 EXCELLENT! You have demonstrated expert-level knowledge in this module!';
-                messageClass = 'success';
-                certificateOption = `<button class="certificate-btn" onclick="generateCertificate()">🎓 Download Your Certificate</button>`;
-            } else if (finalScore >= 60) {
-                message = '👍 GOOD JOB! You have a solid understanding. Review the questions you missed to improve further.';
-                messageClass = 'warning';
-                certificateOption = '';
-            } else {
-                message = '📚 KEEP STUDYING! Review the material and try again. You can do this!';
-                messageClass = 'error';
-                certificateOption = '';
+            if (data.certificate_eligible) {
+                message = 'Excellent — you earned a certificate for this module.';
+                certificateOption = `<button class="certificate-btn" onclick="generateCertificate(${data.score})">Download certificate</button>`;
+            } else if (data.passed) {
+                message = 'Passed. Review missed items, then push for certificate score (' + (quiz.certificate_score || 80) + '%+).';
             }
-            
-            const app = document.getElementById('quizApp');
-            
-            // Create score circle style
-            const scorePercent = finalScore;
-            const angle = (scorePercent / 100) * 360;
-            
-            app.innerHTML = `
+
+            const reviewHtml = (data.review || []).map((r, i) => `
+                <div class="feature-block" style="margin-top:0.75rem;">
+                    <strong>Q${i + 1}:</strong> ${r.is_correct ? 'Correct' : 'Incorrect'}
+                    ${r.explanation ? `<div style="color:var(--muted);font-size:0.92rem;margin-top:0.25rem;">${r.explanation}</div>` : ''}
+                </div>
+            `).join('');
+
+            app().innerHTML = `
                 <div class="quiz-container result-container">
-                    <h1>${quizCompleted ? '🏆 Quiz Complete! 🏆' : 'Your Results'}</h1>
-                    
-                    <div class="score-circle" style="background: conic-gradient(#00ff88 ${angle}deg, #333 ${angle}deg)">
+                    <h1>Drill complete</h1>
+                    <div class="score-circle" style="background: conic-gradient(#1f6f63 ${angle}deg, #d5dee5 ${angle}deg)">
                         <div class="score-inner">
-                            <div class="score-number">${finalScore}%</div>
+                            <div class="score-number">${data.score}%</div>
                             <div class="score-label">Score</div>
                         </div>
                     </div>
-                    
-                    <p style="font-size: 1.2rem;">You answered <strong>${correctCount}</strong> out of <strong>${currentModule.questions.length}</strong> correctly.</p>
-                    
-                    <div class="result-message ${messageClass}">
-                        ${message}
-                    </div>
-                    
-                    <div class="button-group" style="justify-content: center; flex-wrap: wrap;">
-                        <button onclick="location.href='/dashboard'">📊 Go to Dashboard</button>
-                        <button class="btn-secondary" onclick="restartQuiz()">🔄 Retake This Quiz</button>
+                    <p>You answered <strong>${data.correct}</strong> of <strong>${data.total}</strong> correctly.</p>
+                    <div class="result-message">${message}</div>
+                    <div class="button-group" style="justify-content:center;flex-wrap:wrap;">
+                        <button onclick="location.href='/dashboard'">Go to dashboard</button>
+                        <button class="btn-secondary" onclick="location.reload()">Retake</button>
                         ${certificateOption}
                     </div>
+                    <h2 style="margin-top:2rem;text-align:left;">Review</h2>
+                    <div style="text-align:left">${reviewHtml}</div>
                 </div>
             `;
         }
-        
-        function restartQuiz() {
-            currentQuestionIndex = 0;
-            userScore = 0;
-            userAnswers = [];
-            quizCompleted = false;
-            renderQuestion();
+
+        function generateCertificate(score) {
+            const name = encodeURIComponent(username || 'Student');
+            const mod = encodeURIComponent(quiz.title);
+            window.location.href = `/certificate?module=${mod}&score=${score}&username=${name}`;
         }
-        
-        function generateCertificate() {
-            // Get username from the page or fetch it
-            const userName = username || 'Student';
-            const encodedName = encodeURIComponent(userName);
-            const encodedModule = encodeURIComponent(currentModule.title);
-            const encodedScore = userScore;
-            
-            window.location.href = `/certificate?module=${encodedModule}&score=${encodedScore}&username=${encodedName}`;
-        }
-        
-        // Function to get user info
-        async function getUserInfo() {
-            try {
-                const response = await fetch('/api/user-info');
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.username) {
-                        username = data.username;
-                    }
-                }
-            } catch (e) {
-                username = 'Cybersecurity Student';
-            }
-        }
-        
-        // Add API endpoint for user info (update server.js if needed)
+
         async function init() {
-            await getUserInfo();
-            renderQuestion();
+            try {
+                const info = await fetch('/api/user-info', { credentials: 'same-origin' }).then((r) => r.json());
+                if (info.success) username = info.username || '';
+            } catch (_) {}
+            await loadQuiz();
         }
-        
-        // Start the quiz
-        init();
-        
-        // Also make functions globally available
+
         window.previousQuestion = previousQuestion;
         window.nextQuestion = nextQuestion;
-        window.restartQuiz = restartQuiz;
         window.generateCertificate = generateCertificate;
-        window.selectAnswer = selectAnswer;
+        init();
     </script>
+    <script src="/js/auth-nav.js" defer></script>
+    <script src="/js/site-media.js" defer></script>
 </body>
 </html>

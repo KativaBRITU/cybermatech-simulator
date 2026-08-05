@@ -3,383 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificate of Completion - Cybermatech</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-
-        .certificate-wrapper {
-            max-width: 900px;
-            width: 100%;
-        }
-
-        /* Certificate styling for screen and print */
-        .certificate {
-            background: linear-gradient(135deg, #fff8f0 0%, #ffffff 100%);
-            border-radius: 20px;
-            padding: 3rem;
-            text-align: center;
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
-            position: relative;
-            margin-bottom: 2rem;
-        }
-
-        /* Decorative borders */
-        .certificate::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            bottom: 20px;
-            border: 2px solid #00aa55;
-            border-radius: 10px;
-            pointer-events: none;
-        }
-
-        .certificate::after {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-            border: 1px solid #00aa55;
-            border-radius: 15px;
-            pointer-events: none;
-        }
-
-        .seal {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-
-        .certificate h1 {
-            font-size: 2.5rem;
-            color: #0a0a2a;
-            letter-spacing: 3px;
-            margin-bottom: 0.5rem;
-        }
-
-        .certificate-subtitle {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #ddd;
-            display: inline-block;
-            padding-bottom: 0.5rem;
-        }
-
-        .certificate h3 {
-            color: #0a0a2a;
-            font-size: 1.2rem;
-            font-weight: normal;
-            margin: 1rem 0;
-        }
-
-        .recipient-name {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #00aa55;
-            margin: 1rem 0;
-            padding: 0.5rem 2rem;
-            border-bottom: 2px solid #00aa55;
-            border-top: 2px solid #00aa55;
-            display: inline-block;
-            font-family: 'Courier New', monospace;
-        }
-
-        .module-name {
-            font-size: 1.5rem;
-            color: #0a0a2a;
-            margin: 1rem 0;
-            font-weight: bold;
-        }
-
-        .score-text {
-            font-size: 1.2rem;
-            margin: 1rem 0;
-            color: #0a0a2a;
-        }
-
-        .score-highlight {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #00aa55;
-        }
-
-        .date {
-            margin-top: 2rem;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .signature {
-            margin-top: 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            padding-top: 1rem;
-            border-top: 1px solid #ddd;
-            flex-wrap: wrap;
-        }
-
-        .signature-line {
-            text-align: center;
-        }
-
-        .signature-line p {
-            color: #666;
-            font-size: 0.8rem;
-        }
-
-        .signature-line .line {
-            width: 150px;
-            border-top: 1px solid #333;
-            margin-bottom: 0.3rem;
-        }
-
-        .verification-code {
-            margin-top: 1.5rem;
-            font-size: 0.7rem;
-            color: #999;
-            font-family: monospace;
-        }
-
-        /* Buttons */
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        button {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 30px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-download {
-            background: #00ff88;
-            color: #0a0a2a;
-        }
-
-        .btn-download:hover {
-            background: #00cc66;
-            transform: translateY(-2px);
-        }
-
-        .btn-back {
-            background: transparent;
-            border: 2px solid #00ff88;
-            color: #00ff88;
-        }
-
-        .btn-back:hover {
-            background: rgba(0, 255, 136, 0.1);
-        }
-
-        /* Print styles - this is what makes saving as PDF work */
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-                margin: 0;
-            }
-            .button-group {
-                display: none;
-            }
-            .certificate {
-                box-shadow: none;
-                margin: 0;
-                padding: 1rem;
-                border-radius: 0;
-            }
-            .certificate::before, .certificate::after {
-                display: none;
-            }
-        }
-
-        .error-message {
-            background: rgba(255, 68, 68, 0.9);
-            color: white;
-            padding: 1rem;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .loading {
-            text-align: center;
-            color: white;
-            padding: 3rem;
-        }
-    </style>
+    <title>Certificate — Cybermatech</title>
+    <link rel="stylesheet" href="/css/theme.css">
 </head>
-<body>
+<body class="certificate-page">
     <div class="certificate-wrapper">
         <div id="certificateContainer">
             <div class="loading">
-                <div class="spinner" style="width: 40px; height: 40px; border: 3px solid rgba(0,255,136,0.3); border-top-color: #00ff88; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>
+                <div class="spinner"></div>
                 <p>Loading your certificate...</p>
             </div>
         </div>
         <div class="button-group" id="buttons" style="display: none;">
-            <button class="btn-download" onclick="saveAsPDF()">📥 Save as PDF</button>
-            <button class="btn-back" onclick="location.href='/dashboard'">← Back to Dashboard</button>
+            <button class="btn-download" onclick="saveAsPDF()">Save as PDF</button>
+            <button class="btn-back" onclick="location.href='/dashboard'">Back to Dashboard</button>
         </div>
     </div>
 
-    <style>
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    </style>
-
     <script>
-        // Get data from URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         let module = urlParams.get('module') || 'Cybersecurity Training';
         let score = urlParams.get('score') || '100';
         let username = urlParams.get('username') || 'Student';
 
-        // Decode URL encoded values
         module = decodeURIComponent(module);
         username = decodeURIComponent(username);
 
-        // Generate a unique verification code
         const verificationCode = 'CM-' + Math.random().toString(36).substring(2, 10).toUpperCase();
 
-        // Create certificate HTML
         function renderCertificate() {
             const today = new Date();
-            const dateString = today.toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
+            const dateString = today.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
             });
 
             const scoreNum = parseInt(score);
-            
+
             let scoreMessage = '';
             if (scoreNum >= 90) {
-                scoreMessage = '🌟 Outstanding Achievement! Demonstrated exceptional understanding of cybersecurity concepts. 🌟';
+                scoreMessage = 'Outstanding achievement — exceptional understanding of the module.';
             } else if (scoreNum >= 80) {
-                scoreMessage = '🎓 Excellent Performance! Shows strong grasp of the material with great potential. 🎓';
+                scoreMessage = 'Excellent performance — strong grasp of the material.';
             } else if (scoreNum >= 70) {
-                scoreMessage = '📚 Good Work! Successfully completed the training with solid understanding. 📚';
+                scoreMessage = 'Good work — successfully completed with solid understanding.';
             } else {
-                scoreMessage = '✅ Certificate of Completion - Successfully completed the required training module. ✅';
+                scoreMessage = 'Certificate of completion — required training module finished.';
             }
 
             const certificateHTML = `
                 <div class="certificate" id="certificate">
-                    <div class="seal">🛡️</div>
                     <h1>CYBERMATECH</h1>
-                    <div class="certificate-subtitle">Advanced Cybersecurity Training Simulator</div>
-                    
+                    <div class="certificate-subtitle">Cybersecurity Training Certificate</div>
+
                     <h3>This certificate is proudly presented to</h3>
-                    
+
                     <div class="recipient-name">${escapeHtml(username)}</div>
-                    
+
                     <h3>for successfully completing</h3>
-                    
+
                     <div class="module-name">${escapeHtml(module)}</div>
-                    
+
                     <div class="score-text">
                         with a score of <span class="score-highlight">${scoreNum}%</span>
                     </div>
-                    
-                    <div class="score-text" style="font-size: 0.9rem; color: #555; max-width: 500px; margin: 0 auto;">
+
+                    <div class="score-text" style="font-size: 0.95rem; color: var(--muted); max-width: 500px; margin: 0.75rem auto 0;">
                         ${scoreMessage}
                     </div>
-                    
+
                     <div class="date">
                         <p>Awarded on: ${dateString}</p>
                     </div>
-                    
+
                     <div class="signature">
                         <div class="signature-line">
                             <div class="line"></div>
-                            <p>Dr. Security</p>
-                            <p>Chief Cybersecurity Officer</p>
+                            <p>Training Lead</p>
+                            <p>Cybermatech</p>
                         </div>
                         <div class="signature-line">
                             <div class="line"></div>
-                            <p>Cybermatech</p>
-                            <p>Training Director</p>
+                            <p>Program Director</p>
+                            <p>Operations</p>
                         </div>
                     </div>
-                    
+
                     <div class="verification-code">
                         Verification Code: ${verificationCode}
                     </div>
-                    
-                    <div class="seal" style="margin-top: 0.5rem; font-size: 2rem;">✓</div>
                 </div>
             `;
-            
+
             document.getElementById('certificateContainer').innerHTML = certificateHTML;
             document.getElementById('buttons').style.display = 'flex';
         }
 
-        // Helper function to escape HTML
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
-        // Save as PDF using browser's print functionality
         function saveAsPDF() {
-            // Show instructions
             const instructionMsg = document.createElement('div');
-            instructionMsg.style.position = 'fixed';
-            instructionMsg.style.top = '20px';
-            instructionMsg.style.left = '50%';
-            instructionMsg.style.transform = 'translateX(-50%)';
-            instructionMsg.style.backgroundColor = '#00ff88';
-            instructionMsg.style.color = '#0a0a2a';
-            instructionMsg.style.padding = '10px 20px';
-            instructionMsg.style.borderRadius = '30px';
-            instructionMsg.style.fontWeight = 'bold';
-            instructionMsg.style.zIndex = '9999';
-            instructionMsg.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
-            instructionMsg.innerHTML = '📄 In the print dialog, click "Save as PDF" to download your certificate';
+            instructionMsg.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1f6f63;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;z-index:9999;';
+            instructionMsg.textContent = 'In the print dialog, choose Save as PDF';
             document.body.appendChild(instructionMsg);
-            
-            // Trigger browser print
             window.print();
-            
-            // Remove instruction after a few seconds
-            setTimeout(() => {
-                instructionMsg.remove();
-            }, 5000);
+            setTimeout(() => instructionMsg.remove(), 5000);
         }
 
-        // Make functions global
         window.saveAsPDF = saveAsPDF;
-
-        // Render the certificate
         renderCertificate();
     </script>
+    <script src="/js/auth-nav.js" defer></script>
 </body>
 </html>
