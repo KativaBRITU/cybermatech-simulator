@@ -26,7 +26,7 @@
     fetch('/api/user-info', { credentials: 'same-origin' })
         .then((r) => r.json())
         .then((data) => {
-            const isMember = !!(data && data.success && (data.username || data.user));
+            const isMember = !!(data && data.success && data.member !== false && (data.username || data.user || data.member));
             setVisibility(isMember);
             if (isMember && data.username) {
                 document.querySelectorAll('[data-auth-username]').forEach((el) => {

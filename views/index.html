@@ -9,15 +9,13 @@
 <body>
     <header class="site-header fixed">
         <nav class="site-nav">
-            <a class="logo" href="/">Cybermatech</a>
+            <a class="logo" href="/" data-brand-name>Cybermatech</a>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="#features">What you practice</a></li>
-                <!-- Members only -->
+                <li data-auth="member"><a href="/resources">Resources</a></li>
                 <li data-auth="member"><a href="/dashboard">Dashboard</a></li>
-                <li data-auth="member"><a href="/training/phishing">Training</a></li>
                 <li data-auth="member"><a href="/logout" class="logout">Logout</a></li>
-                <!-- Guests only -->
                 <li data-auth="guest"><a href="/login">Login</a></li>
                 <li data-auth="guest"><a href="/register">Register</a></li>
             </ul>
@@ -26,16 +24,14 @@
 
     <section class="hero">
         <div class="hero-content">
-            <p class="brand-hero">Cybermatech</p>
+            <p class="brand-hero" data-brand-name>Cybermatech</p>
             <h1>Train defenders for real African cyber ops</h1>
             <p>Hands-on modules that build judgment under pressure — phishing, malware, and network defense in one clear path.</p>
             <div class="hero-actions">
-                <!-- Guests: join first -->
                 <a href="/register" class="cta-button" data-auth="guest">Create free account</a>
                 <a href="/login" class="cta-button secondary" data-auth="guest">Sign in</a>
-                <!-- Members: go to work -->
                 <a href="/dashboard" class="cta-button" data-auth="member">Open dashboard</a>
-                <a href="/training/phishing" class="cta-button secondary" data-auth="member">Continue training</a>
+                <a href="/resources" class="cta-button secondary" data-auth="member">Member resources</a>
             </div>
         </div>
     </section>
@@ -67,5 +63,6 @@
         <p>&copy; 2026 Cybermatech. Building cyber resilience across Africa.</p>
     </footer>
     <script src="/js/auth-nav.js" defer></script>
+    <script src="/js/site-media.js" defer></script>
 </body>
 </html>

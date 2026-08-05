@@ -12,9 +12,9 @@
             <a class="logo" href="/">Cybermatech</a>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
-                <li data-auth="member"><a href="/training/phishing">Training</a></li>
+                <li data-auth="member"><a href="/resources">Resources</a></li>
                 <li data-auth="member"><a href="/dashboard">Dashboard</a></li>
-                <li data-auth="member"><a href="/logout" class="logout">Logout</a></li>
+                <li data-auth="member"><a href="/logout" class="logout">Logout <span data-auth-username></span></a></li>
                 <li data-auth="guest"><a href="/login">Login</a></li>
                 <li data-auth="guest"><a href="/register">Register</a></li>
             </ul>
@@ -22,81 +22,114 @@
     </header>
 
     <div class="container">
-        <h1>Your dashboard</h1>
+        <h1>Welcome back<span id="helloName"></span></h1>
+        <p class="auth-sub" style="text-align:left;margin-top:-0.5rem;">Your modules unlock after sign-in. Scores are stored on your account.</p>
+
+        <div id="dashMediaSlot" hidden></div>
+
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-number" id="completedCount">0</div>
-                <div>Modules completed</div>
+                <div>Modules passed</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="avgScore">0%</div>
-                <div>Average score</div>
+                <div>Best average</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="moduleTotal">0</div>
+                <div>Modules available</div>
             </div>
         </div>
 
         <h2>Training modules</h2>
-        <div class="modules-grid">
-            <div class="module-card">
-                <h3>Phishing Detection</h3>
-                <p>Learn to identify and prevent phishing attacks.</p>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-phishing"></div>
-                </div>
-                <a href="/training/phishing" class="start-btn">Start module</a>
-            </div>
-            <div class="module-card">
-                <h3>Malware Analysis</h3>
-                <p>Understand different types of malware.</p>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-malware"></div>
-                </div>
-                <a href="/training/malware" class="start-btn">Start module</a>
-            </div>
-            <div class="module-card">
-                <h3>Network Security</h3>
-                <p>Master network security fundamentals.</p>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-network"></div>
-                </div>
-                <a href="/training/network" class="start-btn">Start module</a>
-            </div>
+        <div class="modules-grid" id="modulesGrid">
+            <div class="loading"><div class="spinner"></div><p>Loading modules...</p></div>
         </div>
     </div>
 
     <script>
-        async function loadProgress() {
-            const response = await fetch('/api/progress');
-            const data = await response.json();
+        async function boot() {
+            const [modRes, progRes, userRes] = await Promise.all([
+                fetch('/api/modules', { credentials: 'same-origin' }),
+                fetch('/api/progress', { credentials: 'same-origin' }),
+                fetch('/api/user-info', { credentials: 'same-origin' })
+            ]);
 
-            if (data.success && data.scores) {
-                let completed = 0;
-                let totalScore = 0;
-
-                const scores = {
-                    phishing: 0,
-                    malware: 0,
-                    network: 0
-                };
-
-                data.scores.forEach(score => {
-                    if (score.module_name === 'phishing') scores.phishing = score.score;
-                    if (score.module_name === 'malware') scores.malware = score.score;
-                    if (score.module_name === 'network') scores.network = score.score;
-                    if (score.score > 0) completed++;
-                    totalScore += score.score;
-                });
-
-                document.getElementById('completedCount').textContent = completed;
-                document.getElementById('avgScore').textContent = completed > 0 ? Math.round(totalScore / completed) + '%' : '0%';
-
-                document.getElementById('progress-phishing').style.width = scores.phishing + '%';
-                document.getElementById('progress-malware').style.width = scores.malware + '%';
-                document.getElementById('progress-network').style.width = scores.network + '%';
+            if (modRes.status === 401 || progRes.status === 401) {
+                location.href = '/login?next=/dashboard';
+                return;
             }
+
+            const mods = await modRes.json();
+            const prog = await progRes.json();
+            const user = await userRes.json();
+
+            if (user.success && user.username) {
+                document.getElementById('helloName').textContent = ', ' + user.username;
+            }
+
+            const best = prog.best || {};
+            const modules = mods.modules || [];
+            document.getElementById('moduleTotal').textContent = modules.length;
+
+            let passed = 0;
+            let sum = 0;
+            let counted = 0;
+            modules.forEach((m) => {
+                const score = best[m.id];
+                if (typeof score === 'number') {
+                    counted += 1;
+                    sum += score;
+                    if (score >= (mods.pass_score || 70)) passed += 1;
+                }
+            });
+            document.getElementById('completedCount').textContent = passed;
+            document.getElementById('avgScore').textContent = counted ? Math.round(sum / counted) + '%' : '0%';
+
+            const grid = document.getElementById('modulesGrid');
+            grid.innerHTML = modules.map((m) => {
+                const score = best[m.id] || 0;
+                const label = score >= (mods.certificate_score || 80)
+                    ? 'Certificate ready'
+                    : score >= (mods.pass_score || 70)
+                        ? 'Passed'
+                        : score > 0 ? 'In progress' : 'Not started';
+                return `
+                    <div class="module-card">
+                        <h3>${m.icon ? m.icon + ' ' : ''}${m.title}</h3>
+                        <p>${m.description}</p>
+                        <p style="font-size:0.85rem;color:var(--muted);margin-top:0.5rem;">
+                            ${m.question_count} questions${m.has_video ? ' · video included' : ''} · ${label}
+                        </p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width:${Math.min(100, score)}%"></div>
+                        </div>
+                        <a class="start-btn" href="/training/${encodeURIComponent(m.id)}">${score > 0 ? 'Continue' : 'Start module'}</a>
+                    </div>
+                `;
+            }).join('');
+
+            // Optional dashboard intro video from site-media.json
+            try {
+                const media = await fetch('/api/media', { credentials: 'same-origin' }).then((r) => r.json());
+                const intro = media.media?.pages?.dashboard || {};
+                const slot = document.getElementById('dashMediaSlot');
+                if (intro.intro_video) {
+                    slot.hidden = false;
+                    slot.innerHTML = `
+                        <div class="module-video-wrap" style="margin-bottom:1.5rem;">
+                            <video controls playsinline preload="metadata" ${intro.intro_video_poster ? `poster="${intro.intro_video_poster}"` : ''}>
+                                <source src="${intro.intro_video}">
+                            </video>
+                        </div>`;
+                }
+            } catch (_) {}
         }
 
-        loadProgress();
+        boot();
     </script>
     <script src="/js/auth-nav.js" defer></script>
+    <script src="/js/site-media.js" defer></script>
 </body>
 </html>

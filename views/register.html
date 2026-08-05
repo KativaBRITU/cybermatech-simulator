@@ -13,7 +13,7 @@
         <form id="registerForm">
             <input type="text" id="username" placeholder="Username" required autocomplete="username">
             <input type="email" id="email" placeholder="Email" required autocomplete="email">
-            <input type="password" id="password" placeholder="Password" required autocomplete="new-password">
+            <input type="password" id="password" placeholder="Password (min 8 characters)" required autocomplete="new-password" minlength="8">
             <button type="submit">Register</button>
         </form>
         <div id="message" class="error"></div>
@@ -47,5 +47,6 @@
             }
         });
     </script>
+    <script src="/js/site-media.js" defer></script>
 </body>
 </html>

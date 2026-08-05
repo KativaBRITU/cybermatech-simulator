@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources — Cybermatech</title>
+    <link rel="stylesheet" href="/css/theme.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a class="logo" href="/">Cybermatech</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li data-auth="member"><a href="/resources">Resources</a></li>
+                <li data-auth="member"><a href="/dashboard">Dashboard</a></li>
+                <li data-auth="member"><a href="/logout" class="logout">Logout</a></li>
+                <li data-auth="guest"><a href="/login">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Member resources</h1>
+        <p class="auth-sub" style="text-align:left;">Private to signed-in learners. Guests cannot open this page.</p>
+
+        <div class="modules-grid" style="margin-top:1.5rem;">
+            <div class="module-card">
+                <h3>How to add videos & backgrounds</h3>
+                <p>No coding: drop files into <code>public/media/</code> and edit <code>content/site-media.json</code> or <code>content/modules.json</code>. Full guide: <code>content/HOW-TO-ADD-MEDIA.md</code>.</p>
+            </div>
+            <div class="module-card">
+                <h3>Training path</h3>
+                <p>Open your dashboard, complete modules at 70%+, aim for 80%+ for certificates. Correct answers are scored on the server.</p>
+                <a class="start-btn" href="/dashboard">Open dashboard</a>
+            </div>
+            <div class="module-card">
+                <h3>Study habits</h3>
+                <p>Watch any module video first (when you add one), then run the drill. Use review explanations after submit — not during the timed attempt.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/auth-nav.js" defer></script>
+    <script src="/js/site-media.js" defer></script>
+</body>
+</html>

@@ -38,12 +38,15 @@
             if (data.success) {
                 messageDiv.className = 'success';
                 messageDiv.textContent = data.message;
-                setTimeout(() => { window.location.href = '/dashboard'; }, 1000);
+                const next = new URLSearchParams(location.search).get('next');
+                const dest = next && next.startsWith('/') ? next : '/dashboard';
+                setTimeout(() => { window.location.href = dest; }, 600);
             } else {
                 messageDiv.className = 'error';
                 messageDiv.textContent = data.message;
             }
         });
     </script>
+    <script src="/js/site-media.js" defer></script>
 </body>
 </html>
