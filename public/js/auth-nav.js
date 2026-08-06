@@ -17,7 +17,6 @@
             el.hidden = isMember;
             el.classList.toggle('is-hidden', isMember);
         });
-        document.documentElement.dataset.auth = isMember ? 'member' : 'guest';
     }
 
     // Hide member CTAs immediately to avoid flash for guests
