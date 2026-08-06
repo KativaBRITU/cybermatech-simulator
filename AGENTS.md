@@ -37,14 +37,15 @@ JSON API and is the reliable way to verify functionality end to end:
   `malware`), NOT slugs like `phishing-basics`.
 
 ### Non-obvious gotchas
-- GUI rendering limitation in this VM: pages that build their DOM via JavaScript
-  after load — the dashboard (`/dashboard`), training (`/training/:module`), and
-  resources (`/resources`) — render as a BLANK white page in this VM's
-  software-rendered Chrome (the DOM and CSS are correct, but layout collapses to
-  zero height). This is a browser/VM compositing limitation, NOT an app bug. The
-  static/auth pages (`/`, `/login`, `/register`, `/forgot-password`) render
-  normally. To visually test the member area, use a GPU-enabled browser; otherwise
-  verify member features through the JSON API above.
+- Rendering: all pages (home, auth, and the JS-built member pages `/dashboard`,
+  `/training/:module`, `/resources`, and the quiz results view) render correctly,
+  including in this VM's software-rendered Chrome. Earlier these member pages
+  rendered blank because `public/js/auth-nav.js` mutated a `data-auth` attribute on
+  the root `<html>` element on every visibility update; combined with the
+  simultaneous `hidden`/`is-hidden` `display:none` toggles this forced a
+  full-document style/layout recalc that collapsed the page to zero height. Avoid
+  reintroducing root-`<html>`/`<body>` attribute or class thrashing in
+  `auth-nav.js` — scope nav show/hide to the individual `[data-auth]` elements.
 - `node_modules/` is committed to this repo (tracked despite being listed in
   `.gitignore`). The committed copy can be incomplete/have wrong file modes, so a
   fresh `npm install` is required to get a working setup (it adds missing packages
