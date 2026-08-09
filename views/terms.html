@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service – TRIBAMS</title>
+    <meta name="description" content="Read the Terms of Service for TRIBAMS. Understand your rights and obligations when using our AI-powered cybersecurity training platform.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE – 0-200
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --border-color-hover: rgba(0, 255, 136, 0.2);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-orange: #f59e0b;
+            --neon-pink: #ec4899;
+            --neon-red: #ef4444;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ============================================================
+               HEADER & NAVIGATION – 200-400
+               ============================================================ */
+        header {
+            background: rgba(10, 14, 39, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(10, 14, 39, 0.98);
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--neon-green);
+            fill: none;
+            -webkit-text-fill-color: initial;
+            flex-shrink: 0;
+        }
+
+        .logo:hover svg {
+            stroke: var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.3rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active {
+            color: var(--neon-green);
+        }
+
+        .btn-nav {
+            padding: 0.4rem 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary) !important;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            -webkit-text-fill-color: initial;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+            color: var(--bg-primary) !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .menu-toggle span {
+            width: 26px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ============================================================
+               PAGE HEADER – 400-550
+               ============================================================ */
+        .page-header {
+            padding: 2rem 0 1.5rem;
+        }
+
+        .page-header .breadcrumb {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header .breadcrumb a {
+            color: var(--text-secondary);
+        }
+        .page-header .breadcrumb a:hover {
+            color: var(--neon-green);
+        }
+        .page-header .breadcrumb .sep {
+            margin: 0 0.3rem;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 900;
+        }
+
+        .page-header h1 .highlight {
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 600px;
+            margin-top: 0.3rem;
+        }
+
+        .page-header .meta {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .page-header .meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .page-header .meta svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        /* ============================================================
+               TABLE OF CONTENTS – 550-700
+               ============================================================ */
+        .toc-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .toc-card:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        .toc-card .toc-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toc-card .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.3rem 1rem;
+        }
+
+        .toc-card .toc-grid a {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            padding: 0.2rem 0;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .toc-card .toc-grid a:hover {
+            color: var(--neon-green);
+        }
+
+        .toc-card .toc-grid a .num {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* ============================================================
+               CONTENT – 700-1100
+               ============================================================ */
+        .content-section {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+            scroll-margin-top: 80px;
+        }
+
+        .content-section:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        .content-section .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .content-section .section-header .section-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(0, 255, 136, 0.08);
+            color: var(--neon-green);
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .content-section .section-header h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .content-section .section-header .badge {
+            margin-left: auto;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            background: var(--glass-bg);
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .content-section p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .content-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-section ul,
+        .content-section ol {
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .content-section ul li,
+        .content-section ol li {
+            margin-bottom: 0.3rem;
+        }
+
+        .content-section .highlight-box {
+            background: rgba(0, 255, 136, 0.03);
+            border-left: 3px solid var(--neon-green);
+            padding: 0.8rem 1.2rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 1rem 0;
+        }
+
+        .content-section .highlight-box strong {
+            color: var(--neon-green);
+        }
+
+        .content-section .highlight-box.warning {
+            border-left-color: var(--neon-orange);
+            background: rgba(245, 158, 11, 0.03);
+        }
+
+        .content-section .highlight-box.warning strong {
+            color: var(--neon-orange);
+        }
+
+        .content-section .highlight-box.danger {
+            border-left-color: var(--neon-red);
+            background: rgba(239, 68, 68, 0.03);
+        }
+
+        .content-section .highlight-box.danger strong {
+            color: var(--neon-red);
+        }
+
+        /* ============================================================
+               FOOTER – 1100-1180
+               ============================================================ */
+        .legal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1.5rem 0 2rem;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 1rem;
+        }
+
+        .legal-footer .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .legal-footer .footer-links a {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .legal-footer .footer-links a:hover {
+            color: var(--neon-green);
+        }
+
+        .legal-footer .copyright {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+               TOAST – 1180-1220
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+        }
+        .toast.info {
+            background: linear-gradient(135deg, var(--neon-blue), #0066cc);
+            color: #fff;
+        }
+        .toast.warning {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes toastSlideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================================
+               RESPONSIVE – 1220-1320
+               ============================================================ */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                position: absolute;
+                top: 60px;
+                right: 1rem;
+                min-width: 220px;
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-sm);
+                padding: 1.2rem;
+                gap: 1rem;
+                box-shadow: var(--shadow-xl);
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+
+            .toc-card .toc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content-section {
+                padding: 1.2rem;
+            }
+
+            .content-section .section-header {
+                flex-wrap: wrap;
+            }
+            .content-section .section-header .badge {
+                margin-left: 0;
+            }
+
+            .legal-footer {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .legal-footer .footer-links {
+                justify-content: center;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                max-width: none;
+                width: auto;
+                bottom: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            @keyframes toastSlideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+            .page-header .meta {
+                gap: 0.8rem;
+                font-size: 0.7rem;
+            }
+            .content-section .section-header h2 {
+                font-size: 1rem;
+            }
+            .content-section p,
+            .content-section ul,
+            .content-section ol {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* ============================================================
+               PRINT STYLES – 1320-1330
+               ============================================================ */
+        @media print {
+            header,
+            .toast,
+            .menu-toggle,
+            .legal-footer .footer-links {
+                display: none !important;
+            }
+            .content-section {
+                border: 1px solid #333 !important;
+                box-shadow: none !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            body {
+                background: #fff;
+                color: #000;
+            }
+            .page-header h1 .highlight {
+                -webkit-text-fill-color: #000;
+                background: none;
+                color: #000;
+            }
+            .toc-card {
+                border: 1px solid #333 !important;
+            }
+            .toc-card .toc-grid a {
+                color: #000 !important;
+            }
+            .content-section p,
+            .content-section ul,
+            .content-section ol {
+                color: #333 !important;
+            }
+            .content-section .highlight-box {
+                border-left-color: #333 !important;
+            }
+            .content-section .highlight-box.warning {
+                border-left-color: #333 !important;
+            }
+            .content-section .highlight-box.danger {
+                border-left-color: #333 !important;
+            }
+            .legal-footer .copyright {
+                color: #333 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                    TRIBAMS
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/resource-center">Resource Center</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/login">Sign In</a></li>
+                    <li><a href="/register" class="btn-nav">Get Started</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <span class="sep">/</span>
+                <span style="color:var(--text-secondary);">Terms of Service</span>
+            </div>
+            <h1>📜 <span class="highlight">Terms of Service</span></h1>
+            <p class="subtitle">Please read these terms carefully before using the TRIBAMS platform. By using our services, you agree to be bound by these terms.</p>
+            <div class="meta">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Last Updated: July 1, 2025
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Version 2.0
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    Effective: Immediately
+                </span>
+            </div>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc-card">
+            <div class="toc-title">📑 Table of Contents</div>
+            <div class="toc-grid">
+                <a href="#section-1"><span class="num">1.</span> Acceptance of Terms</a>
+                <a href="#section-2"><span class="num">2.</span> Definitions</a>
+                <a href="#section-3"><span class="num">3.</span> Account Registration</a>
+                <a href="#section-4"><span class="num">4.</span> User Conduct</a>
+                <a href="#section-5"><span class="num">5.</span> Intellectual Property</a>
+                <a href="#section-6"><span class="num">6.</span> Subscriptions & Payments</a>
+                <a href="#section-7"><span class="num">7.</span> Certificates & Credentials</a>
+                <a href="#section-8"><span class="num">8.</span> Privacy & Data Protection</a>
+                <a href="#section-9"><span class="num">9.</span> Prohibited Activities</a>
+                <a href="#section-10"><span class="num">10.</span> Termination</a>
+                <a href="#section-11"><span class="num">11.</span> Disclaimer of Warranties</a>
+                <a href="#section-12"><span class="num">12.</span> Limitation of Liability</a>
+                <a href="#section-13"><span class="num">13.</span> Indemnification</a>
+                <a href="#section-14"><span class="num">14.</span> Governing Law</a>
+                <a href="#section-15"><span class="num">15.</span> Changes to Terms</a>
+                <a href="#section-16"><span class="num">16.</span> Contact Us</a>
+            </div>
+        </div>
+
+        <!-- Section 1 -->
+        <div class="content-section" id="section-1">
+            <div class="section-header">
+                <span class="section-number">1</span>
+                <h2>Acceptance of Terms</h2>
+                <span class="badge">Agreement</span>
+            </div>
+            <p>By accessing or using the TRIBAMS platform (the "Platform"), you agree to be bound by these Terms of Service (the "Terms"). If you do not agree to these Terms, you may not access or use the Platform.</p>
+            <p>These Terms apply to all users of the Platform, including without limitation users who are browsers, vendors, customers, merchants, and/or contributors of content.</p>
+            <div class="highlight-box">
+                <strong>💡 Key Point:</strong> Your use of the Platform constitutes your acceptance of these Terms. Please read them carefully.
+            </div>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="content-section" id="section-2">
+            <div class="section-header">
+                <span class="section-number">2</span>
+                <h2>Definitions</h2>
+                <span class="badge">Clarification</span>
+            </div>
+            <p><strong>"Platform"</strong> means the TRIBAMS website, mobile application, and all associated services, including training modules, quizzes, certificates, and AI-powered features.</p>
+            <p><strong>"User"</strong> means any individual or entity that accesses or uses the Platform.</p>
+            <p><strong>"Content"</strong> means all information, data, text, software, music, sound, photographs, graphics, video, messages, or other materials.</p>
+            <p><strong>"Subscription"</strong> means a paid plan that provides access to premium features on the Platform.</p>
+            <p><strong>"Certificate"</strong> means a digital or printed credential issued by TRIBAMS upon successful completion of a module or training program.</p>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="content-section" id="section-3">
+            <div class="section-header">
+                <span class="section-number">3</span>
+                <h2>Account Registration</h2>
+                <span class="badge">Required</span>
+            </div>
+            <p>To access certain features of the Platform, you must create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.</p>
+            <p>You agree to provide accurate, current, and complete information during registration and to update such information to keep it accurate, current, and complete.</p>
+            <p>You are solely responsible for all activities that occur under your account. You must notify us immediately of any unauthorised use of your account or any other security breach.</p>
+            <div class="highlight-box warning">
+                <strong>⚠️ Important:</strong> You must be at least 13 years old to create an account. If you are under 18, you must have parental or guardian consent.
+            </div>
+        </div>
+
+        <!-- Section 4 -->
+        <div class="content-section" id="section-4">
+            <div class="section-header">
+                <span class="section-number">4</span>
+                <h2>User Conduct</h2>
+                <span class="badge">Guidelines</span>
+            </div>
+            <p>You agree to use the Platform only for lawful purposes and in a way that does not infringe the rights of, restrict, or inhibit anyone else's use and enjoyment of the Platform.</p>
+            <p>You must not:</p>
+            <ul>
+                <li>Use the Platform in any way that violates any applicable law or regulation.</li>
+                <li>Attempt to gain unauthorised access to any part of the Platform.</li>
+                <li>Interfere with or disrupt the Platform or servers.</li>
+                <li>Impersonate any person or entity.</li>
+                <li>Post or transmit any harmful, offensive, or illegal content.</li>
+                <li>Share your account credentials with others.</li>
+            </ul>
+        </div>
+
+        <!-- Section 5 -->
+        <div class="content-section" id="section-5">
+            <div class="section-header">
+                <span class="section-number">5</span>
+                <h2>Intellectual Property</h2>
+                <span class="badge">Rights</span>
+            </div>
+            <p>All content on the Platform, including but not limited to text, graphics, logos, icons, images, audio clips, digital downloads, data compilations, and software, is the property of TRIBAMS or its content suppliers and is protected by copyright and other intellectual property laws.</p>
+            <p>You may not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of the material on the Platform without our prior written consent.</p>
+            <div class="highlight-box">
+                <strong>💡 Note:</strong> You retain ownership of any content you submit, but you grant TRIBAMS a worldwide, royalty-free, perpetual, non-exclusive license to use such content in connection with the Platform.
+            </div>
+        </div>
+
+        <!-- Section 6 -->
+        <div class="content-section" id="section-6">
+            <div class="section-header">
+                <span class="section-number">6</span>
+                <h2>Subscriptions & Payments</h2>
+                <span class="badge">Billing</span>
+            </div>
+            <p>Some features of the Platform may require a paid subscription. By subscribing, you agree to pay all applicable fees.</p>
+            <p>Subscription fees are billed in advance on a recurring basis (monthly or annually). You may cancel your subscription at any time, but no refunds will be provided for the current billing period.</p>
+            <p>We reserve the right to change subscription fees at any time. We will notify you of any fee changes at least 30 days in advance.</p>
+            <div class="highlight-box warning">
+                <strong>⚠️ Important:</strong> All payments are processed through third-party payment processors. We do not store your payment information.
+            </div>
+        </div>
+
+        <!-- Section 7 -->
+        <div class="content-section" id="section-7">
+            <div class="section-header">
+                <span class="section-number">7</span>
+                <h2>Certificates & Credentials</h2>
+                <span class="badge">Achievements</span>
+            </div>
+            <p>Certificates issued by TRIBAMS are a recognition of completion of training modules. They do not constitute an official certification or qualification unless expressly stated.</p>
+            <p>Certificates are issued based on the user's performance and may be revoked if we determine that the certificate was obtained fraudulently or in violation of these Terms.</p>
+            <p>You may share your certificates with employers and on professional networks, but you must not misrepresent the nature or value of the certificate.</p>
+        </div>
+
+        <!-- Section 8 -->
+        <div class="content-section" id="section-8">
+            <div class="section-header">
+                <span class="section-number">8</span>
+                <h2>Privacy & Data Protection</h2>
+                <span class="badge">Privacy</span>
+            </div>
+            <p>Your privacy is important to us. Our Privacy Policy explains how we collect, use, and protect your personal information. By using the Platform, you agree to the collection and use of information in accordance with the Privacy Policy.</p>
+            <p>We use industry-standard security measures to protect your data, but no method of transmission over the internet is 100% secure.</p>
+        </div>
+
+        <!-- Section 9 -->
+        <div class="content-section" id="section-9">
+            <div class="section-header">
+                <span class="section-number">9</span>
+                <h2>Prohibited Activities</h2>
+                <span class="badge">Restrictions</span>
+            </div>
+            <p>You may not:</p>
+            <ul>
+                <li>Use the Platform for any illegal purpose.</li>
+                <li>Attempt to reverse engineer, decompile, or disassemble any software on the Platform.</li>
+                <li>Use automated systems (bots, scrapers) to access the Platform without permission.</li>
+                <li>Upload viruses or other malicious code.</li>
+                <li>Harass, abuse, or harm other users.</li>
+                <li>Sell, resell, or commercialise any part of the Platform without authorisation.</li>
+            </ul>
+        </div>
+
+        <!-- Section 10 -->
+        <div class="content-section" id="section-10">
+            <div class="section-header">
+                <span class="section-number">10</span>
+                <h2>Termination</h2>
+                <span class="badge">Cancellation</span>
+            </div>
+            <p>We may terminate or suspend your account at any time, without prior notice or liability, if you breach these Terms or for any other reason at our sole discretion.</p>
+            <p>You may terminate your account at any time by contacting us or using the account settings. Upon termination, you will no longer have access to the Platform or your account data.</p>
+            <p>Sections of these Terms that by their nature should survive termination shall survive termination, including but not limited to intellectual property provisions, disclaimers, limitations of liability, and indemnification.</p>
+        </div>
+
+        <!-- Section 11 -->
+        <div class="content-section" id="section-11">
+            <div class="section-header">
+                <span class="section-number">11</span>
+                <h2>Disclaimer of Warranties</h2>
+                <span class="badge">Disclaimer</span>
+            </div>
+            <p>The Platform is provided on an "AS IS" and "AS AVAILABLE" basis. We make no representations or warranties of any kind, express or implied, regarding the operation or availability of the Platform, or the information, content, materials, or products included on the Platform.</p>
+            <p>We do not warrant that the Platform will be uninterrupted, error-free, or secure. We do not warrant that the results obtained from using the Platform will be accurate or reliable.</p>
+            <div class="highlight-box danger">
+                <strong>🚨 Important:</strong> Cybersecurity training is for educational purposes only. We do not guarantee that completing training will prevent security breaches or attacks.
+            </div>
+        </div>
+
+        <!-- Section 12 -->
+        <div class="content-section" id="section-12">
+            <div class="section-header">
+                <span class="section-number">12</span>
+                <h2>Limitation of Liability</h2>
+                <span class="badge">Liability</span>
+            </div>
+            <p>To the fullest extent permitted by law, TRIBAMS shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, or goodwill, arising out of or in connection with your use of the Platform.</p>
+            <p>Our total liability to you shall not exceed the amount paid by you, if any, for accessing the Platform in the 12 months preceding the event giving rise to liability.</p>
+        </div>
+
+        <!-- Section 13 -->
+        <div class="content-section" id="section-13">
+            <div class="section-header">
+                <span class="section-number">13</span>
+                <h2>Indemnification</h2>
+                <span class="badge">Protection</span>
+            </div>
+            <p>You agree to indemnify, defend, and hold harmless TRIBAMS and its officers, directors, employees, and agents from and against any and all claims, damages, losses, liabilities, costs, and expenses arising out of your use of the Platform or your violation of these Terms.</p>
+        </div>
+
+        <!-- Section 14 -->
+        <div class="content-section" id="section-14">
+            <div class="section-header">
+                <span class="section-number">14</span>
+                <h2>Governing Law</h2>
+                <span class="badge">Jurisdiction</span>
+            </div>
+            <p>These Terms shall be governed by and construed in accordance with the laws of Namibia, without regard to its conflict of law provisions.</p>
+            <p>Any disputes arising under or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts of Namibia.</p>
+        </div>
+
+        <!-- Section 15 -->
+        <div class="content-section" id="section-15">
+            <div class="section-header">
+                <span class="section-number">15</span>
+                <h2>Changes to Terms</h2>
+                <span class="badge">Updates</span>
+            </div>
+            <p>We reserve the right to update or modify these Terms at any time without prior notice. Any changes will be effective immediately upon posting on the Platform.</p>
+            <p>Your continued use of the Platform after any such changes constitutes your acceptance of the new Terms. We encourage you to review these Terms periodically.</p>
+        </div>
+
+        <!-- Section 16 -->
+        <div class="content-section" id="section-16">
+            <div class="section-header">
+                <span class="section-number">16</span>
+                <h2>Contact Us</h2>
+                <span class="badge">Support</span>
+            </div>
+            <p>If you have any questions about these Terms, please contact us at:</p>
+            <p><strong>Email:</strong> <a href="mailto:tribams@gmail.com">tribams@gmail.com</a></p>
+            <p><strong>Phone:</strong> <a href="tel:+264812941503">+264 81 294 1503</a></p>
+            <p><strong>Address:</strong> Windhoek, Namibia</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="legal-footer">
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms" class="active">Terms of Service</a>
+                <a href="/contact">Contact</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 TRIBAMS. All rights reserved.
+            </div>
+        </div>
+
+        <!-- Back to Dashboard -->
+        <div style="text-align:center; padding:0.5rem 0 2rem;">
+            <a href="/dashboard" class="btn btn-secondary" style="padding:0.5rem 1.5rem;">← Back to Dashboard</a>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // HEADER SCROLL & MOBILE MENU
+        // ============================================================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('show');
+            this.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('show');
+                document.getElementById('menuToggle').classList.remove('active');
+            });
+        });
+
+        // ============================================================
+        // SMOOTH SCROLL FOR TOC
+        // ============================================================
+        document.querySelectorAll('.toc-grid a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ============================================================
+        // SHOW TOAST (for any notifications)
+        // ============================================================
+        function showToast(message, type = 'success', duration = 3500) {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
+
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'} ${message}</span>
+                <button class="toast-close" aria-label="Close notification">&times;</button>
+            `;
+            document.body.appendChild(toast);
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => toast.remove());
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        console.log('📜 Terms of Service page loaded.');
+    </script>
+
+</body>
+</html>

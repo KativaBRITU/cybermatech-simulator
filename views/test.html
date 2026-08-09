@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Test – TRIBAMS</title>
+    <meta name="description" content="Run system tests to verify TRIBAMS platform functionality. Test authentication, modules, API, certificates, and more.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE – 0-200
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --border-color-hover: rgba(0, 255, 136, 0.2);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-orange: #f59e0b;
+            --neon-pink: #ec4899;
+            --neon-red: #ef4444;
+            --neon-gold: #ffd700;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ============================================================
+               HEADER & NAVIGATION – 200-400
+               ============================================================ */
+        header {
+            background: rgba(10, 14, 39, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(10, 14, 39, 0.98);
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--neon-green);
+            fill: none;
+            -webkit-text-fill-color: initial;
+            flex-shrink: 0;
+        }
+
+        .logo:hover svg {
+            stroke: var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.3rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active {
+            color: var(--neon-green);
+        }
+
+        .btn-nav {
+            padding: 0.4rem 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary) !important;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            -webkit-text-fill-color: initial;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+            color: var(--bg-primary) !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .menu-toggle span {
+            width: 26px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ============================================================
+               PAGE HEADER – 400-550
+               ============================================================ */
+        .page-header {
+            padding: 2rem 0 1.5rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 900;
+        }
+
+        .page-header h1 .highlight {
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 560px;
+            margin: 0.3rem auto 0;
+        }
+
+        /* ============================================================
+               TEST SUMMARY – 550-700
+               ============================================================ */
+        .test-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+        }
+
+        .test-summary .summary-item {
+            text-align: center;
+        }
+
+        .test-summary .summary-item .number {
+            font-size: 2rem;
+            font-weight: 800;
+            display: block;
+            line-height: 1.2;
+        }
+
+        .test-summary .summary-item .number.pass {
+            color: var(--neon-green);
+        }
+        .test-summary .summary-item .number.fail {
+            color: var(--neon-red);
+        }
+        .test-summary .summary-item .number.total {
+            color: var(--neon-cyan);
+        }
+        .test-summary .summary-item .number.pending {
+            color: var(--neon-orange);
+        }
+
+        .test-summary .summary-item .label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .test-summary .summary-item .progress-ring {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 4px solid var(--glass-border);
+            position: relative;
+        }
+
+        .test-summary .summary-item .progress-ring .fill {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 4px solid var(--neon-green);
+            clip: rect(0, 30px, 60px, 0);
+        }
+
+        /* ============================================================
+               TEST LIST – 700-1050
+               ============================================================ */
+        .test-section {
+            margin-bottom: 2rem;
+        }
+
+        .test-section .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .test-section .section-title .badge {
+            font-size: 0.6rem;
+            background: var(--glass-bg);
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .test-item {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 1rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            gap: 0.8rem;
+        }
+
+        .test-item:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        .test-item .test-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex: 1;
+        }
+
+        .test-item .test-info .test-icon {
+            font-size: 1.5rem;
+            width: 36px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .test-item .test-info .test-details .test-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .test-item .test-info .test-details .test-desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .test-item .test-status {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .test-item .test-status .status-badge {
+            padding: 0.15rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        .test-item .test-status .status-badge.pass {
+            background: rgba(0, 255, 136, 0.12);
+            color: var(--neon-green);
+        }
+
+        .test-item .test-status .status-badge.fail {
+            background: rgba(239, 68, 68, 0.12);
+            color: var(--neon-red);
+        }
+
+        .test-item .test-status .status-badge.pending {
+            background: rgba(245, 158, 11, 0.12);
+            color: var(--neon-orange);
+        }
+
+        .test-item .test-status .status-badge.running {
+            background: rgba(0, 136, 255, 0.12);
+            color: var(--neon-blue);
+            animation: pulse 1.5s infinite;
+        }
+
+        .test-item .test-status .btn-run {
+            padding: 0.2rem 0.8rem;
+            background: var(--neon-green);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            white-space: nowrap;
+        }
+
+        .test-item .test-status .btn-run:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);
+        }
+
+        .test-item .test-status .btn-run:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .test-item .test-status .btn-run.rerun {
+            background: var(--neon-blue);
+            color: #fff;
+        }
+
+        .test-item .test-status .btn-run.rerun:hover {
+            box-shadow: 0 4px 15px rgba(0, 136, 255, 0.2);
+        }
+
+        /* ============================================================
+               BUTTONS – 1050-1100
+               ============================================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--glass-bg);
+            border-color: var(--neon-green);
+            color: var(--text-primary);
+            transform: translateY(-3px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--neon-red), #cc0000);
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .btn.loading .spinner {
+            display: inline-block;
+        }
+        .btn.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .test-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 1rem 0 2rem;
+        }
+
+        /* ============================================================
+               TOAST – 1100-1160
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+        }
+        .toast.info {
+            background: linear-gradient(135deg, var(--neon-blue), #0066cc);
+            color: #fff;
+        }
+        .toast.warning {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes toastSlideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================================
+               RESPONSIVE – 1160-1260
+               ============================================================ */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                position: absolute;
+                top: 60px;
+                right: 1rem;
+                min-width: 220px;
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-sm);
+                padding: 1.2rem;
+                gap: 1rem;
+                box-shadow: var(--shadow-xl);
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+
+            .test-summary {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+                padding: 1rem;
+            }
+
+            .test-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .test-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .test-item .test-status {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .test-actions {
+                flex-direction: column;
+            }
+            .test-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                max-width: none;
+                width: auto;
+                bottom: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            @keyframes toastSlideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .test-summary {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .test-summary .summary-item .number {
+                font-size: 1.4rem;
+            }
+
+            .test-item .test-info .test-icon {
+                font-size: 1.2rem;
+                width: 28px;
+            }
+            .test-item .test-info .test-details .test-name {
+                font-size: 0.8rem;
+            }
+            .test-item .test-info .test-details .test-desc {
+                font-size: 0.65rem;
+            }
+        }
+
+        /* ============================================================
+               PRINT STYLES – 1260-1270
+               ============================================================ */
+        @media print {
+            header,
+            .toast,
+            .menu-toggle,
+            .test-actions,
+            .btn-run {
+                display: none !important;
+            }
+            .test-item {
+                border: 1px solid #333 !important;
+                break-inside: avoid;
+            }
+            body {
+                background: #fff;
+                color: #000;
+            }
+            .page-header h1 .highlight {
+                -webkit-text-fill-color: #000;
+                background: none;
+                color: #000;
+            }
+            .test-summary {
+                border: 1px solid #333 !important;
+            }
+            .test-item .test-status .status-badge.pass {
+                background: #ddd !important;
+                color: #000 !important;
+            }
+            .test-item .test-status .status-badge.fail {
+                background: #ddd !important;
+                color: #000 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                    TRIBAMS
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/admin">Admin</a></li>
+                    <li><a href="/test" class="active">🧪 Test</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>🧪 <span class="highlight">System Test</span></h1>
+            <p class="subtitle">Verify all system components are functioning correctly. Run tests for authentication, modules, API, certificates, and more.</p>
+        </div>
+
+        <!-- Test Summary -->
+        <div class="test-summary" id="testSummary">
+            <div class="summary-item">
+                <span class="number total" id="totalTests">0</span>
+                <span class="label">Total Tests</span>
+            </div>
+            <div class="summary-item">
+                <span class="number pass" id="passedTests">0</span>
+                <span class="label">✅ Passed</span>
+            </div>
+            <div class="summary-item">
+                <span class="number fail" id="failedTests">0</span>
+                <span class="label">❌ Failed</span>
+            </div>
+            <div class="summary-item">
+                <span class="number pending" id="pendingTests">0</span>
+                <span class="label">⏳ Pending</span>
+            </div>
+        </div>
+
+        <!-- Test Sections -->
+        <div class="test-section">
+            <div class="section-title">
+                🔐 Authentication & User Management
+                <span class="badge" id="authBadge">0 tests</span>
+            </div>
+            <div class="test-grid" id="authTests">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="section-title">
+                📚 Training & Modules
+                <span class="badge" id="moduleBadge">0 tests</span>
+            </div>
+            <div class="test-grid" id="moduleTests">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="section-title">
+                🎓 Certificates & Verification
+                <span class="badge" id="certBadge">0 tests</span>
+            </div>
+            <div class="test-grid" id="certTests">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="section-title">
+                💳 Payment & Subscriptions
+                <span class="badge" id="paymentBadge">0 tests</span>
+            </div>
+            <div class="test-grid" id="paymentTests">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="section-title">
+                🛡️ Security & Features
+                <span class="badge" id="securityBadge">0 tests</span>
+            </div>
+            <div class="test-grid" id="securityTests">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+
+        <!-- Test Actions -->
+        <div class="test-actions">
+            <button class="btn btn-primary" id="runAllBtn">▶ Run All Tests</button>
+            <button class="btn btn-secondary" id="resetBtn">↺ Reset Results</button>
+            <button class="btn btn-secondary" onclick="location.reload()">🔄 Refresh</button>
+        </div>
+
+        <!-- Back to Dashboard -->
+        <div style="text-align:center; padding:0.5rem 0 2rem;">
+            <a href="/dashboard" class="btn btn-secondary" style="padding:0.5rem 1.5rem;">← Back to Dashboard</a>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // TEST DEFINITIONS
+        // ============================================================
+        const TESTS = [{
+            id: 'auth-register',
+            category: 'auth',
+            name: 'User Registration',
+            description: 'Test user registration endpoint',
+            icon: '📝',
+            run: async () => {
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: 'testuser_' + Date.now(),
+                        email: 'test_' + Date.now() + '@example.com',
+                        password: 'Test123!'
+                    })
+                });
+                const data = await res.json();
+                return data.success === true;
+            }
+        }, {
+            id: 'auth-login',
+            category: 'auth',
+            name: 'User Login',
+            description: 'Test user login endpoint',
+            icon: '🔐',
+            run: async () => {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: 'admin@tribams.com',
+                        password: 'admin123'
+                    })
+                });
+                const data = await res.json();
+                return data.success === true;
+            }
+        }, {
+            id: 'auth-userinfo',
+            category: 'auth',
+            name: 'User Info',
+            description: 'Test user info endpoint',
+            icon: '👤',
+            run: async () => {
+                const res = await fetch('/api/user-info');
+                const data = await res.json();
+                return data.success === true;
+            }
+        }, {
+            id: 'auth-forgot-password',
+            category: 'auth',
+            name: 'Forgot Password',
+            description: 'Test password reset request',
+            icon: '🔑',
+            run: async () => {
+                const res = await fetch('/api/forgot-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: 'test@example.com' })
+                });
+                const data = await res.json();
+                return data.success === true;
+            }
+        }, {
+            id: 'module-list',
+            category: 'modules',
+            name: 'Module List',
+            description: 'Fetch all modules from API',
+            icon: '📚',
+            run: async () => {
+                const res = await fetch('/api/modules');
+                const data = await res.json();
+                return data.modules && data.modules.length > 0;
+            }
+        }, {
+            id: 'module-content',
+            category: 'modules',
+            name: 'Module Content',
+            description: 'Fetch module content by ID',
+            icon: '📖',
+            run: async () => {
+                const res = await fetch('/api/module-content/1');
+                const data = await res.json();
+                return data && data.title !== undefined;
+            }
+        }, {
+            id: 'module-questions',
+            category: 'modules',
+            name: 'Module Questions',
+            description: 'Fetch module practice questions',
+            icon: '❓',
+            run: async () => {
+                const res = await fetch('/api/module-questions/1?limit=5');
+                const data = await res.json();
+                return data.questions && data.questions.length > 0;
+            }
+        }, {
+            id: 'progress-save',
+            category: 'modules',
+            name: 'Save Progress',
+            description: 'Test score saving endpoint',
+            icon: '📊',
+            run: async () => {
+                const res = await fetch('/api/save-score', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ module_name: 'Test Module', score: 85 })
+                });
+                const data = await res.json();
+                return data.success === true;
+            }
+        }, {
+            id: 'progress-get',
+            category: 'modules',
+            name: 'Get Progress',
+            description: 'Fetch user progress from API',
+            icon: '📈',
+            run: async () => {
+                const res = await fetch('/api/progress');
+                const data = await res.json();
+                return data.success === true;
+            }
+        }, {
+            id: 'cert-verify',
+            category: 'certificates',
+            name: 'Certificate Verification',
+            description: 'Test certificate verification endpoint',
+            icon: '🔍',
+            run: async () => {
+                const res = await fetch('/api/verify-certificate/TRI-2025-TEST');
+                const data = await res.json();
+                return data.success === true;
+            }
+        }, {
+            id: 'cert-save',
+            category: 'certificates',
+            name: 'Save Certificate',
+            description: 'Test certificate generation',
+            icon: '🎓',
+            run: async () => {
+                const res = await fetch('/api/save-certificate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        recipient_name: 'Test User',
+                        module_name: 'Test Module',
+                        score: 95
+                    })
+                });
+                const data = await res.json();
+                return data.success === true;
+            }
+        }, {
+            id: 'cert-list',
+            category: 'certificates',
+            name: 'Certificate List',
+            description: 'Fetch certificates from admin API',
+            icon: '📜',
+            run: async () => {
+                const res = await fetch('/api/admin/certificates');
+                const data = await res.json();
+                return data.success === true;
+            }
+        }, {
+            id: 'payment-status',
+            category: 'payment',
+            name: 'Subscription Status',
+            description: 'Fetch user subscription status',
+            icon: '💳',
+            run: async () => {
+                const res = await fetch('/api/stripe/subscription-status');
+                const data = await res.json();
+                return data.success === true;
+            }
+        }, {
+            id: 'payment-create',
+            category: 'payment',
+            name: 'Create PayPal Order',
+            description: 'Test PayPal order creation',
+            icon: '📦',
+            run: async () => {
+                const res = await fetch('/api/paypal/create-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ plan: 'monthly' })
+                });
+                const data = await res.json();
+                return data.success === true || data.success === false && data.message;
+            }
+        }, {
+            id: 'darkweb-scan',
+            category: 'security',
+            name: 'Dark Web Scan',
+            description: 'Test dark web scanning endpoint',
+            icon: '🕵️',
+            run: async () => {
+                const res = await fetch('/api/darkweb/scan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: 'test@example.com' })
+                });
+                const data = await res.json();
+                return data.success === true;
+            }
+        }, {
+            id: 'darkweb-history',
+            category: 'security',
+            name: 'Dark Web History',
+            description: 'Fetch dark web scan history',
+            icon: '📋',
+            run: async () => {
+                const res = await fetch('/api/darkweb/history');
+                const data = await res.json();
+                return data.success === true;
+            }
+        }, {
+            id: 'feedback-send',
+            category: 'security',
+            name: 'Send Feedback',
+            description: 'Test feedback submission',
+            icon: '💬',
+            run: async () => {
+                const res = await fetch('/api/feedback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type: 'test', message: 'This is a test feedback' })
+                });
+                const data = await res.json();
+                return data.success === true;
+            }
+        }, {
+            id: 'daily-scenario',
+            category: 'security',
+            name: 'Daily Scenario',
+            description: 'Fetch today\'s daily scenario',
+            icon: '🎯',
+            run: async () => {
+                const res = await fetch('/api/scenario/1');
+                const data = await res.json();
+                return data && data.scenario !== undefined;
+            }
+        }, {
+            id: 'leaderboard',
+            category: 'security',
+            name: 'Leaderboard',
+            description: 'Fetch leaderboard data',
+            icon: '🏆',
+            run: async () => {
+                const res = await fetch('/api/leaderboard');
+                const data = await res.json();
+                return data.success === true;
+            }
+        }, {
+            id: 'badges',
+            category: 'security',
+            name: 'Badges',
+            description: 'Fetch user badges',
+            icon: '🎖️',
+            run: async () => {
+                const res = await fetch('/api/badges');
+                const data = await res.json();
+                return data.success === true;
+            }
+        }];
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let testResults = {};
+        let isRunning = false;
+
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const totalTests = document.getElementById('totalTests');
+        const passedTests = document.getElementById('passedTests');
+        const failedTests = document.getElementById('failedTests');
+        const pendingTests = document.getElementById('pendingTests');
+
+        const authTests = document.getElementById('authTests');
+        const moduleTests = document.getElementById('moduleTests');
+        const certTests = document.getElementById('certTests');
+        const paymentTests = document.getElementById('paymentTests');
+        const securityTests = document.getElementById('securityTests');
+
+        const runAllBtn = document.getElementById('runAllBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function showToast(message, type = 'success', duration = 3500) {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
+
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'} ${message}</span>
+                <button class="toast-close" aria-label="Close notification">&times;</button>
+            `;
+            document.body.appendChild(toast);
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => toast.remove());
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        function getTestsByCategory(category) {
+            return TESTS.filter(t => t.category === category);
+        }
+
+        function getStatusBadge(status) {
+            const map = {
+                pass: '<span class="status-badge pass">✅ Pass</span>',
+                fail: '<span class="status-badge fail">❌ Fail</span>',
+                pending: '<span class="status-badge pending">⏳ Pending</span>',
+                running: '<span class="status-badge running">🔄 Running</span>'
+            };
+            return map[status] || map.pending;
+        }
+
+        function getRunButton(testId, status) {
+            if (status === 'running') {
+                return `<button class="btn-run" disabled>⏳ Running...</button>`;
+            }
+            if (status === 'pass' || status === 'fail') {
+                return `<button class="btn-run rerun" onclick="runTest('${testId}')">🔄 Rerun</button>`;
+            }
+            return `<button class="btn-run" onclick="runTest('${testId}')">▶ Run</button>`;
+        }
+
+        // ============================================================
+        // RENDER TESTS
+        // ============================================================
+        function renderTests() {
+            const categories = [
+                { id: 'auth', container: authTests, badge: 'authBadge' },
+                { id: 'modules', container: moduleTests, badge: 'moduleBadge' },
+                { id: 'certificates', container: certTests, badge: 'certBadge' },
+                { id: 'payment', container: paymentTests, badge: 'paymentBadge' },
+                { id: 'security', container: securityTests, badge: 'securityBadge' }
+            ];
+
+            categories.forEach(cat => {
+                const tests = getTestsByCategory(cat.id);
+                const container = cat.container;
+                const badge = document.getElementById(cat.badge);
+
+                if (badge) badge.textContent = tests.length + ' tests';
+
+                container.innerHTML = '';
+                tests.forEach(test => {
+                    const result = testResults[test.id];
+                    const status = result ? result.status : 'pending';
+
+                    const div = document.createElement('div');
+                    div.className = 'test-item';
+                    div.id = `test-${test.id}`;
+                    div.innerHTML = `
+                        <div class="test-info">
+                            <span class="test-icon">${test.icon}</span>
+                            <div class="test-details">
+                                <div class="test-name">${test.name}</div>
+                                <div class="test-desc">${test.description}</div>
+                            </div>
+                        </div>
+                        <div class="test-status">
+                            ${getStatusBadge(status)}
+                            ${getRunButton(test.id, status)}
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            });
+
+            updateSummary();
+        }
+
+        // ============================================================
+        // UPDATE SUMMARY
+        // ============================================================
+        function updateSummary() {
+            const total = TESTS.length;
+            const passed = Object.values(testResults).filter(r => r.status === 'pass').length;
+            const failed = Object.values(testResults).filter(r => r.status === 'fail').length;
+            const pending = total - passed - failed;
+
+            totalTests.textContent = total;
+            passedTests.textContent = passed;
+            failedTests.textContent = failed;
+            pendingTests.textContent = pending;
+        }
+
+        // ============================================================
+        // RUN SINGLE TEST
+        // ============================================================
+        async function runTest(testId) {
+            if (isRunning) return;
+
+            const test = TESTS.find(t => t.id === testId);
+            if (!test) return;
+
+            // Update UI to running
+            testResults[testId] = { status: 'running', message: 'Running...' };
+            renderTests();
+
+            try {
+                const result = await test.run();
+                testResults[testId] = {
+                    status: result ? 'pass' : 'fail',
+                    message: result ? 'Passed' : 'Failed'
+                };
+                if (result) {
+                    showToast(`✅ ${test.name} passed!`, 'success');
+                } else {
+                    showToast(`❌ ${test.name} failed.`, 'error');
+                }
+            } catch (error) {
+                testResults[testId] = {
+                    status: 'fail',
+                    message: error.message || 'Error'
+                };
+                showToast(`❌ ${test.name} error: ${error.message || 'Unknown error'}`, 'error');
+            }
+
+            renderTests();
+        }
+
+        // ============================================================
+        // RUN ALL TESTS
+        // ============================================================
+        async function runAllTests() {
+            if (isRunning) return;
+
+            isRunning = true;
+            runAllBtn.classList.add('loading');
+            runAllBtn.disabled = true;
+
+            // Reset all results
+            TESTS.forEach(test => {
+                testResults[test.id] = { status: 'pending', message: 'Pending' };
+            });
+            renderTests();
+
+            let passed = 0;
+            let failed = 0;
+
+            for (const test of TESTS) {
+                testResults[test.id] = { status: 'running', message: 'Running...' };
+                renderTests();
+
+                try {
+                    const result = await test.run();
+                    testResults[test.id] = {
+                        status: result ? 'pass' : 'fail',
+                        message: result ? 'Passed' : 'Failed'
+                    };
+                    if (result) passed++;
+                    else failed++;
+                } catch (error) {
+                    testResults[test.id] = {
+                        status: 'fail',
+                        message: error.message || 'Error'
+                    };
+                    failed++;
+                }
+
+                renderTests();
+                // Small delay between tests
+                await new Promise(r => setTimeout(r, 200));
+            }
+
+            isRunning = false;
+            runAllBtn.classList.remove('loading');
+            runAllBtn.disabled = false;
+
+            showToast(`✅ ${passed} passed, ❌ ${failed} failed`, passed > failed ? 'success' : 'error');
+        }
+
+        // ============================================================
+        // RESET RESULTS
+        // ============================================================
+        function resetResults() {
+            if (isRunning) return;
+            TESTS.forEach(test => {
+                testResults[test.id] = { status: 'pending', message: 'Pending' };
+            });
+            renderTests();
+            showToast('↺ Results reset', 'info');
+        }
+
+        // ============================================================
+        // HEADER SCROLL & MOBILE MENU
+        // ============================================================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('show');
+            this.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('show');
+                document.getElementById('menuToggle').classList.remove('active');
+            });
+        });
+
+        // ============================================================
+        // EVENT LISTENERS
+        // ============================================================
+        runAllBtn.addEventListener('click', runAllTests);
+        resetBtn.addEventListener('click', resetResults);
+
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
+                if (e.target.tagName !== 'INPUT') {
+                    e.preventDefault();
+                    runAllTests();
+                }
+            }
+            if (e.key === 'r' && !e.ctrlKey && !e.metaKey) {
+                // Single R for reset
+                resetResults();
+            }
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        function init() {
+            // Check login
+            fetch('/api/user-info')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.success) {
+                        showToast('Please log in to run system tests.', 'warning', 5000);
+                        setTimeout(() => { window.location.href = '/login'; }, 3000);
+                    }
+                })
+                .catch(() => {
+                    showToast('Please log in to run system tests.', 'warning', 5000);
+                    setTimeout(() => { window.location.href = '/login'; }, 3000);
+                });
+
+            resetResults();
+            console.log('🧪 System Test page loaded.');
+        }
+
+        // Expose functions globally
+        window.runTest = runTest;
+        window.runAllTests = runAllTests;
+        window.resetResults = resetResults;
+
+        init();
+    </script>
+
+</body>
+</html>

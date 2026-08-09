@@ -1,0 +1,458 @@
+/**
+ * TRIBAMS — platform-wide visibility & color balance
+ * Light educational surfaces, dark readable type, clear accents.
+ * Loaded on app pages via sendView(); also safe as override layer.
+ */
+
+:root {
+    --bg-primary: #e6ebf4 !important;
+    --bg-secondary: #f1f5f9 !important;
+    --bg-card: #ffffff !important;
+    --bg-card-hover: #f8fafc !important;
+    --border-color: rgba(15, 23, 42, 0.14) !important;
+    --border-color-hover: rgba(15, 23, 42, 0.22) !important;
+    --glass-bg: #ffffff !important;
+    --glass-border: rgba(15, 23, 42, 0.12) !important;
+
+    /* Type — never use near-white on light pages */
+    --text-primary: #0f172a !important;
+    --text-secondary: #1e293b !important;
+    --text-muted: #475569 !important;
+    --text-light: #334155 !important;
+
+    /* Accents — darker for AA contrast on white */
+    --neon-green: #0f766e !important;
+    --neon-blue: #1e3a5f !important;
+    --neon-cyan: #0e7490 !important;
+    --neon-orange: #c2410c !important;
+    --neon-red: #b91c1c !important;
+    --neon-gold: #a16207 !important;
+    --neon-purple: #5b21b6 !important;
+    --neon-pink: #9d174d !important;
+    --accent: #0f766e !important;
+    --success: #047857 !important;
+    --warning: #b45309 !important;
+    --danger: #b91c1c !important;
+
+    /* Remap dark-page tokens so leftover vars stay readable on light UI */
+    --bg: #e6ebf4 !important;
+    --panel: #ffffff !important;
+    --line: rgba(15, 23, 42, 0.14) !important;
+    --teal: #0f766e !important;
+    --amber: #b45309 !important;
+    --red: #b91c1c !important;
+    --green: #047857 !important;
+    --text: #0f172a !important;
+    --muted: #475569 !important;
+
+    --shadow-glow: none !important;
+    --shadow-xl: 0 12px 28px rgba(15, 23, 42, 0.1) !important;
+    --font: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+    --display: 'Syne', 'Segoe UI', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+html {
+    background: #d5dde9 !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background:
+        radial-gradient(1000px 480px at 0% -10%, rgba(30, 58, 95, 0.14), transparent 55%),
+        radial-gradient(900px 420px at 100% 0%, rgba(15, 118, 110, 0.09), transparent 50%),
+        linear-gradient(180deg, #d5dde9 0%, #e6ebf4 45%, #f1f5f9 100%) !important;
+    color: #0f172a !important;
+    font-family: var(--font) !important;
+    line-height: 1.55 !important;
+}
+
+/* ---- Header / nav ---- */
+header, nav, .navbar, .topbar, .header {
+    background: rgba(255, 255, 255, 0.94) !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #0f172a !important;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+}
+
+.logo, .brand, .nav-links a, .nav a, header a, .navbar a {
+    color: #1e293b !important;
+    -webkit-text-fill-color: initial !important;
+    text-shadow: none !important;
+}
+
+.logo, .brand, .brand span {
+    color: #1e3a5f !important;
+    font-weight: 800 !important;
+}
+
+.brand span {
+    color: #0f766e !important;
+}
+
+.nav-links a:hover, .nav a:hover,
+.nav-links a.active, .nav a.active {
+    color: #0f766e !important;
+}
+
+/* ---- Surfaces ---- */
+.card, .panel, .scenario-card, .stat, .welcome, .mission-card,
+.content-box, .quiz-result, .glass, .box, .module-card, .table-card,
+.stat-card, .wrap .panel, .lab-shell .panel {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* ---- Type hierarchy ---- */
+h1, h2, h3, h4, h5, .question-text, .scenario-question, .title, .greeting,
+.brand, .module-title, #labTitle, #moduleTitle {
+    color: #0f172a !important;
+    font-weight: 700;
+}
+
+p, li, label, .subtitle, .reason, .sub, .text-secondary, .lede,
+.learn-content .body, .description, .meta, .briefing, #briefing {
+    color: #1e293b !important;
+}
+
+.learn-content .body h2,
+.learn-content .body h3 {
+    color: #1e3a5f !important;
+}
+
+.empty, .loading, .muted, .chip:not(.tech):not(.on):not(.hard):not(.easy),
+.stat .l, .stat .label, .label {
+    color: #475569 !important;
+}
+
+a:not(.btn):not(.btn-primary):not(.btn-start) {
+    color: #0f766e !important;
+}
+a:not(.btn):hover {
+    color: #115e59 !important;
+}
+
+/* ---- Forms / options ---- */
+.option, .recommendation, .path-step, .skill-bar .track,
+input, textarea, select, .btn-secondary, .btn-outline, .ghost, .opt {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-color: rgba(15, 23, 42, 0.16) !important;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #64748b !important;
+    opacity: 1 !important;
+}
+
+.option:hover, .option.selected, .recommendation:hover,
+.opt:hover, .opt.selected {
+    background: #ccfbf1 !important;
+    border-color: #0f766e !important;
+    color: #0f172a !important;
+}
+
+/* ---- Buttons ---- */
+.btn-primary, .btn-success, .btn.btn-primary, .go, .primary, button.btn-primary {
+    background: #1e3a5f !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+.btn-primary:hover, .btn.btn-primary:hover {
+    background: #0f766e !important;
+    color: #ffffff !important;
+}
+
+.btn-secondary, .btn-outline, button.btn-secondary {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid rgba(15, 23, 42, 0.2) !important;
+}
+
+.btn-primary:disabled, .btn.btn-primary:disabled, button:disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+    color: #ffffff !important;
+}
+
+/* ---- Badges / chips ---- */
+.badge, .chip {
+    color: #1e293b !important;
+    border-color: rgba(15, 23, 42, 0.16) !important;
+    background: #f1f5f9 !important;
+}
+
+.chip.tech, .chip.on, .badge[href], a.badge {
+    color: #0f766e !important;
+    border-color: rgba(15, 118, 110, 0.35) !important;
+    background: #f0fdfa !important;
+}
+
+.chip.hard { color: #b91c1c !important; border-color: rgba(185, 28, 28, 0.35) !important; background: #fef2f2 !important; }
+.chip.easy { color: #047857 !important; border-color: rgba(4, 120, 87, 0.35) !important; background: #ecfdf5 !important; }
+
+.timer-badge, .pill.timer, .timer, #timerText {
+    color: #b45309 !important;
+}
+.timer.danger, .timer.danger #timerText {
+    color: #b91c1c !important;
+}
+
+.roe, #labRoe, #roeBanner {
+    background: #fffbeb !important;
+    border: 1px solid #f59e0b !important;
+    color: #92400e !important;
+}
+
+.inject, #injectBox {
+    background: #fff7ed !important;
+    border-left: 3px solid #c2410c !important;
+    color: #9a3412 !important;
+}
+
+/* ---- Workbench / transcript specifics ---- */
+.artifact {
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    background: #f8fafc !important;
+}
+.artifact .title {
+    color: #92400e !important;
+    background: #fffbeb !important;
+}
+.artifact pre {
+    color: #1e293b !important;
+    background: #ffffff !important;
+}
+
+.art-tab {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+    border: 1px solid rgba(15, 23, 42, 0.14) !important;
+}
+.art-tab.active {
+    background: #0f766e !important;
+    color: #ffffff !important;
+    border-color: #0f766e !important;
+}
+
+.objectives, .objectives li { color: #334155 !important; }
+
+.pass-pill {
+    color: #047857 !important;
+    border-color: rgba(4, 120, 87, 0.4) !important;
+    background: #ecfdf5 !important;
+}
+
+.heat {
+    color: #475569 !important;
+    background: #f1f5f9 !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+}
+.heat.on {
+    color: #042f2e !important;
+    background: #5eead4 !important;
+    border-color: #0f766e !important;
+    font-weight: 700 !important;
+}
+
+.band {
+    color: #0f766e !important;
+    background: #f0fdfa !important;
+    border: 1px solid rgba(15, 118, 110, 0.35) !important;
+}
+.band.developing { color: #92400e !important; background: #fffbeb !important; border-color: #f59e0b !important; }
+.band.emerging { color: #334155 !important; background: #f1f5f9 !important; border-color: #94a3b8 !important; }
+.band.recommendable { color: #115e59 !important; background: #ccfbf1 !important; }
+
+.signal { color: #1e293b !important; background: #f8fafc !important; }
+.signal.strong { border-color: rgba(15, 118, 110, 0.4) !important; }
+.signal.moderate { border-color: rgba(180, 83, 9, 0.4) !important; }
+.signal.weak, .signal.flagged { border-color: rgba(185, 28, 28, 0.4) !important; }
+
+.debrief li { color: #1e293b !important; background: #f8fafc !important; }
+.debrief li.ok { border-color: rgba(4, 120, 87, 0.4) !important; background: #ecfdf5 !important; }
+.debrief li.bad { border-color: rgba(185, 28, 28, 0.35) !important; background: #fef2f2 !important; }
+
+.result .score { color: #0f766e !important; }
+.result .score.fail { color: #b91c1c !important; }
+
+.toast {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.progress-rail { background: #cbd5e1 !important; }
+.progress-rail > span { background: linear-gradient(90deg, #0f766e, #0369a1) !important; }
+
+.stat .n, .stat .value, .number {
+    color: #0f766e !important;
+}
+
+/* ---- Colorful content shells ---- */
+.content-box,
+.mission-card,
+.welcome,
+.card.highlight,
+#levelGateCard,
+main .content,
+.content#content {
+    background:
+        linear-gradient(145deg, #ffffff 0%, #f0f9ff 45%, #ecfdf5 100%) !important;
+    border: 1px solid rgba(15, 118, 110, 0.22) !important;
+    box-shadow:
+        0 12px 28px rgba(15, 23, 42, 0.08),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.7) !important;
+    color: #0f172a !important;
+}
+
+main .content:has(> .quiz-result),
+.content#content:has(> .quiz-result) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* ---- Quiz results (dark cards — keep light text) ---- */
+.quiz-result,
+.practice-result,
+.result-board {
+    text-align: center !important;
+    padding: 2rem 1.4rem !important;
+    border-radius: 18px !important;
+    background:
+        linear-gradient(160deg, #0f766e 0%, #1e3a5f 48%, #0f172a 100%) !important;
+    color: #f8fafc !important;
+    border: 1px solid rgba(45, 212, 191, 0.35) !important;
+}
+
+.quiz-result h2,
+.quiz-result .grade,
+.quiz-result .score-label {
+    color: #ffffff !important;
+}
+
+.quiz-result .message,
+.quiz-result p {
+    color: rgba(241, 245, 249, 0.95) !important;
+}
+
+.quiz-result.tone-success {
+    background: linear-gradient(160deg, #047857 0%, #0f766e 40%, #134e4a 100%) !important;
+}
+.quiz-result.tone-pass {
+    background: linear-gradient(160deg, #0369a1 0%, #1e3a5f 55%, #0f172a 100%) !important;
+}
+.quiz-result.tone-fail,
+.quiz-result.tone-error {
+    background: linear-gradient(160deg, #9a3412 0%, #7f1d1d 45%, #1e1b4b 100%) !important;
+}
+.quiz-result.tone-locked {
+    background: linear-gradient(160deg, #334155 0%, #1e293b 50%, #0f172a 100%) !important;
+}
+
+.quiz-result .score-circle,
+.score-circle {
+    width: 132px !important;
+    height: 132px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto 1.35rem !important;
+    font-size: 2.1rem !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+    background: linear-gradient(145deg, #a7f3d0, #67e8f9) !important;
+    border: 4px solid rgba(255, 255, 255, 0.85) !important;
+}
+
+.quiz-result .actions .btn-secondary {
+    background: rgba(255, 255, 255, 0.14) !important;
+    color: #f8fafc !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+}
+.quiz-result .actions .btn-primary {
+    background: linear-gradient(135deg, #5eead4, #38bdf8) !important;
+    color: #042f2e !important;
+}
+
+/* ---- Dashboard accents ---- */
+.stat {
+    background: linear-gradient(180deg, #ffffff 0%, #f0fdfa 100%) !important;
+    border-top: 3px solid #0f766e !important;
+}
+.stat:nth-child(2) { border-top-color: #0369a1 !important; }
+.stat:nth-child(3) { border-top-color: #b45309 !important; }
+.stat:nth-child(4) { border-top-color: #b91c1c !important; }
+
+.recommendation, .path-step {
+    background: linear-gradient(90deg, #f0fdfa, #f8fafc) !important;
+    border-left: 3px solid #0f766e !important;
+    color: #0f172a !important;
+}
+
+.feedback-box.correct {
+    background: #ecfdf5 !important;
+    border-color: #059669 !important;
+    color: #064e3b !important;
+}
+.feedback-box.incorrect {
+    background: #fff7ed !important;
+    border-color: #ea580c !important;
+    color: #7c2d12 !important;
+}
+
+.skill-bar .track { background: #cbd5e1 !important; }
+.skill-bar .track .fill.high { background: #047857 !important; }
+.skill-bar .track .fill.medium { background: #b45309 !important; }
+.skill-bar .track .fill.low { background: #b91c1c !important; }
+
+.activity-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; background: #fff; }
+.activity-table th, .activity-table td {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0.55rem 0.6rem;
+    text-align: left;
+    color: #0f172a;
+}
+.activity-table th { background: #eef2f7; font-weight: 700; }
+.dir-in { color: #1d4ed8; font-weight: 700; }
+.dir-out { color: #c2410c; font-weight: 700; }
+
+/* ---- Footer ---- */
+footer, .footer {
+    color: #334155 !important;
+    background: transparent !important;
+}
+footer a, .footer a { color: #0f766e !important; }
+
+/* ---- Code / mono ---- */
+code, pre, .mono {
+    font-family: var(--mono) !important;
+    color: #1e293b !important;
+}
+
+/* ---- Resource center / training tab fixes ---- */
+.tab-btn { color: #334155 !important; }
+.tab-btn.active {
+    color: #0f766e !important;
+    border-bottom-color: #0f766e !important;
+}
+.category-tag { color: #0f766e !important; }
+.module-card h3 { color: #0f172a !important; }
+.module-card .description { color: #334155 !important; }
+.btn-start {
+    background: #1e3a5f !important;
+    color: #ffffff !important;
+}
+.btn-start.locked {
+    background: #fef3c7 !important;
+    color: #92400e !important;
+    border: 1px solid #f59e0b !important;
+}

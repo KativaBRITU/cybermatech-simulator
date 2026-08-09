@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Weak Areas – TRIBAMS</title>
+    <meta name="description" content="Review your weak areas and get AI-powered recommendations to improve your cybersecurity knowledge. Focus on the modules where you need the most practice.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE – 0-200
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --border-color-hover: rgba(0, 255, 136, 0.2);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-orange: #f59e0b;
+            --neon-pink: #ec4899;
+            --neon-red: #ef4444;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ============================================================
+               HEADER & NAVIGATION – 200-400
+               ============================================================ */
+        header {
+            background: rgba(10, 14, 39, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(10, 14, 39, 0.98);
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--neon-green);
+            fill: none;
+            -webkit-text-fill-color: initial;
+            flex-shrink: 0;
+        }
+
+        .logo:hover svg {
+            stroke: var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.3rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active {
+            color: var(--neon-green);
+        }
+
+        .btn-nav {
+            padding: 0.4rem 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary) !important;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            -webkit-text-fill-color: initial;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+            color: var(--bg-primary) !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .menu-toggle span {
+            width: 26px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ============================================================
+               PAGE HEADER – 400-550
+               ============================================================ */
+        .page-header {
+            padding: 2rem 0 1.5rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 900;
+        }
+
+        .page-header h1 .highlight {
+            background: linear-gradient(135deg, var(--neon-orange), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 560px;
+            margin: 0.3rem auto 0;
+        }
+
+        /* ============================================================
+               STATS BAR – 550-700
+               ============================================================ */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-bar .stat {
+            text-align: center;
+        }
+
+        .stats-bar .stat .number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--neon-green);
+            display: block;
+            line-height: 1.2;
+        }
+
+        .stats-bar .stat .label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stats-bar .stat .number.warning {
+            color: var(--neon-orange);
+        }
+        .stats-bar .stat .number.danger {
+            color: var(--neon-red);
+        }
+
+        /* ============================================================
+               WEAK AREAS GRID – 700-1000
+               ============================================================ */
+        .weak-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0 2rem;
+        }
+
+        .weak-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .weak-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-orange), var(--neon-red));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .weak-card:hover::before {
+            opacity: 1;
+        }
+
+        .weak-card:hover {
+            border-color: var(--border-color-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .weak-card .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .weak-card .card-top .module-icon {
+            font-size: 2rem;
+        }
+
+        .weak-card .card-top .score-badge {
+            padding: 0.15rem 0.6rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .weak-card .card-top .score-badge.low {
+            background: rgba(239, 68, 68, 0.12);
+            color: var(--neon-red);
+        }
+
+        .weak-card .card-top .score-badge.medium {
+            background: rgba(245, 158, 11, 0.12);
+            color: var(--neon-orange);
+        }
+
+        .weak-card .card-top .score-badge.high {
+            background: rgba(0, 255, 136, 0.12);
+            color: var(--neon-green);
+        }
+
+        .weak-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .weak-card .module-description {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+        }
+
+        .weak-card .progress-container {
+            margin-bottom: 0.8rem;
+        }
+
+        .weak-card .progress-container .progress-track {
+            width: 100%;
+            height: 4px;
+            background: var(--glass-bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .weak-card .progress-container .progress-track .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .weak-card .progress-container .progress-track .progress-fill.low {
+            background: linear-gradient(90deg, var(--neon-red), var(--neon-orange));
+        }
+
+        .weak-card .progress-container .progress-track .progress-fill.medium {
+            background: linear-gradient(90deg, var(--neon-orange), var(--neon-pink));
+        }
+
+        .weak-card .progress-container .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .weak-card .action-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .weak-card .action-row .btn {
+            padding: 0.3rem 1rem;
+            font-size: 0.75rem;
+        }
+
+        .weak-card .ai-tip {
+            background: rgba(0, 136, 255, 0.04);
+            border-left: 3px solid var(--neon-blue);
+            padding: 0.5rem 0.8rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .weak-card .ai-tip .tip-label {
+            color: var(--neon-blue);
+            font-weight: 600;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 0.1rem;
+        }
+
+        /* ============================================================
+               BUTTONS – 1000-1060
+               ============================================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--glass-bg);
+            border-color: var(--neon-green);
+            color: var(--text-primary);
+        }
+
+        .btn-small {
+            padding: 0.3rem 1rem;
+            font-size: 0.75rem;
+        }
+
+        /* ============================================================
+               EMPTY STATE – 1060-1120
+               ============================================================ */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .empty-state .btn {
+            margin-top: 1.5rem;
+        }
+
+        /* ============================================================
+               LOADING – 1120-1170
+               ============================================================ */
+        .loading-container {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .loading-container .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--glass-border);
+            border-top: 3px solid var(--neon-green);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-container p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* ============================================================
+               TOAST – 1170-1220
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+        }
+        .toast.info {
+            background: linear-gradient(135deg, var(--neon-blue), #0066cc);
+            color: #fff;
+        }
+        .toast.warning {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes toastSlideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================================
+               RESPONSIVE – 1220-1340
+               ============================================================ */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                position: absolute;
+                top: 60px;
+                right: 1rem;
+                min-width: 220px;
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-sm);
+                padding: 1.2rem;
+                gap: 1rem;
+                box-shadow: var(--shadow-xl);
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+
+            .stats-bar {
+                gap: 1.5rem;
+                padding: 0.8rem 1rem;
+            }
+
+            .stats-bar .stat .number {
+                font-size: 1.4rem;
+            }
+
+            .weak-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .weak-card {
+                padding: 1.2rem;
+            }
+
+            .weak-card .action-row {
+                flex-direction: column;
+            }
+
+            .weak-card .action-row .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                max-width: none;
+                width: auto;
+                bottom: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            @keyframes toastSlideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .stats-bar {
+                gap: 0.8rem;
+                padding: 0.6rem 0.8rem;
+            }
+            .stats-bar .stat .number {
+                font-size: 1.1rem;
+            }
+            .stats-bar .stat .label {
+                font-size: 0.55rem;
+            }
+
+            .weak-card .card-top .module-icon {
+                font-size: 1.5rem;
+            }
+            .weak-card h3 {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* ============================================================
+               PRINT STYLES – 1340-1350
+               ============================================================ */
+        @media print {
+            header,
+            .toast,
+            .menu-toggle,
+            .action-row .btn {
+                display: none !important;
+            }
+            .weak-card {
+                border: 1px solid #333 !important;
+                box-shadow: none !important;
+                break-inside: avoid;
+            }
+            body {
+                background: #fff;
+                color: #000;
+            }
+            .page-header h1 .highlight {
+                -webkit-text-fill-color: #000;
+                background: none;
+                color: #000;
+            }
+            .stats-bar {
+                border: 1px solid #333 !important;
+            }
+            .stats-bar .stat .number {
+                color: #000 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                    TRIBAMS
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/resource-center">Resource Center</a></li>
+                    <li><a href="/review" class="active">📚 Review</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>📚 <span class="highlight">Review Weak Areas</span></h1>
+            <p class="subtitle">AI-identified modules where you need improvement. Focus on these areas to strengthen your cybersecurity knowledge.</p>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar" id="statsBar">
+            <div class="stat">
+                <span class="number" id="weakCount">0</span>
+                <span class="label">Weak Modules</span>
+            </div>
+            <div class="stat">
+                <span class="number" id="avgWeakScore">0%</span>
+                <span class="label">Average Weak Score</span>
+            </div>
+            <div class="stat">
+                <span class="number warning" id="totalModules">0</span>
+                <span class="label">Total Modules</span>
+            </div>
+            <div class="stat">
+                <span class="number danger" id="priorityCount">0</span>
+                <span class="label">High Priority</span>
+            </div>
+        </div>
+
+        <!-- Weak Areas Grid -->
+        <div id="weakContainer">
+            <div class="loading-container">
+                <div class="spinner"></div>
+                <p>Analyzing your progress...</p>
+            </div>
+        </div>
+
+        <!-- Back to Dashboard -->
+        <div style="text-align:center; padding:1rem 0 2rem;">
+            <a href="/dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // MODULES DATA (same as resource-center)
+        // ============================================================
+        const MODULES = [
+            { id: 1, name: 'Phishing Detection', icon: '🎣', description: 'Learn to identify and respond to advanced phishing attacks targeting organisations.' },
+            { id: 2, name: 'Malware Analysis', icon: '🦠', description: 'Understand ransomware, trojans, and modern malware threats.' },
+            { id: 3, name: 'Network Security', icon: '🔒', description: 'Master firewalls, encryption, and zero-trust architecture.' },
+            { id: 4, name: 'Cloud Security', icon: '☁️', description: 'Secure cloud infrastructure across AWS, Azure, and GCP.' },
+            { id: 5, name: 'Mobile Security', icon: '📱', description: 'Protect mobile devices and applications from modern cyber threats.' },
+            { id: 6, name: 'IoT Security', icon: '🏠', description: 'Secure Internet of Things devices and networks.' },
+            { id: 7, name: 'Social Engineering', icon: '🎭', description: 'Recognise and defend against psychological manipulation tactics.' },
+            { id: 8, name: 'Incident Response', icon: '🚨', description: 'Plan and execute effective incident response.' },
+            { id: 9, name: 'Security Compliance', icon: '📋', description: 'Understand GDPR, PCI-DSS, and compliance frameworks.' },
+            { id: 10, name: 'Ethical Hacking', icon: '🎓', description: 'Learn penetration testing and vulnerability assessment.' },
+            { id: 11, name: 'Ransomware Defense', icon: '💰', description: 'Protect against and respond to ransomware attacks.' },
+            { id: 12, name: 'Data Privacy (GDPR)', icon: '🔏', description: 'Master data privacy and GDPR requirements.' },
+            { id: 13, name: 'Wireless Security', icon: '📡', description: 'Secure Wi-Fi, Bluetooth, and wireless networks.' },
+            { id: 14, name: 'Database Security', icon: '🗄️', description: 'Protect databases from SQL injection and data breaches.' },
+            { id: 15, name: 'DevSecOps', icon: '⚙️', description: 'Integrate security into CI/CD pipelines.' },
+            { id: 16, name: 'Digital Forensics', icon: '🔍', description: 'Investigate cyber incidents with forensic techniques.' },
+            { id: 17, name: 'Threat Intelligence', icon: '🧠', description: 'Gather and analyse threat intelligence to anticipate attacks.' },
+            { id: 18, name: 'Security Operations (SOC)', icon: '🛡️', description: 'Monitor and respond to threats in a Security Operations Center.' },
+            { id: 19, name: 'Identity & Access Management', icon: '🪪', description: 'Manage identities, authentication, and authorisation.' },
+            { id: 20, name: 'Cryptography', icon: '🔐', description: 'Understand encryption, hashing, and digital signatures.' },
+            { id: 21, name: 'Zero Trust Architecture', icon: '🏛️', description: 'Implement Zero Trust principles across your organisation.' },
+            { id: 22, name: 'Supply Chain Security', icon: '⛓️', description: 'Secure your software and hardware supply chains.' },
+            { id: 23, name: 'API Security', icon: '🔌', description: 'Secure APIs from common vulnerabilities.' },
+            { id: 24, name: 'Container Security', icon: '🐳', description: 'Secure containerised applications and environments.' },
+            { id: 25, name: 'Kubernetes Security', icon: '☸️', description: 'Harden and secure Kubernetes clusters.' },
+            { id: 26, name: 'Serverless Security', icon: '⚡', description: 'Secure serverless functions and event-driven architectures.' },
+            { id: 27, name: 'AI & ML Security', icon: '🤖', description: 'Secure AI systems from adversarial attacks.' },
+            { id: 28, name: 'Quantum Computing Threats', icon: '🧪', description: 'Prepare for post-quantum cryptography challenges.' },
+            { id: 29, name: 'Blockchain Security', icon: '⛓️', description: 'Understand and secure blockchain technologies.' },
+            { id: 30, name: 'OT/ICS Security', icon: '🏭', description: 'Secure industrial control systems and operational technology.' },
+            { id: 31, name: 'Healthcare Security (HIPAA)', icon: '🏥', description: 'Protect health information and comply with HIPAA.' },
+            { id: 32, name: 'Financial Security (PCI-DSS)', icon: '💳', description: 'Secure payment card data and comply with PCI DSS.' },
+            { id: 33, name: 'E-Commerce Security', icon: '🛒', description: 'Secure online stores and payment gateways.' },
+            { id: 34, name: 'Insider Threat Detection', icon: '🕵️', description: 'Detect and mitigate threats from within your organisation.' },
+            { id: 35, name: 'Physical Security Integration', icon: '🚪', description: 'Integrate physical security with cybersecurity.' },
+            { id: 36, name: 'Disaster Recovery & BCP', icon: '🌐', description: 'Plan for business continuity and disaster recovery.' },
+            { id: 37, name: 'Security Awareness Training', icon: '🧑‍🏫', description: 'Build a security-conscious culture through effective training.' },
+            { id: 38, name: 'Risk Management', icon: '📊', description: 'Identify, assess, and mitigate cybersecurity risks.' },
+            { id: 39, name: 'Vulnerability Management', icon: '🪲', description: 'Identify and prioritise vulnerabilities.' },
+            { id: 40, name: 'Penetration Testing', icon: '💥', description: 'Conduct authorised penetration tests.' },
+            { id: 41, name: 'Red Team / Blue Team', icon: '🟥🔵', description: 'Simulate attacks and improve defence.' },
+            { id: 42, name: 'Cybersecurity Frameworks', icon: '📘', description: 'Implement NIST, ISO 27001, and CIS frameworks.' },
+            { id: 43, name: 'Cloud Forensics', icon: '☁️🔍', description: 'Conduct forensic investigations in cloud environments.' },
+            { id: 44, name: 'Mobile Forensics', icon: '📱🔍', description: 'Extract and analyse data from mobile devices.' },
+            { id: 45, name: 'Cyber Law & Ethics', icon: '⚖️', description: 'Navigate cyber laws and ethical dilemmas.' }
+        ];
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let weakModules = [];
+        let userScores = {};
+
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const weakContainer = document.getElementById('weakContainer');
+        const weakCount = document.getElementById('weakCount');
+        const avgWeakScore = document.getElementById('avgWeakScore');
+        const totalModules = document.getElementById('totalModules');
+        const priorityCount = document.getElementById('priorityCount');
+
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function showToast(message, type = 'success', duration = 3500) {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
+
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'} ${message}</span>
+                <button class="toast-close" aria-label="Close notification">&times;</button>
+            `;
+            document.body.appendChild(toast);
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => toast.remove());
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        function getScoreColor(score) {
+            if (score < 40) return 'low';
+            if (score < 60) return 'medium';
+            return 'high';
+        }
+
+        function getPriorityLabel(score) {
+            if (score < 40) return '🚨 High Priority';
+            if (score < 60) return '⚠️ Needs Work';
+            return '📖 Review Recommended';
+        }
+
+        function getAITip(moduleName, score) {
+            const tips = {
+                'Phishing Detection': 'Focus on email header analysis and recognising urgency tactics. Practice with real-world phishing examples.',
+                'Malware Analysis': 'Review static and dynamic analysis techniques. Use sandbox environments to practice safely.',
+                'Network Security': 'Master firewall rules and network segmentation. Practice with Wireshark and other tools.',
+                'Cloud Security': 'Focus on IAM and misconfiguration prevention. Review the shared responsibility model.',
+                'Social Engineering': 'Study the psychology of manipulation. Practice identifying pretexting and baiting.',
+                'Incident Response': 'Review the 6 phases of IR. Practice tabletop exercises and playbook execution.',
+                'Ethical Hacking': 'Master reconnaissance and exploitation techniques. Practice on CTF platforms.',
+                'Digital Forensics': 'Review acquisition and preservation procedures. Practice with forensic tools.',
+                'Database Security': 'Focus on SQL injection prevention and data encryption. Review access controls.',
+                'Zero Trust Architecture': 'Study micro-segmentation and continuous verification concepts.'
+            };
+            return tips[moduleName] || `Review the core concepts of ${moduleName} and practice with interactive scenarios.`;
+        }
+
+        // ============================================================
+        // LOAD USER PROGRESS
+        // ============================================================
+        async function loadProgress() {
+            try {
+                const res = await fetch('/api/progress');
+                const data = await res.json();
+                if (data.success && data.scores) {
+                    data.scores.forEach(s => {
+                        // Map module name to ID
+                        const module = MODULES.find(m => m.name === s.module_name);
+                        if (module) {
+                            userScores[module.id] = s.score;
+                        }
+                    });
+                    return true;
+                }
+                return false;
+            } catch (e) {
+                console.log('Could not load progress');
+                return false;
+            }
+        }
+
+        // ============================================================
+        // FIND WEAK MODULES
+        // ============================================================
+        function findWeakModules() {
+            weakModules = [];
+            MODULES.forEach(mod => {
+                const score = userScores[mod.id] || 0;
+                // Weak = score < 70 and has been attempted (score > 0) or has been attempted and is low
+                // For demo, we consider anything < 70 as weak if they have attempted
+                if (score > 0 && score < 70) {
+                    weakModules.push({
+                        ...mod,
+                        score: score,
+                        priority: score < 40 ? 'high' : (score < 60 ? 'medium' : 'low')
+                    });
+                }
+            });
+
+            // Sort by score (lowest first)
+            weakModules.sort((a, b) => a.score - b.score);
+
+            return weakModules;
+        }
+
+        // ============================================================
+        // RENDER WEAK AREAS
+        // ============================================================
+        function renderWeakAreas() {
+            const weak = findWeakModules();
+
+            // Update stats
+            weakCount.textContent = weak.length;
+            totalModules.textContent = MODULES.length;
+
+            if (weak.length === 0) {
+                const avg = 0;
+                avgWeakScore.textContent = '0%';
+                priorityCount.textContent = '0';
+                weakContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">🎉</div>
+                        <h3>No Weak Areas Detected!</h3>
+                        <p>Great job! You're performing well across all modules. Continue your training to maintain your skills.</p>
+                        <a href="/resource-center" class="btn btn-primary">📚 Explore More Modules</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Calculate average weak score
+            const total = weak.reduce((sum, m) => sum + m.score, 0);
+            const avg = Math.round(total / weak.length);
+            avgWeakScore.textContent = avg + '%';
+
+            // Count high priority (score < 40)
+            const highPriority = weak.filter(m => m.priority === 'high').length;
+            priorityCount.textContent = highPriority;
+
+            // Render grid
+            weakContainer.innerHTML = '<div class="weak-grid">';
+            weak.forEach(m => {
+                const scoreClass = getScoreColor(m.score);
+                const priorityLabel = getPriorityLabel(m.score);
+                const aiTip = getAITip(m.name, m.score);
+
+                const card = document.createElement('div');
+                card.className = 'weak-card';
+                card.innerHTML = `
+                    <div class="card-top">
+                        <span class="module-icon">${m.icon}</span>
+                        <span class="score-badge ${scoreClass}">${m.score}%</span>
+                    </div>
+                    <h3>${m.name}</h3>
+                    <div class="module-description">${m.description}</div>
+                    <div class="progress-container">
+                        <div class="progress-track">
+                            <div class="progress-fill ${scoreClass}" style="width:${m.score}%;"></div>
+                        </div>
+                        <div class="progress-label">
+                            <span>${priorityLabel}</span>
+                            <span>${m.score}%</span>
+                        </div>
+                    </div>
+                    <div class="ai-tip">
+                        <span class="tip-label">🧠 AI Recommendation</span>
+                        ${aiTip}
+                    </div>
+                    <div class="action-row">
+                        <a href="/training/${m.id}" class="btn btn-primary btn-small">📖 Review Module</a>
+                        <a href="/training/${m.id}?mode=practice" class="btn btn-secondary btn-small">✏️ Practice</a>
+                    </div>
+                `;
+                weakContainer.querySelector('.weak-grid').appendChild(card);
+            });
+            weakContainer.innerHTML += '</div>';
+        }
+
+        // ============================================================
+        // HEADER SCROLL & MOBILE MENU
+        // ============================================================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('show');
+            this.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('show');
+                document.getElementById('menuToggle').classList.remove('active');
+            });
+        });
+
+        // ============================================================
+        // AUTO-REFRESH
+        // ============================================================
+        let refreshInterval;
+
+        function startAutoRefresh() {
+            if (refreshInterval) clearInterval(refreshInterval);
+            refreshInterval = setInterval(() => {
+                // Reload progress and re-render
+                loadProgress().then(() => renderWeakAreas());
+            }, 60000);
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        async function init() {
+            // Check login status
+            try {
+                const res = await fetch('/api/user-info');
+                const data = await res.json();
+                if (!data.success) {
+                    showToast('Please log in to view your weak areas.', 'warning', 5000);
+                    setTimeout(() => { window.location.href = '/login'; }, 3000);
+                    return;
+                }
+            } catch (e) {
+                showToast('Please log in to view your weak areas.', 'warning', 5000);
+                setTimeout(() => { window.location.href = '/login'; }, 3000);
+                return;
+            }
+
+            await loadProgress();
+            renderWeakAreas();
+            startAutoRefresh();
+
+            console.log('📚 Review page loaded successfully.');
+        }
+
+        init();
+    </script>
+
+</body>
+</html>

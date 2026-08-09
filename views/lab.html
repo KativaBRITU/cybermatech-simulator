@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidence Workbench – TRIBAMS</title>
+    <meta name="description" content="TRIBAMS Evidence Workbench: 22+ browser-realistic cyber ops labs. Grade judgment on artifacts under time pressure — ATT&CK techniques for your readiness transcript.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #e6ebf4;
+            --panel: #ffffff;
+            --line: rgba(15, 23, 42, 0.14);
+            --teal: #0f766e;
+            --amber: #b45309;
+            --red: #b91c1c;
+            --green: #047857;
+            --text: #0f172a;
+            --muted: #475569;
+            --font: 'IBM Plex Sans', system-ui, sans-serif;
+            --display: 'Syne', sans-serif;
+            --mono: 'IBM Plex Mono', monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font);
+            background:
+                radial-gradient(900px 420px at 10% 0%, rgba(15,118,110,0.08), transparent 55%),
+                linear-gradient(180deg, #d5dde9 0%, #e6ebf4 50%, #f1f5f9 100%);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: var(--teal); text-decoration: none; }
+        .wrap { max-width: 1120px; margin: 0 auto; padding: 1.25rem 1.25rem 3rem; }
+        header {
+            display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between;
+            align-items: flex-end; margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--line); padding-bottom: 1rem;
+            background: rgba(255,255,255,0.92); border-radius: 14px; padding: 1rem 1.1rem;
+            box-shadow: 0 8px 24px rgba(15,23,42,0.06);
+        }
+        .brand { font-family: var(--display); font-weight: 800; font-size: 1.35rem; letter-spacing: -0.02em; color: #1e3a5f; }
+        .brand span { color: var(--teal); }
+        .nav a { margin-left: 0.85rem; color: #334155; font-size: 0.9rem; }
+        .nav a:hover { color: var(--teal); }
+        h1 { font-family: var(--display); font-size: clamp(1.55rem, 3vw, 2.15rem); margin: 0.3rem 0; color: #0f172a; }
+        .lede { color: #334155; max-width: 48rem; line-height: 1.55; }
+        .roe {
+            margin: 1rem 0 1.25rem; padding: 0.85rem 1rem;
+            border: 1px solid #f59e0b; background: #fffbeb;
+            color: #92400e; border-radius: 10px; font-size: 0.92rem;
+        }
+        .toolbar {
+            display: flex; flex-wrap: wrap; gap: 0.55rem; margin-bottom: 1rem; align-items: center;
+        }
+        .toolbar input, .toolbar select {
+            background: #ffffff; border: 1px solid var(--line); color: var(--text);
+            border-radius: 10px; padding: 0.55rem 0.75rem; font-family: var(--font); font-size: 0.9rem;
+        }
+        .toolbar input { min-width: min(100%, 220px); flex: 1; }
+        .statline { color: #475569; font-size: 0.88rem; margin-bottom: 0.85rem; }
+        .statline strong { color: var(--teal); }
+        .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+        .card {
+            background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+            padding: 1.1rem 1.15rem; cursor: pointer; transition: border-color .2s, transform .2s;
+            position: relative; box-shadow: 0 10px 24px rgba(15,23,42,0.06);
+        }
+        .card:hover { border-color: var(--teal); transform: translateY(-2px); }
+        .card h3 { font-family: var(--display); font-size: 1.12rem; margin-bottom: 0.35rem; padding-right: 3.5rem; color: #0f172a; }
+        .card p { color: #334155; font-size: 0.9rem; line-height: 1.45; }
+        .card .mod { font-size: 0.78rem; color: var(--teal); margin-bottom: 0.35rem; font-family: var(--mono); }
+        .pass-pill {
+            position: absolute; top: 0.85rem; right: 0.85rem;
+            font-size: 0.7rem; padding: 0.2rem 0.45rem; border-radius: 999px;
+            border: 1px solid rgba(4,120,87,0.4); color: var(--green); background: #ecfdf5;
+        }
+        .meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.85rem; }
+        .chip {
+            font-size: 0.72rem; padding: 0.2rem 0.5rem; border-radius: 999px;
+            border: 1px solid var(--line); color: #475569; font-family: var(--mono); background: #f8fafc;
+        }
+        .chip.tech { color: var(--teal); border-color: rgba(15,118,110,0.35); background: #f0fdfa; }
+        .chip.hard { color: var(--red); border-color: rgba(185,28,28,0.35); background: #fef2f2; }
+        .chip.easy { color: var(--green); border-color: rgba(4,120,87,0.35); background: #ecfdf5; }
+        .hidden { display: none !important; }
+        .lab-shell { display: grid; gap: 1rem; }
+        @media (min-width: 900px) {
+            .lab-shell { grid-template-columns: 1.12fr 0.88fr; align-items: start; }
+        }
+        .panel {
+            background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 1rem;
+            box-shadow: 0 10px 24px rgba(15,23,42,0.06);
+        }
+        .panel h2 { font-family: var(--display); font-size: 1.1rem; margin-bottom: 0.75rem; color: #0f172a; }
+        .objectives { margin: 0 0 0.85rem; padding-left: 1.1rem; color: #334155; font-size: 0.88rem; }
+        .objectives li { margin: 0.25rem 0; }
+        .art-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.65rem; }
+        .art-tab {
+            font-size: 0.75rem; padding: 0.35rem 0.6rem; border-radius: 8px; cursor: pointer;
+            border: 1px solid var(--line); background: #f1f5f9; color: #334155; font-family: var(--font);
+        }
+        .art-tab.active { color: #fff; background: var(--teal); border-color: var(--teal); }
+        .artifact {
+            margin-bottom: 0.85rem; border: 1px solid rgba(15,23,42,0.1);
+            border-radius: 10px; overflow: hidden; background: #f8fafc;
+        }
+        .artifact .title {
+            font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em;
+            color: #92400e; padding: 0.45rem 0.7rem; background: #fffbeb;
+        }
+        .artifact pre {
+            font-family: var(--mono); font-size: 0.78rem; line-height: 1.45;
+            white-space: pre-wrap; word-break: break-word; padding: 0.75rem 0.8rem; color: #1e293b;
+            max-height: 280px; overflow: auto; background: #fff;
+        }
+        .progress-rail {
+            height: 6px; background: #cbd5e1; border-radius: 999px; margin: 0.5rem 0 1rem; overflow: hidden;
+        }
+        .progress-rail > span { display: block; height: 100%; background: linear-gradient(90deg, var(--teal), #0369a1); width: 0%; transition: width .25s; }
+        .timer {
+            font-family: var(--mono); font-size: 1.05rem; color: var(--amber);
+            margin-bottom: 0.35rem; display: flex; justify-content: space-between; gap: 0.5rem; align-items: baseline;
+        }
+        .timer.danger { color: var(--red); }
+        .inject {
+            display: none; margin: 0.5rem 0 0.85rem; padding: 0.65rem 0.75rem;
+            border-left: 3px solid #c2410c; background: #fff7ed;
+            color: #9a3412; font-size: 0.88rem; border-radius: 0 8px 8px 0;
+            animation: pulseIn .35s ease;
+        }
+        .inject.show { display: block; }
+        @keyframes pulseIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+        .step { margin-bottom: 1.15rem; padding-bottom: 0.85rem; border-bottom: 1px solid rgba(15,23,42,0.08); }
+        .step .q { font-weight: 600; margin-bottom: 0.55rem; line-height: 1.4; color: #0f172a; }
+        .step .pts { font-size: 0.75rem; color: #64748b; font-family: var(--mono); margin-bottom: 0.4rem; }
+        .opt {
+            display: block; width: 100%; text-align: left; margin: 0.35rem 0; padding: 0.7rem 0.8rem;
+            border-radius: 10px; border: 1px solid rgba(15,23,42,0.12);
+            background: #f8fafc; color: #0f172a; cursor: pointer; font-size: 0.9rem; line-height: 1.35;
+        }
+        .opt:hover { border-color: var(--teal); background: #f0fdfa; }
+        .opt.selected { border-color: var(--teal); background: #ccfbf1; }
+        .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
+        .btn {
+            border: none; border-radius: 10px; padding: 0.7rem 1.1rem; font-weight: 600;
+            cursor: pointer; font-family: var(--font); display: inline-flex; align-items: center;
+        }
+        .btn-primary { background: #1e3a5f; color: #ffffff; }
+        .btn-primary:hover { background: var(--teal); }
+        .btn-secondary { background: #ffffff; color: #0f172a; border: 1px solid var(--line); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .result { margin-top: 1rem; color: #0f172a; }
+        .result .score { font-family: var(--display); font-size: 2rem; color: var(--teal); margin: 0.3rem 0; }
+        .result .score.fail { color: var(--red); }
+        .debrief { margin-top: 0.8rem; font-size: 0.9rem; color: #334155; list-style: none; padding: 0; }
+        .debrief li {
+            margin: 0.55rem 0; padding: 0.65rem 0.75rem; border-radius: 10px;
+            border: 1px solid rgba(15,23,42,0.1); background: #f8fafc; color: #1e293b;
+        }
+        .debrief li.ok { border-color: rgba(4,120,87,0.35); background: #ecfdf5; }
+        .debrief li.bad { border-color: rgba(185,28,28,0.3); background: #fef2f2; }
+        .toast {
+            position: fixed; bottom: 1.2rem; right: 1.2rem; background: #0f172a; color: #f8fafc;
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 0.75rem 1rem; border-radius: 10px; z-index: 40; max-width: 320px;
+        }
+        .empty { color: #64748b; padding: 2rem 0; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <div>
+                <div class="brand">TRIBAMS <span>Evidence Workbench</span></div>
+                <p class="lede" id="pageLede">Browser-realistic ops labs. Incomplete evidence, timers, and decisions you must defend — scored against ATT&amp;CK for your readiness transcript.</p>
+            </div>
+            <nav class="nav">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/resource-center">Modules</a>
+                <a href="/training/1">Training</a>
+                <a href="/scenario">Cyber Range</a>
+                <a href="/verify-readiness">Transcript</a>
+            </nav>
+        </header>
+
+        <div id="listView">
+            <h1>Ops labs</h1>
+            <p class="lede">No VMs required. Work like a night-shift analyst: artifacts first, then judgment. Options are shuffled per session so muscle-memory “pick B” fails.</p>
+            <div class="roe">ROE: Defensive / purple-team only. Never practice offensive tooling on systems you do not own or have written permission to test.</div>
+            <div class="toolbar">
+                <input type="search" id="searchLabs" placeholder="Search labs, modules, ATT&CK…" autocomplete="off">
+                <select id="filterDiff">
+                    <option value="">All difficulties</option>
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+                <select id="filterTrack">
+                    <option value="">All tracks</option>
+                    <option value="identity-social">Identity &amp; social</option>
+                    <option value="cloud-appsec">Cloud &amp; AppSec</option>
+                    <option value="detect-respond">Detect &amp; respond</option>
+                    <option value="resilience-ot">Resilience &amp; OT</option>
+                    <option value="identity-adversary">Adversary identity</option>
+                    <option value="eng-triage">Eng triage</option>
+                    <option value="ops-general">Ops general</option>
+                </select>
+                <select id="filterStatus">
+                    <option value="">All status</option>
+                    <option value="todo">Not passed</option>
+                    <option value="passed">Passed</option>
+                </select>
+            </div>
+            <div class="statline" id="labStats">Loading labs…</div>
+            <div class="grid" id="labGrid"></div>
+            <div class="empty hidden" id="labEmpty">No labs match these filters.</div>
+        </div>
+
+        <div id="runView" class="hidden">
+            <button class="btn btn-secondary" id="backBtn" type="button">← All labs</button>
+            <h1 id="labTitle" style="margin-top:0.8rem;"></h1>
+            <p class="lede" id="labSub"></p>
+            <div class="meta" id="labMeta" style="margin:0.5rem 0 0.75rem;"></div>
+            <div class="roe" id="labRoe"></div>
+            <div class="lab-shell">
+                <div class="panel">
+                    <h2>Evidence</h2>
+                    <p id="briefing" style="color:var(--muted);font-size:0.92rem;margin-bottom:0.65rem;"></p>
+                    <h2 style="font-size:0.95rem;">Objectives</h2>
+                    <ul class="objectives" id="objectives"></ul>
+                    <div class="art-tabs" id="artTabs"></div>
+                    <div id="artifacts"></div>
+                </div>
+                <div class="panel">
+                    <div class="timer" id="timer"><span id="timerText">--:--</span><span id="answeredHint" style="font-size:0.8rem;color:var(--muted);">0 answered</span></div>
+                    <div class="progress-rail"><span id="answerProgress"></span></div>
+                    <div class="inject" id="injectBox"></div>
+                    <h2>Decisions</h2>
+                    <div id="steps"></div>
+                    <div class="actions">
+                        <button class="btn btn-primary" id="submitBtn" type="button">Submit lab</button>
+                        <a class="btn btn-secondary" id="moduleLink" href="/resource-center">Related module</a>
+                    </div>
+                    <div id="result" class="result hidden"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const $ = (id) => document.getElementById(id);
+        let labs = [];
+        let current = null;
+        let answers = {};
+        let timerId = null;
+        let injectTimer = null;
+        let remaining = 0;
+        let firedInjects = new Set();
+
+        function toast(msg) {
+            const el = document.createElement('div');
+            el.className = 'toast';
+            el.textContent = msg;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 3400);
+        }
+
+        function esc(s) {
+            return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        }
+
+        function fmt(sec) {
+            const m = Math.floor(Math.max(0, sec) / 60);
+            const s = Math.max(0, sec) % 60;
+            return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        }
+
+        function stopTimer() {
+            if (timerId) clearInterval(timerId);
+            timerId = null;
+            if (injectTimer) clearInterval(injectTimer);
+            injectTimer = null;
+        }
+
+        function updateAnswerProgress() {
+            const need = (current?.steps || []).length || 1;
+            const have = Object.keys(answers).length;
+            $('answeredHint').textContent = have + ' / ' + need + ' answered';
+            $('answerProgress').style.width = Math.round((have / need) * 100) + '%';
+        }
+
+        function showInject(msg) {
+            const box = $('injectBox');
+            box.textContent = msg;
+            box.classList.add('show');
+            toast(msg.replace(/^Inject:\s*/i, ''));
+        }
+
+        function startTimer(sec) {
+            stopTimer();
+            remaining = sec;
+            firedInjects = new Set();
+            $('injectBox').classList.remove('show');
+            const el = $('timer');
+            const text = $('timerText');
+            text.textContent = fmt(remaining);
+            el.classList.toggle('danger', remaining <= 60);
+            timerId = setInterval(() => {
+                remaining -= 1;
+                text.textContent = fmt(remaining);
+                el.classList.toggle('danger', remaining <= 60);
+                (current.injects || []).forEach((inj, i) => {
+                    if (remaining === inj.at_sec_left && !firedInjects.has(i)) {
+                        firedInjects.add(i);
+                        showInject(inj.message);
+                    }
+                });
+                if (remaining <= 0) {
+                    stopTimer();
+                    toast('Time expired — submit with current answers.');
+                }
+            }, 1000);
+        }
+
+        function renderList() {
+            const q = ($('searchLabs').value || '').trim().toLowerCase();
+            const diff = $('filterDiff').value;
+            const track = $('filterTrack').value;
+            const status = $('filterStatus').value;
+            const filtered = labs.filter((l) => {
+                if (diff && l.difficulty !== diff) return false;
+                if (track && l.track !== track) return false;
+                if (status === 'passed' && !l.user_passed) return false;
+                if (status === 'todo' && l.user_passed) return false;
+                if (!q) return true;
+                const hay = [l.title, l.subtitle, l.module_name, l.track, ...(l.attack_techniques || [])].join(' ').toLowerCase();
+                return hay.includes(q);
+            });
+
+            const passed = labs.filter((l) => l.user_passed).length;
+            $('labStats').innerHTML = `<strong>${labs.length}</strong> labs · <strong>${passed}</strong> passed · showing <strong>${filtered.length}</strong>`;
+
+            const grid = $('labGrid');
+            const empty = $('labEmpty');
+            if (!filtered.length) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
+            grid.innerHTML = filtered.map((l) => `
+                <article class="card" data-id="${esc(l.id)}">
+                    ${l.user_passed ? `<span class="pass-pill">${l.user_score}% passed</span>` : (l.user_score != null ? `<span class="pass-pill" style="color:var(--amber);border-color:rgba(251,191,36,0.4);">${l.user_score}% retry</span>` : '')}
+                    <div class="mod">Module ${l.module_id} · ${esc(l.module_name || '')}</div>
+                    <h3>${esc(l.title)}</h3>
+                    <p>${esc(l.subtitle)}</p>
+                    <div class="meta">
+                        <span class="chip ${l.difficulty === 'hard' ? 'hard' : (l.difficulty === 'easy' ? 'easy' : '')}">${esc(l.difficulty)}</span>
+                        <span class="chip">${l.steps} decisions</span>
+                        <span class="chip">${Math.round((l.time_limit_sec || 0) / 60)} min</span>
+                        <span class="chip">${esc(l.track || 'ops')}</span>
+                        ${(l.attack_techniques || []).slice(0, 3).map((t) => `<span class="chip tech">${esc(t)}</span>`).join('')}
+                    </div>
+                </article>
+            `).join('');
+            grid.querySelectorAll('.card').forEach((card) => {
+                card.addEventListener('click', () => openLab(card.dataset.id));
+            });
+        }
+
+        async function loadList() {
+            const res = await fetch('/api/labs', { credentials: 'same-origin' });
+            if (res.status === 401) {
+                toast('Please log in');
+                setTimeout(() => { location.href = '/login?next=/lab'; }, 1100);
+                return;
+            }
+            const data = await res.json();
+            labs = data.labs || [];
+            renderList();
+        }
+
+        async function openLab(id) {
+            const res = await fetch('/api/labs/' + encodeURIComponent(id), { credentials: 'same-origin' });
+            const data = await res.json();
+            if (!data.success) {
+                if (data.locked) toast(data.message || 'Upgrade required for this lab');
+                else toast(data.message || 'Could not load lab');
+                return;
+            }
+            current = data.lab;
+            answers = {};
+            $('listView').classList.add('hidden');
+            $('runView').classList.remove('hidden');
+            $('labTitle').textContent = current.title;
+            $('labSub').textContent = current.subtitle;
+            $('labRoe').textContent = 'ROE: ' + current.roe;
+            $('briefing').textContent = current.briefing;
+            $('moduleLink').href = current.training_url || ('/training/' + current.module_id);
+            $('labMeta').innerHTML = [
+                `<span class="chip">${esc(current.difficulty)}</span>`,
+                `<span class="chip">Module ${current.module_id}</span>`,
+                `<span class="chip">${esc(current.module_name || '')}</span>`,
+                ...(current.attack_techniques || []).map((t) => `<span class="chip tech">${esc(t)}</span>`)
+            ].join('');
+            $('objectives').innerHTML = (current.objectives || []).map((o) => `<li>${esc(o)}</li>`).join('');
+
+            const arts = current.artifacts || [];
+            $('artTabs').innerHTML = arts.map((a, i) =>
+                `<button type="button" class="art-tab ${i === 0 ? 'active' : ''}" data-i="${i}">${esc(a.title)}</button>`
+            ).join('');
+            function showArt(i) {
+                $('artTabs').querySelectorAll('.art-tab').forEach((t) => t.classList.toggle('active', Number(t.dataset.i) === i));
+                const a = arts[i];
+                if (!a) { $('artifacts').innerHTML = ''; return; }
+                $('artifacts').innerHTML = `
+                    <div class="artifact">
+                        <div class="title">${esc(a.title)} · ${esc(a.type || 'evidence')}</div>
+                        <pre>${esc(a.body)}</pre>
+                    </div>
+                    ${arts.length > 1 ? `<p style="color:var(--muted);font-size:0.8rem;">Artifact ${i + 1} of ${arts.length} — use tabs to switch. Read all before deciding.</p>` : ''}
+                `;
+            }
+            showArt(0);
+            $('artTabs').querySelectorAll('.art-tab').forEach((t) => {
+                t.addEventListener('click', () => showArt(Number(t.dataset.i)));
+            });
+
+            $('steps').innerHTML = (current.steps || []).map((s) => `
+                <div class="step" data-step="${esc(s.id)}">
+                    <div class="pts">Decision ${s.index + 1} · ${s.points} pts</div>
+                    <div class="q">${esc(s.prompt)}</div>
+                    ${s.options.map((o, i) => `
+                        <button type="button" class="opt" data-step="${esc(s.id)}" data-idx="${i}">${esc(o)}</button>
+                    `).join('')}
+                </div>
+            `).join('');
+            $('steps').querySelectorAll('.opt').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const sid = btn.dataset.step;
+                    answers[sid] = parseInt(btn.dataset.idx, 10);
+                    $('steps').querySelectorAll('.opt[data-step="' + sid + '"]').forEach((b) => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    updateAnswerProgress();
+                });
+            });
+            $('result').classList.add('hidden');
+            $('submitBtn').disabled = false;
+            updateAnswerProgress();
+            startTimer(current.time_limit_sec || 420);
+            history.replaceState(null, '', '/lab?lab=' + encodeURIComponent(current.id));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function submitLab() {
+            if (!current) return;
+            const needed = (current.steps || []).length;
+            if (Object.keys(answers).length < needed) {
+                toast('Answer every decision before submit');
+                return;
+            }
+            $('submitBtn').disabled = true;
+            stopTimer();
+            const res = await fetch('/api/labs/' + encodeURIComponent(current.id) + '/submit', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ answers, time_remaining: remaining })
+            });
+            const data = await res.json();
+            if (!data.success) {
+                $('submitBtn').disabled = false;
+                return toast(data.message || 'Submit failed');
+            }
+            const r = data.result;
+            const box = $('result');
+            box.classList.remove('hidden');
+            box.innerHTML = `
+                <div>Lab score</div>
+                <div class="score ${r.passed ? '' : 'fail'}">${r.score}%</div>
+                <div>${esc(r.debrief_summary || (r.passed ? 'Passed.' : 'Retry recommended.'))}</div>
+                <div style="margin-top:0.35rem;color:var(--muted);font-size:0.88rem;">${r.earned}/${r.max} points</div>
+                <div class="meta" style="margin-top:0.6rem;">
+                    ${(r.attack_techniques_demonstrated || []).map((t) => `<span class="chip tech">${esc(t)}</span>`).join('') || '<span class="chip">No techniques credited this run</span>'}
+                </div>
+                <ul class="debrief">
+                    ${(r.breakdown || []).map((b) => `
+                        <li class="${b.correct ? 'ok' : 'bad'}">
+                            <strong>${b.correct ? 'Correct' : 'Miss'}</strong> (${b.points}/${b.max_points} pts)<br>
+                            ${esc(b.explanation)}<br>
+                            <span style="color:var(--muted);">${esc(b.coaching || '')}</span>
+                        </li>
+                    `).join('')}
+                </ul>
+                <div class="actions">
+                    <a class="btn btn-primary" href="/verify-readiness">Readiness transcript</a>
+                    <a class="btn btn-secondary" href="${esc((r.next_urls && r.next_urls.training) || ('/training/' + r.module_id))}">Study module</a>
+                    <button class="btn btn-secondary" type="button" id="retryBtn">Back to labs</button>
+                </div>
+            `;
+            $('retryBtn')?.addEventListener('click', () => {
+                stopTimer();
+                $('runView').classList.add('hidden');
+                $('listView').classList.remove('hidden');
+                history.replaceState(null, '', '/lab');
+                loadList();
+            });
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        $('backBtn').addEventListener('click', () => {
+            stopTimer();
+            $('runView').classList.add('hidden');
+            $('listView').classList.remove('hidden');
+            history.replaceState(null, '', '/lab');
+        });
+        $('submitBtn').addEventListener('click', submitLab);
+        ['searchLabs', 'filterDiff', 'filterTrack', 'filterStatus'].forEach((id) => {
+            $(id).addEventListener('input', renderList);
+            $(id).addEventListener('change', renderList);
+        });
+
+        const params = new URLSearchParams(location.search);
+        loadList().then(() => {
+            const want = params.get('lab') || params.get('id');
+            if (want) openLab(want);
+        });
+    </script>
+</body>
+</html>

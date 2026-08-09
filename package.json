@@ -1,22 +1,47 @@
 {
-  "name": "cybermatech-simulator",
+  "name": "tribams-simulator",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "TRIBAMS cyber training platform — public launch edition",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node scripts/smoke-test.js",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "db:postgres:up": "docker compose -f docker-compose.postgres.yml up -d",
+    "db:postgres:down": "docker compose -f docker-compose.postgres.yml down",
+    "db:migrate:sqlite-to-pg": "node scripts/migrate-sqlite-to-postgres.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@paypal/checkout-server-sdk": "^1.0.3",
     "bcrypt": "^6.0.0",
+    "compression": "^1.8.1",
+    "connect-redis": "^9.0.0",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
     "express-session": "^1.19.0",
-    "sqlite3": "^6.0.1"
+    "express-session-sqlite": "^2.1.1",
+    "helmet": "^8.3.0",
+    "marked": "^18.0.6",
+    "memorystore": "^1.6.8",
+    "multer": "^2.2.0",
+    "nodemailer": "^9.0.3",
+    "openai": "^6.45.0",
+    "pdfkit": "^0.19.1",
+    "pg": "^8.22.0",
+    "redis": "^6.1.0",
+    "session-file-store": "^1.5.0",
+    "sqlite3": "^6.0.1",
+    "stripe": "^22.2.1",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
+    "eslint": "^10.5.0",
+    "eslint-plugin-security": "^4.0.1",
     "nodemon": "^3.1.14"
   }
 }
