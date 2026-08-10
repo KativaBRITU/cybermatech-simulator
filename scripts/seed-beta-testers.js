@@ -4,8 +4,8 @@
  * Usage:
  *   node scripts/seed-beta-testers.js
  *
- * Optional env:
- *   BETA_TESTER_PASSWORD  — shared password for all beta0N accounts (default below)
+ * Required env:
+ *   BETA_TESTER_PASSWORD  — shared password for all beta0N accounts (min 12 chars)
  *
  * Accounts upserted:
  *   username: beta01 … beta10
@@ -30,9 +30,15 @@ const bcrypt = require('bcrypt');
 const { createDatabase } = require('../modules/database');
 const { initSchema } = require('../modules/schema');
 
-const DEFAULT_PASSWORD = 'BetaTribams2026!';
-const PASSWORD = process.env.BETA_TESTER_PASSWORD || DEFAULT_PASSWORD;
+const PASSWORD = process.env.BETA_TESTER_PASSWORD;
 const COUNT = 10;
+
+if (!PASSWORD || String(PASSWORD).length < 12) {
+    console.error(
+        'seed-beta-testers: set BETA_TESTER_PASSWORD in .env (minimum 12 characters) before running.'
+    );
+    process.exit(1);
+}
 
 async function upsertBeta(db, n, passwordHash) {
     const num = String(n).padStart(2, '0');
@@ -86,7 +92,7 @@ async function upsertBeta(db, n, passwordHash) {
 
     console.log('\n=== Closed beta tester credentials (store securely; printed once) ===');
     console.log(`Shared password: ${PASSWORD}`);
-    console.log('(Override with BETA_TESTER_PASSWORD env if you re-seed.)\n');
+    console.log('(Set BETA_TESTER_PASSWORD in .env before re-seeding.)\n');
     for (const r of rows) {
         console.log(`  ${r.username}  |  ${r.email}  |  [${r.action}]`);
     }
