@@ -59,6 +59,7 @@ async function initSchema(db) {
     )`);
 
     await addColumnIfMissing(db, 'users', 'status', `${T} DEFAULT 'active'`);
+    await addColumnIfMissing(db, 'users', 'is_beta_tester', 'INTEGER DEFAULT 0');
 
     await db.runAsync(`CREATE TABLE IF NOT EXISTS modules (
         id INTEGER PRIMARY KEY,
@@ -79,6 +80,17 @@ async function initSchema(db) {
         updated_at ${TS},
         FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE CASCADE
     )`);
+
+    // Quarterly content refresh columns (soft migrate)
+    await addColumnIfMissing(db, 'module_contents', 'quiz_bank', T);
+    await addColumnIfMissing(db, 'module_contents', 'practice_bank', T);
+    await addColumnIfMissing(
+        db,
+        'module_contents',
+        'content_refreshed_at',
+        db.dialect === 'postgres' ? 'TIMESTAMP' : 'DATETIME'
+    );
+    await addColumnIfMissing(db, 'module_contents', 'refresh_generation', 'INTEGER DEFAULT 0');
 
     await db.runAsync(`CREATE TABLE IF NOT EXISTS essay_answers (
         id ${PK},

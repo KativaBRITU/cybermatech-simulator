@@ -1,5 +1,5 @@
 /**
- * Essay scoring + learner-sourced content training for modules/labs.
+ * Essay scoring for module composite pass (private to the learner).
  *
  * Weights toward module composite pass (essay share of grade):
  *   beginner     → 40%
@@ -9,6 +9,9 @@
  * Minimum essay score to count as a mandatory pass component:
  *   beginner 40%, intermediate 50%, advanced 60%.
  * Catalog gate remains 65% of modules at the composite pass mark.
+ *
+ * Shared harvest into module_contents / public labs is disabled in the API;
+ * helpers below remain for optional admin/offline tooling only.
  */
 
 'use strict';

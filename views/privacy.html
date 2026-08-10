@@ -857,11 +857,11 @@
             <div class="meta">
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    Last Updated: July 1, 2025
+                    Last Updated: August 10, 2026
                 </span>
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    Version 2.0
+                    Version 2.1
                 </span>
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
@@ -913,12 +913,15 @@
             </div>
             <p>We collect several types of information to provide and improve our services:</p>
             <ul>
-                <li><strong>Account Information:</strong> When you register, we collect your name, email address, username, and password (hashed).</li>
+                <li><strong>Account Information:</strong> When you register, we collect your name, email address, username, and password (hashed with bcrypt).</li>
                 <li><strong>Profile Information:</strong> You may optionally provide a profile picture, bio, and other personal details.</li>
-                <li><strong>Training Data:</strong> We collect information about your training progress, quiz scores, certificates earned, and learning activities.</li>
+                <li><strong>Training Data:</strong> We collect quiz scores, module progress, certificates, badges, and essay answers you submit.</li>
+                <li><strong>Essay answers:</strong> Stored privately on your account for scoring and progress. They are <strong>not</strong> sold or published as training content for other learners.</li>
+                <li><strong>Beta tester accounts:</strong> Issued closed-beta credentials may be flagged as beta testers to grant full module/resource access for product testing (not admin access).</li>
                 <li><strong>Usage Data:</strong> We collect information about how you interact with the platform, including pages visited, features used, and time spent.</li>
                 <li><strong>Device Information:</strong> We collect information about the device you use to access the platform, including browser type, operating system, and IP address.</li>
                 <li><strong>Communication Data:</strong> If you contact us, we collect information about your communication with us.</li>
+                <li><strong>Sessions &amp; cookies:</strong> We use session cookies to keep you signed in securely.</li>
             </ul>
             <div class="highlight-box warning">
                 <strong>⚠️ Important:</strong> We do not collect sensitive personal information unless you voluntarily provide it. We do not sell your personal data to third parties.
@@ -934,9 +937,10 @@
             </div>
             <p>We use the information we collect for the following purposes:</p>
             <ul>
-                <li><strong>Provide and Maintain Services:</strong> To create and manage your account, deliver training modules, and track your progress.</li>
-                <li><strong>Improve and Personalize:</strong> To personalise your learning experience, recommend relevant modules, and improve platform features.</li>
-                <li><strong>Communication:</strong> To send you updates, notifications, and responses to your inquiries.</li>
+                <li><strong>Provide and Maintain Services:</strong> To create and manage your account, deliver training modules, grade essays and quizzes, and track your progress.</li>
+                <li><strong>Improve and Personalize:</strong> To personalise your learning experience, recommend relevant modules, and improve platform features — without publishing your essay text to other learners.</li>
+                <li><strong>Communication:</strong> To send you updates, notifications, password resets, certificate notices, and responses to your inquiries (via email/SMTP when configured).</li>
+                <li><strong>Payments:</strong> To process paid subscriptions through PayPal when you choose a paid plan.</li>
                 <li><strong>Analytics:</strong> To analyse usage patterns and improve our platform's performance and user experience.</li>
                 <li><strong>Security:</strong> To detect, prevent, and address security issues and fraudulent activity.</li>
                 <li><strong>Compliance:</strong> To comply with legal obligations and enforce our terms of service.</li>
@@ -970,12 +974,12 @@
             </div>
             <p>We do not sell, rent, or trade your personal information. We may share your data in the following circumstances:</p>
             <ul>
-                <li><strong>Service Providers:</strong> We may share data with trusted third-party service providers who assist us in operating the platform (e.g., hosting, payment processing, email delivery). These providers are contractually obligated to protect your data.</li>
+                <li><strong>Service Providers:</strong> Trusted providers who help operate the platform — for example hosting (PostgreSQL or SQLite database), Cloudflare DNS/HTTPS/WAF in front of our Node origin, PayPal for payments, and SMTP email delivery. These providers are contractually obligated to protect your data.</li>
                 <li><strong>Legal Compliance:</strong> We may disclose information if required by law or to protect our rights, property, or safety.</li>
                 <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or asset sale, your data may be transferred. You will be notified of any such changes.</li>
             </ul>
             <div class="highlight-box">
-                <strong>💡 Note:</strong> We only share the minimum amount of data necessary for the specific purpose and require all third parties to maintain adequate security measures.
+                <strong>💡 Note:</strong> Essay answers are not shared as public study notes or labs for other learners. We only share the minimum amount of data necessary for the specific purpose and require third parties to maintain adequate security measures.
             </div>
         </div>
 

@@ -76,6 +76,22 @@ Without PayPal credentials, non-production / admin accounts can still activate p
 | `npm run dev` | Nodemon reload |
 | `npm test` | Smoke tests against running server |
 | `npm run db:postgres:up` | Start Postgres via Docker |
+| `node scripts/seed-beta-testers.js` | Upsert 10 closed-beta accounts (`beta01`…`beta10`) with full module/resource access (not admin). Prints credentials once. Optional: `BETA_TESTER_PASSWORD`. |
+| `node scripts/refresh-module-content.js` | Quarterly refresh of essay prompts + quiz/practice banks (90-day cycle; use `--force` for immediate run) |
+
+### Quarterly content refresh
+
+Every **90 days** (or on first boot when never refreshed), TRIBAMS regenerates:
+
+- Essay prompts with current threat trends (AI fraud, mobile money, cloud IAM, OT, supply chain — Africa + global)
+- Cached **quiz** and **practice** question banks in `module_contents`
+
+Core path uses heuristic templates + quarterly trend packs (`modules/contentRefresh.js`). If `OPENAI_API_KEY` is set, two extra essay prompts may be appended.
+
+- **Automatic:** server startup runs `refreshAllModulesIfDue`
+- **Manual:** `node scripts/refresh-module-content.js --force`
+- **Admin API:** `POST /api/admin/refresh-content` (optional `{ "module_id": 4, "force": true }`)
+- **Status:** `GET /api/content-freshness` (admin)
 
 ## B2B (business plan)
 

@@ -2013,6 +2013,388 @@ OT network still flat with IT (separate risk register)`
     },
 
     // ============================================================
+    // EMERGING THREATS — Africa + global realism (2026 refresh)
+    // ============================================================
+    {
+        id: 'mobile-money-fraud-01',
+        module_id: 32,
+        title: 'Mobile Money Fraud Desk',
+        subtitle: 'SIM swap, USSD push, and agent float — payroll Friday in Windhoek.',
+        difficulty: 'medium',
+        attack_techniques: ['T1566', 'T1078', 'T1539'],
+        time_limit_sec: 420,
+        roe: 'Defensive fraud ops only. No live USSD or carrier actions outside simulation.',
+        briefing:
+            '14:47 Friday. Treasury confirms salary batch sent. Three executives report “bank reversal” SMS. Agent #442 shows N$340,000 float drain in 11 minutes. Call center queue is melting.',
+        artifacts: [
+            {
+                type: 'sms',
+                title: 'SMS thread (executive phone)',
+                body: `From: +264-81-9XX-XXXX (spoofed short-code lookalike)
+"REVERSAL PENDING: N$84,000 unauthorized debit. Approve reversal now: reply YES or dial *140*REV#"
+Follow-up: "Deadline 15 min or funds lost"`
+            },
+            {
+                type: 'agent_log',
+                title: 'Mobile money agent portal excerpt',
+                body: `Agent ID: 442 (Katutura kiosk)
+14:36 — 14× N$24,000 cash-outs to new wallets (same device fingerprint)
+14:38 — Float alert 82% → 4% in 6 min
+14:40 — Agent claims "customer said HR sent bonus codes"`
+            },
+            {
+                type: 'carrier_note',
+                title: 'Carrier fraud desk note',
+                body: `SIM swap request approved 14:22 for exec line +264-81-XXX — store clerk override
+No callback to HR-listed number on file
+USSD session opened from new IMEI 12 min later`
+            }
+        ],
+        steps: [
+            {
+                id: 's1',
+                prompt: 'Strongest first-hour priority?',
+                options: [
+                    'Freeze affected wallets/agent float; invoke carrier SIM-swap reversal; preserve SMS/USSD logs; alert treasury to halt secondary transfers',
+                    'Tell executives to reply YES so money “returns faster”',
+                    'Wait until Monday for the fraud team',
+                    'Publish all account numbers on social media for crowd help'
+                ],
+                correct: 0,
+                explanation: 'Stop bleed, recover SIM control, preserve evidence — parallel tracks.',
+                points: 4,
+                attack_techniques: ['T1539', 'T1566']
+            },
+            {
+                id: 's2',
+                prompt: 'Why is “reverse the debit via SMS” a trap?',
+                options: [
+                    'Carriers never use SMS',
+                    'Legitimate reversals use known short codes and in-app flows — urgency + novel codes are mule recruitment or auth theft',
+                    'SMS is always encrypted end-to-end',
+                    'Only email phishing uses urgency'
+                ],
+                correct: 1,
+                explanation: 'Mobile-money fraud weaponizes urgency and fake carrier grammar.',
+                points: 3,
+                attack_techniques: ['T1566']
+            },
+            {
+                id: 's3',
+                prompt: 'Agent blames “HR bonus codes.” Professional response?',
+                options: [
+                    'Accept verbal story; no ticket needed',
+                    'Suspend agent credentials; interview with dual control; compare HR comms channel vs what agent received',
+                    'Fire agent publicly before evidence review',
+                    'Increase agent float limits to compensate'
+                ],
+                correct: 1,
+                explanation: 'Agent compromise or social engineering — investigate before blame.',
+                points: 3,
+                attack_techniques: ['T1078']
+            },
+            {
+                id: 's4',
+                prompt: 'Post-incident control for payroll Fridays?',
+                options: [
+                    'Dual approval for large agent settlements; SIM-swap callback to HR directory; staff drill on USSD/sms fraud',
+                    'Ban all mobile money in the country',
+                    'Disable MFA because it slows payroll',
+                    'Ignore — fraud is a bank problem only'
+                ],
+                correct: 0,
+                explanation: 'Recurring windows need process + verification culture.',
+                points: 2,
+                attack_techniques: ['T1539']
+            }
+        ]
+    },
+    {
+        id: 'cloud-iam-misconfig-01',
+        module_id: 19,
+        title: 'Cloud IAM Blast Radius',
+        subtitle: 'Trust policy chaining + dormant admin — not a bucket story.',
+        difficulty: 'medium',
+        attack_techniques: ['T1078.004', 'T1098', 'T1552'],
+        time_limit_sec: 480,
+        roe: 'Identity IR judgment. No live exploitation of third-party tenants.',
+        briefing:
+            'CSPM flags “AdminAccess via role chaining.” A dormant `terraform-deploy` role assumed `OrganizationAccountAccessRole` in three linked accounts overnight. Finance SaaS admin reports impossible OAuth grants.',
+        artifacts: [
+            {
+                type: 'cspm',
+                title: 'CSPM / identity graph',
+                body: `Role: terraform-deploy (Account A)
+Trust: allows AssumeRole from Account B Lambda execution role
+Attached: PowerUser + sts:AssumeRole on arn:aws:iam::*:role/OrganizationAccountAccessRole
+Last human login for creator: 400+ days ago
+CloudTrail: AssumeRole chain 03:14–03:22 UTC from 185.220.x.x`
+            },
+            {
+                type: 'saas',
+                title: 'Finance SaaS admin alert',
+                body: `New OAuth app "InvoiceSync-Helper" granted:
+Mail.ReadWrite · Files.ReadWrite.All · offline_access
+Consent by: terraform-deploy service principal (not a human)
+Sign-in IP: same ASN as CloudTrail anomaly`
+            },
+            {
+                type: 'policy',
+                title: 'Cloud identity standard excerpt',
+                body: `No role may chain to OrganizationAccountAccessRole without break-glass ticket
+Service principals require scoped policies + rotation every 90 days
+OAuth consent requires human admin + CISO delegate for Mail.* scopes`
+            }
+        ],
+        steps: [
+            {
+                id: 's1',
+                prompt: 'Immediate identity actions?',
+                options: [
+                    'Revoke chained sessions; disable terraform-deploy + downstream assumed roles; audit OAuth apps; rotate secrets; scope CloudTrail to all linked accounts',
+                    'Delete the entire organization without backup',
+                    'Wait for the SaaS vendor to “auto-fix” OAuth',
+                    'Add AdminAccess to more roles for visibility'
+                ],
+                correct: 0,
+                explanation: 'Break the chain, revoke consent, rotate — parallel identity tracks.',
+                points: 4,
+                attack_techniques: ['T1078.004', 'T1098']
+            },
+            {
+                id: 's2',
+                prompt: 'Why is dormant terraform-deploy high risk?',
+                options: [
+                    'Terraform is always malicious',
+                    'Long-idle deploy identities with broad trust are prime targets — attackers assume they are unmonitored',
+                    'IaC tools cannot use roles',
+                    'Dormant accounts auto-expire'
+                ],
+                correct: 1,
+                explanation: 'Stale automation identities are blind spots.',
+                points: 2,
+                attack_techniques: ['T1552']
+            },
+            {
+                id: 's3',
+                prompt: 'OAuth “InvoiceSync-Helper” — best call?',
+                options: [
+                    'Treat as hostile until proven; revoke tokens; hunt mailbox rules and forwarding',
+                    'Approve because name sounds legitimate',
+                    'Ignore — OAuth is low risk',
+                    'Share admin creds with vendor support'
+                ],
+                correct: 0,
+                explanation: 'Illegitimate consent is a common cloud exfil path.',
+                points: 3,
+                attack_techniques: ['T1098']
+            },
+            {
+                id: 's4',
+                prompt: 'Durable fix beyond this incident?',
+                options: [
+                    'Permission boundaries on deploy roles; break-glass for org-admin; OAuth consent workflow; quarterly access reviews on automation identities',
+                    'More long-lived keys in repos for speed',
+                    'Disable CloudTrail to save costs',
+                    'Single shared admin password for all IaC'
+                ],
+                correct: 0,
+                explanation: 'Least privilege + consent governance + reviews.',
+                points: 3,
+                attack_techniques: ['T1078.004']
+            }
+        ]
+    },
+    {
+        id: 'supply-chain-typosquat-01',
+        module_id: 22,
+        title: 'Supply Chain Typosquat',
+        subtitle: 'Malicious package in CI — build still green.',
+        difficulty: 'medium',
+        attack_techniques: ['T1195.002', 'T1059', 'T1071'],
+        time_limit_sec: 450,
+        roe: 'Defensive pipeline IR. Do not run untrusted packages outside sandbox narrative.',
+        briefing:
+            'Dependabot alert: npm package `@acme-namibia/payroll-utils` (typo of internal scope) added in PR #1187. Pipeline passed. Night shift sees outbound DNS to `update-cdn.evil` from build agents.',
+        artifacts: [
+            {
+                type: 'pr',
+                title: 'Pull request excerpt',
+                body: `PR #1187 — "fix: payroll csv helper"
++ "@acme-namibia/payroll-utils": "^2.1.0"
+Author: contractor account (joined 3 days ago)
+Review: single approval from tired on-call dev
+Package created: 48 hours ago · 12 total downloads globally`
+            },
+            {
+                type: 'dns',
+                title: 'Build agent DNS log',
+                body: `query: update-cdn.evil (A record newly registered)
+source: CI runner BUILD-07 during npm install postinstall script
+JA3: matches scripted client, not browser`
+            },
+            {
+                type: 'sbom',
+                title: 'SBOM diff note',
+                body: `Legitimate internal package: @acme/payroll-utils (no "-namibia")
+New package postinstall: curl | bash pattern obfuscated in minified JS
+No lockfile pin change review in PR`
+            }
+        ],
+        steps: [
+            {
+                id: 's1',
+                prompt: 'First containment?',
+                options: [
+                    'Stop pipelines; quarantine BUILD-07; revoke build secrets; remove typosquat package; hunt artifacts deployed since merge',
+                    'Merge forward to “see if prod breaks”',
+                    'Ignore — green build means safe',
+                    'Disable all npm forever'
+                ],
+                correct: 0,
+                explanation: 'Supply-chain hits need pipeline stop + secret rotation + hunt.',
+                points: 4,
+                attack_techniques: ['T1195.002']
+            },
+            {
+                id: 's2',
+                prompt: 'Typosquat signal in PR?',
+                options: [
+                    'Scoped name one character off internal package + newborn registry + thin review',
+                    'Long README files',
+                    'Uses TypeScript',
+                    'Approved by senior architect automatically'
+                ],
+                correct: 0,
+                explanation: 'Namespace confusion is a classic supply-chain pattern.',
+                points: 3,
+                attack_techniques: ['T1195.002']
+            },
+            {
+                id: 's3',
+                prompt: 'postinstall DNS to new domain — meaning?',
+                options: [
+                    'Benign analytics always',
+                    'Likely staged C2 or exfil during build — treat runner as compromised',
+                    'Only users’ laptops affected, not CI',
+                    'DNS logs are never evidence'
+                ],
+                correct: 1,
+                explanation: 'Build agents hold signing keys — compromise is critical.',
+                points: 3,
+                attack_techniques: ['T1071']
+            },
+            {
+                id: 's4',
+                prompt: '90-day hardening?',
+                options: [
+                    'Mandatory lockfile review; private registry mirror; package allowlisting; contractor PR rules; SBOM diff gates',
+                    'Trust all packages with >10 downloads',
+                    'Remove code review to speed releases',
+                    'Store production keys in postinstall scripts'
+                ],
+                correct: 0,
+                explanation: 'Pipeline integrity controls break typosquat chains.',
+                points: 2,
+                attack_techniques: ['T1059']
+            }
+        ]
+    },
+    {
+        id: 'ai-voice-bec-wa-01',
+        module_id: 1,
+        title: 'WhatsApp Voice-Clone BEC',
+        subtitle: 'AI audio note + lookalike domain — payroll pressure.',
+        difficulty: 'medium',
+        attack_techniques: ['T1566', 'T1534', 'T1598.003'],
+        time_limit_sec: 360,
+        roe: 'Phishing/BEC simulation. No real payments or WhatsApp actions.',
+        briefing:
+            'AP lead receives a WhatsApp voice note sounding exactly like the CFO (copied from last investor call). Text follow-up from `cfo-acme-pay.co.na` demands instant EFT to a “new vendor.” Board minutes due in 20 minutes.',
+        artifacts: [
+            {
+                type: 'whatsapp',
+                title: 'WhatsApp thread extract',
+                body: `[Voice note 0:47] "...it's me, approve the N$620k now, I'll sign on the plane..."
+[Text] Use account on attached PDF — do NOT call, board prep.
+[Link] https://cfo-acme-pay.co.na/secure/vendor`
+            },
+            {
+                type: 'email_headers',
+                title: 'Parallel email (same thread)',
+                body: `From: CFO <payments@cfo-acme-pay.co.na>
+Authentication-Results: spf=fail; dmarc=fail
+Reply-To: payments@cfo-acme-pay.co.na`
+            },
+            {
+                type: 'policy',
+                title: 'Payment verification policy',
+                body: `> N$50k: dual approvers + callback on directory-listed CFO mobile
+No new beneficiary details via WhatsApp/email alone
+Challenge phrase required for voice-only payment requests`
+            }
+        ],
+        steps: [
+            {
+                id: 's1',
+                prompt: 'Correct AP response?',
+                options: [
+                    'Freeze payment; verify on directory-listed number; require dual control; treat voice note as untrusted media',
+                    'Pay immediately — voice matches perfectly',
+                    'Forward WhatsApp to all staff for opinions',
+                    'Use the link to “confirm vendor” quickly'
+                ],
+                correct: 0,
+                explanation: 'Synthetic audio defeats sensory trust — process wins.',
+                points: 4,
+                attack_techniques: ['T1534', 'T1598.003']
+            },
+            {
+                id: 's2',
+                prompt: 'Why WhatsApp + email dual-channel?',
+                options: [
+                    'Attackers cannot use two channels',
+                    'Multi-channel pressure increases urgency and bypasses single control (email gateway)',
+                    'WhatsApp is always encrypted so safe',
+                    'Only teenagers use WhatsApp'
+                ],
+                correct: 1,
+                explanation: 'BEC stacks channels to exhaust verification culture.',
+                points: 2,
+                attack_techniques: ['T1566']
+            },
+            {
+                id: 's3',
+                prompt: 'Lookalike domain cfo-acme-pay.co.na?',
+                options: [
+                    'Hostile impersonation — block/report; hunt for other registrations',
+                    'Safe if SSL padlock shows',
+                    'Legitimate if .co.na TLD',
+                    'Ignore domain when voice sounds right'
+                ],
+                correct: 0,
+                explanation: 'Regional TLDs are commonly abused for credibility.',
+                points: 3,
+                attack_techniques: ['T1566']
+            },
+            {
+                id: 's4',
+                prompt: 'After near-miss, best resilience move?',
+                options: [
+                    'Update callback directory; challenge-phrase drill; brief AP on AI voice clones',
+                    'Ban WhatsApp company-wide without alternative',
+                    'Hope it was a one-off',
+                    'Remove dual control to reduce friction'
+                ],
+                correct: 0,
+                explanation: 'Near-misses become culture when followed by drills.',
+                points: 2,
+                attack_techniques: ['T1598.003']
+            }
+        ]
+    },
+
+    // ============================================================
     // SPECIAL OPS ELITE — Mission-Ready + Special Ops subscription
     // ============================================================
     {
@@ -2264,10 +2646,11 @@ OT network still flat with IT (separate risk register)`
 ];
 
 const MODULE_NAMES = {
-    1: 'Phishing Detection', 4: 'Cloud Security', 7: 'Social Engineering', 11: 'Ransomware Defense',
-    13: 'Wireless Security', 16: 'Digital Forensics', 18: 'Security Operations (SOC)', 23: 'API Security',
-    27: 'AI & Machine Learning Security', 30: 'OT/ICS Security', 39: 'Vulnerability Management',
-    47: 'Wireshark Packet Analysis for Defenders', 52: 'Cobalt Strike Tradecraft Defense',
+    1: 'Phishing Detection', 4: 'Cloud Security', 5: 'Mobile Security', 7: 'Social Engineering',
+    11: 'Ransomware Defense', 13: 'Wireless Security', 16: 'Digital Forensics', 18: 'Security Operations (SOC)',
+    19: 'Identity & Access Management', 22: 'Supply Chain Security', 23: 'API Security',
+    27: 'AI & Machine Learning Security', 30: 'OT/ICS Security', 32: 'Financial Security (PCI-DSS)',
+    39: 'Vulnerability Management', 47: 'Wireshark Packet Analysis for Defenders', 52: 'Cobalt Strike Tradecraft Defense',
     58: 'BloodHound Active Directory Attacks', 59: 'Kerberoasting & AS-REP Roasting',
     60: 'Pass-the-Hash / Pass-the-Ticket', 61: 'Living Off the Land (LOLBins)',
     64: 'BeEF Browser Exploitation Defense', 83: 'Exfiltration Channels & DLP Bypass',
@@ -2346,6 +2729,8 @@ function pruneLabSessions() {
 
 /** Runtime labs trained from high-quality learner essays (id → lab). */
 const DYNAMIC_LABS = new Map();
+// Community / learner-seeded labs: POST /api/submit-essay (score ≥ threshold) may register
+// via registerLearnerLab(); listed alongside built-in Evidence Workbench labs in listLabs().
 
 function summarizeLab(lab) {
     const steps = Array.isArray(lab.steps) ? lab.steps : [];

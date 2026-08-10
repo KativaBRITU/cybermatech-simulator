@@ -39,6 +39,7 @@ const paypalCheckout = require('./modules/paypalCheckout');
 const orgService = require('./modules/orgService');
 const progressiveContent = require('./modules/progressiveContent');
 const essayLearning = require('./modules/essayLearning');
+const contentRefresh = require('./modules/contentRefresh');
 
 // ============================================================
 // APP INITIALIZATION & CONSTANTS
@@ -282,9 +283,28 @@ async function seedModuleContents() {
     for (const module of MODULES) {
         const id = module.id;
         const guide = contentLibrary.buildStudyGuide(module);
+        const existing = await db.getAsync(
+            'SELECT id, content_refreshed_at FROM module_contents WHERE module_id = ?',
+            [id]
+        );
 
-        // module_id is not UNIQUE, so REPLACE on row id does not update by module — delete then insert
-        await db.runAsync('DELETE FROM module_contents WHERE module_id = ?', [id]);
+        if (existing) {
+            // Preserve quarterly refresh banks; refresh base study guide text only
+            await db.runAsync(
+                `UPDATE module_contents SET content = ?, resources = ?, updated_at = CURRENT_TIMESTAMP
+                 WHERE module_id = ?`,
+                [guide.content, JSON.stringify(guide.resources), id]
+            );
+            if (!existing.content_refreshed_at) {
+                await db.runAsync(
+                    `UPDATE module_contents SET essay_questions = ?, updated_at = CURRENT_TIMESTAMP
+                     WHERE module_id = ?`,
+                    [JSON.stringify(guide.essayQuestions), id]
+                );
+            }
+            continue;
+        }
+
         await db.runAsync(
             `INSERT INTO module_contents (module_id, content, resources, essay_questions)
              VALUES (?, ?, ?, ?)`,
@@ -577,6 +597,33 @@ function generateModuleQuestions(moduleId, difficulty = 'medium', limit = 10, op
     return assessmentEngine.generateModuleQuestions(module, difficulty || module.difficulty, limit, options);
 }
 
+async function loadRefreshedQuestionDrill(moduleId, mode, difficulty, limit, rank, sessionSeed) {
+    try {
+        const col = mode === 'practice' ? 'practice_bank' : 'quiz_bank';
+        const row = await db.getAsync(
+            `SELECT ${col} AS bank, content_refreshed_at FROM module_contents WHERE module_id = ?`,
+            [moduleId]
+        );
+        if (!row?.bank || !row.content_refreshed_at) return null;
+        const bank = JSON.parse(row.bank || '[]');
+        const picked = contentRefresh.selectFromBank(bank, limit, difficulty, sessionSeed);
+        if (!picked || !picked.questions?.length) return null;
+        const module = MODULES.find(m => m.id === moduleId) || { name: 'Module' };
+        const immersion = progressiveContent.immersionForRank(rank, module.name);
+        return {
+            ...picked,
+            rank,
+            rank_label: immersion.rank_label,
+            environment: immersion.environment,
+            immersion,
+            mode: mode === 'practice' ? 'practice' : 'module_drill'
+        };
+    } catch (e) {
+        console.warn('Refreshed question bank fallback:', e.message);
+        return null;
+    }
+}
+
 async function resolveLearnerRank(req) {
     if (!req.session?.user) {
         return { rank: 'beginner', rank_label: 'Recruit', environment: progressiveContent.getEnvironment('beginner').environment, progress: null };
@@ -710,12 +757,17 @@ function userIsAdmin(user) {
     return accessControl.isAdminEmail(user?.email, ADMIN_EMAILS);
 }
 
+/** Admins (ops) and beta testers (full catalog explore) skip progress/rank module locks. */
+function userBypassesProgressLocks(user) {
+    return userIsAdmin(user) || accessControl.isBetaTester(user);
+}
+
 /** Fresh subscription flags from DB (session can be stale after upgrade) */
 async function getAccessUser(req) {
     if (!req.session?.user) return null;
     try {
         const row = await db.getAsync(
-            `SELECT id, username, email, subscription_tier, subscription_status, subscription_expires_at
+            `SELECT id, username, email, subscription_tier, subscription_status, subscription_expires_at, is_beta_tester
              FROM users WHERE id = ?`,
             [req.session.user.id]
         );
@@ -724,12 +776,15 @@ async function getAccessUser(req) {
         let tier = row.subscription_tier || 'free';
         let status = row.subscription_status || 'inactive';
         const expiresAt = row.subscription_expires_at || null;
+        const isBeta = !!(row.is_beta_tester === 1 || row.is_beta_tester === true || tier === 'beta');
 
-        // Auto-expire paid access when the billing window ends
+        // Auto-expire paid access when the billing window ends (never expire beta seats this way)
         if (
             expiresAt &&
             status === 'active' &&
             tier !== 'free' &&
+            tier !== 'beta' &&
+            !isBeta &&
             new Date(expiresAt).getTime() < Date.now()
         ) {
             await db.runAsync(
@@ -744,6 +799,7 @@ async function getAccessUser(req) {
         req.session.user.subscription_tier = tier;
         req.session.user.subscription_status = status;
         req.session.user.subscription_expires_at = expiresAt;
+        req.session.user.is_beta_tester = isBeta ? 1 : 0;
 
         let orgAccess = null;
         try {
@@ -758,6 +814,7 @@ async function getAccessUser(req) {
             subscription_tier: tier,
             subscription_status: status,
             subscription_expires_at: expiresAt,
+            is_beta_tester: isBeta ? 1 : 0,
             org_access: orgAccess
         };
     } catch (e) {
@@ -1055,7 +1112,8 @@ app.get('/api/user-info', async (req, res) => {
         }
 
         const isAdminUser = userIsAdmin(user);
-        const isPro = accessControl.isProUser(user) || isAdminUser;
+        const isBeta = accessControl.isBetaTester(user);
+        const isPro = accessControl.isProUser(user) || isAdminUser || isBeta;
         const picture = publicProfileUrl(row.profile_picture);
         res.json({
             success: true,
@@ -1067,6 +1125,7 @@ app.get('/api/user-info', async (req, res) => {
             subscription_tier: user.subscription_tier || row.subscription_tier || 'free',
             subscription_status: user.subscription_status || row.subscription_status || 'inactive',
             is_admin: isAdminUser,
+            is_beta_tester: isBeta,
             is_pro: isPro,
             org_access: user?.org_access || null,
             free_module_ids: accessControl.getFreeModuleIds()
@@ -1140,13 +1199,22 @@ app.get('/api/module-content/:id', async (req, res) => {
         // Always build with rank so intermediate/advanced layers unlock live (beginner base stays)
         const guide = contentLibrary.buildStudyGuide(module, { rank: learner.rank });
 
-        // Prefer live progressive guide; fall back fields from DB essays if needed
+        // Prefer quarterly-refreshed essay prompts when present
         let essayQuestions = guide.essayQuestions;
         try {
-            const stored = await db.getAsync('SELECT essay_questions FROM module_contents WHERE module_id = ?', [id]);
-            if (stored?.essay_questions && learner.rank === 'beginner') {
+            const stored = await db.getAsync(
+                'SELECT essay_questions, content_refreshed_at FROM module_contents WHERE module_id = ?',
+                [id]
+            );
+            if (stored?.essay_questions) {
                 const parsed = JSON.parse(stored.essay_questions || '[]');
-                if (Array.isArray(parsed) && parsed.length) essayQuestions = parsed;
+                if (Array.isArray(parsed) && parsed.length) {
+                    if (stored.content_refreshed_at) {
+                        essayQuestions = parsed;
+                    } else if (learner.rank === 'beginner') {
+                        essayQuestions = parsed;
+                    }
+                }
             }
         } catch (_) { /* ignore */ }
 
@@ -1186,7 +1254,7 @@ app.get('/api/module-questions/:id', async (req, res) => {
     try {
         const accessUser = await getAccessUser(req);
         learner = await resolveLearnerRank(req);
-        if (!userIsAdmin(accessUser) && learner.progress && !progressGate.isModuleUnlocked(module, learner.progress)) {
+        if (!userBypassesProgressLocks(accessUser) && learner.progress && !progressGate.isModuleUnlocked(module, learner.progress)) {
             return res.status(403).json({
                 success: false,
                 locked: true,
@@ -1201,7 +1269,11 @@ app.get('/api/module-questions/:id', async (req, res) => {
     const difficulty = (req.query.difficulty || module.difficulty || 'medium');
     const limit = parseInt(req.query.limit) || 10;
     const mode = req.query.mode === 'practice' ? 'practice' : 'quiz';
-    const drill = generateModuleQuestions(id, difficulty, limit, { rank: learner.rank });
+    const sessionSeed = (req.session.user.id * 1000) + id + (mode === 'practice' ? 7 : 0);
+    let drill = await loadRefreshedQuestionDrill(id, mode, difficulty, limit, learner.rank, sessionSeed);
+    if (!drill) {
+        drill = generateModuleQuestions(id, difficulty, limit, { rank: learner.rank });
+    }
 
     if (mode === 'practice') {
         return res.json({
@@ -2016,15 +2088,17 @@ async function subscriptionStatusHandler(req, res) {
     const user = await getAccessUser(req);
     const tier = user?.subscription_tier || 'free';
     const status = user?.subscription_status || 'inactive';
-    const isPaid = accessControl.isProUser(user) || accessControl.isProPlusUser(user) || userIsAdmin(user);
+    const isBeta = accessControl.isBetaTester(user);
+    const isPaid = accessControl.isProUser(user) || accessControl.isProPlusUser(user) || userIsAdmin(user) || isBeta;
     res.json({
         success: true,
         logged_in: true,
         tier,
         status,
         is_pro: isPaid,
-        is_pro_plus: accessControl.isProPlusUser(user) || userIsAdmin(user),
-        is_special_ops: accessControl.isSpecialOpsUser(user) || userIsAdmin(user),
+        is_pro_plus: accessControl.isProPlusUser(user) || userIsAdmin(user) || isBeta,
+        is_special_ops: accessControl.isSpecialOpsUser(user) || userIsAdmin(user) || isBeta,
+        is_beta_tester: isBeta,
         expires_at: user?.subscription_expires_at || null,
         org_access: user?.org_access || null,
         paypal_configured: paypalCheckout.isConfigured()
@@ -2528,7 +2602,7 @@ app.get('/api/modules', async (req, res) => {
     }
     const annotated = accessControl.annotateModules(catalog, accessUser, ADMIN_EMAILS);
     const modules = annotated.map(m => {
-        const levelLocked = progress && !userIsAdmin(accessUser)
+        const levelLocked = progress && !userBypassesProgressLocks(accessUser)
             ? !progressGate.isModuleUnlocked(m, progress)
             : false;
         return {
@@ -2538,15 +2612,17 @@ app.get('/api/modules', async (req, res) => {
             paid_locked: !!m.paid_locked
         };
     });
+    const isBeta = accessControl.isBetaTester(accessUser);
     res.json({
         modules,
         progress,
         free_module_ids: accessControl.getFreeModuleIds(),
         access: accessUser ? {
             is_admin: userIsAdmin(accessUser),
-            is_pro: accessControl.isProUser(accessUser) || userIsAdmin(accessUser),
-            is_pro_plus: accessControl.isProPlusUser(accessUser) || userIsAdmin(accessUser),
-            is_special_ops: accessControl.isSpecialOpsUser(accessUser) || userIsAdmin(accessUser),
+            is_beta_tester: isBeta,
+            is_pro: accessControl.isProUser(accessUser) || userIsAdmin(accessUser) || isBeta,
+            is_pro_plus: accessControl.isProPlusUser(accessUser) || userIsAdmin(accessUser) || isBeta,
+            is_special_ops: accessControl.isSpecialOpsUser(accessUser) || userIsAdmin(accessUser) || isBeta,
             subscription_tier: accessUser.subscription_tier || 'free'
         } : null
     });
@@ -2842,58 +2918,9 @@ app.post('/api/submit-essay', async (req, res) => {
             ]
         );
 
-        let harvested = { study: false, lab: false };
-        if (graded.relevant && graded.passed) {
-            try {
-                const row = await db.getAsync('SELECT content FROM module_contents WHERE module_id = ?', [moduleId]);
-                const snippet = essayLearning.buildStudySnippet({
-                    moduleName: module.name,
-                    category: module.category,
-                    question: questionText,
-                    answer,
-                    score: graded.score
-                });
-                if (row) {
-                    const next = String(row.content || '');
-                    if (!next.includes(snippet.slice(0, 80))) {
-                        await db.runAsync(
-                            'UPDATE module_contents SET content = ?, updated_at = datetime(\'now\') WHERE module_id = ?',
-                            [next + snippet, moduleId]
-                        );
-                        harvested.study = true;
-                    }
-                } else {
-                    await db.runAsync(
-                        `INSERT INTO module_contents (module_id, content, resources, essay_questions)
-                         VALUES (?, ?, ?, ?)`,
-                        [moduleId, `# ${module.name}\n\n${snippet}`, '[]', '[]']
-                    );
-                    harvested.study = true;
-                }
-            } catch (e) {
-                console.warn('Essay study harvest skipped:', e.message);
-            }
-
-            try {
-                const seed = essayLearning.buildLabSeed({
-                    moduleId,
-                    moduleName: module.name,
-                    category: module.category,
-                    question: questionText,
-                    answer,
-                    score: graded.score
-                });
-                await db.runAsync(
-                    `INSERT INTO learner_lab_seeds (module_id, user_id, seed_json, quality, created_at)
-                     VALUES (?, ?, ?, ?, datetime('now'))`,
-                    [moduleId, req.session.user.id, JSON.stringify(seed), graded.score]
-                );
-                labEngine.registerLearnerLab(seed);
-                harvested.lab = true;
-            } catch (e) {
-                console.warn('Essay lab harvest skipped:', e.message);
-            }
-        }
+        // Shared harvest into module_contents / learner_lab_seeds is disabled for privacy.
+        // Essay answers remain private to the learner for scoring and progress only.
+        const harvested = { study: false, lab: false, shared: false };
 
         const existingBadge = await db.getAsync(
             'SELECT id FROM badges WHERE user_id = ? AND badge_name = ?',
@@ -2906,17 +2933,9 @@ app.post('/api/submit-essay', async (req, res) => {
             );
         }
 
-        let message = graded.passed
+        const message = graded.passed
             ? 'Essay accepted — it counts toward your module pass.'
             : `Essay saved but needs ≥${graded.min_required}% relevance for your level. Research the module topic and expand your answer.`;
-        if (graded.passed && graded.relevant) {
-            const bits = [];
-            if (harvested.study) bits.push('study guide');
-            if (harvested.lab) bits.push('lab drill');
-            if (bits.length) {
-                message += ` Relevant research also trained this module’s ${bits.join(' + ')}.`;
-            }
-        }
 
         res.json({
             success: true,
@@ -2958,19 +2977,15 @@ app.get('/api/dashboard-data', async (req, res) => {
         const userId = req.session.user.id;
         
         const user = await db.getAsync(
-            'SELECT username, email, created_at, daily_streak, subscription_tier, subscription_status FROM users WHERE id = ?',
+            'SELECT username, email, created_at, daily_streak, subscription_tier, subscription_status, is_beta_tester FROM users WHERE id = ?',
             [userId]
         );
         const catalog = await getActiveModules();
         const scores = await loadUserScores(userId);
-        const accessUser = {
-            id: userId,
-            email: user.email,
-            subscription_tier: user.subscription_tier || 'free',
-            subscription_status: user.subscription_status || 'inactive'
-        };
+        const accessUser = await getAccessUser(req);
         const isAdminUser = userIsAdmin(accessUser);
-        const isPro = accessControl.isProUser(accessUser) || isAdminUser;
+        const isBeta = accessControl.isBetaTester(accessUser);
+        const isPro = accessControl.isProUser(accessUser) || isAdminUser || isBeta;
         
         const certs = await db.allAsync(
             'SELECT certificate_id, module_name, score, issue_date FROM certificates WHERE recipient_name = ? ORDER BY issue_date DESC',
@@ -3046,12 +3061,13 @@ app.get('/api/dashboard-data', async (req, res) => {
                     needs_assessment: profile.needs_assessment,
                     force_ready: profile.force_ready || progress.force_ready,
                     is_admin: isAdminUser,
+                    is_beta_tester: isBeta,
                     is_pro: isPro,
                     subscription_tier: accessUser.subscription_tier
                 },
                 progress,
                 free_module_ids: accessControl.getFreeModuleIds(),
-                access: { is_admin: isAdminUser, is_pro: isPro },
+                access: { is_admin: isAdminUser, is_beta_tester: isBeta, is_pro: isPro },
                 stats: {
                     certificates_earned: certs.length
                 },
@@ -3788,6 +3804,43 @@ app.get('/api/admin/feedback', isAdmin, async (req, res) => {
     }
 });
 
+app.get('/api/content-freshness', isAdmin, async (req, res) => {
+    try {
+        const catalog = await getActiveModules();
+        const modules = await contentRefresh.getContentFreshness(db, catalog);
+        const dueCount = modules.filter((m) => m.due).length;
+        res.json({
+            success: true,
+            cycle_days: contentRefresh.REFRESH_CYCLE_DAYS,
+            trend_pack: contentRefresh.currentTrendPack().key,
+            due_count: dueCount,
+            modules
+        });
+    } catch (error) {
+        console.error('Content freshness error:', error);
+        res.status(500).json({ success: false, message: 'Error loading content freshness' });
+    }
+});
+
+app.post('/api/admin/refresh-content', isAdmin, async (req, res) => {
+    try {
+        const catalog = await getActiveModules();
+        const moduleId = parseInt(req.body?.module_id, 10);
+        const force = req.body?.force === true || req.query.force === '1';
+        if (moduleId) {
+            const mod = catalog.find((m) => m.id === moduleId);
+            if (!mod) return res.status(404).json({ success: false, message: 'Module not found' });
+            const result = await contentRefresh.refreshModuleContent(db, mod, { force, rank: req.body?.rank });
+            return res.json({ success: true, ...result });
+        }
+        const summary = await contentRefresh.refreshAllModulesIfDue(db, catalog, { force });
+        res.json({ success: true, ...summary });
+    } catch (error) {
+        console.error('Admin refresh-content error:', error);
+        res.status(500).json({ success: false, message: 'Content refresh failed' });
+    }
+});
+
 app.get('/api/admin/labs', isAdmin, async (req, res) => {
     try {
         const labs = await db.allAsync('SELECT * FROM custom_labs ORDER BY created_at DESC');
@@ -3908,6 +3961,11 @@ async function initializeServer() {
         await initDatabase();
         await seedModules();
         await seedModuleContents();
+        const catalog = await getActiveModules();
+        const refreshSummary = await contentRefresh.refreshAllModulesIfDue(db, catalog);
+        if (refreshSummary.refreshed > 0) {
+            console.log(`🔄 Quarterly content refresh: ${refreshSummary.refreshed}/${refreshSummary.total} modules updated`);
+        }
         console.log('✅ All systems initialized!');
     } catch (error) {
         console.error('❌ Server initialization failed:', error);

@@ -1522,7 +1522,7 @@
                 const questions = data.content?.essay_questions || [];
 
                 let html = `<h2>Module Essays <span style="color:var(--neon-orange);font-size:0.85rem;">(mandatory for module pass)</span></h2>
-                    <p style="color:var(--text-secondary);margin-bottom:1.5rem;">Research the topic, then write. Essays are graded for relevance and count toward your module score — beginner 40%, intermediate 50%, advanced 60% weight. Strong answers also help grow study notes and lab seeds for this module.</p>`;
+                    <p style="color:var(--text-secondary);margin-bottom:1.5rem;">Research the topic, then write. Essays are graded for relevance and count toward your module score — beginner 40%, intermediate 50%, advanced 60% weight. Your answers stay private to your account for scoring and progress.</p>`;
 
                 questions.forEach((q, idx) => {
                     const qText = typeof q === 'string' ? q : q.question;
@@ -1566,9 +1566,6 @@
                     if (data.grading) {
                         const w = Math.round((data.grading.weight || 0) * 100);
                         showToast(`Essay ${data.grading.score}% · need ≥${data.grading.min_required}% · weight ${w}% of module pass`, 'info');
-                    }
-                    if (data.harvested?.study || data.harvested?.lab) {
-                        showToast('Your research trained this module’s study notes and/or a lab drill.', 'success');
                     }
                 } else {
                     showToast('❌ ' + (data.message || 'Submission failed'), 'error');

@@ -1,11 +1,13 @@
 /**
- * Free / Pro / Pro+ / Special Ops module access
- * Admins always have full access for review/testing.
+ * Free / Pro / Pro+ / Special Ops / Beta module access
+ * Admins always have full access for review/testing (ADMIN_EMAILS only).
+ * Beta testers get the full learner catalog (modules + resources) without admin.
  *
  * Free        → sampler modules
  * Pro         → core + toolkit through PRO_MAX (default 95)
  * Pro+        → same full catalog through PRO_MAX (legacy Pro+ branding)
  * Special Ops → Pro+ catalog PLUS elite modules 96–97 (higher price)
+ * Beta        → full learner catalog (incl. Special Ops modules); NOT admin
  */
 
 const { SPECIAL_OPS_MODULE_IDS } = require('./specialOpsModules');
@@ -31,6 +33,19 @@ function getProMaxId() {
 function isAdminEmail(email, adminEmails = []) {
     if (!email) return false;
     return adminEmails.map(e => String(e).toLowerCase()).includes(String(email).toLowerCase());
+}
+
+/**
+ * Closed-beta explorers: full module/resource catalog, no paid/rank locks.
+ * Never grants admin — ADMIN_EMAILS remains the only admin path.
+ */
+function isBetaTester(user = {}) {
+    if (!user) return false;
+    if (user.is_beta_tester === true || user.is_beta_tester === 1 || user.is_beta_tester === '1') {
+        return true;
+    }
+    const tier = normalizeTier(user);
+    return tier === 'beta' || tier === 'beta_tester';
 }
 
 function normalizeTier(user = {}) {
@@ -127,15 +142,16 @@ function moduleRequiresProPlus(moduleOrId) {
 }
 
 /**
- * @returns {{ allowed: boolean, reason: string, access: string, isAdmin: boolean, isPro: boolean, isProPlus: boolean, isSpecialOps: boolean }}
+ * @returns {{ allowed: boolean, reason: string, access: string, isAdmin: boolean, isPro: boolean, isProPlus: boolean, isSpecialOps: boolean, isBeta: boolean }}
  */
 function canAccessModule(moduleId, user, adminEmails = [], moduleMeta = null) {
     const id = parseInt(moduleId, 10);
     const freeIds = getFreeModuleIds();
     const admin = isAdminEmail(user?.email, adminEmails);
-    const specialOps = isSpecialOpsUser(user);
-    const proPlus = isProPlusUser(user);
-    const pro = isProUser(user) || proPlus;
+    const beta = isBetaTester(user);
+    const specialOps = isSpecialOpsUser(user) || beta;
+    const proPlus = isProPlusUser(user) || beta;
+    const pro = isProUser(user) || proPlus || beta;
     const needsSpecial = moduleRequiresSpecialOps(moduleMeta || id);
     const needsPlus = moduleRequiresProPlus(moduleMeta || id);
 
@@ -147,7 +163,20 @@ function canAccessModule(moduleId, user, adminEmails = [], moduleMeta = null) {
             isAdmin: true,
             isPro: pro,
             isProPlus: true,
-            isSpecialOps: true
+            isSpecialOps: true,
+            isBeta: false
+        };
+    }
+    if (beta) {
+        return {
+            allowed: true,
+            reason: 'Beta tester — full learner catalog (modules & resources)',
+            access: 'beta',
+            isAdmin: false,
+            isPro: true,
+            isProPlus: true,
+            isSpecialOps: true,
+            isBeta: true
         };
     }
     if (needsSpecial) {
@@ -159,7 +188,8 @@ function canAccessModule(moduleId, user, adminEmails = [], moduleMeta = null) {
                 isAdmin: false,
                 isPro: true,
                 isProPlus: true,
-                isSpecialOps: true
+                isSpecialOps: true,
+                isBeta: false
             };
         }
         return {
@@ -169,7 +199,8 @@ function canAccessModule(moduleId, user, adminEmails = [], moduleMeta = null) {
             isAdmin: false,
             isPro: pro,
             isProPlus: proPlus,
-            isSpecialOps: false
+            isSpecialOps: false,
+            isBeta: false
         };
     }
     if (proPlus) {
@@ -180,7 +211,8 @@ function canAccessModule(moduleId, user, adminEmails = [], moduleMeta = null) {
             isAdmin: false,
             isPro: true,
             isProPlus: true,
-            isSpecialOps: specialOps
+            isSpecialOps: specialOps,
+            isBeta: false
         };
     }
     if (pro && !needsPlus) {
@@ -191,7 +223,8 @@ function canAccessModule(moduleId, user, adminEmails = [], moduleMeta = null) {
             isAdmin: false,
             isPro: true,
             isProPlus: false,
-            isSpecialOps: false
+            isSpecialOps: false,
+            isBeta: false
         };
     }
     if (pro && needsPlus) {
@@ -202,7 +235,8 @@ function canAccessModule(moduleId, user, adminEmails = [], moduleMeta = null) {
             isAdmin: false,
             isPro: true,
             isProPlus: false,
-            isSpecialOps: false
+            isSpecialOps: false,
+            isBeta: false
         };
     }
     if (freeIds.includes(id)) {
@@ -213,7 +247,8 @@ function canAccessModule(moduleId, user, adminEmails = [], moduleMeta = null) {
             isAdmin: false,
             isPro: false,
             isProPlus: false,
-            isSpecialOps: false
+            isSpecialOps: false,
+            isBeta: false
         };
     }
     return {
@@ -223,16 +258,18 @@ function canAccessModule(moduleId, user, adminEmails = [], moduleMeta = null) {
         isAdmin: false,
         isPro: false,
         isProPlus: false,
-        isSpecialOps: false
+        isSpecialOps: false,
+        isBeta: false
     };
 }
 
 function annotateModules(modulesList = [], user = null, adminEmails = []) {
     const freeIds = new Set(getFreeModuleIds());
     const admin = user ? isAdminEmail(user.email, adminEmails) : false;
-    const specialOps = user ? isSpecialOpsUser(user) : false;
-    const proPlus = user ? isProPlusUser(user) : false;
-    const pro = user ? (isProUser(user) || proPlus) : false;
+    const beta = user ? isBetaTester(user) : false;
+    const specialOps = user ? (isSpecialOpsUser(user) || beta) : false;
+    const proPlus = user ? (isProPlusUser(user) || beta) : false;
+    const pro = user ? (isProUser(user) || proPlus || beta) : false;
 
     return modulesList.map(m => {
         const isFree = freeIds.has(m.id);
@@ -246,7 +283,8 @@ function annotateModules(modulesList = [], user = null, adminEmails = []) {
                 isAdmin: false,
                 isPro: false,
                 isProPlus: false,
-                isSpecialOps: false
+                isSpecialOps: false,
+                isBeta: false
             };
 
         let access = accessInfo.access;
@@ -259,8 +297,8 @@ function annotateModules(modulesList = [], user = null, adminEmails = []) {
 
         let upgradeTarget = null;
         if (paidLocked) {
-            if (needsSpecial && !specialOps && !admin) upgradeTarget = 'special_ops';
-            else if (needsPlus && pro && !proPlus && !admin) upgradeTarget = 'pro_plus';
+            if (needsSpecial && !specialOps && !admin && !beta) upgradeTarget = 'special_ops';
+            else if (needsPlus && pro && !proPlus && !admin && !beta) upgradeTarget = 'pro_plus';
             else if (needsPlus) upgradeTarget = 'pro_plus';
             else upgradeTarget = 'pro';
         }
@@ -287,6 +325,7 @@ module.exports = {
     getFreeModuleIds,
     getProMaxId,
     isAdminEmail,
+    isBetaTester,
     isProUser,
     isProPlusUser,
     isSpecialOpsUser,

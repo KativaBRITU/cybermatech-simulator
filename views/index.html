@@ -144,25 +144,27 @@
         }
 
         :root {
-            --bg-primary: #04080f;
-            --bg-secondary: #0a1422;
-            --bg-card: rgba(12, 24, 40, 0.88);
-            --border-color: rgba(45, 212, 191, 0.28);
-            --neon-green: #2dd4bf;
-            --neon-blue: #38bdf8;
-            --neon-cyan: #7dd3fc;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --glass-bg: rgba(8, 16, 28, 0.82);
-            --glass-border: rgba(125, 211, 252, 0.22);
-            --shadow-glow: 0 0 40px rgba(45, 212, 191, 0.14);
+            --bg-primary: #f0e6da;
+            --bg-secondary: #e4d5c5;
+            --bg-card: rgba(255, 250, 244, 0.88);
+            --border-color: rgba(120, 90, 60, 0.28);
+            --neon-green: #0f766e;
+            --neon-blue: #0369a1;
+            --neon-cyan: #0e7490;
+            --text-primary: #1c1410;
+            --text-secondary: #4a3f36;
+            --text-muted: #6b5e52;
+            --glass-bg: rgba(255, 250, 244, 0.82);
+            --glass-border: rgba(120, 90, 60, 0.22);
+            --shadow-glow: 0 0 40px rgba(120, 90, 60, 0.08);
             --radius: 14px;
             --transition: 0.3s ease;
             --font-display: 'Syne', system-ui, sans-serif;
             --font-body: 'IBM Plex Sans', system-ui, sans-serif;
             --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
-            --text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+            --text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+            --accent-warm: #9a6b4f;
+            --surface-warm: #f7efe6;
         }
 
         html {
@@ -179,7 +181,7 @@
             position: relative;
         }
 
-        /* Page-wide futuristic atmosphere — sits behind content */
+        /* Warm taupe atmosphere — sits behind content */
         body::before {
             content: '';
             position: fixed;
@@ -187,9 +189,9 @@
             z-index: -2;
             pointer-events: none;
             background:
-                radial-gradient(900px 500px at 10% 15%, rgba(45, 212, 191, 0.09), transparent 55%),
-                radial-gradient(800px 480px at 90% 70%, rgba(56, 189, 248, 0.08), transparent 50%),
-                linear-gradient(180deg, #04080f 0%, #07111d 40%, #04080f 100%);
+                radial-gradient(900px 500px at 12% 18%, rgba(154, 107, 79, 0.14), transparent 55%),
+                radial-gradient(800px 480px at 88% 72%, rgba(15, 118, 110, 0.08), transparent 50%),
+                linear-gradient(180deg, #f5ebe1 0%, #ebe0d2 45%, #e6d8c8 100%);
         }
 
         body::after {
@@ -198,10 +200,10 @@
             inset: 0;
             z-index: -1;
             pointer-events: none;
-            opacity: 0.22;
+            opacity: 0.18;
             background-image:
-                linear-gradient(rgba(56, 189, 248, 0.06) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(56, 189, 248, 0.06) 1px, transparent 1px);
+                linear-gradient(rgba(120, 90, 60, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(120, 90, 60, 0.08) 1px, transparent 1px);
             background-size: 56px 56px;
             mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
         }
@@ -236,7 +238,7 @@
                HEADER & NAVIGATION
                ============================================================ */
         header {
-            background: rgba(4, 10, 18, 0.92);
+            background: rgba(247, 239, 230, 0.92);
             backdrop-filter: blur(14px);
             border-bottom: 1px solid var(--border-color);
             position: sticky;
@@ -247,8 +249,8 @@
         }
 
         header.scrolled {
-            background: rgba(4, 10, 18, 0.97);
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+            background: rgba(247, 239, 230, 0.97);
+            box-shadow: 0 8px 28px rgba(120, 90, 60, 0.12);
         }
 
         nav {
@@ -281,7 +283,7 @@
         }
 
         .nav-links a {
-            color: #e2e8f0;
+            color: var(--text-secondary);
             font-size: 0.9rem;
             font-weight: 600;
             position: relative;
@@ -315,7 +317,7 @@
         .btn-nav {
             padding: 0.4rem 1.2rem;
             background: var(--neon-green);
-            color: var(--bg-primary) !important;
+            color: #f7efe6 !important;
             border-radius: 30px;
             font-weight: 600;
             -webkit-text-fill-color: initial;
@@ -325,8 +327,8 @@
         .btn-nav:hover {
             background: var(--neon-cyan);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(45, 212, 191, 0.28);
-            color: var(--bg-primary) !important;
+            box-shadow: 0 8px 20px rgba(15, 118, 110, 0.28);
+            color: #f7efe6 !important;
         }
 
         .menu-toggle {
@@ -651,11 +653,11 @@
             font-size: clamp(2rem, 4vw, 2.8rem);
             font-weight: 800;
             margin-bottom: 0.55rem;
-            color: #ffffff;
+            color: var(--text-primary);
         }
 
         .section-header p {
-            color: #cbd5e1;
+            color: var(--text-secondary);
             max-width: 620px;
             margin: 0 auto;
             font-size: 1.05rem;
@@ -908,7 +910,7 @@
                ============================================================ */
         .blog-section {
             padding: 4.5rem 0;
-            background: rgba(6, 14, 24, 0.95);
+            background: var(--surface-warm);
             border-top: 1px solid var(--glass-border);
         }
 
@@ -919,8 +921,8 @@
         }
 
         .blog-card {
-            background: linear-gradient(165deg, rgba(12, 28, 44, 0.95), rgba(6, 14, 24, 0.98));
-            border: 1px solid rgba(56, 189, 248, 0.22);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
             border-radius: var(--radius);
             padding: 1.45rem;
             transition: var(--transition);
@@ -933,29 +935,29 @@
 
         .blog-card .category {
             display: inline-block;
-            background: rgba(45, 212, 191, 0.12);
-            color: #5eead4;
+            background: rgba(15, 118, 110, 0.1);
+            color: var(--neon-green);
             font-size: 0.72rem;
             font-family: var(--font-mono);
             padding: 0.2rem 0.65rem;
             border-radius: 6px;
             margin-bottom: 0.65rem;
-            border: 1px solid rgba(45, 212, 191, 0.3);
+            border: 1px solid rgba(15, 118, 110, 0.28);
         }
 
         .blog-card h4 {
             font-size: 1.12rem;
             margin-bottom: 0.4rem;
-            color: #ffffff;
+            color: var(--text-primary);
         }
 
         .blog-card p {
-            color: #cbd5e1;
+            color: var(--text-secondary);
             font-size: 0.95rem;
         }
 
         .blog-card .date {
-            color: #94a3b8;
+            color: var(--text-muted);
             font-size: 0.78rem;
             margin-top: 0.65rem;
             font-family: var(--font-mono);
@@ -998,7 +1000,7 @@
         }
 
         .faq-item {
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             overflow: hidden;
@@ -1007,8 +1009,8 @@
         }
 
         .faq-item:hover {
-            border-color: rgba(45, 212, 191, 0.35);
-            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(15, 118, 110, 0.4);
+            background: var(--surface-warm);
         }
 
         .faq-question {
@@ -1053,7 +1055,7 @@
             overflow: hidden;
             transition: max-height 0.4s ease, padding 0.3s ease;
             padding: 0 1.4rem;
-            color: #e2e8f0;
+            color: var(--text-secondary);
             line-height: 1.7;
         }
 
@@ -1064,7 +1066,7 @@
 
         .faq-answer p {
             margin: 0;
-            color: #e2e8f0;
+            color: var(--text-secondary);
             font-size: 1rem;
         }
 
@@ -1320,11 +1322,11 @@
         </div>
         <div class="container">
             <div class="hero-content">
-                <div class="hero-badge">Practical cybersecurity training · Built for Africa</div>
+                <div class="hero-badge">Closed beta · Practical cybersecurity training · Built for Africa</div>
                 <div class="hero-brand">TRIBAMS</div>
                 <h1 class="hero-title">Build cyber skills that hold up under pressure</h1>
                 <p class="hero-description">
-                    Tribams is a structured training platform for individuals and teams. Guests can learn how we operate and why membership helps — full modules, labs, and progress tools unlock after you register.
+                    Tribams is in closed beta. Guests can learn how we operate — full modules, labs, and progress tools unlock after you register or sign in with issued beta credentials.
                 </p>
                 <div class="hero-actions">
                     <a href="/register" class="btn btn-primary">Create a free account →</a>
@@ -1564,42 +1566,42 @@
     </section>
 
     <!-- ============================================================
-    TESTIMONIALS
+    CLOSED BETA (honest — no fabricated testimonials)
     ============================================================ -->
     <section class="testimonials">
         <div class="container">
             <div class="section-header">
-                <h2>What Our <span style="color:var(--neon-green);">Learners Say</span></h2>
-                <p>Feedback from people building cyber skills with Tribams.</p>
+                <h2>Closed <span style="color:var(--neon-green);">beta</span></h2>
+                <p>We are inviting early testers — no invented user counts or fabricated reviews.</p>
             </div>
             <div class="testimonial-grid">
                 <div class="testimonial-card">
-                    <div class="quote">"Tribams transformed my understanding of cybersecurity. The hands‑on scenarios are incredibly realistic."</div>
+                    <div class="quote">Be among the first testers exploring modules, essays, drills, and Force Readiness before public launch.</div>
+                    <div class="author">
+                        <div class="avatar">β</div>
+                        <div class="info">
+                            <div class="name">Closed beta</div>
+                            <div class="role">Issued credentials only</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="quote">Feedback from real testers shapes the product. We publish what we ship — not staged social proof.</div>
+                    <div class="author">
+                        <div class="avatar">T</div>
+                        <div class="info">
+                            <div class="name">Honest updates</div>
+                            <div class="role">No fake testimonials</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="quote">Built for African teams and learners who need judgment under pressure — not vanity metrics.</div>
                     <div class="author">
                         <div class="avatar">A</div>
                         <div class="info">
-                            <div class="name">Amina K.</div>
-                            <div class="role">Security Analyst, Nairobi</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="quote">"The daily scenarios keep me sharp. I've earned three certificates and improved my incident response skills."</div>
-                    <div class="author">
-                        <div class="avatar">S</div>
-                        <div class="info">
-                            <div class="name">Sipho M.</div>
-                            <div class="role">SOC Lead, Johannesburg</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="quote">"As a university lecturer, I recommend Tribams to all my students. It bridges the gap between theory and practice."</div>
-                    <div class="author">
-                        <div class="avatar">F</div>
-                        <div class="info">
-                            <div class="name">Dr. Fatima B.</div>
-                            <div class="role">Cybersecurity Professor, Lagos</div>
+                            <div class="name">Africa-first</div>
+                            <div class="role">Readiness over hype</div>
                         </div>
                     </div>
                 </div>
@@ -1651,7 +1653,7 @@
                       <span class="faq-icon" aria-hidden="true">+</span>
                   </button>
                   <div class="faq-answer">
-                      <p>TRIBAMS is a cybersecurity training platform with structured modules, practice drills, and verifiable certificates — designed to help people and teams build practical readiness.</p>
+                      <p>TRIBAMS is a cybersecurity training platform (currently in closed beta) with structured modules, practice drills, mandatory research essays, and verifiable certificates — designed to help people and teams build practical readiness.</p>
                   </div>
               </div>
 
