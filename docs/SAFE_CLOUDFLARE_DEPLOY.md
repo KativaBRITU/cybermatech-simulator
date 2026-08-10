@@ -114,6 +114,16 @@ curl -sS https://tribams.com/api/health
 
 ---
 
-## Why not the OAuth Workers link?
+## If Railway free plan is exhausted
 
-The Cloudflare OAuth URL you opened is for **Workers / Pages / D1** CLI scopes. Tribams needs a **long-running Node origin**. Use Cloudflare for DNS/WAF only until you intentionally rewrite the stack.
+Use **Render** free Web Service instead (same Neon DB + Cloudflare front):
+
+1. [dashboard.render.com](https://dashboard.render.com) → New → **Web Service** → connect GitHub → `cybermatech-simulator`
+2. Runtime: **Docker** · Instance: **Free** · Branch: `main`
+3. Or Blueprint: use repo `render.yaml`
+4. Set the same env vars as Railway (`DATABASE_URL` = Neon, etc.)
+5. After deploy: `https://YOUR-SERVICE.onrender.com/api/health`
+
+**Free-tier note:** Render free apps **sleep after ~15 min idle** (cold start ~30–60s). Fine for beta; for always-on later, use a cheap VPS + Cloudflare Tunnel or a paid Render starter.
+
+Do **not** create a Render Postgres — keep using **Neon**.
