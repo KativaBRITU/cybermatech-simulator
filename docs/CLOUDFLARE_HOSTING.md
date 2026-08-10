@@ -86,6 +86,11 @@ PRICE_SPECIAL_OPS_ANNUAL_MONTHLY_NAD=520
 
 ## Deploy (mechanical)
 
+**Safer recommended path (Neon Postgres + Railway Node + Cloudflare DNS/WAF):**  
+see [`SAFE_CLOUDFLARE_DEPLOY.md`](./SAFE_CLOUDFLARE_DEPLOY.md)
+
+Self-host compose (local/VPS) — do **not** expose Postgres publicly:
+
 ```bash
 cp .env.example .env
 # Fill DATABASE_URL (Postgres) + secrets above

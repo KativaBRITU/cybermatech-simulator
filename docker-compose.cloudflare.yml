@@ -10,8 +10,10 @@ services:
       POSTGRES_DB: tribams
     volumes:
       - tribams_pg:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+    # Do not publish 5432 to the host/internet — web reaches db on the compose network only.
+    # For local GUI access: temporarily add ports: ["127.0.0.1:5432:5432"]
+    expose:
+      - "5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U tribams -d tribams"]
       interval: 10s

@@ -27,7 +27,8 @@ NODE_ENV=production
 
 Tribams is a **Node/Express** app. Use Cloudflare for **DNS + HTTPS + WAF** in front of a Node origin — **not** Workers-only.
 
-Full guide: [`docs/CLOUDFLARE_HOSTING.md`](docs/CLOUDFLARE_HOSTING.md)
+Full guide: [`docs/CLOUDFLARE_HOSTING.md`](docs/CLOUDFLARE_HOSTING.md)  
+**Safer recommended path:** [`docs/SAFE_CLOUDFLARE_DEPLOY.md`](docs/SAFE_CLOUDFLARE_DEPLOY.md) (Cloudflare + Railway + Neon)
 
 ```bash
 # Origin with Postgres (then point tribams.com through Cloudflare)
