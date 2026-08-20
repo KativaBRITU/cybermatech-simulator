@@ -136,7 +136,7 @@ const TIER_A_QUESTIONS = {
             'Double extortion: data stolen and systems encrypted. Negotiation pressure hits executives. Professional posture?',
             [
                 'IT alone decides payment in secret',
-                'Legal/leadership decision with IR facts; continue recovery; do not halt containment for chat drama',
+                'Legal/leadership decision with IR facts; continue recovery; do not halt containment for negotiation theater',
                 'Publicly livestream negotiations',
                 'Wipe backups to “deny thieves”'
             ],

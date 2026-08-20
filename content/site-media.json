@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "_readme": "Edit this file to change site videos and backgrounds without coding. Put files in public/media/ then reference them as /media/.... Restart the server after edits.",
+  "brand": {
+    "name": "Cybermatech",
+    "tagline": "Train defenders for real African cyber ops"
+  },
+  "pages": {
+    "home": {
+      "hero_background": "/media/backgrounds/home-hero.jpg",
+      "hero_video": "",
+      "hero_video_poster": "",
+      "overlay": "rgba(11, 36, 48, 0.72)"
+    },
+    "login": {
+      "background": "/media/backgrounds/auth.jpg",
+      "overlay": "rgba(238, 242, 245, 0.88)"
+    },
+    "register": {
+      "background": "/media/backgrounds/auth.jpg",
+      "overlay": "rgba(238, 242, 245, 0.88)"
+    },
+    "dashboard": {
+      "background": "",
+      "intro_video": "",
+      "intro_video_poster": ""
+    },
+    "training": {
+      "background": "",
+      "default_video": "",
+      "default_video_poster": ""
+    }
+  },
+  "global": {
+    "favicon": "/media/brand/favicon.png",
+    "logo": "/media/brand/logo.png"
+  }
+}

@@ -800,7 +800,7 @@
         const tabFromQuery = new URLSearchParams(window.location.search).get('tab');
         let currentTab = ['learn', 'practice', 'quiz', 'essay'].includes(tabFromQuery) ? tabFromQuery : 'learn';
 
-        // Integrity: Matte K must never appear on training / drill surfaces
+        // Integrity: study assistants stay off training / drill surfaces
         (function purgeMatteK() {
             const el = document.getElementById('matteKRoot');
             if (el) el.remove();
@@ -870,7 +870,7 @@
         let hiddenStarted = null;
         let quizResultMeta = null;
 
-        // Anti-AI / integrity: track tab blur during scored drills
+        // Integrity: track focus changes during scored drills
         document.addEventListener('visibilitychange', () => {
             if (currentTab !== 'quiz' || quizCompleted || !quizToken) return;
             if (document.hidden) {
@@ -1297,7 +1297,7 @@
                 box.innerHTML = `
                     <div class="quiz-result tone-pledge" style="text-align:left;max-width:640px;margin:0 auto;">
                         <h2 style="text-align:center;">Integrity pledge</h2>
-                        <p class="message">${window.__quizIntegrity?.pledge || 'I will complete this drill without external AI assistance.'}</p>
+                        <p class="message">${window.__quizIntegrity?.pledge || 'I will complete this drill using my own judgment and the evidence provided.'}</p>
                         <ul style="color:var(--text-secondary);margin:1rem 0 1.5rem 1.2rem;">${rules}</ul>
                         <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:1.2rem;">Tribams builds a ready cyber force. Leaving the tab or pasting AI answers can invalidate high scores. Pass <strong>65%</strong> of modules (70%+) to unlock the next level.</p>
                         <div class="actions" style="justify-content:center;">

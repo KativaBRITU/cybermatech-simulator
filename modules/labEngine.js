@@ -689,44 +689,64 @@ Tiering: DA used on Tier-2 workstation (policy violation)`
         title: 'Ransomware Affiliate Desk',
         subtitle: 'VSS deletion + exfil signals before encryption. Recoverability under pressure.',
         difficulty: 'hard',
-        attack_techniques: ['T1490', 'T1048', 'T1486'],
+        attack_techniques: ['T1490', 'T1048', 'T1486', 'T1003'],
         time_limit_sec: 540,
+        seed_profile: 'ransomware_vss',
+        verified_ready: true,
         roe: 'Defensive IR judgment only. No ransomware tooling execution.',
         briefing:
-            '03:41. EDR shows shadow copy deletion on FILE02. Finance Slack is already panicking about “a note.” Backups exist — nobody knows if restores were tested this quarter.',
+            '{{t0}}. EDR shows shadow copy deletion on {{host}}. Finance Slack is already panicking about “a note.” Backups exist — restore testing this quarter is unconfirmed.',
         artifacts: [
             {
                 type: 'edr',
-                title: 'EDR timeline (FILE02)',
-                body: `03:38  wmic shadowcopy delete  (svc-backup context)
-03:39  vssadmin delete shadows /all /quiet
-03:40  Large HTTPS POST bursts to rare ASN (EU) — ~18 GB from Finance shares
-03:41  Unusual rename storm begins on \\\\FILE02\\AP_Invoices
-03:42  README_RESTORE.txt dropped on desktop of 4 finance users`
+                title: 'EDR timeline ({{host}})',
+                body: `{{t_vss1}}  wmic shadowcopy delete  ({{svc}} context)
+{{t_vss2}}  vssadmin delete shadows /all /quiet
+{{t_exfil}}  Large HTTPS POST bursts to {{asn_label}} ({{asn}}) — ~18 GB from Finance shares
+{{t0}}  Unusual rename storm begins on \\\\{{host}}\\{{share}}
+{{t_note}}  README_RESTORE.txt dropped on desktop of 4 finance users
+Family tag (intel): {{family}}`
             },
             {
                 type: 'backup',
                 title: 'Backup / identity notes',
-                body: `Last successful backup job: last night (online NAS, same VLAN as FILE02)
+                body: `Backup posture: {{backup_note}}
 Last restore test: 11 months ago (partial file restore only)
 Domain Admin interactive logons to helpdesk PCs: still common
-Immutable/offline copy: planned project, not funded`
+Service account in play: {{svc}}`
             },
             {
                 type: 'comms',
                 title: 'Executive Slack',
                 body: `CFO: Pay them if it is faster than restore.
 Legal: Do not admit breach on WhatsApp.
-IT Mgr: Who owns the NAS credentials?`
+IT Mgr: Who owns credentials for {{svc}}?`
+            }
+        ],
+        injects: [
+            {
+                at_sec_left: 360,
+                phase: 'pivot',
+                message:
+                    'Live inject: LSASS memory dump from {{host}} toward HR-Desktop-7 — {{t_inject}}. Reassess: encryption path may be cover for credential theft.'
+            },
+            {
+                at_sec_left: 180,
+                message: 'Leadership wants a one-line status in the next two minutes.'
+            },
+            {
+                at_sec_left: 60,
+                message: 'Clock pressure. Lock decisions from evidence — do not thrash.'
             }
         ],
         steps: [
             {
                 id: 's1',
+                phase: 'open',
                 prompt: 'Best immediate technical priority?',
                 options: [
                     'Open ransom chat and negotiate before isolation',
-                    'Isolate FILE02 and related hosts; stop spread; preserve critical evidence if playbook-safe; begin restore assessment',
+                    'Isolate {{host}} and related hosts; stop spread; preserve critical evidence if playbook-safe; begin restore assessment',
                     'Power off the entire company campus blindly',
                     'Delete README files and hope users calm down'
                 ],
@@ -738,40 +758,71 @@ IT Mgr: Who owns the NAS credentials?`
             },
             {
                 id: 's2',
+                phase: 'open',
                 prompt: 'What does VSS deletion + exfil before encrypt tell you about leverage?',
                 options: [
                     'Attackers are amateurs who delete random things',
-                    'Affiliate checklist: destroy local recovery and steal data for double extortion — online-only backups on the same VLAN are fragile',
+                    'Affiliate checklist: destroy local recovery and steal data for double extortion — {{backup_fragility}}',
                     'Backups are automatically safe forever',
                     'Exfil means you should ignore encryption'
                 ],
                 correct: 1,
                 explanation:
-                    'Modern affiliates industrialize anti-recovery and data theft. Same-VLAN NAS is not immutable.',
+                    'Modern affiliates industrialize anti-recovery and data theft. Backup architecture determines residual leverage.',
                 points: 3,
                 attack_techniques: ['T1490', 'T1048']
             },
             {
+                id: 's_asn',
+                phase: 'open',
+                ground_truth: 'asn',
+                prompt: 'From your EDR timeline, which destination ASN matches the large HTTPS POST bursts?',
+                options: [],
+                correct: 0,
+                explanation:
+                    'Ground-truth check: cite the ASN printed in your attempt’s evidence — not a memorized answer from another run.',
+                points: 3,
+                attack_techniques: ['T1048']
+            },
+            {
                 id: 's3',
-                prompt: 'CFO wants to pay “if faster.” Your IR brief?',
+                phase: 'post_inject',
+                prompt: 'After the LSASS dump inject, strongest next priority?',
                 options: [
-                    'IT alone approves payment secretly',
-                    'Payment is a legal/leadership decision with IR facts; continue containment and restore testing; do not halt technical recovery for chat drama',
-                    'Promise payment will decrypt everything for sure',
+                    'Ignore identity — keep focusing only on ransom chat',
+                    'Treat as dual-track: contain encryption path and urgently revoke/reset high-value credentials; hunt lateral identity abuse',
+                    'Power off HR-Desktop-7 only and declare victory',
                     'Wipe remaining backups to deny thieves'
                 ],
                 correct: 1,
                 explanation:
-                    'Keep dual tracks: business decides payment; IR keeps recovering and containing.',
-                points: 2,
-                attack_techniques: ['T1486']
+                    'Credential dumping after staging shifts priority toward identity containment alongside ransomware IR.',
+                points: 4,
+                attack_techniques: ['T1003', 'T1078']
             },
             {
                 id: 's4',
+                phase: 'post_inject',
+                prompt: 'CFO wants to pay “if faster.” Your IR brief?',
+                options: [
+                    'IT alone approves payment secretly',
+                    'Payment is a legal/leadership decision with IR facts; continue containment, identity actions, and restore testing',
+                    'Promise payment will decrypt everything for sure',
+                    'Halt all technical recovery until chat ends'
+                ],
+                correct: 1,
+                explanation:
+                    'Keep dual tracks: business decides payment; IR keeps containing and recovering.',
+                points: 3,
+                attack_techniques: ['T1486']
+            },
+            {
+                id: 's5',
+                phase: 'post_inject',
                 prompt: 'Strongest 90-day control ask after this incident?',
                 options: [
                     'A motivational poster in Finance',
-                    'Immutable/offline backups with restore drills + reduce DA-on-dirty-endpoints / service-account abuse that enabled the path',
+                    'Immutable/offline backups with restore drills + reduce privileged access on dirty endpoints and {{svc}} abuse that enabled the path',
                     'Disable all EDR alerts',
                     'Ban Slack forever'
                 ],
@@ -2714,10 +2765,237 @@ function defaultInjects(lab) {
     if (lab.injects) return lab.injects;
     const t = lab.time_limit_sec || 420;
     return [
-        { at_sec_left: Math.max(90, Math.floor(t * 0.65)), message: 'Inject: Leadership wants a one-line status in the next 2 minutes.' },
-        { at_sec_left: Math.max(45, Math.floor(t * 0.35)), message: 'Inject: A noisy false lead appears — stick to evidence, not panic.' },
-        { at_sec_left: 60, message: 'Inject: Clock pressure. Lock your decisions; do not thrash.' }
+        { at_sec_left: Math.max(90, Math.floor(t * 0.65)), message: 'Leadership wants a one-line status in the next 2 minutes.' },
+        { at_sec_left: Math.max(45, Math.floor(t * 0.35)), message: 'A noisy false lead appears — stick to evidence, not panic.' },
+        { at_sec_left: 60, message: 'Clock pressure. Lock your decisions; do not thrash.' }
     ];
+}
+
+const SEED_POOLS = {
+    ransomware_vss: {
+        host: ['FILE02', 'DC01', 'SQL01', 'WORKSTATION-42'],
+        share: ['AP_Invoices', 'HR_Docs', 'Engineering', 'Finance_Data'],
+        svc: ['svc-backup', 'svc-sql', 'svc-nas', 'svc-filesync'],
+        family: ['LockBit', 'BlackCat', 'Akira', 'Custom'],
+        asn: [
+            { asn: 'AS210542', label: 'rare EU transit' },
+            { asn: 'AS16509', label: 'US cloud edge' },
+            { asn: 'AS45102', label: 'Asia cloud edge' },
+            { asn: 'AS9009', label: 'offshore bulletproof ASN' }
+        ],
+        backup: [
+            {
+                note: 'Last successful backup job: last night (online NAS, same VLAN as {{host}}). Immutable/offline copy: not funded.',
+                fragility: 'online-only backups on the same VLAN are fragile'
+            },
+            {
+                note: 'Cloud-sync backup to a contiguous tenant; retention 14 days; no immutability lock.',
+                fragility: 'cloud-sync without immutability is still attacker-reachable'
+            },
+            {
+                note: 'Immutable object-lock copies exist offsite; last restore drill passed 6 weeks ago.',
+                fragility: 'even with immutable copies, identity abuse can still expand blast radius'
+            },
+            {
+                note: 'Weekly tape vault; last successful restore test was 11 months ago.',
+                fragility: 'tape helps recoverability only if restore drills are current'
+            }
+        ]
+    }
+};
+
+function pickPool(arr, rng) {
+    return arr[Math.floor(rng() * arr.length) % arr.length];
+}
+
+function fillTemplate(str, vars) {
+    return String(str || '').replace(/\{\{(\w+)\}\}/g, (_, key) => (
+        vars[key] != null ? String(vars[key]) : `{{${key}}}`
+    ));
+}
+
+function buildAttemptSeed(lab, sessionKey) {
+    const profile = lab.seed_profile;
+    if (!profile || !SEED_POOLS[profile]) return null;
+    const attemptBucket = Math.floor(Date.now() / (15 * 60 * 1000));
+    const rng = mulberry32(hashSeed(`${sessionKey}|${lab.id}|seed|${attemptBucket}`));
+    const pool = SEED_POOLS[profile];
+    const asn = pickPool(pool.asn, rng);
+    const backup = pickPool(pool.backup, rng);
+    const host = pickPool(pool.host, rng);
+    const vars = {
+        host,
+        share: pickPool(pool.share, rng),
+        svc: pickPool(pool.svc, rng),
+        family: pickPool(pool.family, rng),
+        asn: asn.asn,
+        asn_label: asn.label,
+        backup_note: fillTemplate(backup.note, { host }),
+        backup_fragility: backup.fragility,
+        t_vss1: '03:38',
+        t_vss2: '03:39',
+        t_exfil: '03:40',
+        t0: '03:41',
+        t_note: '03:42',
+        t_inject: '03:45'
+    };
+    return vars;
+}
+
+function materializeLab(lab, seed) {
+    if (!seed) {
+        return {
+            ...lab,
+            artifacts: (lab.artifacts || []).map((a) => ({ ...a })),
+            steps: (lab.steps || []).map((s) => ({
+                ...s,
+                options: [...(s.options || [])],
+                attack_techniques: [...(s.attack_techniques || [])]
+            })),
+            injects: defaultInjects(lab).map((i) => ({ ...i }))
+        };
+    }
+    const artifacts = (lab.artifacts || []).map((a) => ({
+        ...a,
+        title: fillTemplate(a.title, seed),
+        body: fillTemplate(a.body, seed)
+    }));
+    const injects = defaultInjects(lab).map((i) => ({
+        ...i,
+        message: fillTemplate(i.message, seed)
+    }));
+    const asnDistractors = ['AS15169', 'AS13335', 'AS8075', 'AS32934', 'AS14618']
+        .filter((x) => x !== seed.asn);
+    const steps = (lab.steps || []).map((s) => {
+        if (s.ground_truth === 'asn') {
+            const opts = [seed.asn, ...asnDistractors.slice(0, 3)];
+            const rng = mulberry32(hashSeed(`${seed.asn}|asnopts`));
+            const order = shuffleIndices(opts.length, rng);
+            const ordered = order.map((i) => opts[i]);
+            return {
+                ...s,
+                prompt: fillTemplate(s.prompt, seed),
+                explanation: fillTemplate(s.explanation, seed),
+                options: ordered,
+                correct: ordered.indexOf(seed.asn),
+                attack_techniques: [...(s.attack_techniques || [])]
+            };
+        }
+        return {
+            ...s,
+            prompt: fillTemplate(s.prompt, seed),
+            explanation: fillTemplate(s.explanation, seed),
+            options: (s.options || []).map((o) => fillTemplate(o, seed)),
+            attack_techniques: [...(s.attack_techniques || [])]
+        };
+    });
+    return {
+        ...lab,
+        briefing: fillTemplate(lab.briefing, seed),
+        artifacts,
+        injects,
+        steps,
+        seed_public: {
+            attempt_markers: [seed.host, seed.share, seed.svc, seed.asn]
+        }
+    };
+}
+
+function extractEvidenceTokens(lab) {
+    const blob = [
+        lab.briefing,
+        ...(lab.artifacts || []).flatMap((a) => [a.title, a.body]),
+        ...(lab.seed_public?.attempt_markers || [])
+    ].join(' ');
+    const tokens = new Set();
+    const hostRe = /\b(?:FILE\d+|DC\d+|SQL\d+|WORKSTATION-\d+|JUMP\d+|HR-Desktop-\d+)\b/gi;
+    const asnRe = /\bAS\d{3,6}\b/gi;
+    const timeRe = /\b\d{2}:\d{2}\b/g;
+    const shareRe = /\\\\[^\s\\]+\\([A-Za-z0-9_-]+)/g;
+    const svcRe = /\bsvc-[a-z0-9_-]+\b/gi;
+    let m;
+    while ((m = hostRe.exec(blob))) tokens.add(m[0].toLowerCase());
+    while ((m = asnRe.exec(blob))) tokens.add(m[0].toLowerCase());
+    while ((m = timeRe.exec(blob))) tokens.add(m[0]);
+    while ((m = shareRe.exec(blob))) tokens.add(m[1].toLowerCase());
+    while ((m = svcRe.exec(blob))) tokens.add(m[0].toLowerCase());
+    (lab.artifacts || []).forEach((a) => {
+        if (a.title) tokens.add(String(a.title).toLowerCase().slice(0, 40));
+    });
+    return [...tokens].filter(Boolean);
+}
+
+/** Specificity score for the pre-decision IR brief (0–3). */
+function scoreIrBrief(text, lab) {
+    const raw = String(text || '').trim();
+    if (raw.length < 40) {
+        return { score: 0, max: 3, notes: 'Brief too short — cite hosts, times, and evidence from this attempt.' };
+    }
+    const lower = raw.toLowerCase();
+    const tokens = extractEvidenceTokens(lab);
+    let hits = 0;
+    for (const t of tokens) {
+        if (t && lower.includes(String(t).toLowerCase())) hits += 1;
+    }
+    const hasReasoning = /\b(because|since|suggests|indicates|therefore|risk|preserve|before)\b/i.test(raw);
+    let score = 0;
+    if (hits >= 1) score = 1;
+    if (hits >= 2) score = 2;
+    if (hits >= 3 && hasReasoning) score = 3;
+    else if (hits >= 3) score = 2;
+    return {
+        score,
+        max: 3,
+        evidence_hits: hits,
+        notes: score >= 2
+            ? 'Brief cites attempt-specific evidence.'
+            : 'Name concrete hosts, timestamps, shares, or ASN values from the evidence tabs.'
+    };
+}
+
+/** Executive update: business clarity over jargon (0–4). */
+function scoreCeoUpdate(text) {
+    const raw = String(text || '').trim();
+    if (!raw) {
+        return { score: 0, max: 4, notes: 'Executive update required for Verified mode.' };
+    }
+    const words = raw.split(/\s+/).filter(Boolean).length;
+    const jargon = (raw.match(/\b(VSS|EDR|ASN|TTP|T\d{4}|LSASS|SMB|VLAN|IOC|SIEM)\b/gi) || []).length;
+    const business = /\b(finance|customer|downtime|restore|operations|leadership|next update|ETA|business)\b/i.test(raw);
+    const eta = /\b(\d+\s*(min|mins|minutes|hour|hours)|ETA|next update)\b/i.test(raw);
+    let score = 0;
+    if (business) score += 1;
+    if (eta) score += 1;
+    if (jargon <= 2) score += 1;
+    if (words > 0 && words <= 150) score += 1;
+    return {
+        score,
+        max: 4,
+        jargon_count: jargon,
+        word_count: words,
+        notes: score >= 3
+            ? 'Clear executive communication.'
+            : 'Prefer business impact and next update timing; keep technical jargon low.'
+    };
+}
+
+function scoreProcessTelemetry(telemetry = {}, lab) {
+    const arts = (lab.artifacts || []).length || 1;
+    const viewed = Number(telemetry.artifacts_viewed) || 0;
+    const openedAll = viewed >= arts;
+    const answeredBeforeView = telemetry.answered_before_artifact === true;
+    let score = 0;
+    if (openedAll) score += 2;
+    else if (viewed >= 1) score += 1;
+    if (!answeredBeforeView) score += 1;
+    if (telemetry.inject_acknowledged) score += 1;
+    return {
+        score,
+        max: 4,
+        notes: openedAll
+            ? 'Evidence review discipline looks solid.'
+            : 'Open every evidence tab before locking decisions.'
+    };
 }
 
 function pruneLabSessions() {
@@ -2729,8 +3007,6 @@ function pruneLabSessions() {
 
 /** Runtime labs trained from high-quality learner essays (id → lab). */
 const DYNAMIC_LABS = new Map();
-// Community / learner-seeded labs: POST /api/submit-essay (score ≥ threshold) may register
-// via registerLearnerLab(); listed alongside built-in Evidence Workbench labs in listLabs().
 
 function summarizeLab(lab) {
     const steps = Array.isArray(lab.steps) ? lab.steps : [];
@@ -2747,7 +3023,9 @@ function summarizeLab(lab) {
         steps: steps.length,
         max_points: steps.reduce((sum, s) => sum + (s.points || 0), 0),
         objectives: lab.objectives || defaultObjectives(lab),
-        source: lab.source || 'builtin'
+        source: lab.source || 'builtin',
+        verified_ready: !!lab.verified_ready || !!lab.seed_profile,
+        modes: ['practice', 'verified']
     };
 }
 
@@ -2796,20 +3074,25 @@ function modulesWithLabs() {
 }
 
 /** Client-safe payload (no correct answers). Shuffles options per session. */
-function getLabPublic(labId, sessionKey = 'anon') {
-    const lab = getLab(labId);
-    if (!lab) return null;
+function getLabPublic(labId, sessionKey = 'anon', options = {}) {
+    const base = getLab(labId);
+    if (!base) return null;
 
+    const mode = options.mode === 'verified' ? 'verified' : 'practice';
     pruneLabSessions();
+    const seed = buildAttemptSeed(base, sessionKey);
+    const lab = materializeLab(base, seed);
+
     const stepMaps = {};
     const day = new Date().toISOString().slice(0, 10);
     const steps = lab.steps.map((s, idx) => {
-        const rng = mulberry32(hashSeed(`${sessionKey}|${lab.id}|${s.id}|${day}`));
+        const rng = mulberry32(hashSeed(`${sessionKey}|${lab.id}|${s.id}|${day}|${seed?.asn || 'x'}`));
         const order = shuffleIndices(s.options.length, rng);
         stepMaps[s.id] = order;
         return {
             id: s.id,
             index: idx,
+            phase: s.phase || 'open',
             prompt: s.prompt,
             options: order.map((i) => s.options[i]),
             points: s.points
@@ -2819,6 +3102,9 @@ function getLabPublic(labId, sessionKey = 'anon') {
     labOptionSessions.set(`${sessionKey}:${lab.id}`, {
         stepMaps,
         labId: lab.id,
+        mode,
+        seed,
+        materialized: lab,
         expires: Date.now() + 3 * 60 * 60 * 1000
     });
 
@@ -2835,28 +3121,40 @@ function getLabPublic(labId, sessionKey = 'anon') {
         roe: lab.roe,
         briefing: lab.briefing,
         objectives: lab.objectives || defaultObjectives(lab),
-        injects: defaultInjects(lab),
+        injects: lab.injects || defaultInjects(lab),
         artifacts: lab.artifacts,
         steps,
+        mode,
+        verified_ready: !!base.verified_ready || !!base.seed_profile,
+        requires_brief: mode === 'verified',
+        requires_ceo_update: mode === 'verified',
         training_url: `/training/${lab.module_id}`,
         max_points: lab.steps.reduce((sum, s) => sum + (s.points || 0), 0)
     };
 }
 
-function scoreLab(labId, answers = {}, sessionKey = 'anon') {
-    const lab = getLab(labId);
-    if (!lab) return null;
+function scoreLab(labId, answers = {}, sessionKey = 'anon', extras = {}) {
+    const base = getLab(labId);
+    if (!base) return null;
 
     const session = labOptionSessions.get(`${sessionKey}:${labId}`);
     const stepMaps = session?.stepMaps || null;
+    const mode = extras.mode === 'verified' || session?.mode === 'verified' ? 'verified' : 'practice';
+    const lab = session?.materialized || materializeLab(base, session?.seed || buildAttemptSeed(base, sessionKey));
 
-    let earned = 0;
-    let max = 0;
+    let openEarned = 0;
+    let openMax = 0;
+    let injectEarned = 0;
+    let injectMax = 0;
     const breakdown = [];
     const techniques = new Set();
 
     for (const step of lab.steps) {
-        max += step.points;
+        const phase = step.phase || 'open';
+        const pts = step.points || 0;
+        if (phase === 'post_inject') injectMax += pts;
+        else openMax += pts;
+
         let selectedDisplay = answers[step.id];
         if (typeof selectedDisplay === 'string') selectedDisplay = parseInt(selectedDisplay, 10);
         let selectedOriginal = selectedDisplay;
@@ -2865,40 +3163,88 @@ function scoreLab(labId, answers = {}, sessionKey = 'anon') {
         }
         const ok = selectedOriginal === step.correct;
         if (ok) {
-            earned += step.points;
+            if (phase === 'post_inject') injectEarned += pts;
+            else openEarned += pts;
             (step.attack_techniques || []).forEach((t) => techniques.add(t));
         }
         breakdown.push({
             id: step.id,
+            phase,
             prompt: step.prompt,
             correct: ok,
             selected: selectedDisplay,
             explanation: step.explanation,
             coaching: ok
                 ? 'Solid — you can defend this call to a lead.'
-                : `Miss — preferred call: “${step.options[step.correct]}”`,
-            points: ok ? step.points : 0,
-            max_points: step.points
+                : `Review preferred call: “${step.options[step.correct]}”`,
+            points: ok ? pts : 0,
+            max_points: pts
         });
     }
 
-    const pct = max ? Math.round((earned / max) * 100) : 0;
-    const passed = pct >= 70;
+    const brief = mode === 'verified'
+        ? scoreIrBrief(extras.brief || '', lab)
+        : { score: 0, max: 0, notes: 'Practice mode — brief optional.' };
+    const ceo = mode === 'verified'
+        ? scoreCeoUpdate(extras.ceo_update || '')
+        : { score: 0, max: 0, notes: 'Practice mode — executive update optional.' };
+    const process = scoreProcessTelemetry(extras.telemetry || {}, lab);
+
+    // Verified weighting: open 25% · post-inject 55% · brief+ceo+process 20%
+    // Practice: flat decision points only
+    let score;
+    let earned;
+    let max;
+    let passed;
+
+    if (mode === 'verified') {
+        const openPct = openMax ? openEarned / openMax : 0;
+        const injectPct = injectMax ? injectEarned / injectMax : openPct;
+        const supportMax = brief.max + ceo.max + process.max;
+        const supportPct = supportMax
+            ? (brief.score + ceo.score + process.score) / supportMax
+            : 0;
+        const composite = (openPct * 0.25) + (injectPct * 0.55) + (supportPct * 0.20);
+        score = Math.round(composite * 100);
+        earned = openEarned + injectEarned + brief.score + ceo.score + process.score;
+        max = openMax + injectMax + brief.max + ceo.max + process.max;
+        const briefOk = brief.score >= 2;
+        const ceoOk = ceo.score >= 2;
+        passed = score >= 70 && briefOk && ceoOk;
+    } else {
+        earned = openEarned + injectEarned;
+        max = openMax + injectMax;
+        score = max ? Math.round((earned / max) * 100) : 0;
+        passed = score >= 70;
+    }
+
     return {
         lab_id: lab.id,
         module_id: lab.module_id,
         module_name: MODULE_NAMES[lab.module_id] || `Module ${lab.module_id}`,
         title: lab.title,
-        score: pct,
+        mode,
+        score,
         earned,
         max,
         passed,
         breakdown,
+        readiness: {
+            open_phase: { earned: openEarned, max: openMax },
+            post_inject: { earned: injectEarned, max: injectMax },
+            brief,
+            ceo_update: ceo,
+            process
+        },
         attack_techniques_demonstrated: [...techniques],
         all_techniques: lab.attack_techniques,
         debrief_summary: passed
-            ? 'Pass. Techniques credit toward your readiness transcript. Retest after you change detections in real life.'
-            : 'Below 70%. Re-read artifacts, avoid panic options, and retry — Workbench value is judgment under pressure.',
+            ? (mode === 'verified'
+                ? 'Verified pass. Decision quality, evidence specificity, and post-inject adaptation credit your readiness transcript.'
+                : 'Practice pass. Run Verified mode when you want transcript credit with full readiness scoring.')
+            : (mode === 'verified'
+                ? 'Verified run below standard. Re-read every evidence tab, cite attempt-specific facts in your brief, and adapt after live injects.'
+                : 'Below 70%. Re-read artifacts, avoid panic options, and retry.'),
         next_urls: {
             training: `/training/${lab.module_id}`,
             workbench: '/lab',
@@ -2915,6 +3261,8 @@ module.exports = {
     getLabsForModule,
     modulesWithLabs,
     scoreLab,
+    scoreIrBrief,
+    scoreCeoUpdate,
     registerLearnerLab,
     registerLearnerLabs,
     MODULE_NAMES

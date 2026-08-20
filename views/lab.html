@@ -170,6 +170,31 @@
             padding: 0.75rem 1rem; border-radius: 10px; z-index: 40; max-width: 320px;
         }
         .empty { color: #64748b; padding: 2rem 0; text-align: center; }
+        .mode-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0 1rem; }
+        .mode-btn {
+            border: 1px solid var(--line); background: #fff; color: #334155;
+            border-radius: 999px; padding: 0.4rem 0.85rem; font-size: 0.85rem; cursor: pointer;
+        }
+        .mode-btn.active { background: #1e3a5f; color: #fff; border-color: #1e3a5f; }
+        .gate-box, .ceo-box {
+            margin: 0.75rem 0 1rem; padding: 0.85rem; border-radius: 12px;
+            border: 1px solid rgba(15,118,110,0.25); background: #f0fdfa;
+        }
+        .gate-box label, .ceo-box label {
+            display: block; font-size: 0.85rem; font-weight: 600; color: #0f766e; margin-bottom: 0.4rem;
+        }
+        .gate-box textarea, .ceo-box textarea {
+            width: 100%; min-height: 96px; border-radius: 10px; border: 1px solid var(--line);
+            padding: 0.65rem 0.75rem; font-family: var(--font); font-size: 0.9rem; color: #0f172a;
+            background: #fff; resize: vertical;
+        }
+        .hint { font-size: 0.8rem; color: #64748b; margin-top: 0.4rem; }
+        .phase-tag {
+            display: inline-block; font-size: 0.68rem; padding: 0.15rem 0.4rem; border-radius: 6px;
+            background: #e2e8f0; color: #475569; margin-left: 0.35rem; font-family: var(--mono);
+        }
+        .phase-tag.inject { background: #ffedd5; color: #9a3412; }
+        .locked-note { color: #64748b; font-size: 0.88rem; padding: 0.75rem; border: 1px dashed var(--line); border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -177,7 +202,7 @@
         <header>
             <div>
                 <div class="brand">TRIBAMS <span>Evidence Workbench</span></div>
-                <p class="lede" id="pageLede">Browser-realistic ops labs. Incomplete evidence, timers, and decisions you must defend — scored against ATT&amp;CK for your readiness transcript.</p>
+                <p class="lede" id="pageLede">Self-paced ops labs with incomplete evidence and live injects. Practice to learn; Verified mode builds your readiness transcript.</p>
             </div>
             <nav class="nav">
                 <a href="/dashboard">Dashboard</a>
@@ -190,8 +215,13 @@
 
         <div id="listView">
             <h1>Ops labs</h1>
-            <p class="lede">No VMs required. Work like a night-shift analyst: artifacts first, then judgment. Options are shuffled per session so muscle-memory “pick B” fails.</p>
-            <div class="roe">ROE: Defensive / purple-team only. Never practice offensive tooling on systems you do not own or have written permission to test.</div>
+            <p class="lede">Work from artifacts first, then decide. Each attempt can present different hosts, destinations, and backup conditions — read your evidence before you commit.</p>
+            <div class="roe">Rules of engagement: Defensive and purple-team judgment only. Never practice offensive tooling on systems you do not own or have written permission to test.</div>
+            <div class="mode-bar" aria-label="Default lab mode">
+                <button type="button" class="mode-btn active" data-mode="practice" id="defaultPractice">Practice</button>
+                <button type="button" class="mode-btn" data-mode="verified" id="defaultVerified">Verified</button>
+                <span class="hint" style="margin:0;align-self:center;">Verified includes an evidence brief and executive update for transcript credit.</span>
+            </div>
             <div class="toolbar">
                 <input type="search" id="searchLabs" placeholder="Search labs, modules, ATT&CK…" autocomplete="off">
                 <select id="filterDiff">
@@ -240,8 +270,20 @@
                     <div class="timer" id="timer"><span id="timerText">--:--</span><span id="answeredHint" style="font-size:0.8rem;color:var(--muted);">0 answered</span></div>
                     <div class="progress-rail"><span id="answerProgress"></span></div>
                     <div class="inject" id="injectBox"></div>
+                    <div id="briefGate" class="gate-box hidden">
+                        <label for="irBrief">Situation brief (required in Verified)</label>
+                        <textarea id="irBrief" maxlength="1200" placeholder="3–5 bullets: cite hosts, times, shares, and what you will do first — based only on this attempt’s evidence."></textarea>
+                        <p class="hint">Unlock decisions after you record a specific brief. Generic phrases without evidence details will not pass Verified scoring.</p>
+                        <button type="button" class="btn btn-secondary" id="unlockDecisionsBtn" style="margin-top:0.55rem;">Confirm brief &amp; continue</button>
+                    </div>
                     <h2>Decisions</h2>
+                    <div id="stepsLocked" class="locked-note hidden">Confirm your situation brief to unlock decisions.</div>
                     <div id="steps"></div>
+                    <div id="ceoGate" class="ceo-box hidden">
+                        <label for="ceoUpdate">Executive update (required in Verified)</label>
+                        <textarea id="ceoUpdate" maxlength="900" placeholder="One short paragraph for a non-technical leader: business impact, what you are doing, when you will update next."></textarea>
+                        <p class="hint">Prefer clear business language. Keep acronyms to a minimum.</p>
+                    </div>
                     <div class="actions">
                         <button class="btn btn-primary" id="submitBtn" type="button">Submit lab</button>
                         <a class="btn btn-secondary" id="moduleLink" href="/resource-center">Related module</a>
@@ -258,9 +300,18 @@
         let current = null;
         let answers = {};
         let timerId = null;
-        let injectTimer = null;
         let remaining = 0;
         let firedInjects = new Set();
+        let preferredMode = localStorage.getItem('tribams_lab_mode') || 'practice';
+        let briefUnlocked = false;
+        let telemetry = {
+            artifacts_viewed: 0,
+            viewed_ids: new Set(),
+            answered_before_artifact: false,
+            inject_acknowledged: false,
+            first_action_ms: null,
+            started_at: null
+        };
 
         function toast(msg) {
             const el = document.createElement('div');
@@ -280,11 +331,15 @@
             return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
         }
 
+        function markAction() {
+            if (telemetry.first_action_ms == null && telemetry.started_at) {
+                telemetry.first_action_ms = Date.now() - telemetry.started_at;
+            }
+        }
+
         function stopTimer() {
             if (timerId) clearInterval(timerId);
             timerId = null;
-            if (injectTimer) clearInterval(injectTimer);
-            injectTimer = null;
         }
 
         function updateAnswerProgress() {
@@ -298,7 +353,10 @@
             const box = $('injectBox');
             box.textContent = msg;
             box.classList.add('show');
-            toast(msg.replace(/^Inject:\s*/i, ''));
+            telemetry.inject_acknowledged = true;
+            markAction();
+            toast(msg.replace(/^Live inject:\s*/i, '').replace(/^Inject:\s*/i, ''));
+            renderSteps();
         }
 
         function startTimer(sec) {
@@ -325,6 +383,14 @@
                     toast('Time expired — submit with current answers.');
                 }
             }, 1000);
+        }
+
+        function setDefaultMode(mode) {
+            preferredMode = mode === 'verified' ? 'verified' : 'practice';
+            localStorage.setItem('tribams_lab_mode', preferredMode);
+            document.querySelectorAll('.mode-bar .mode-btn').forEach((b) => {
+                b.classList.toggle('active', b.dataset.mode === preferredMode);
+            });
         }
 
         function renderList() {
@@ -364,12 +430,13 @@
                         <span class="chip">${l.steps} decisions</span>
                         <span class="chip">${Math.round((l.time_limit_sec || 0) / 60)} min</span>
                         <span class="chip">${esc(l.track || 'ops')}</span>
+                        ${l.verified_ready ? '<span class="chip tech">Verified ready</span>' : ''}
                         ${(l.attack_techniques || []).slice(0, 3).map((t) => `<span class="chip tech">${esc(t)}</span>`).join('')}
                     </div>
                 </article>
             `).join('');
             grid.querySelectorAll('.card').forEach((card) => {
-                card.addEventListener('click', () => openLab(card.dataset.id));
+                card.addEventListener('click', () => openLab(card.dataset.id, preferredMode));
             });
         }
 
@@ -385,8 +452,54 @@
             renderList();
         }
 
-        async function openLab(id) {
-            const res = await fetch('/api/labs/' + encodeURIComponent(id), { credentials: 'same-origin' });
+        function injectFired() {
+            return [...firedInjects].some((i) => (current.injects || [])[i]?.phase === 'pivot')
+                || (current.injects || []).some((inj, i) => firedInjects.has(i) && /LSASS|credential|pivot/i.test(inj.message || ''));
+        }
+
+        function renderSteps() {
+            if (!current) return;
+            const verified = current.mode === 'verified';
+            if (verified && !briefUnlocked) {
+                $('steps').innerHTML = '';
+                $('stepsLocked').classList.remove('hidden');
+                return;
+            }
+            $('stepsLocked').classList.add('hidden');
+            const showInjectPhase = !verified || injectFired() || remaining <= ((current.injects || []).find((i) => i.phase === 'pivot')?.at_sec_left || 0);
+            $('steps').innerHTML = (current.steps || []).map((s) => {
+                const post = (s.phase || 'open') === 'post_inject';
+                if (post && verified && !showInjectPhase && !injectFired()) {
+                    return `<div class="step"><div class="pts">Decision ${s.index + 1}</div><div class="locked-note">Unlocks after the live inject.</div></div>`;
+                }
+                return `
+                <div class="step" data-step="${esc(s.id)}">
+                    <div class="pts">Decision ${s.index + 1} · ${s.points} pts
+                        <span class="phase-tag ${post ? 'inject' : ''}">${post ? 'post-inject' : 'open'}</span>
+                    </div>
+                    <div class="q">${esc(s.prompt)}</div>
+                    ${s.options.map((o, i) => `
+                        <button type="button" class="opt ${answers[s.id] === i ? 'selected' : ''}" data-step="${esc(s.id)}" data-idx="${i}">${esc(o)}</button>
+                    `).join('')}
+                </div>`;
+            }).join('');
+            $('steps').querySelectorAll('.opt').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    if (telemetry.viewed_ids.size < 1) telemetry.answered_before_artifact = true;
+                    markAction();
+                    const sid = btn.dataset.step;
+                    answers[sid] = parseInt(btn.dataset.idx, 10);
+                    $('steps').querySelectorAll('.opt[data-step="' + sid + '"]').forEach((b) => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    updateAnswerProgress();
+                });
+            });
+            updateAnswerProgress();
+        }
+
+        async function openLab(id, mode) {
+            const runMode = mode === 'verified' ? 'verified' : 'practice';
+            const res = await fetch('/api/labs/' + encodeURIComponent(id) + '?mode=' + runMode, { credentials: 'same-origin' });
             const data = await res.json();
             if (!data.success) {
                 if (data.locked) toast(data.message || 'Upgrade required for this lab');
@@ -395,14 +508,28 @@
             }
             current = data.lab;
             answers = {};
+            briefUnlocked = runMode !== 'verified';
+            telemetry = {
+                artifacts_viewed: 0,
+                viewed_ids: new Set(),
+                answered_before_artifact: false,
+                inject_acknowledged: false,
+                first_action_ms: null,
+                started_at: Date.now()
+            };
+            $('irBrief').value = '';
+            $('ceoUpdate').value = '';
+            $('briefGate').classList.toggle('hidden', runMode !== 'verified');
+            $('ceoGate').classList.toggle('hidden', runMode !== 'verified');
             $('listView').classList.add('hidden');
             $('runView').classList.remove('hidden');
             $('labTitle').textContent = current.title;
             $('labSub').textContent = current.subtitle;
-            $('labRoe').textContent = 'ROE: ' + current.roe;
+            $('labRoe').textContent = 'Rules of engagement: ' + current.roe;
             $('briefing').textContent = current.briefing;
             $('moduleLink').href = current.training_url || ('/training/' + current.module_id);
             $('labMeta').innerHTML = [
+                `<span class="chip">${esc(current.mode === 'verified' ? 'Verified' : 'Practice')}</span>`,
                 `<span class="chip">${esc(current.difficulty)}</span>`,
                 `<span class="chip">Module ${current.module_id}</span>`,
                 `<span class="chip">${esc(current.module_name || '')}</span>`,
@@ -415,6 +542,9 @@
                 `<button type="button" class="art-tab ${i === 0 ? 'active' : ''}" data-i="${i}">${esc(a.title)}</button>`
             ).join('');
             function showArt(i) {
+                markAction();
+                telemetry.viewed_ids.add(i);
+                telemetry.artifacts_viewed = telemetry.viewed_ids.size;
                 $('artTabs').querySelectorAll('.art-tab').forEach((t) => t.classList.toggle('active', Number(t.dataset.i) === i));
                 const a = arts[i];
                 if (!a) { $('artifacts').innerHTML = ''; return; }
@@ -423,7 +553,7 @@
                         <div class="title">${esc(a.title)} · ${esc(a.type || 'evidence')}</div>
                         <pre>${esc(a.body)}</pre>
                     </div>
-                    ${arts.length > 1 ? `<p style="color:var(--muted);font-size:0.8rem;">Artifact ${i + 1} of ${arts.length} — use tabs to switch. Read all before deciding.</p>` : ''}
+                    ${arts.length > 1 ? `<p style="color:var(--muted);font-size:0.8rem;">Evidence ${i + 1} of ${arts.length} — review each tab before deciding.</p>` : ''}
                 `;
             }
             showArt(0);
@@ -431,37 +561,32 @@
                 t.addEventListener('click', () => showArt(Number(t.dataset.i)));
             });
 
-            $('steps').innerHTML = (current.steps || []).map((s) => `
-                <div class="step" data-step="${esc(s.id)}">
-                    <div class="pts">Decision ${s.index + 1} · ${s.points} pts</div>
-                    <div class="q">${esc(s.prompt)}</div>
-                    ${s.options.map((o, i) => `
-                        <button type="button" class="opt" data-step="${esc(s.id)}" data-idx="${i}">${esc(o)}</button>
-                    `).join('')}
-                </div>
-            `).join('');
-            $('steps').querySelectorAll('.opt').forEach((btn) => {
-                btn.addEventListener('click', () => {
-                    const sid = btn.dataset.step;
-                    answers[sid] = parseInt(btn.dataset.idx, 10);
-                    $('steps').querySelectorAll('.opt[data-step="' + sid + '"]').forEach((b) => b.classList.remove('selected'));
-                    btn.classList.add('selected');
-                    updateAnswerProgress();
-                });
-            });
             $('result').classList.add('hidden');
             $('submitBtn').disabled = false;
-            updateAnswerProgress();
+            renderSteps();
             startTimer(current.time_limit_sec || 420);
-            history.replaceState(null, '', '/lab?lab=' + encodeURIComponent(current.id));
+            history.replaceState(null, '', '/lab?lab=' + encodeURIComponent(current.id) + '&mode=' + runMode);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         async function submitLab() {
             if (!current) return;
-            const needed = (current.steps || []).length;
-            if (Object.keys(answers).length < needed) {
-                toast('Answer every decision before submit');
+            const verified = current.mode === 'verified';
+            if (verified && !briefUnlocked) {
+                toast('Confirm your situation brief before submitting');
+                return;
+            }
+            const needed = (current.steps || []).filter((s) => {
+                if ((s.phase || 'open') !== 'post_inject') return true;
+                return injectFired() || !verified;
+            }).length;
+            const answerCount = Object.keys(answers).length;
+            if (answerCount < needed) {
+                toast('Answer every available decision before submit');
+                return;
+            }
+            if (verified && !String($('ceoUpdate').value || '').trim()) {
+                toast('Add a short executive update before submit');
                 return;
             }
             $('submitBtn').disabled = true;
@@ -470,7 +595,19 @@
                 method: 'POST',
                 credentials: 'same-origin',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ answers, time_remaining: remaining })
+                body: JSON.stringify({
+                    answers,
+                    mode: current.mode,
+                    brief: $('irBrief').value || '',
+                    ceo_update: $('ceoUpdate').value || '',
+                    time_remaining: remaining,
+                    telemetry: {
+                        artifacts_viewed: telemetry.artifacts_viewed,
+                        answered_before_artifact: telemetry.answered_before_artifact,
+                        inject_acknowledged: telemetry.inject_acknowledged,
+                        first_action_ms: telemetry.first_action_ms
+                    }
+                })
             });
             const data = await res.json();
             if (!data.success) {
@@ -478,20 +615,30 @@
                 return toast(data.message || 'Submit failed');
             }
             const r = data.result;
+            const rd = r.readiness || {};
             const box = $('result');
             box.classList.remove('hidden');
             box.innerHTML = `
-                <div>Lab score</div>
+                <div>${esc(r.mode === 'verified' ? 'Verified readiness score' : 'Practice score')}</div>
                 <div class="score ${r.passed ? '' : 'fail'}">${r.score}%</div>
                 <div>${esc(r.debrief_summary || (r.passed ? 'Passed.' : 'Retry recommended.'))}</div>
                 <div style="margin-top:0.35rem;color:var(--muted);font-size:0.88rem;">${r.earned}/${r.max} points</div>
+                ${r.mode === 'verified' ? `
+                <div class="meta" style="margin-top:0.65rem;">
+                    <span class="chip">Open phase ${rd.open_phase?.earned || 0}/${rd.open_phase?.max || 0}</span>
+                    <span class="chip">Post-inject ${rd.post_inject?.earned || 0}/${rd.post_inject?.max || 0}</span>
+                    <span class="chip">Brief ${rd.brief?.score || 0}/${rd.brief?.max || 0}</span>
+                    <span class="chip">Executive ${rd.ceo_update?.score || 0}/${rd.ceo_update?.max || 0}</span>
+                    <span class="chip">Process ${rd.process?.score || 0}/${rd.process?.max || 0}</span>
+                </div>` : ''}
                 <div class="meta" style="margin-top:0.6rem;">
                     ${(r.attack_techniques_demonstrated || []).map((t) => `<span class="chip tech">${esc(t)}</span>`).join('') || '<span class="chip">No techniques credited this run</span>'}
                 </div>
                 <ul class="debrief">
                     ${(r.breakdown || []).map((b) => `
                         <li class="${b.correct ? 'ok' : 'bad'}">
-                            <strong>${b.correct ? 'Correct' : 'Miss'}</strong> (${b.points}/${b.max_points} pts)<br>
+                            <strong>${b.correct ? 'Correct' : 'Review'}</strong> (${b.points}/${b.max_points} pts)
+                            ${b.phase === 'post_inject' ? '<span class="phase-tag inject">post-inject</span>' : ''}<br>
                             ${esc(b.explanation)}<br>
                             <span style="color:var(--muted);">${esc(b.coaching || '')}</span>
                         </li>
@@ -520,6 +667,21 @@
             history.replaceState(null, '', '/lab');
         });
         $('submitBtn').addEventListener('click', submitLab);
+        $('unlockDecisionsBtn')?.addEventListener('click', () => {
+            const text = String($('irBrief').value || '').trim();
+            if (text.length < 40) {
+                toast('Add a more specific brief (hosts, times, shares from the evidence).');
+                return;
+            }
+            briefUnlocked = true;
+            markAction();
+            renderSteps();
+            toast('Decisions unlocked');
+        });
+        document.querySelectorAll('.mode-bar .mode-btn').forEach((btn) => {
+            btn.addEventListener('click', () => setDefaultMode(btn.dataset.mode));
+        });
+        setDefaultMode(preferredMode);
         ['searchLabs', 'filterDiff', 'filterTrack', 'filterStatus'].forEach((id) => {
             $(id).addEventListener('input', renderList);
             $(id).addEventListener('change', renderList);
@@ -528,7 +690,8 @@
         const params = new URLSearchParams(location.search);
         loadList().then(() => {
             const want = params.get('lab') || params.get('id');
-            if (want) openLab(want);
+            const mode = params.get('mode') || preferredMode;
+            if (want) openLab(want, mode);
         });
     </script>
 </body>
