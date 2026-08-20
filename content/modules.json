@@ -1,0 +1,316 @@
+{
+  "version": 1,
+  "pass_score": 70,
+  "certificate_score": 80,
+  "modules": [
+    {
+      "id": "phishing",
+      "order": 1,
+      "title": "Phishing Detection & Awareness",
+      "icon": "🎣",
+      "description": "Learn to identify and prevent phishing attacks, one of the most common cyber threats.",
+      "difficulty": "beginner",
+      "category": "social-engineering",
+      "member_only": true,
+      "video": "",
+      "video_poster": "",
+      "background_image": "",
+      "questions": [
+        {
+          "question": "What is a common sign of a phishing email?",
+          "options": [
+            "The email comes from a known sender",
+            "The email contains urgent language asking for immediate action",
+            "The email has perfect spelling and grammar",
+            "The email offers a legitimate discount"
+          ],
+          "correct": 1,
+          "explanation": "Phishing emails often create a false sense of urgency to trick you into acting quickly without thinking."
+        },
+        {
+          "question": "What should you do if you receive a suspicious email?",
+          "options": [
+            "Click the link to see where it goes",
+            "Reply and ask for more information",
+            "Report it to your IT security team",
+            "Forward it to all your colleagues"
+          ],
+          "correct": 2,
+          "explanation": "Always report suspicious emails to your security team. They have tools to analyze them safely."
+        },
+        {
+          "question": "What is \"spear phishing\"?",
+          "options": [
+            "A phishing attack targeting random people",
+            "A phishing attack targeting a specific individual or organization",
+            "A phishing attack sent via SMS",
+            "A phishing attack using phone calls"
+          ],
+          "correct": 1,
+          "explanation": "Spear phishing is highly targeted, using personal information to appear legitimate to specific victims."
+        },
+        {
+          "question": "What does HTTPS indicate in a website URL?",
+          "options": [
+            "The website is completely safe and verified",
+            "The connection between your browser and the website is encrypted",
+            "The website cannot be hacked",
+            "The website is from a government organization"
+          ],
+          "correct": 1,
+          "explanation": "HTTPS encrypts data between you and the website, but doesn't guarantee the website itself is legitimate."
+        },
+        {
+          "question": "Which of these is a red flag in an email?",
+          "options": [
+            "Generic greeting like \"Dear Customer\"",
+            "Your actual name in the greeting",
+            "A known company logo",
+            "Proper spelling and grammar"
+          ],
+          "correct": 0,
+          "explanation": "Legitimate companies usually address you by name. Generic greetings are a common phishing tactic."
+        },
+        {
+          "question": "What is \"whaling\" in cybersecurity?",
+          "options": [
+            "A phishing attack targeting executives or high-profile individuals",
+            "A type of computer virus that spreads through email",
+            "A method of encrypting sensitive data",
+            "A network security protocol for wireless connections"
+          ],
+          "correct": 0,
+          "explanation": "Whaling targets \"big fish\" like CEOs and CFOs to gain access to sensitive company information."
+        },
+        {
+          "question": "What should you check before clicking a link in an email?",
+          "options": [
+            "The sender's display name only",
+            "Hover over the link to see the actual URL",
+            "The email subject line only",
+            "The time the email was sent"
+          ],
+          "correct": 1,
+          "explanation": "Hovering reveals the true destination URL. Fake links often look legitimate but point to malicious sites."
+        },
+        {
+          "question": "What is domain spoofing?",
+          "options": [
+            "Creating a website that looks identical to a legitimate one",
+            "Speeding up your internet connection",
+            "A type of antivirus software",
+            "A method to recover deleted emails"
+          ],
+          "correct": 0,
+          "explanation": "Attackers create fake websites with similar domain names (e.g., amaz0n.com instead of amazon.com)."
+        }
+      ]
+    },
+    {
+      "id": "malware",
+      "order": 2,
+      "title": "Malware Analysis & Protection",
+      "icon": "🦠",
+      "description": "Understand different types of malware and how to protect against them.",
+      "difficulty": "beginner",
+      "category": "malware",
+      "member_only": true,
+      "video": "",
+      "video_poster": "",
+      "background_image": "",
+      "questions": [
+        {
+          "question": "What type of malware locks your files and demands payment for release?",
+          "options": [
+            "Virus",
+            "Trojan",
+            "Ransomware",
+            "Spyware"
+          ],
+          "correct": 2,
+          "explanation": "Ransomware encrypts your files and demands a ransom (usually cryptocurrency) for the decryption key."
+        },
+        {
+          "question": "What is a \"Trojan Horse\" in cybersecurity?",
+          "options": [
+            "A virus that spreads rapidly through email",
+            "A worm that self-replicates across networks",
+            "Malware disguised as legitimate software",
+            "A type of hardware firewall device"
+          ],
+          "correct": 2,
+          "explanation": "Trojans trick users by appearing as legitimate software while carrying malicious payloads."
+        },
+        {
+          "question": "Which of these is a common way malware spreads?",
+          "options": [
+            "Email attachments",
+            "Software downloads",
+            "USB drives",
+            "All of the above"
+          ],
+          "correct": 3,
+          "explanation": "Malware can spread through multiple vectors. Always be cautious with any external files or devices."
+        },
+        {
+          "question": "What does a keylogger do?",
+          "options": [
+            "Logs and records every keystroke you make",
+            "Deletes all your files permanently",
+            "Encrypts your data for ransom",
+            "Slows down your computer performance"
+          ],
+          "correct": 0,
+          "explanation": "Keyloggers capture passwords, credit card numbers, and sensitive information typed on your keyboard."
+        },
+        {
+          "question": "What is a computer worm?",
+          "options": [
+            "Malware that requires user interaction to spread",
+            "Malware that self-replicates across networks without user interaction",
+            "A type of antivirus software",
+            "A hardware security device"
+          ],
+          "correct": 1,
+          "explanation": "Worms spread automatically across networks, causing damage without any user action."
+        },
+        {
+          "question": "What is a \"zero-day\" vulnerability?",
+          "options": [
+            "A vulnerability that has existed for zero days (just discovered)",
+            "A vulnerability that only works at midnight",
+            "A vulnerability that affects only old software",
+            "A vulnerability that cannot be exploited"
+          ],
+          "correct": 0,
+          "explanation": "Zero-day vulnerabilities are unknown to software vendors, giving zero days to prepare a fix."
+        },
+        {
+          "question": "Which of these is a sign of malware infection?",
+          "options": [
+            "Computer running very slowly",
+            "Unexpected pop-up windows",
+            "Files being encrypted or deleted",
+            "All of the above"
+          ],
+          "correct": 3,
+          "explanation": "Multiple symptoms can indicate infection. Run regular antivirus scans if you notice these signs."
+        },
+        {
+          "question": "What is a botnet?",
+          "options": [
+            "A network of compromised computers controlled by an attacker",
+            "A type of antivirus software",
+            "A robot used for physical security",
+            "A network security protocol"
+          ],
+          "correct": 0,
+          "explanation": "Botnets are used for DDoS attacks, spam distribution, and other malicious activities."
+        }
+      ]
+    },
+    {
+      "id": "network",
+      "order": 3,
+      "title": "Network Security Fundamentals",
+      "icon": "🌐",
+      "description": "Master the fundamentals of securing computer networks.",
+      "difficulty": "beginner",
+      "category": "network",
+      "member_only": true,
+      "video": "",
+      "video_poster": "",
+      "background_image": "",
+      "questions": [
+        {
+          "question": "What does a firewall do?",
+          "options": [
+            "Speeds up your internet connection",
+            "Blocks unauthorized network traffic based on rules",
+            "Encrypts all data on your computer",
+            "Creates automatic backups of your files"
+          ],
+          "correct": 1,
+          "explanation": "Firewalls act as gatekeepers, allowing or blocking traffic based on predefined security rules."
+        },
+        {
+          "question": "What is a VPN (Virtual Private Network) used for?",
+          "options": [
+            "To make your computer run faster",
+            "To securely connect to a private network over the internet",
+            "To block all online advertisements",
+            "To clean your hard drive of temporary files"
+          ],
+          "correct": 1,
+          "explanation": "VPNs create encrypted tunnels, protecting your data from interception on public networks."
+        },
+        {
+          "question": "What is a DDoS attack?",
+          "options": [
+            "A virus that deletes system files",
+            "Overwhelming a server with traffic to make it unavailable",
+            "Stealing passwords through fake websites",
+            "Encrypting data and demanding a ransom"
+          ],
+          "correct": 1,
+          "explanation": "DDoS attacks flood targets with traffic, exhausting resources and causing service outages."
+        },
+        {
+          "question": "What does WPA stand for in WiFi security?",
+          "options": [
+            "Wireless Protected Access",
+            "Wired Privacy Authentication",
+            "Web Protection Algorithm",
+            "WiFi Personal Access"
+          ],
+          "correct": 0,
+          "explanation": "WPA is the standard for securing wireless networks. Always use WPA2 or WPA3 for security."
+        },
+        {
+          "question": "Which port does HTTPS use by default?",
+          "options": [
+            "80 (HTTP)",
+            "443 (HTTPS)",
+            "8080 (Proxy)",
+            "22 (SSH)"
+          ],
+          "correct": 1,
+          "explanation": "HTTPS uses port 443. HTTP uses port 80. Secure websites should use HTTPS on port 443."
+        },
+        {
+          "question": "What is a MAC address?",
+          "options": [
+            "A unique identifier for network devices",
+            "An Apple computer model",
+            "A type of encryption algorithm",
+            "A network protocol for email"
+          ],
+          "correct": 0,
+          "explanation": "MAC addresses are factory-assigned unique identifiers for every network interface card."
+        },
+        {
+          "question": "What is DNS (Domain Name System)?",
+          "options": [
+            "A security protocol for websites",
+            "The system that translates domain names to IP addresses",
+            "A type of firewall rule",
+            "A virus scanning technique"
+          ],
+          "correct": 1,
+          "explanation": "DNS is like the phonebook of the internet, converting human-readable names to IP addresses."
+        },
+        {
+          "question": "What is the \"principle of least privilege\"?",
+          "options": [
+            "Giving users only the minimum access needed to do their job",
+            "Making all passwords as short as possible",
+            "Using the least expensive security solutions",
+            "Having minimal security to maximize convenience"
+          ],
+          "correct": 0,
+          "explanation": "This principle limits damage by restricting unnecessary access. Users get only what they need."
+        }
+      ]
+    }
+  ]
+}

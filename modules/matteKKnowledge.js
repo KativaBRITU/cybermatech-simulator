@@ -192,7 +192,7 @@ function buildTopics() {
             ],
             phrases: ['how training works', 'learn practice quiz', 'live drill'],
             answer: () =>
-                'Each module at /training/:id has three layers. Learn = study guide (rank-aware). Practice = short questions with explanations. Live drill = timed, pledged, server-scored exam. Correct answers never leave the server. Tab switches and external AI can flag integrity and cap high scores. Matte K is disabled on drill/assessment surfaces.'
+                'Each module at /training/:id has three layers. Learn = study guide (rank-aware). Practice = short questions with explanations. Live drill = timed, pledged, server-scored exam. Correct answers never leave the server. Focus changes during scored drills are logged on your readiness record. Study assistants pause on drill and assessment surfaces.'
         },
         {
             id: 'certificate',

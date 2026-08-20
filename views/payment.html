@@ -350,6 +350,21 @@
             display: flex;
             flex-direction: column;
         }
+        .plan-card[data-plan-action] {
+            cursor: pointer;
+        }
+        .plan-card[data-plan-action]:focus-within,
+        .plan-card[data-plan-action]:hover {
+            border-color: var(--border-color-hover);
+        }
+        .plan-card .btn-plan {
+            position: relative;
+            z-index: 2;
+        }
+        .plan-card.popular::after {
+            z-index: 3;
+            pointer-events: none;
+        }
 
         .plan-card::before {
             content: '';
@@ -1008,7 +1023,7 @@
                 <button class="btn-plan secondary" disabled>Current Plan</button>
             </div>
 
-            <div class="plan-card">
+            <div class="plan-card" data-plan-action="monthly">
                 <div class="plan-header">
                     <div class="plan-icon">⭐</div>
                     <div class="plan-name">Pro Monthly</div>
@@ -1026,13 +1041,13 @@
                     <li><span class="feature-icon">✅</span> <span class="feature-text">Matte K coaching</span></li>
                     <li><span class="feature-icon">✅</span> <span class="feature-text">Attacker-toolkit readiness (46–95)</span></li>
                 </ul>
-                <button class="btn-plan primary" id="monthlyBtn" onclick="createOrder('monthly')">
+                <button type="button" class="btn-plan primary" id="monthlyBtn" data-plan="monthly">
                     <span class="btn-text">Subscribe with PayPal</span>
                     <span class="spinner"></span>
                 </button>
             </div>
 
-            <div class="plan-card popular">
+            <div class="plan-card popular" data-plan-action="annual">
                 <div class="plan-header">
                     <div class="plan-icon">🚀</div>
                     <div class="plan-name">Pro Annual</div>
@@ -1049,13 +1064,13 @@
                     <li><span class="feature-icon">✅</span> <span class="feature-text">Priority support</span></li>
                     <li><span class="feature-icon">✅</span> <span class="feature-text">Full 95-module catalog</span></li>
                 </ul>
-                <button class="btn-plan primary" id="annualBtn" onclick="createOrder('annual')">
+                <button type="button" class="btn-plan primary" id="annualBtn" data-plan="annual">
                     <span class="btn-text">Get Annual Pro</span>
                     <span class="spinner"></span>
                 </button>
             </div>
 
-            <div class="plan-card pro-plus" id="planProPlus">
+            <div class="plan-card pro-plus" id="planProPlus" data-plan-action="pro_plus_2mo">
                 <div class="plan-header">
                     <div class="plan-icon">⚔️</div>
                     <div class="plan-name">Pro+</div>
@@ -1073,16 +1088,16 @@
                     <li><span class="feature-icon">✅</span> <span class="feature-text">Purple-team tool correlation</span></li>
                     <li><span class="feature-icon">💎</span> <span class="feature-text highlight-text">Or Pro+ Annual N$350/mo</span></li>
                 </ul>
-                <button class="btn-plan primary" id="proPlusBtn" onclick="createOrder('pro_plus_2mo')">
+                <button type="button" class="btn-plan primary" id="proPlusBtn" data-plan="pro_plus_2mo">
                     <span class="btn-text">Unlock Pro+ (2 months)</span>
                     <span class="spinner"></span>
                 </button>
-                <button class="btn-plan secondary" style="margin-top:0.6rem;" onclick="createOrder('pro_plus_annual')">
+                <button type="button" class="btn-plan secondary" style="margin-top:0.6rem;" id="proPlusAnnualBtn" data-plan="pro_plus_annual">
                     <span class="btn-text">Pro+ Annual (best value)</span>
                 </button>
             </div>
 
-            <div class="plan-card pro-plus" id="planSpecialOps" style="border-color:rgba(239,68,68,0.45);">
+            <div class="plan-card pro-plus" id="planSpecialOps" style="border-color:rgba(239,68,68,0.45);" data-plan-action="special_ops_2mo">
                 <div class="plan-header">
                     <div class="plan-icon">🎯</div>
                     <div class="plan-name">Special Ops Elite</div>
@@ -1100,11 +1115,11 @@
                     <li><span class="feature-icon">✅</span> <span class="feature-text">Practical offensive + defensive labs under ROE</span></li>
                     <li><span class="feature-icon">💎</span> <span class="feature-text">Or Special Ops Annual N$520/mo</span></li>
                 </ul>
-                <button class="btn-plan primary" id="specialOpsBtn" onclick="createOrder('special_ops_2mo')">
+                <button type="button" class="btn-plan primary" id="specialOpsBtn" data-plan="special_ops_2mo">
                     <span class="btn-text">Unlock Special Ops (2 months)</span>
                     <span class="spinner"></span>
                 </button>
-                <button class="btn-plan secondary" style="margin-top:0.6rem;" onclick="createOrder('special_ops_annual')">
+                <button type="button" class="btn-plan secondary" style="margin-top:0.6rem;" id="specialOpsAnnualBtn" data-plan="special_ops_annual">
                     <span class="btn-text">Special Ops Annual</span>
                 </button>
             </div>
@@ -1361,14 +1376,15 @@
                 if (!title || !desc || !badge) return;
 
                 const tier = String(data.tier || 'free').toLowerCase();
-                const active = data.status === 'active' || data.is_pro;
-                const isSpecial = data.is_special_ops || tier === 'special_ops' || tier === 'elite';
-                const isPlus = data.is_pro_plus || tier === 'pro_plus' || tier === 'proplus' || isSpecial;
+                const isSpecial = !!(data.is_special_ops || tier === 'special_ops' || tier === 'elite');
+                const isPlus = !!(data.is_pro_plus || tier === 'pro_plus' || tier === 'proplus' || isSpecial);
+                const isPro = !!(data.is_pro || ['pro', 'premium', 'annual', 'monthly', 'paid'].includes(tier) || isPlus || isSpecial);
+                const active = data.status === 'active' || data.status === 'trialing' || isPro;
                 const expires = data.expires_at
                     ? new Date(data.expires_at).toLocaleDateString()
                     : null;
 
-                if (active && (tier === 'premium' || tier === 'pro' || isPlus || isSpecial)) {
+                if (active && isPro) {
                     title.textContent = isSpecial
                         ? 'You are on Special Ops Elite'
                         : (isPlus ? 'You are on Pro+' : 'You are a Pro member!');
@@ -1379,17 +1395,33 @@
                         : (isSpecial
                             ? 'Special Ops Elite: Live Red Team Emulation + Live Blue Team Crisis Cell.'
                             : 'Enjoy unlimited access to modules, certificates, and premium features.');
-                    badge.textContent = isPlus ? 'PRO+' : 'PRO';
+                    badge.textContent = isSpecial ? 'ELITE' : (isPlus ? 'PRO+' : 'PRO');
                     badge.className = 'status-badge pro';
                     const icon = document.querySelector('.status-icon');
                     if (icon) icon.textContent = '🎉';
 
-                    document.querySelectorAll('.btn-plan.primary, .plan-card.pro-plus .btn-plan.secondary').forEach(btn => {
-                        if (isPlus || !btn.closest('.plan-card.pro-plus')) {
+                    document.querySelectorAll('.btn-plan[data-plan]').forEach(btn => {
+                        const plan = btn.getAttribute('data-plan') || '';
+                        const isSpecialBtn = plan.startsWith('special_ops');
+                        const isPlusBtn = plan.startsWith('pro_plus') || isSpecialBtn;
+                        if (isSpecial && (isPlusBtn || plan === 'monthly' || plan === 'annual')) {
                             btn.disabled = true;
-                            btn.textContent = isPlus ? '✓ Already Pro+' : '✓ Already Pro';
-                            btn.className = 'btn-plan secondary';
-                            btn.style.cursor = 'default';
+                            btn.dataset.owned = '1';
+                            const label = btn.querySelector('.btn-text');
+                            if (label) label.textContent = '✓ Already Special Ops';
+                            else btn.textContent = '✓ Already Special Ops';
+                        } else if (isPlus && !isSpecialBtn && (isPlusBtn || plan === 'monthly' || plan === 'annual')) {
+                            btn.disabled = true;
+                            btn.dataset.owned = '1';
+                            const label = btn.querySelector('.btn-text');
+                            if (label) label.textContent = '✓ Already Pro+';
+                            else btn.textContent = '✓ Already Pro+';
+                        } else if (!isPlus && !isSpecial && (plan === 'monthly' || plan === 'annual')) {
+                            btn.disabled = true;
+                            btn.dataset.owned = '1';
+                            const label = btn.querySelector('.btn-text');
+                            if (label) label.textContent = '✓ Already Pro';
+                            else btn.textContent = '✓ Already Pro';
                         }
                     });
                 } else {
@@ -1410,81 +1442,166 @@
         // ============================================================
         // CREATE PAYPAL ORDER
         // ============================================================
-        async function createOrder(plan) {
+        let checkoutInFlight = false;
+
+        function findPlanButton(plan) {
+            const byData = document.querySelector(`.btn-plan[data-plan="${plan}"]`);
+            if (byData) return byData;
             const btnMap = {
                 monthly: 'monthlyBtn',
                 annual: 'annualBtn',
                 pro_plus_2mo: 'proPlusBtn',
-                pro_plus_annual: 'proPlusBtn',
+                pro_plus_annual: 'proPlusAnnualBtn',
                 special_ops_2mo: 'specialOpsBtn',
-                special_ops_annual: 'specialOpsBtn'
+                special_ops_annual: 'specialOpsAnnualBtn'
             };
-            const btn = document.getElementById(btnMap[plan] || 'monthlyBtn');
-            const originalText = btn ? btn.innerHTML : '';
-            if (btn) {
+            return document.getElementById(btnMap[plan] || '');
+        }
+
+        function setButtonLoading(btn, loading) {
+            if (!btn) return;
+            if (loading) {
                 btn.classList.add('loading');
                 btn.disabled = true;
+            } else {
+                btn.classList.remove('loading');
+                // Keep disabled if already marked as owned
+                if (!btn.dataset.owned) btn.disabled = false;
             }
+        }
+
+        async function createOrder(plan) {
+            const allowed = ['monthly', 'annual', 'pro_plus_2mo', 'pro_plus_annual', 'special_ops_2mo', 'special_ops_annual'];
+            if (!allowed.includes(plan)) {
+                showToast('Unknown plan selected', 'error');
+                return;
+            }
+            if (checkoutInFlight) {
+                showToast('Checkout already in progress…', 'info');
+                return;
+            }
+
+            const btn = findPlanButton(plan);
+            if (btn?.disabled && btn.dataset.owned) {
+                showToast('This plan is already active on your account.', 'info');
+                return;
+            }
+
+            checkoutInFlight = true;
+            setButtonLoading(btn, true);
+            showToast('Starting checkout…', 'info', 2500);
 
             try {
                 const res = await fetch('/api/paypal/create-order', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                     credentials: 'same-origin',
                     body: JSON.stringify({ plan })
                 });
 
-                const data = await res.json();
+                let data = {};
+                try {
+                    data = await res.json();
+                } catch (_) {
+                    data = {};
+                }
+
+                if (res.status === 401) {
+                    showToast('Please sign in to choose a plan.', 'warning');
+                    setTimeout(() => {
+                        window.location.href = '/login?next=' + encodeURIComponent('/payment');
+                    }, 900);
+                    return;
+                }
 
                 if (data.success && data.approvalUrl) {
+                    showToast('Redirecting to PayPal…', 'success');
                     window.location.href = data.approvalUrl;
-                } else if (data.success && data.activated) {
-                    showToast(data.message || 'Plan activated for testing.', 'success');
-                    setTimeout(() => { window.location.href = '/payment'; }, 1200);
-                } else {
-                    showToast('Error: ' + (data.message || 'Could not create order'), 'error');
-                    if (btn) {
-                        btn.classList.remove('loading');
-                        btn.disabled = false;
-                        btn.innerHTML = originalText;
-                    }
+                    return;
                 }
+
+                if (data.success && data.activated) {
+                    showToast(data.message || 'Plan activated.', 'success');
+                    await checkSubscription();
+                    setTimeout(() => {
+                        window.location.href = '/payment-success?plan=' + encodeURIComponent(plan) + '&tier=' + encodeURIComponent(data.tier || '');
+                    }, 800);
+                    return;
+                }
+
+                showToast(data.message || (`Could not start checkout (${res.status})`), 'error', 5000);
             } catch (error) {
                 console.error('PayPal error:', error);
                 showToast('Network error. Please try again.', 'error');
-                if (btn) {
-                    btn.classList.remove('loading');
-                    btn.disabled = false;
-                    btn.innerHTML = originalText;
-                }
+            } finally {
+                checkoutInFlight = false;
+                setButtonLoading(btn, false);
             }
         }
+
+        window.createOrder = createOrder;
+
+        // Buttons + whole paid plan cards respond
+        function eventEl(e) {
+            const t = e.target;
+            if (!t) return null;
+            return t.nodeType === 1 ? t : t.parentElement;
+        }
+        document.querySelector('.plans-grid')?.addEventListener('click', (e) => {
+            const el = eventEl(e);
+            if (!el) return;
+            const btn = el.closest('.btn-plan[data-plan]');
+            if (btn) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (btn.disabled && btn.dataset.owned) {
+                    showToast('This plan is already active on your account.', 'info');
+                    return;
+                }
+                createOrder(btn.getAttribute('data-plan'));
+                return;
+            }
+            const card = el.closest('.plan-card[data-plan-action]');
+            if (!card) return;
+            // Ignore clicks on links inside B2B cards
+            if (el.closest('a')) return;
+            const plan = card.getAttribute('data-plan-action');
+            const primary = card.querySelector(`.btn-plan[data-plan="${plan}"]`) || card.querySelector('.btn-plan[data-plan]');
+            if (primary && primary.disabled && primary.dataset.owned) {
+                showToast('This plan is already active on your account.', 'info');
+                return;
+            }
+            createOrder(plan);
+        });
 
         // ============================================================
         // CAPTURE PAYPAL ORDER (Return from PayPal)
         // ============================================================
         const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-        const payerId = urlParams.get('PayerID');
+        const token = urlParams.get('token') || urlParams.get('orderId');
+        const payerId = urlParams.get('PayerID') || urlParams.get('payerId') || urlParams.get('PayerId');
+        const paypalReturn = urlParams.get('paypal') === 'return' || Boolean(token);
 
-        if (token && payerId) {
-            // Show processing message
-            showToast('⏳ Processing your payment...', 'info', 5000);
+        if (paypalReturn && token) {
+            // Show processing message — capture even if PayerID is missing (Orders API)
+            showToast('Processing your payment…', 'info', 6000);
 
             fetch('/api/paypal/capture-order', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ orderId: token })
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ orderId: token, PayerID: payerId || undefined })
                 })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
+                .then(res => res.json().then((data) => ({ ok: res.ok, data })))
+                .then(({ ok, data }) => {
+                    if (ok && data.success) {
                         showToast(data.message || 'Payment successful! Your plan is active.', 'success');
                         setTimeout(() => {
                             window.location.href = data.redirect || '/payment-success';
-                        }, 1200);
+                        }, 1000);
                     } else {
-                        showToast('Payment failed: ' + (data.message || 'Unknown error'), 'error');
+                        showToast('Payment failed: ' + (data.message || 'Unknown error'), 'error', 6000);
+                        checkSubscription();
                     }
                 })
                 .catch(err => {
@@ -1505,15 +1622,15 @@
             }
         });
 
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            document.getElementById('navLinks').classList.toggle('show');
+        document.getElementById('menuToggle')?.addEventListener('click', function() {
+            document.getElementById('navLinks')?.classList.toggle('show');
             this.classList.toggle('active');
         });
 
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
-                document.getElementById('navLinks').classList.remove('show');
-                document.getElementById('menuToggle').classList.remove('active');
+                document.getElementById('navLinks')?.classList.remove('show');
+                document.getElementById('menuToggle')?.classList.remove('active');
             });
         });
 

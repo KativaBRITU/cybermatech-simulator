@@ -784,16 +784,18 @@ async function getAccessUser(req) {
             status === 'active' &&
             tier !== 'free' &&
             tier !== 'beta' &&
-            !isBeta &&
-            new Date(expiresAt).getTime() < Date.now()
+            !isBeta
         ) {
-            await db.runAsync(
-                `UPDATE users SET subscription_tier = 'free', subscription_status = 'expired'
-                 WHERE id = ?`,
-                [row.id]
-            );
-            tier = 'free';
-            status = 'expired';
+            const expiresMs = new Date(expiresAt).getTime();
+            if (Number.isFinite(expiresMs) && expiresMs < Date.now()) {
+                await db.runAsync(
+                    `UPDATE users SET subscription_tier = 'free', subscription_status = 'expired'
+                     WHERE id = ?`,
+                    [row.id]
+                );
+                tier = 'free';
+                status = 'expired';
+            }
         }
 
         req.session.user.subscription_tier = tier;
@@ -1339,10 +1341,10 @@ app.get('/api/module-questions/:id', async (req, res) => {
         },
         immersion: {
             ...(drill.immersion || {}),
-            integrity: 'Matte K and external AI stay locked during scored drills. Focus changes are logged.'
+            integrity: 'Study assistants stay paused during scored drills. Focus changes are logged for your readiness record.'
         },
         integrity: {
-            pledge: 'I will complete this drill using my own judgment without external AI assistance.',
+            pledge: 'I will complete this drill using my own judgment and the evidence provided.',
             rules: [
                 'Correct answers are scored only on the server',
                 'Tab switches and long absences are recorded',
@@ -1593,8 +1595,8 @@ app.get('/api/matte-k/status', (req, res) => {
         locked,
         available: !locked,
         message: locked
-            ? 'Matte K is locked while a scored drill, scenario, or skill assessment is active.'
-            : 'Matte K online — full project Q&A with typo repair. Never exam answers.'
+            ? 'Study assistants stay paused while a scored drill, scenario, or skill assessment is active.'
+            : 'Matte K online — project Q&A with typo repair. Scored drills stay independent.'
     });
 });
 
@@ -1665,7 +1667,7 @@ app.get('/api/skill-assessment', (req, res) => {
         mode: assessment.mode,
         immersion: {
             ...(assessment.immersion || {}),
-            integrity: 'Matte K is locked for this assessment. External AI assistance and tab switching are integrity risks.'
+            integrity: 'Study assistants stay paused for this assessment. Stay with the evidence on screen.'
         }
     };
     req.session.save((err) => {
@@ -2119,26 +2121,39 @@ app.post('/api/paypal/create-order', rateLimiter(10, 15 * 60 * 1000, 'paypal-cre
 
     const paypalReady = paypalCheckout.isConfigured();
     const accessUser = await getAccessUser(req);
-    const canDevActivate = !paypalReady && (userIsAdmin(accessUser) || !IS_PROD);
+    const forceLocalActivate = String(req.body?.force_local || '') === '1' && userIsAdmin(accessUser);
+    const canDevActivate = (!paypalReady && (userIsAdmin(accessUser) || !IS_PROD)) || forceLocalActivate;
 
     if (canDevActivate) {
-        const sel = await activateSubscription(req.session.user.id, plan, {
-            status: 'dev_activate',
-            orderId: `DEV-${Date.now()}`
-        });
-        if (!sel) return res.status(400).json({ success: false, message: 'Unknown plan' });
-        req.session.user.subscription_tier = sel.tier;
-        req.session.user.subscription_status = 'active';
-        req.session.user.subscription_expires_at = sel.expiresAt;
-        return req.session.save(() => {
-            res.json({
-                success: true,
-                activated: true,
-                tier: sel.tier,
-                expires_at: sel.expiresAt,
-                message: `Dev/admin activate: ${sel.tier} (${sel.months} mo). Set PAYPAL_CLIENT_ID + PAYPAL_CLIENT_SECRET for live checkout.`
+        try {
+            const sel = await activateSubscription(req.session.user.id, plan, {
+                status: paypalReady ? 'admin_activate' : 'dev_activate',
+                orderId: `LOCAL-${Date.now()}`
             });
-        });
+            if (!sel) return res.status(400).json({ success: false, message: 'Unknown plan' });
+            req.session.user.subscription_tier = sel.tier;
+            req.session.user.subscription_status = 'active';
+            req.session.user.subscription_expires_at = sel.expiresAt;
+            return req.session.save((err) => {
+                if (err) {
+                    console.error('Session save after activate failed:', err);
+                }
+                res.json({
+                    success: true,
+                    activated: true,
+                    tier: sel.tier,
+                    status: 'active',
+                    expires_at: sel.expiresAt,
+                    message: `Plan activated: ${sel.label}. Access is active on this account.`
+                });
+            });
+        } catch (err) {
+            console.error('Local plan activate error:', err);
+            return res.status(500).json({
+                success: false,
+                message: err?.message ? `Could not activate plan: ${err.message}` : 'Could not activate plan'
+            });
+        }
     }
 
     if (!paypalReady) {
@@ -2740,7 +2755,8 @@ app.get('/api/labs/:id', async (req, res) => {
         await loadLearnerLabSeeds();
     }
     const sessionKey = String(req.session.user.id);
-    const pub = labEngine.getLabPublic(req.params.id, sessionKey);
+    const mode = String(req.query.mode || 'practice').toLowerCase() === 'verified' ? 'verified' : 'practice';
+    const pub = labEngine.getLabPublic(req.params.id, sessionKey, { mode });
     if (!pub) return res.status(404).json({ success: false, message: 'Lab not found' });
     const user = await getAccessUser(req);
     const check = accessControl.canAccessModule(pub.module_id, user, ADMIN_EMAILS);
@@ -2760,7 +2776,13 @@ app.post('/api/labs/:id/submit', rateLimiter(20, 15 * 60 * 1000, 'lab-submit'), 
         return res.status(403).json({ success: false, message: check.reason || 'Upgrade required' });
     }
     const sessionKey = String(req.session.user.id);
-    const result = labEngine.scoreLab(req.params.id, req.body?.answers || {}, sessionKey);
+    const mode = String(req.body?.mode || 'practice').toLowerCase() === 'verified' ? 'verified' : 'practice';
+    const result = labEngine.scoreLab(req.params.id, req.body?.answers || {}, sessionKey, {
+        mode,
+        brief: req.body?.brief || '',
+        ceo_update: req.body?.ceo_update || '',
+        telemetry: req.body?.telemetry || {}
+    });
     if (!result) return res.status(400).json({ success: false, message: 'Could not score lab' });
     try {
         await db.runAsync(
@@ -3499,7 +3521,7 @@ app.get('/api/scenario/:moduleId', async (req, res) => {
         const finish = () => res.json({
             scenario,
             day: dayNumber,
-            integrity: 'Matte K is locked during scenarios.'
+            integrity: 'Study assistants stay paused during scenarios. Stay with the evidence on screen.'
         });
         if (req.session && typeof req.session.save === 'function') {
             return req.session.save((err) => {
@@ -3666,6 +3688,8 @@ app.get('/api/admin/users', isAdmin, async (req, res) => {
     try {
         const users = await db.allAsync(`
             SELECT u.id, u.username, u.email, u.created_at, u.status,
+                   u.subscription_tier, u.subscription_status, u.subscription_expires_at,
+                   u.is_beta_tester,
                    COUNT(DISTINCT qs.module_name) as modules_completed,
                    MAX(qs.score) as best_score
             FROM users u
@@ -3673,10 +3697,83 @@ app.get('/api/admin/users', isAdmin, async (req, res) => {
             GROUP BY u.id
             ORDER BY u.created_at DESC
         `);
-        res.json({ success: true, users });
+        res.json({
+            success: true,
+            users: (users || []).map((u) => ({
+                ...u,
+                is_admin: userIsAdmin(u),
+                is_beta_tester: !!(u.is_beta_tester === 1 || u.is_beta_tester === true)
+            }))
+        });
     } catch (error) {
         console.error('Admin users error:', error);
         res.status(500).json({ success: false, message: 'Error loading users' });
+    }
+});
+
+app.get('/api/admin/users/:id', isAdmin, async (req, res) => {
+    const userId = parseInt(req.params.id, 10);
+    if (!Number.isFinite(userId) || userId <= 0) {
+        return res.status(400).json({ success: false, message: 'Invalid user id' });
+    }
+    try {
+        const user = await db.getAsync(
+            `SELECT id, username, email, created_at, status, profile_picture,
+                    subscription_tier, subscription_status, subscription_expires_at, is_beta_tester
+             FROM users WHERE id = ?`,
+            [userId]
+        );
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        const scores = await db.allAsync(
+            `SELECT module_name, score, completed_at FROM quiz_scores
+             WHERE user_id = ? ORDER BY completed_at DESC LIMIT 12`,
+            [userId]
+        ).catch(() => []);
+        const labs = await db.allAsync(
+            `SELECT lab_id, module_id, score, passed, completed_at FROM lab_completions
+             WHERE user_id = ? ORDER BY completed_at DESC LIMIT 12`,
+            [userId]
+        ).catch(() => []);
+        const badges = await db.allAsync(
+            `SELECT badge_name, badge_icon, earned_at FROM badges
+             WHERE user_id = ? ORDER BY earned_at DESC LIMIT 20`,
+            [userId]
+        ).catch(() => []);
+        const subs = await db.allAsync(
+            `SELECT plan, tier, status, amount, currency, expires_at, created_at
+             FROM subscriptions WHERE user_id = ? ORDER BY id DESC LIMIT 8`,
+            [userId]
+        ).catch(() => []);
+        const moduleCount = await db.getAsync(
+            `SELECT COUNT(DISTINCT module_name) AS c FROM quiz_scores WHERE user_id = ? AND score > 0`,
+            [userId]
+        ).catch(() => ({ c: 0 }));
+        const best = await db.getAsync(
+            `SELECT MAX(score) AS best_score FROM quiz_scores WHERE user_id = ?`,
+            [userId]
+        ).catch(() => ({ best_score: 0 }));
+
+        res.json({
+            success: true,
+            user: {
+                ...user,
+                is_admin: userIsAdmin(user),
+                is_beta_tester: !!(user.is_beta_tester === 1 || user.is_beta_tester === true),
+                modules_completed: Number(moduleCount?.c || 0),
+                best_score: Number(best?.best_score || 0),
+                can_delete: !(req.session.user && Number(req.session.user.id) === userId) && !userIsAdmin(user)
+            },
+            scores: scores || [],
+            labs: labs || [],
+            badges: badges || [],
+            subscriptions: subs || []
+        });
+    } catch (error) {
+        console.error('Admin view user error:', error);
+        res.status(500).json({ success: false, message: 'Could not load user details' });
     }
 });
 
@@ -3731,7 +3828,10 @@ app.delete('/api/admin/users/:id', isAdmin, async (req, res) => {
             'DELETE FROM user_feedback WHERE user_id = ?',
             'DELETE FROM feedback WHERE user_id = ?',
             'DELETE FROM darkweb_scans WHERE user_id = ?',
-            'DELETE FROM readiness_tokens WHERE user_id = ?'
+            'DELETE FROM readiness_tokens WHERE user_id = ?',
+            'DELETE FROM learner_lab_seeds WHERE user_id = ?',
+            'DELETE FROM process_monitor WHERE user_id = ?',
+            'DELETE FROM custom_training_requests WHERE requested_by = ?'
         ];
 
         for (const sql of relatedDeletes) {
@@ -3769,7 +3869,11 @@ app.delete('/api/admin/users/:id', isAdmin, async (req, res) => {
             }
         } catch (_) { /* org tables optional */ }
 
-        await db.runAsync('DELETE FROM users WHERE id = ?', [userId]);
+        const del = await db.runAsync('DELETE FROM users WHERE id = ?', [userId]);
+        const removed = Number(del?.changes || del?.rowCount || 0);
+        if (!removed) {
+            return res.status(500).json({ success: false, message: 'User row was not removed. Check database constraints.' });
+        }
         await removeStoredProfileFile(target.profile_picture);
 
         console.log(`🗑️ Admin ${req.session.user.email} deleted user #${userId} (${target.username})`);
@@ -3780,7 +3884,70 @@ app.delete('/api/admin/users/:id', isAdmin, async (req, res) => {
         });
     } catch (error) {
         console.error('Admin delete user error:', error);
-        res.status(500).json({ success: false, message: 'Could not delete user' });
+        res.status(500).json({
+            success: false,
+            message: error?.message ? `Could not delete user: ${error.message}` : 'Could not delete user'
+        });
+    }
+});
+
+/** Admin: activate / change a member plan (does not require PayPal). */
+app.post('/api/admin/users/:id/plan', isAdmin, async (req, res) => {
+    const userId = parseInt(req.params.id, 10);
+    if (!Number.isFinite(userId) || userId <= 0) {
+        return res.status(400).json({ success: false, message: 'Invalid user id' });
+    }
+    const plan = String(req.body?.plan || '').trim();
+    const allowed = ['free', 'monthly', 'annual', 'pro_plus_2mo', 'pro_plus_annual', 'special_ops_2mo', 'special_ops_annual'];
+    if (!allowed.includes(plan)) {
+        return res.status(400).json({ success: false, message: 'Unknown plan' });
+    }
+    try {
+        const target = await db.getAsync('SELECT id, username, email FROM users WHERE id = ?', [userId]);
+        if (!target) return res.status(404).json({ success: false, message: 'User not found' });
+
+        if (plan === 'free') {
+            await db.runAsync(
+                `UPDATE users
+                 SET subscription_tier = 'free', subscription_status = 'inactive', subscription_expires_at = NULL
+                 WHERE id = ?`,
+                [userId]
+            );
+            return res.json({
+                success: true,
+                tier: 'free',
+                status: 'inactive',
+                message: `“${target.username}” set to Free.`
+            });
+        }
+
+        const sel = await activateSubscription(userId, plan, {
+            status: 'admin_activate',
+            orderId: `ADMIN-${req.session.user.id}-${Date.now()}`
+        });
+        if (!sel) return res.status(400).json({ success: false, message: 'Unknown plan' });
+
+        // If the admin activated their own account, refresh session
+        if (Number(req.session.user.id) === userId) {
+            req.session.user.subscription_tier = sel.tier;
+            req.session.user.subscription_status = 'active';
+            req.session.user.subscription_expires_at = sel.expiresAt;
+            await new Promise((resolve) => req.session.save(() => resolve()));
+        }
+
+        res.json({
+            success: true,
+            tier: sel.tier,
+            status: 'active',
+            expires_at: sel.expiresAt,
+            message: `“${target.username}” activated on ${sel.label}.`
+        });
+    } catch (error) {
+        console.error('Admin set plan error:', error);
+        res.status(500).json({
+            success: false,
+            message: error?.message ? `Could not set plan: ${error.message}` : 'Could not set plan'
+        });
     }
 });
 

@@ -464,6 +464,47 @@
             .table-card .table-header { flex-direction: column; align-items: flex-start; }
         }
 
+        .user-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 8, 20, 0.72);
+            z-index: 10050;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .user-modal-overlay.open { display: flex; }
+        .user-modal {
+            width: min(640px, 100%);
+            max-height: min(88vh, 820px);
+            overflow: auto;
+            background: var(--bg-card, #0f172a);
+            border: 1px solid var(--glass-border, rgba(255,255,255,0.12));
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+            padding: 1.25rem 1.35rem 1.4rem;
+            color: var(--text-primary, #e2e8f0);
+        }
+        .user-modal h3 { margin: 0 0 0.35rem; font-size: 1.25rem; }
+        .user-modal .meta { color: var(--text-secondary, #94a3b8); font-size: 0.9rem; margin-bottom: 1rem; }
+        .user-modal .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.65rem 1rem;
+            margin-bottom: 1rem;
+        }
+        .user-modal .grid .label { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted, #64748b); }
+        .user-modal .grid .value { font-weight: 600; word-break: break-word; }
+        .user-modal .section-title { margin: 0.85rem 0 0.4rem; font-size: 0.95rem; color: var(--neon-cyan, #5eead4); }
+        .user-modal ul { margin: 0; padding-left: 1.1rem; color: var(--text-secondary, #94a3b8); font-size: 0.88rem; }
+        .user-modal li { margin: 0.25rem 0; }
+        .user-modal .modal-actions { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 1.1rem; }
+        .user-modal .modal-actions .btn { flex: 1; min-width: 120px; }
+        @media (max-width: 560px) {
+            .user-modal .grid { grid-template-columns: 1fr; }
+        }
+
         /* ============================================================
                PRINT STYLES – 1540-1550
                ============================================================ */
@@ -787,6 +828,30 @@
 
     </div>
 
+    <div class="user-modal-overlay" id="userModalOverlay" role="dialog" aria-modal="true" aria-labelledby="userModalTitle">
+        <div class="user-modal" id="userModal">
+            <h3 id="userModalTitle">User details</h3>
+            <div class="meta" id="userModalMeta">Loading…</div>
+            <div class="grid" id="userModalGrid"></div>
+            <div class="section-title">Recent scores</div>
+            <ul id="userModalScores"><li>Loading…</li></ul>
+            <div class="section-title">Recent labs</div>
+            <ul id="userModalLabs"><li>Loading…</li></ul>
+            <div class="section-title">Set plan</div>
+            <div class="modal-actions" id="userModalPlanActions" style="margin-top:0.35rem;">
+                <button type="button" class="btn btn-secondary" data-set-plan="free">Free</button>
+                <button type="button" class="btn btn-secondary" data-set-plan="monthly">Pro Monthly</button>
+                <button type="button" class="btn btn-secondary" data-set-plan="annual">Pro Annual</button>
+                <button type="button" class="btn btn-secondary" data-set-plan="pro_plus_2mo">Pro+</button>
+                <button type="button" class="btn btn-secondary" data-set-plan="special_ops_2mo">Special Ops</button>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="userModalCloseBtn">Close</button>
+                <button type="button" class="btn btn-primary" id="userModalDeleteBtn" style="background:linear-gradient(135deg,#ef4444,#b91c1c);">Delete user</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ============================================================
     SCRIPTS
     ============================================================ -->
@@ -915,11 +980,22 @@
         // ============================================================
         async function loadUsers() {
             try {
-                const res = await fetch('/api/admin/users');
-                const data = await res.json();
+                const res = await fetch('/api/admin/users', { credentials: 'same-origin' });
+                const data = await res.json().catch(() => ({}));
                 const tbody = document.getElementById('usersTableBody');
+                if (!tbody) return;
 
-                if (data.success && data.users && data.users.length > 0) {
+                if (!res.ok || !data.success) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align:center;padding:2rem;color:var(--text-muted);">
+                                ${escapeHtml(data.message || 'Could not load users')}
+                            </td>
+                        </tr>`;
+                    return;
+                }
+
+                if (data.users && data.users.length > 0) {
                     document.getElementById('userTabBadge').textContent = data.users.length;
                     tbody.innerHTML = '';
                     data.users.forEach(user => {
@@ -927,23 +1003,23 @@
                         const initials = getInitials(user.username);
                         const statusClass = user.status === 'active' ? 'active' : 'inactive';
                         const score = user.best_score || 0;
-                        const safeName = String(user.username || 'Unknown').replace(/'/g, "\\'");
+                        const tier = user.subscription_tier || 'free';
                         tr.innerHTML = `
                             <td>
                                 <div class="user-cell">
-                                    <div class="avatar">${initials}</div>
-                                    <span>${user.username || 'Unknown'}</span>
+                                    <div class="avatar">${escapeHtml(initials)}</div>
+                                    <span>${escapeHtml(user.username || 'Unknown')}</span>
                                 </div>
                             </td>
-                            <td>${user.email || '—'}</td>
-                            <td>${user.modules_completed || 0}</td>
-                            <td class="score-cell">${score}%</td>
+                            <td>${escapeHtml(user.email || '—')}</td>
+                            <td>${Number(user.modules_completed || 0)}</td>
+                            <td class="score-cell">${Number(score)}%</td>
                             <td>${formatDate(user.created_at)}</td>
-                            <td><span class="status-badge ${statusClass}">${user.status || 'inactive'}</span></td>
+                            <td><span class="status-badge ${statusClass}">${escapeHtml(user.status || 'inactive')} · ${escapeHtml(tier)}</span></td>
                             <td>
                                 <div class="actions-cell">
-                                    <button class="btn-icon" onclick="viewUser(${Number(user.id)})" title="View">👁️</button>
-                                    <button class="btn-icon danger" onclick="deleteUser(${Number(user.id)}, '${safeName}')" title="Delete user">🗑️</button>
+                                    <button type="button" class="btn-icon" data-action="view-user" data-user-id="${Number(user.id)}" title="View">👁️</button>
+                                    <button type="button" class="btn-icon danger" data-action="delete-user" data-user-id="${Number(user.id)}" data-username="${escapeAttr(user.username || 'Unknown')}" title="Delete user" ${user.is_admin ? 'disabled' : ''}>🗑️</button>
                                 </div>
                             </td>
                         `;
@@ -965,6 +1041,200 @@
                 }
             } catch (error) {
                 console.error('Error loading users:', error);
+                showToast('Could not load users', 'error');
+            }
+        }
+
+        function escapeHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+        function escapeAttr(str) {
+            return escapeHtml(str).replace(/'/g, '&#39;');
+        }
+
+        let activeUserId = null;
+
+        function closeUserModal() {
+            const overlay = document.getElementById('userModalOverlay');
+            if (overlay) overlay.classList.remove('open');
+            activeUserId = null;
+        }
+
+        async function viewUser(userId) {
+            const id = Number(userId);
+            if (!Number.isFinite(id)) return;
+            activeUserId = id;
+            const overlay = document.getElementById('userModalOverlay');
+            const title = document.getElementById('userModalTitle');
+            const meta = document.getElementById('userModalMeta');
+            const grid = document.getElementById('userModalGrid');
+            const scoresEl = document.getElementById('userModalScores');
+            const labsEl = document.getElementById('userModalLabs');
+            const deleteBtn = document.getElementById('userModalDeleteBtn');
+            if (!overlay) return;
+
+            title.textContent = 'User details';
+            meta.textContent = 'Loading…';
+            grid.innerHTML = '';
+            scoresEl.innerHTML = '<li>Loading…</li>';
+            labsEl.innerHTML = '<li>Loading…</li>';
+            deleteBtn.disabled = true;
+            overlay.classList.add('open');
+
+            try {
+                const res = await fetch(`/api/admin/users/${encodeURIComponent(id)}`, { credentials: 'same-origin' });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data.success) {
+                    meta.textContent = data.message || 'Could not load user';
+                    showToast(data.message || 'Could not load user', 'error');
+                    return;
+                }
+                const u = data.user;
+                title.textContent = u.username || ('User #' + id);
+                meta.textContent = u.email || 'No email on file';
+                grid.innerHTML = [
+                    ['Status', u.status || '—'],
+                    ['Plan', `${u.subscription_tier || 'free'} · ${u.subscription_status || 'inactive'}`],
+                    ['Expires', u.subscription_expires_at ? formatDate(u.subscription_expires_at) : '—'],
+                    ['Joined', formatDate(u.created_at)],
+                    ['Modules scored', String(u.modules_completed || 0)],
+                    ['Best score', `${Number(u.best_score || 0)}%`],
+                    ['Admin', u.is_admin ? 'Yes' : 'No'],
+                    ['Beta', u.is_beta_tester ? 'Yes' : 'No']
+                ].map(([label, value]) => `
+                    <div>
+                        <span class="label">${escapeHtml(label)}</span>
+                        <span class="value">${escapeHtml(value)}</span>
+                    </div>
+                `).join('');
+
+                const scores = data.scores || [];
+                scoresEl.innerHTML = scores.length
+                    ? scores.map((s) => `<li>${escapeHtml(s.module_name)} — ${Number(s.score)}% (${formatDate(s.completed_at)})</li>`).join('')
+                    : '<li>No quiz scores yet.</li>';
+
+                const labs = data.labs || [];
+                labsEl.innerHTML = labs.length
+                    ? labs.map((l) => `<li>${escapeHtml(l.lab_id)} — ${Number(l.score)}% ${l.passed ? '(passed)' : ''} (${formatDate(l.completed_at)})</li>`).join('')
+                    : '<li>No workbench labs yet.</li>';
+
+                deleteBtn.disabled = !u.can_delete;
+                deleteBtn.dataset.userId = String(u.id);
+                deleteBtn.dataset.username = u.username || ('#' + u.id);
+            } catch (err) {
+                console.error(err);
+                meta.textContent = 'Network error while loading user';
+                showToast('Network error while loading user', 'error');
+            }
+        }
+
+        async function deleteUser(userId, username) {
+            const id = Number(userId);
+            const label = username || ('#' + id);
+            if (!Number.isFinite(id) || id <= 0) {
+                showToast('Invalid user id', 'error');
+                return;
+            }
+            if (!window.confirm(`Delete user “${label}”?\n\nThis permanently removes their account, scores, badges, and related data. This cannot be undone.`)) {
+                return;
+            }
+            if (!window.confirm(`Final confirmation: delete “${label}” forever?`)) {
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/admin/users/${encodeURIComponent(id)}`, {
+                    method: 'DELETE',
+                    credentials: 'same-origin',
+                    headers: { 'Accept': 'application/json' }
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data.success) {
+                    showToast(data.message || `Could not delete user (${res.status})`, 'error');
+                    return;
+                }
+                showToast(data.message || 'User deleted', 'success');
+                closeUserModal();
+                await loadUsers();
+                if (typeof loadStats === 'function') loadStats();
+            } catch (err) {
+                console.error(err);
+                showToast('Network error while deleting user', 'error');
+            }
+        }
+
+        function eventEl(e) {
+            const t = e.target;
+            if (!t) return null;
+            return t.nodeType === 1 ? t : t.parentElement;
+        }
+
+        document.addEventListener('click', (e) => {
+            const el = eventEl(e);
+            if (!el) return;
+            const btn = el.closest('[data-action="view-user"], [data-action="delete-user"]');
+            if (!btn) return;
+            e.preventDefault();
+            e.stopPropagation();
+            const id = btn.getAttribute('data-user-id');
+            if (btn.getAttribute('data-action') === 'view-user') {
+                viewUser(id);
+            } else if (btn.getAttribute('data-action') === 'delete-user') {
+                deleteUser(id, btn.getAttribute('data-username'));
+            }
+        });
+
+        document.getElementById('userModalCloseBtn')?.addEventListener('click', closeUserModal);
+        document.getElementById('userModalOverlay')?.addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeUserModal();
+        });
+        document.getElementById('userModalDeleteBtn')?.addEventListener('click', (e) => {
+            const btn = e.currentTarget;
+            deleteUser(btn.dataset.userId, btn.dataset.username);
+        });
+        document.getElementById('userModalPlanActions')?.addEventListener('click', async (e) => {
+            const el = eventEl(e);
+            const btn = el?.closest('[data-set-plan]');
+            if (!btn || !activeUserId) return;
+            const plan = btn.getAttribute('data-set-plan');
+            btn.disabled = true;
+            try {
+                const res = await fetch(`/api/admin/users/${encodeURIComponent(activeUserId)}/plan`, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ plan })
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data.success) {
+                    showToast(data.message || 'Could not update plan', 'error');
+                    return;
+                }
+                showToast(data.message || 'Plan updated', 'success');
+                await viewUser(activeUserId);
+                await loadUsers();
+            } catch (err) {
+                console.error(err);
+                showToast('Network error while updating plan', 'error');
+            } finally {
+                btn.disabled = false;
+            }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeUserModal();
+        });
+
+        // expose for any legacy inline handlers
+        window.viewUser = viewUser;
+        window.deleteUser = deleteUser;
+
+        function deleteLab(labId) {
+            if (confirm('Are you sure you want to delete this lab? This action cannot be undone.')) {
+                showToast('Lab delete is not enabled in this build', 'info');
             }
         }
 
@@ -1157,44 +1427,6 @@
         // ============================================================
         // ACTIONS
         // ============================================================
-        function viewUser(userId) {
-            showToast('User #' + userId + ' — use Delete to remove accounts. Profile details live under Users.', 'info');
-        }
-
-        async function deleteUser(userId, username) {
-            const label = username || ('#' + userId);
-            if (!confirm(`Delete user “${label}”?\\n\\nThis permanently removes their account, scores, badges, and related data. This cannot be undone.`)) {
-                return;
-            }
-            if (!confirm(`Final confirmation: delete “${label}” forever?`)) {
-                return;
-            }
-
-            try {
-                const res = await fetch(`/api/admin/users/${encodeURIComponent(userId)}`, {
-                    method: 'DELETE',
-                    credentials: 'same-origin'
-                });
-                const data = await res.json().catch(() => ({}));
-                if (!res.ok || !data.success) {
-                    showToast(data.message || 'Could not delete user', 'error');
-                    return;
-                }
-                showToast(data.message || 'User deleted', 'success');
-                await loadUsers();
-                if (typeof loadStats === 'function') loadStats();
-            } catch (err) {
-                console.error(err);
-                showToast('Network error while deleting user', 'error');
-            }
-        }
-
-        function deleteLab(labId) {
-            if (confirm('Are you sure you want to delete this lab? This action cannot be undone.')) {
-                showToast('🗑️ Lab deleted successfully', 'success');
-            }
-        }
-
         function exportUsers() {
             showToast('📥 Exporting users...', 'info');
             setTimeout(() => { showToast('✅ Users exported successfully', 'success'); }, 1500);
@@ -1223,15 +1455,15 @@
             }
         });
 
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            document.getElementById('navLinks').classList.toggle('show');
+        document.getElementById('menuToggle')?.addEventListener('click', function() {
+            document.getElementById('navLinks')?.classList.toggle('show');
             this.classList.toggle('active');
         });
 
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
-                document.getElementById('navLinks').classList.remove('show');
-                document.getElementById('menuToggle').classList.remove('active');
+                document.getElementById('navLinks')?.classList.remove('show');
+                document.getElementById('menuToggle')?.classList.remove('active');
             });
         });
 
