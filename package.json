@@ -5,13 +5,17 @@
   "main": "server.js",
   "scripts": {
     "test": "node scripts/smoke-test.js",
+    "test:email": "node scripts/test-email.js",
     "start": "node server.js",
     "dev": "nodemon server.js",
     "db:postgres:up": "docker compose -f docker-compose.postgres.yml up -d",
     "db:postgres:down": "docker compose -f docker-compose.postgres.yml down",
     "db:migrate:sqlite-to-pg": "node scripts/migrate-sqlite-to-postgres.js"
   },
-  "keywords": [],
+  "keywords": [
+    "cybersecurity",
+    "training"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
