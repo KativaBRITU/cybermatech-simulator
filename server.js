@@ -3673,6 +3673,8 @@ app.get('/api/admin/users', isAdmin, async (req, res) => {
     try {
         const users = await db.allAsync(`
             SELECT u.id, u.username, u.email, u.created_at, u.status,
+                   u.subscription_tier, u.subscription_status, u.subscription_expires_at,
+                   u.is_beta_tester,
                    COUNT(DISTINCT qs.module_name) as modules_completed,
                    MAX(qs.score) as best_score
             FROM users u
@@ -3680,10 +3682,83 @@ app.get('/api/admin/users', isAdmin, async (req, res) => {
             GROUP BY u.id
             ORDER BY u.created_at DESC
         `);
-        res.json({ success: true, users });
+        res.json({
+            success: true,
+            users: (users || []).map((u) => ({
+                ...u,
+                is_admin: userIsAdmin(u),
+                is_beta_tester: !!(u.is_beta_tester === 1 || u.is_beta_tester === true)
+            }))
+        });
     } catch (error) {
         console.error('Admin users error:', error);
         res.status(500).json({ success: false, message: 'Error loading users' });
+    }
+});
+
+app.get('/api/admin/users/:id', isAdmin, async (req, res) => {
+    const userId = parseInt(req.params.id, 10);
+    if (!Number.isFinite(userId) || userId <= 0) {
+        return res.status(400).json({ success: false, message: 'Invalid user id' });
+    }
+    try {
+        const user = await db.getAsync(
+            `SELECT id, username, email, created_at, status, profile_picture,
+                    subscription_tier, subscription_status, subscription_expires_at, is_beta_tester
+             FROM users WHERE id = ?`,
+            [userId]
+        );
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        const scores = await db.allAsync(
+            `SELECT module_name, score, completed_at FROM quiz_scores
+             WHERE user_id = ? ORDER BY completed_at DESC LIMIT 12`,
+            [userId]
+        ).catch(() => []);
+        const labs = await db.allAsync(
+            `SELECT lab_id, module_id, score, passed, completed_at FROM lab_completions
+             WHERE user_id = ? ORDER BY completed_at DESC LIMIT 12`,
+            [userId]
+        ).catch(() => []);
+        const badges = await db.allAsync(
+            `SELECT badge_name, badge_icon, earned_at FROM badges
+             WHERE user_id = ? ORDER BY earned_at DESC LIMIT 20`,
+            [userId]
+        ).catch(() => []);
+        const subs = await db.allAsync(
+            `SELECT plan, tier, status, amount, currency, expires_at, created_at
+             FROM subscriptions WHERE user_id = ? ORDER BY id DESC LIMIT 8`,
+            [userId]
+        ).catch(() => []);
+        const moduleCount = await db.getAsync(
+            `SELECT COUNT(DISTINCT module_name) AS c FROM quiz_scores WHERE user_id = ? AND score > 0`,
+            [userId]
+        ).catch(() => ({ c: 0 }));
+        const best = await db.getAsync(
+            `SELECT MAX(score) AS best_score FROM quiz_scores WHERE user_id = ?`,
+            [userId]
+        ).catch(() => ({ best_score: 0 }));
+
+        res.json({
+            success: true,
+            user: {
+                ...user,
+                is_admin: userIsAdmin(user),
+                is_beta_tester: !!(user.is_beta_tester === 1 || user.is_beta_tester === true),
+                modules_completed: Number(moduleCount?.c || 0),
+                best_score: Number(best?.best_score || 0),
+                can_delete: !(req.session.user && Number(req.session.user.id) === userId) && !userIsAdmin(user)
+            },
+            scores: scores || [],
+            labs: labs || [],
+            badges: badges || [],
+            subscriptions: subs || []
+        });
+    } catch (error) {
+        console.error('Admin view user error:', error);
+        res.status(500).json({ success: false, message: 'Could not load user details' });
     }
 });
 
@@ -3738,7 +3813,10 @@ app.delete('/api/admin/users/:id', isAdmin, async (req, res) => {
             'DELETE FROM user_feedback WHERE user_id = ?',
             'DELETE FROM feedback WHERE user_id = ?',
             'DELETE FROM darkweb_scans WHERE user_id = ?',
-            'DELETE FROM readiness_tokens WHERE user_id = ?'
+            'DELETE FROM readiness_tokens WHERE user_id = ?',
+            'DELETE FROM learner_lab_seeds WHERE user_id = ?',
+            'DELETE FROM process_monitor WHERE user_id = ?',
+            'DELETE FROM custom_training_requests WHERE requested_by = ?'
         ];
 
         for (const sql of relatedDeletes) {
@@ -3776,7 +3854,11 @@ app.delete('/api/admin/users/:id', isAdmin, async (req, res) => {
             }
         } catch (_) { /* org tables optional */ }
 
-        await db.runAsync('DELETE FROM users WHERE id = ?', [userId]);
+        const del = await db.runAsync('DELETE FROM users WHERE id = ?', [userId]);
+        const removed = Number(del?.changes || del?.rowCount || 0);
+        if (!removed) {
+            return res.status(500).json({ success: false, message: 'User row was not removed. Check database constraints.' });
+        }
         await removeStoredProfileFile(target.profile_picture);
 
         console.log(`🗑️ Admin ${req.session.user.email} deleted user #${userId} (${target.username})`);
@@ -3787,7 +3869,10 @@ app.delete('/api/admin/users/:id', isAdmin, async (req, res) => {
         });
     } catch (error) {
         console.error('Admin delete user error:', error);
-        res.status(500).json({ success: false, message: 'Could not delete user' });
+        res.status(500).json({
+            success: false,
+            message: error?.message ? `Could not delete user: ${error.message}` : 'Could not delete user'
+        });
     }
 });
 
