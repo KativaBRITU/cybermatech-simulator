@@ -1376,14 +1376,15 @@
                 if (!title || !desc || !badge) return;
 
                 const tier = String(data.tier || 'free').toLowerCase();
-                const active = data.status === 'active' || data.is_pro;
-                const isSpecial = data.is_special_ops || tier === 'special_ops' || tier === 'elite';
-                const isPlus = data.is_pro_plus || tier === 'pro_plus' || tier === 'proplus' || isSpecial;
+                const isSpecial = !!(data.is_special_ops || tier === 'special_ops' || tier === 'elite');
+                const isPlus = !!(data.is_pro_plus || tier === 'pro_plus' || tier === 'proplus' || isSpecial);
+                const isPro = !!(data.is_pro || ['pro', 'premium', 'annual', 'monthly', 'paid'].includes(tier) || isPlus || isSpecial);
+                const active = data.status === 'active' || data.status === 'trialing' || isPro;
                 const expires = data.expires_at
                     ? new Date(data.expires_at).toLocaleDateString()
                     : null;
 
-                if (active && (tier === 'premium' || tier === 'pro' || isPlus || isSpecial)) {
+                if (active && isPro) {
                     title.textContent = isSpecial
                         ? 'You are on Special Ops Elite'
                         : (isPlus ? 'You are on Pro+' : 'You are a Pro member!');
@@ -1394,7 +1395,7 @@
                         : (isSpecial
                             ? 'Special Ops Elite: Live Red Team Emulation + Live Blue Team Crisis Cell.'
                             : 'Enjoy unlimited access to modules, certificates, and premium features.');
-                    badge.textContent = isPlus ? 'PRO+' : 'PRO';
+                    badge.textContent = isSpecial ? 'ELITE' : (isPlus ? 'PRO+' : 'PRO');
                     badge.className = 'status-badge pro';
                     const icon = document.querySelector('.status-icon');
                     if (icon) icon.textContent = '🎉';
@@ -1403,7 +1404,6 @@
                         const plan = btn.getAttribute('data-plan') || '';
                         const isSpecialBtn = plan.startsWith('special_ops');
                         const isPlusBtn = plan.startsWith('pro_plus') || isSpecialBtn;
-                        // Special Ops members already have everything; Pro+ members keep Special Ops upgrade available
                         if (isSpecial && (isPlusBtn || plan === 'monthly' || plan === 'annual')) {
                             btn.disabled = true;
                             btn.dataset.owned = '1';
@@ -1522,7 +1522,10 @@
 
                 if (data.success && data.activated) {
                     showToast(data.message || 'Plan activated.', 'success');
-                    setTimeout(() => { window.location.href = '/payment-success?plan=' + encodeURIComponent(plan); }, 1000);
+                    await checkSubscription();
+                    setTimeout(() => {
+                        window.location.href = '/payment-success?plan=' + encodeURIComponent(plan) + '&tier=' + encodeURIComponent(data.tier || '');
+                    }, 800);
                     return;
                 }
 
@@ -1539,8 +1542,15 @@
         window.createOrder = createOrder;
 
         // Buttons + whole paid plan cards respond
+        function eventEl(e) {
+            const t = e.target;
+            if (!t) return null;
+            return t.nodeType === 1 ? t : t.parentElement;
+        }
         document.querySelector('.plans-grid')?.addEventListener('click', (e) => {
-            const btn = e.target.closest('.btn-plan[data-plan]');
+            const el = eventEl(e);
+            if (!el) return;
+            const btn = el.closest('.btn-plan[data-plan]');
             if (btn) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1551,10 +1561,10 @@
                 createOrder(btn.getAttribute('data-plan'));
                 return;
             }
-            const card = e.target.closest('.plan-card[data-plan-action]');
+            const card = el.closest('.plan-card[data-plan-action]');
             if (!card) return;
             // Ignore clicks on links inside B2B cards
-            if (e.target.closest('a')) return;
+            if (el.closest('a')) return;
             const plan = card.getAttribute('data-plan-action');
             const primary = card.querySelector(`.btn-plan[data-plan="${plan}"]`) || card.querySelector('.btn-plan[data-plan]');
             if (primary && primary.disabled && primary.dataset.owned) {
@@ -1568,27 +1578,30 @@
         // CAPTURE PAYPAL ORDER (Return from PayPal)
         // ============================================================
         const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-        const payerId = urlParams.get('PayerID');
+        const token = urlParams.get('token') || urlParams.get('orderId');
+        const payerId = urlParams.get('PayerID') || urlParams.get('payerId') || urlParams.get('PayerId');
+        const paypalReturn = urlParams.get('paypal') === 'return' || Boolean(token);
 
-        if (token && payerId) {
-            // Show processing message
-            showToast('⏳ Processing your payment...', 'info', 5000);
+        if (paypalReturn && token) {
+            // Show processing message — capture even if PayerID is missing (Orders API)
+            showToast('Processing your payment…', 'info', 6000);
 
             fetch('/api/paypal/capture-order', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ orderId: token })
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ orderId: token, PayerID: payerId || undefined })
                 })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
+                .then(res => res.json().then((data) => ({ ok: res.ok, data })))
+                .then(({ ok, data }) => {
+                    if (ok && data.success) {
                         showToast(data.message || 'Payment successful! Your plan is active.', 'success');
                         setTimeout(() => {
                             window.location.href = data.redirect || '/payment-success';
-                        }, 1200);
+                        }, 1000);
                     } else {
-                        showToast('Payment failed: ' + (data.message || 'Unknown error'), 'error');
+                        showToast('Payment failed: ' + (data.message || 'Unknown error'), 'error', 6000);
+                        checkSubscription();
                     }
                 })
                 .catch(err => {

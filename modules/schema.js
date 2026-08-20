@@ -60,6 +60,9 @@ async function initSchema(db) {
 
     await addColumnIfMissing(db, 'users', 'status', `${T} DEFAULT 'active'`);
     await addColumnIfMissing(db, 'users', 'is_beta_tester', 'INTEGER DEFAULT 0');
+    await addColumnIfMissing(db, 'users', 'subscription_tier', `${T} DEFAULT 'free'`);
+    await addColumnIfMissing(db, 'users', 'subscription_status', `${T} DEFAULT 'inactive'`);
+    await addColumnIfMissing(db, 'users', 'subscription_expires_at', db.dialect === 'postgres' ? 'TIMESTAMP' : 'DATETIME');
 
     await db.runAsync(`CREATE TABLE IF NOT EXISTS modules (
         id INTEGER PRIMARY KEY,

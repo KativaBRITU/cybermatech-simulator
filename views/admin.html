@@ -837,6 +837,14 @@
             <ul id="userModalScores"><li>Loading…</li></ul>
             <div class="section-title">Recent labs</div>
             <ul id="userModalLabs"><li>Loading…</li></ul>
+            <div class="section-title">Set plan</div>
+            <div class="modal-actions" id="userModalPlanActions" style="margin-top:0.35rem;">
+                <button type="button" class="btn btn-secondary" data-set-plan="free">Free</button>
+                <button type="button" class="btn btn-secondary" data-set-plan="monthly">Pro Monthly</button>
+                <button type="button" class="btn btn-secondary" data-set-plan="annual">Pro Annual</button>
+                <button type="button" class="btn btn-secondary" data-set-plan="pro_plus_2mo">Pro+</button>
+                <button type="button" class="btn btn-secondary" data-set-plan="special_ops_2mo">Special Ops</button>
+            </div>
             <div class="modal-actions">
                 <button type="button" class="btn btn-secondary" id="userModalCloseBtn">Close</button>
                 <button type="button" class="btn btn-primary" id="userModalDeleteBtn" style="background:linear-gradient(135deg,#ef4444,#b91c1c);">Delete user</button>
@@ -1159,9 +1167,19 @@
             }
         }
 
-        document.getElementById('usersTableBody')?.addEventListener('click', (e) => {
-            const btn = e.target.closest('[data-action]');
+        function eventEl(e) {
+            const t = e.target;
+            if (!t) return null;
+            return t.nodeType === 1 ? t : t.parentElement;
+        }
+
+        document.addEventListener('click', (e) => {
+            const el = eventEl(e);
+            if (!el) return;
+            const btn = el.closest('[data-action="view-user"], [data-action="delete-user"]');
             if (!btn) return;
+            e.preventDefault();
+            e.stopPropagation();
             const id = btn.getAttribute('data-user-id');
             if (btn.getAttribute('data-action') === 'view-user') {
                 viewUser(id);
@@ -1169,6 +1187,7 @@
                 deleteUser(id, btn.getAttribute('data-username'));
             }
         });
+
         document.getElementById('userModalCloseBtn')?.addEventListener('click', closeUserModal);
         document.getElementById('userModalOverlay')?.addEventListener('click', (e) => {
             if (e.target === e.currentTarget) closeUserModal();
@@ -1176,6 +1195,34 @@
         document.getElementById('userModalDeleteBtn')?.addEventListener('click', (e) => {
             const btn = e.currentTarget;
             deleteUser(btn.dataset.userId, btn.dataset.username);
+        });
+        document.getElementById('userModalPlanActions')?.addEventListener('click', async (e) => {
+            const el = eventEl(e);
+            const btn = el?.closest('[data-set-plan]');
+            if (!btn || !activeUserId) return;
+            const plan = btn.getAttribute('data-set-plan');
+            btn.disabled = true;
+            try {
+                const res = await fetch(`/api/admin/users/${encodeURIComponent(activeUserId)}/plan`, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ plan })
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data.success) {
+                    showToast(data.message || 'Could not update plan', 'error');
+                    return;
+                }
+                showToast(data.message || 'Plan updated', 'success');
+                await viewUser(activeUserId);
+                await loadUsers();
+            } catch (err) {
+                console.error(err);
+                showToast('Network error while updating plan', 'error');
+            } finally {
+                btn.disabled = false;
+            }
         });
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeUserModal();
@@ -1408,15 +1455,15 @@
             }
         });
 
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            document.getElementById('navLinks').classList.toggle('show');
+        document.getElementById('menuToggle')?.addEventListener('click', function() {
+            document.getElementById('navLinks')?.classList.toggle('show');
             this.classList.toggle('active');
         });
 
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
-                document.getElementById('navLinks').classList.remove('show');
-                document.getElementById('menuToggle').classList.remove('active');
+                document.getElementById('navLinks')?.classList.remove('show');
+                document.getElementById('menuToggle')?.classList.remove('active');
             });
         });
 

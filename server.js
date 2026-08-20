@@ -784,16 +784,18 @@ async function getAccessUser(req) {
             status === 'active' &&
             tier !== 'free' &&
             tier !== 'beta' &&
-            !isBeta &&
-            new Date(expiresAt).getTime() < Date.now()
+            !isBeta
         ) {
-            await db.runAsync(
-                `UPDATE users SET subscription_tier = 'free', subscription_status = 'expired'
-                 WHERE id = ?`,
-                [row.id]
-            );
-            tier = 'free';
-            status = 'expired';
+            const expiresMs = new Date(expiresAt).getTime();
+            if (Number.isFinite(expiresMs) && expiresMs < Date.now()) {
+                await db.runAsync(
+                    `UPDATE users SET subscription_tier = 'free', subscription_status = 'expired'
+                     WHERE id = ?`,
+                    [row.id]
+                );
+                tier = 'free';
+                status = 'expired';
+            }
         }
 
         req.session.user.subscription_tier = tier;
@@ -2119,26 +2121,39 @@ app.post('/api/paypal/create-order', rateLimiter(10, 15 * 60 * 1000, 'paypal-cre
 
     const paypalReady = paypalCheckout.isConfigured();
     const accessUser = await getAccessUser(req);
-    const canDevActivate = !paypalReady && (userIsAdmin(accessUser) || !IS_PROD);
+    const forceLocalActivate = String(req.body?.force_local || '') === '1' && userIsAdmin(accessUser);
+    const canDevActivate = (!paypalReady && (userIsAdmin(accessUser) || !IS_PROD)) || forceLocalActivate;
 
     if (canDevActivate) {
-        const sel = await activateSubscription(req.session.user.id, plan, {
-            status: 'dev_activate',
-            orderId: `DEV-${Date.now()}`
-        });
-        if (!sel) return res.status(400).json({ success: false, message: 'Unknown plan' });
-        req.session.user.subscription_tier = sel.tier;
-        req.session.user.subscription_status = 'active';
-        req.session.user.subscription_expires_at = sel.expiresAt;
-        return req.session.save(() => {
-            res.json({
-                success: true,
-                activated: true,
-                tier: sel.tier,
-                expires_at: sel.expiresAt,
-                message: `Dev/admin activate: ${sel.tier} (${sel.months} mo). Set PAYPAL_CLIENT_ID + PAYPAL_CLIENT_SECRET for live checkout.`
+        try {
+            const sel = await activateSubscription(req.session.user.id, plan, {
+                status: paypalReady ? 'admin_activate' : 'dev_activate',
+                orderId: `LOCAL-${Date.now()}`
             });
-        });
+            if (!sel) return res.status(400).json({ success: false, message: 'Unknown plan' });
+            req.session.user.subscription_tier = sel.tier;
+            req.session.user.subscription_status = 'active';
+            req.session.user.subscription_expires_at = sel.expiresAt;
+            return req.session.save((err) => {
+                if (err) {
+                    console.error('Session save after activate failed:', err);
+                }
+                res.json({
+                    success: true,
+                    activated: true,
+                    tier: sel.tier,
+                    status: 'active',
+                    expires_at: sel.expiresAt,
+                    message: `Plan activated: ${sel.label}. Access is active on this account.`
+                });
+            });
+        } catch (err) {
+            console.error('Local plan activate error:', err);
+            return res.status(500).json({
+                success: false,
+                message: err?.message ? `Could not activate plan: ${err.message}` : 'Could not activate plan'
+            });
+        }
     }
 
     if (!paypalReady) {
@@ -3872,6 +3887,66 @@ app.delete('/api/admin/users/:id', isAdmin, async (req, res) => {
         res.status(500).json({
             success: false,
             message: error?.message ? `Could not delete user: ${error.message}` : 'Could not delete user'
+        });
+    }
+});
+
+/** Admin: activate / change a member plan (does not require PayPal). */
+app.post('/api/admin/users/:id/plan', isAdmin, async (req, res) => {
+    const userId = parseInt(req.params.id, 10);
+    if (!Number.isFinite(userId) || userId <= 0) {
+        return res.status(400).json({ success: false, message: 'Invalid user id' });
+    }
+    const plan = String(req.body?.plan || '').trim();
+    const allowed = ['free', 'monthly', 'annual', 'pro_plus_2mo', 'pro_plus_annual', 'special_ops_2mo', 'special_ops_annual'];
+    if (!allowed.includes(plan)) {
+        return res.status(400).json({ success: false, message: 'Unknown plan' });
+    }
+    try {
+        const target = await db.getAsync('SELECT id, username, email FROM users WHERE id = ?', [userId]);
+        if (!target) return res.status(404).json({ success: false, message: 'User not found' });
+
+        if (plan === 'free') {
+            await db.runAsync(
+                `UPDATE users
+                 SET subscription_tier = 'free', subscription_status = 'inactive', subscription_expires_at = NULL
+                 WHERE id = ?`,
+                [userId]
+            );
+            return res.json({
+                success: true,
+                tier: 'free',
+                status: 'inactive',
+                message: `“${target.username}” set to Free.`
+            });
+        }
+
+        const sel = await activateSubscription(userId, plan, {
+            status: 'admin_activate',
+            orderId: `ADMIN-${req.session.user.id}-${Date.now()}`
+        });
+        if (!sel) return res.status(400).json({ success: false, message: 'Unknown plan' });
+
+        // If the admin activated their own account, refresh session
+        if (Number(req.session.user.id) === userId) {
+            req.session.user.subscription_tier = sel.tier;
+            req.session.user.subscription_status = 'active';
+            req.session.user.subscription_expires_at = sel.expiresAt;
+            await new Promise((resolve) => req.session.save(() => resolve()));
+        }
+
+        res.json({
+            success: true,
+            tier: sel.tier,
+            status: 'active',
+            expires_at: sel.expiresAt,
+            message: `“${target.username}” activated on ${sel.label}.`
+        });
+    } catch (error) {
+        console.error('Admin set plan error:', error);
+        res.status(500).json({
+            success: false,
+            message: error?.message ? `Could not set plan: ${error.message}` : 'Could not set plan'
         });
     }
 });
