@@ -1,0 +1,12 @@
+# Safer production target: Railway Node origin + Neon DATABASE_URL
+# Cloudflare sits in front (DNS / Full strict / WAF). See docs/SAFE_CLOUDFLARE_DEPLOY.md
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+healthcheckPath = "/api/health"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5

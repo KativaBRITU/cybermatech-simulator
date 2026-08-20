@@ -1,0 +1,80 @@
+/* Marketing / auth pages — keep cinematic dark look, fix low-contrast text.
+   Do NOT force light-card (dark text) colors onto dark HUD panels. */
+
+:root {
+    --vis-text: #f1f5f9;
+    --vis-muted: #cbd5e1;
+    --vis-strong: #ffffff;
+    --vis-accent: #5eead4;
+}
+
+body, .hero, .hero-content, .page-hero {
+    color: var(--vis-text);
+}
+
+h1, h2, h3, .hero h1, .section-header h2 {
+    color: var(--vis-strong) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.subtitle, .lede, .hero p, .hero-description, .section-header p,
+.faq-answer p, .testimonial-card .quote, .muted, .text-muted,
+.feature-card p, .blog-card p, .faq-subtitle {
+    color: var(--vis-muted) !important;
+}
+
+.feature-card h3, .blog-card h4, .testimonial-card .name,
+.faq-question, .stat-item .number, .stat-item .label,
+.systems-deck .deck-copy h2, .systems-deck .deck-list li {
+    color: var(--vis-strong) !important;
+}
+
+.nav-links a {
+    color: #e2e8f0 !important;
+}
+.nav-links a:hover, .nav-links a.active {
+    color: var(--vis-accent) !important;
+}
+
+.logo, .brand, .hero-brand {
+    color: #ffffff !important;
+}
+
+a.btn-primary, .btn-primary, .btn-nav {
+    color: #042f2e !important;
+}
+
+.btn-secondary {
+    color: #f8fafc !important;
+    border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+footer, .footer, .footer-bottom {
+    color: #cbd5e1 !important;
+}
+footer a, .footer a {
+    color: var(--vis-accent) !important;
+}
+
+/* Matte K must stay high-contrast regardless of page theme */
+#matteKRoot,
+#matteKRoot .mk-bubble,
+#matteKRoot .mk-bubble.ai,
+#matteKRoot .mk-name,
+#matteKRoot .mk-messages {
+    color: #ffffff !important;
+}
+#matteKRoot .mk-bubble.ai .mk-body {
+    color: #ffffff !important;
+}
+#matteKRoot .mk-bubble.ai .mk-label,
+#matteKRoot .mk-status,
+#matteKRoot .mk-fab-sub {
+    color: #5eead4 !important;
+}
+#matteKRoot .mk-bubble.user {
+    color: #f0fdfa !important;
+}
+#matteKRoot .mk-input-row input {
+    color: #ffffff !important;
+}

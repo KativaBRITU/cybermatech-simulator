@@ -3,121 +3,814 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificate — Cybermatech</title>
-    <link rel="stylesheet" href="/css/theme.css">
+    <title>Certificate of Achievement - Tribams</title>
+    <!-- html2canvas for PNG generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+    </script>
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+    </script>
+    <style>
+        /* ============================================ */
+        /* RESET & BASE - 30 lines
+        /* ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #0a0a1a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .certificate-wrapper {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* ============================================ */
+        /* CERTIFICATE CARD - DIAMOND THEME
+        /* ============================================ */
+        .certificate-card {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(0, 255, 136, 0.2);
+            overflow: hidden;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        /* ============================================ */
+        /* DIAMOND BACKGROUND PATTERN
+        /* ============================================ */
+        .diamond-bg {
+            position: relative;
+            padding: 2.5rem;
+            background-color: #ffffff;
+            /* Subtle diamond grid pattern */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='%23e8e8e8' stroke-width='0.6'/%3E%3C/svg%3E");
+            background-size: 60px 60px;
+            background-position: 0 0;
+        }
+
+        /* Large decorative diamonds (watermark style) */
+        .diamond-bg::before {
+            content: '◆';
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 8rem;
+            color: rgba(0, 255, 136, 0.04);
+            transform: rotate(45deg);
+            pointer-events: none;
+        }
+
+        .diamond-bg::after {
+            content: '◆';
+            position: absolute;
+            bottom: 20px;
+            left: 40px;
+            font-size: 10rem;
+            color: rgba(0, 255, 136, 0.04);
+            transform: rotate(22.5deg);
+            pointer-events: none;
+        }
+
+        /* ============================================ */
+        /* DIAMOND BORDER CORNERS
+        /* ============================================ */
+        .diamond-border {
+            border: 3px solid #00ff88;
+            padding: 1.8rem;
+            position: relative;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(2px);
+            z-index: 2;
+        }
+
+        /* Corner Diamonds */
+        .corner-diamond {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #00ff88;
+            transform: rotate(45deg);
+            z-index: 3;
+        }
+        .corner-diamond.tl {
+            top: -4px;
+            left: -4px;
+            border-radius: 4px 0 0 0;
+        }
+        .corner-diamond.tr {
+            top: -4px;
+            right: -4px;
+            border-radius: 0 4px 0 0;
+        }
+        .corner-diamond.bl {
+            bottom: -4px;
+            left: -4px;
+            border-radius: 0 0 0 4px;
+        }
+        .corner-diamond.br {
+            bottom: -4px;
+            right: -4px;
+            border-radius: 0 0 4px 0;
+        }
+
+        /* Inner gold/cyan accent border */
+        .diamond-border::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.25);
+            pointer-events: none;
+            z-index: 1;
+            border-radius: 4px;
+        }
+
+        /* ============================================ */
+        /* CERTIFICATE CONTENT - 100 lines
+        /* ============================================ */
+        .certificate-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        /* Header */
+        .certificate-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .certificate-seal {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #00ff88, #0088ff);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.25);
+            border: 3px solid #ffffff;
+        }
+
+        .certificate-seal span {
+            font-size: 2.5rem;
+        }
+
+        .certificate-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #0a0a2a, #1a1a3a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+        }
+
+        .certificate-subtitle {
+            color: #888;
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+            border-top: 1px solid #eee;
+            padding-top: 0.5rem;
+            display: inline-block;
+        }
+
+        /* Body */
+        .certificate-body {
+            margin: 1.5rem 0;
+        }
+
+        .certificate-body .label {
+            color: #888;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+
+        .recipient-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0a0a2a;
+            margin: 0.3rem 0 0.5rem;
+            padding: 0.3rem 2rem;
+            display: inline-block;
+            border-bottom: 3px solid #00ff88;
+            letter-spacing: 1px;
+        }
+
+        .module-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1a1a3a;
+            background: #f5f7fa;
+            display: inline-block;
+            padding: 0.2rem 1.5rem;
+            border-radius: 50px;
+            margin: 0.3rem 0;
+            border: 1px solid #e8e8e8;
+        }
+
+        /* Score Section */
+        .score-section {
+            margin: 1.2rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-item .number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #00ff88;
+            text-shadow: 0 2px 5px rgba(0, 255, 136, 0.15);
+        }
+
+        .score-item .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #999;
+            letter-spacing: 0.05em;
+            display: block;
+        }
+
+        .grade-badge {
+            padding: 0.3rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            color: #0a0a2a;
+        }
+
+        .grade-badge.gold {
+            background: linear-gradient(135deg, #ffd700, #f0a500);
+            color: #0a0a2a;
+        }
+        .grade-badge.silver {
+            background: linear-gradient(135deg, #c0c0c0, #a0a0a0);
+            color: #0a0a2a;
+        }
+        .grade-badge.bronze {
+            background: linear-gradient(135deg, #cd7f32, #b87333);
+            color: #ffffff;
+        }
+        .grade-badge.pass {
+            background: linear-gradient(135deg, #0088ff, #0055cc);
+            color: #ffffff;
+        }
+
+        /* ============================================ */
+        /* FOOTER & SIGNATURES - 60 lines
+        /* ============================================ */
+        .certificate-footer {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .signature-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .signature-box {
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .signature-line {
+            width: 160px;
+            height: 2px;
+            background: linear-gradient(90deg, #333, #666);
+            margin: 0 auto 0.3rem;
+            border-radius: 2px;
+        }
+
+        .signature-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.85rem;
+        }
+
+        .signature-title {
+            font-size: 0.65rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .certificate-id {
+            text-align: center;
+            margin-top: 1.2rem;
+            font-size: 0.7rem;
+            color: #aaa;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        .certificate-id strong {
+            color: #666;
+        }
+
+        /* ============================================ */
+        /* BUTTON GROUP - 40 lines
+        /* ============================================ */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            color: #0a0a2a;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+        }
+
+        .btn-pdf:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 68, 68, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #00ff88;
+            color: #00ff88;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 255, 136, 0.08);
+            transform: translateY(-3px);
+        }
+
+        .btn-print {
+            background: transparent;
+            border: 1px solid #666;
+            color: #666;
+        }
+
+        .btn-print:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-3px);
+        }
+        /* ============================================ */
+        /* LOADING ANIMATION
+        /* ============================================ */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .page-loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loader-ring {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(0, 255, 136, 0.1);
+            border-top-color: #00ff88;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============================================ */
+        /* RESPONSIVE - 40 lines
+        /* ============================================ */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .diamond-bg {
+                padding: 1rem;
+            }
+
+            .diamond-border {
+                padding: 0.8rem;
+            }
+
+            .certificate-title {
+                font-size: 2rem;
+            }
+
+            .recipient-name {
+                font-size: 1.8rem;
+            }
+
+            .score-item .number {
+                font-size: 1.8rem;
+            }
+
+            .signature-line {
+                width: 100px;
+            }
+
+            .signature-row {
+                justify-content: center;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .certificate-title {
+                font-size: 1.5rem;
+            }
+            .recipient-name {
+                font-size: 1.4rem;
+            }
+            .certificate-seal {
+                width: 50px;
+                height: 50px;
+            }
+            .certificate-seal span {
+                font-size: 1.8rem;
+            }
+            .diamond-bg::before,
+            .diamond-bg::after {
+                display: none;
+            }
+        }
+
+        /* ============================================ */
+        /* PRINT STYLES - 20 lines
+        /* ============================================ */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .btn-group {
+                display: none !important;
+            }
+            .certificate-card {
+                box-shadow: none !important;
+                margin: 0 !important;
+                border: 1px solid #ddd !important;
+            }
+            .diamond-bg {
+                padding: 0.5in !important;
+            }
+            .diamond-border {
+                border: 2px solid #00ff88 !important;
+            }
+            .certificate-wrapper {
+                max-width: 100% !important;
+            }
+        }
+    </style>
 </head>
-<body class="certificate-page">
+<body>
+<!-- Page Loader -->
+<div class="page-loader" id="pageLoader">
+    <div class="loader-ring"></div>
+</div>
+
+<script>
+// Hide loader when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+        document.getElementById('pageLoader').classList.add('hidden');
+    }, 500);
+});
+</script>
     <div class="certificate-wrapper">
-        <div id="certificateContainer">
-            <div class="loading">
-                <div class="spinner"></div>
-                <p>Loading your certificate...</p>
+        <!-- ============================================ -->
+        <!-- CERTIFICATE CARD
+        <!-- ============================================ -->
+        <div class="certificate-card" id="certificate">
+            <div class="diamond-bg">
+                <!-- Diamond Corner Decorations -->
+                <div class="diamond-border">
+                    <div class="corner-diamond tl"></div>
+                    <div class="corner-diamond tr"></div>
+                    <div class="corner-diamond bl"></div>
+                    <div class="corner-diamond br"></div>
+
+                    <div class="certificate-content">
+                        <!-- Header -->
+                        <div class="certificate-header">
+                            <div class="certificate-seal">
+                                <span>🛡️</span>
+                            </div>
+                            <h1 class="certificate-title">TRIBAMS/h1>
+                            <div class="certificate-subtitle">AI-Powered Cybersecurity Training</div>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="certificate-body">
+                            <p class="label">This certificate is proudly presented to</p>
+                            <div class="recipient-name" id="recipientName">Loading...</div>
+                            <p class="label" style="margin-top: 0.5rem;">for successfully completing</p>
+                            <div class="module-name" id="moduleName">Loading...</div>
+
+                            <div class="score-section">
+                                <div class="score-item">
+                                    <div class="number" id="scoreValue">0%</div>
+                                    <span class="label">Final Score</span>
+                                </div>
+                                <div class="score-item">
+                                    <div class="grade-badge" id="gradeBadge">Loading...</div>
+                                    <span class="label" style="margin-top: 0.2rem;">Grade</span>
+                                </div>
+                            </div>
+
+                            <p style="color: #888; font-size: 0.8rem; max-width: 500px; margin: 0.5rem auto;" id="messageText">
+                                Outstanding performance! You have demonstrated exceptional understanding of cybersecurity concepts.
+                            </p>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="certificate-footer">
+                            <div class="signature-row">
+                                <div class="signature-box">
+                                    <div class="signature-line"></div>
+                                    <div class="signature-name">Britu Kativa</div>
+                                    <div class="signature-title">Chief Executive Officer</div>
+                                </div>
+                                <div class="signature-box">
+                                    <div class="signature-line"></div>
+                                    <div class="signature-name">Selma N. Iyambo</div>
+                                    <div class="signature-title">Chief Technology Officer</div>
+                                </div>
+                                <div class="signature-box">
+                                    <div class="signature-line"></div>
+                                    <div class="signature-name">Erastus Nakapipi</div>
+                                    <div class="signature-title">Chief Information Security Officer</div>
+                                </div>
+                            </div>
+                            <div class="certificate-id" id="certificateId">
+                                Certificate ID: <strong>Loading...</strong> &nbsp;|&nbsp; Issued: <strong id="issueDate">Loading...</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="button-group" id="buttons" style="display: none;">
-            <button class="btn-download" onclick="saveAsPDF()">Save as PDF</button>
-            <button class="btn-back" onclick="location.href='/dashboard'">Back to Dashboard</button>
+
+        <!-- ============================================ -->
+        <!-- BUTTON GROUP
+        <!-- ============================================ -->
+        <div class="btn-group" id="btnGroup">
+            <button class="btn btn-primary" id="downloadPngBtn">
+                📸 Download as PNG
+            </button>
+            <button class="btn btn-pdf" id="downloadPdfBtn">
+                📄 Download as PDF
+            </button>
+            <button class="btn btn-print" id="printBtn">
+                🖨️ Print
+            </button>
+            <button class="btn btn-secondary" onclick="window.location.href='/dashboard'">
+                ← Back to Dashboard
+            </button>
         </div>
     </div>
 
+    <!-- ============================================ -->
+    <!-- SCRIPTS
+    <!-- ============================================ -->
     <script>
+        // ============================================================
+        // GET CERTIFICATE DATA FROM URL
+        // ============================================================
         const urlParams = new URLSearchParams(window.location.search);
-        let module = urlParams.get('module') || 'Cybersecurity Training';
-        let score = urlParams.get('score') || '100';
-        let username = urlParams.get('username') || 'Student';
+        let moduleName = urlParams.get('module') || 'Cybersecurity Training';
+        let score = parseInt(urlParams.get('score')) || 85;
+        let username = urlParams.get('username') || 'Valued Student';
 
-        module = decodeURIComponent(module);
-        username = decodeURIComponent(username);
+        // Clean up data
+        moduleName = moduleName.replace(/[^\w\s]/g, '').trim();
+        username = username.replace(/[^\w\s-]/g, '').trim() || 'Student';
 
-        const verificationCode = 'CM-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+        // Generate unique certificate ID
+        const certificateId = 'TRI-' + new Date().getFullYear() + '-' + Math.random().toString(36).substring(2, 10).toUpperCase();
 
-        function renderCertificate() {
-            const today = new Date();
-            const dateString = today.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
+        // Determine grade and message
+        let grade = '';
+        let gradeClass = '';
+        let message = '';
 
-            const scoreNum = parseInt(score);
+        if (score >= 90) {
+            grade = 'EXCELLENT';
+            gradeClass = 'gold';
+            message = 'Outstanding performance! You have demonstrated exceptional understanding of cybersecurity concepts.';
+        } else if (score >= 80) {
+            grade = 'DISTINCTION';
+            gradeClass = 'gold';
+            message = 'Excellent work! You have shown strong grasp of the material with great potential.';
+        } else if (score >= 70) {
+            grade = 'MERIT';
+            gradeClass = 'silver';
+            message = 'Good job! Successfully completed the training with solid understanding.';
+        } else if (score >= 60) {
+            grade = 'PASS';
+            gradeClass = 'bronze';
+            message = 'Satisfactory completion. Continue building your cybersecurity knowledge.';
+        } else {
+            grade = 'PARTICIPATION';
+            gradeClass = 'pass';
+            message = 'Thank you for participating. Keep learning and try again for a higher score.';
+        }
 
-            let scoreMessage = '';
-            if (scoreNum >= 90) {
-                scoreMessage = 'Outstanding achievement — exceptional understanding of the module.';
-            } else if (scoreNum >= 80) {
-                scoreMessage = 'Excellent performance — strong grasp of the material.';
-            } else if (scoreNum >= 70) {
-                scoreMessage = 'Good work — successfully completed with solid understanding.';
-            } else {
-                scoreMessage = 'Certificate of completion — required training module finished.';
+        // ============================================================
+        // RENDER CERTIFICATE CONTENT
+        // ============================================================
+        document.getElementById('recipientName').textContent = username;
+        document.getElementById('moduleName').textContent = moduleName;
+        document.getElementById('scoreValue').textContent = score + '%';
+        document.getElementById('gradeBadge').textContent = grade;
+        document.getElementById('gradeBadge').className = `grade-badge ${gradeClass}`;
+        document.getElementById('messageText').textContent = message;
+
+        const today = new Date();
+        const dateString = today.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        document.getElementById('issueDate').textContent = dateString;
+        document.getElementById('certificateId').innerHTML = `Certificate ID: <strong>${certificateId}</strong> &nbsp;|&nbsp; Issued: <strong>${dateString}</strong>`;
+
+        // ============================================================
+        // DOWNLOAD FUNCTIONS
+        // ============================================================
+
+        // Reference to the certificate card
+        const certElement = document.getElementById('certificate');
+
+        async function downloadAsPNG() {
+            const btn = document.getElementById('downloadPngBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Generating...';
+            btn.disabled = true;
+
+            try {
+                const canvas = await html2canvas(certElement, {
+                    scale: 2.5,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    useCORS: true,
+                    windowWidth: certElement.scrollWidth,
+                    windowHeight: certElement.scrollHeight
+                });
+
+                const link = document.createElement('a');
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+                link.download =
+                `TRIBAMS_Certificate_${username.replace(/\s/g, '_')}_${timestamp}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                btn.innerHTML = '✅ Downloaded!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 2000);
+            } catch (error) {
+                console.error('PNG generation error:', error);
+                btn.innerHTML = '❌ Failed, try again';
+                btn.disabled = false;
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2000);
             }
-
-            const certificateHTML = `
-                <div class="certificate" id="certificate">
-                    <h1>CYBERMATECH</h1>
-                    <div class="certificate-subtitle">Cybersecurity Training Certificate</div>
-
-                    <h3>This certificate is proudly presented to</h3>
-
-                    <div class="recipient-name">${escapeHtml(username)}</div>
-
-                    <h3>for successfully completing</h3>
-
-                    <div class="module-name">${escapeHtml(module)}</div>
-
-                    <div class="score-text">
-                        with a score of <span class="score-highlight">${scoreNum}%</span>
-                    </div>
-
-                    <div class="score-text" style="font-size: 0.95rem; color: var(--muted); max-width: 500px; margin: 0.75rem auto 0;">
-                        ${scoreMessage}
-                    </div>
-
-                    <div class="date">
-                        <p>Awarded on: ${dateString}</p>
-                    </div>
-
-                    <div class="signature">
-                        <div class="signature-line">
-                            <div class="line"></div>
-                            <p>Training Lead</p>
-                            <p>Cybermatech</p>
-                        </div>
-                        <div class="signature-line">
-                            <div class="line"></div>
-                            <p>Program Director</p>
-                            <p>Operations</p>
-                        </div>
-                    </div>
-
-                    <div class="verification-code">
-                        Verification Code: ${verificationCode}
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('certificateContainer').innerHTML = certificateHTML;
-            document.getElementById('buttons').style.display = 'flex';
         }
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        async function downloadAsPDF() {
+            const btn = document.getElementById('downloadPdfBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Generating...';
+            btn.disabled = true;
+
+            try {
+                const canvas = await html2canvas(certElement, {
+                    scale: 2.5,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    useCORS: true
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+
+                const imgWidth = 210;
+                const pageHeight = 297;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                const pdf = new jsPDF({
+                    orientation: imgHeight > pageHeight ? 'portrait' : 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                pdf.save(`Tribams_Certificate_${username.replace(/\s/g, '_')}.pdf`);
+
+                btn.innerHTML = '✅ Downloaded!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 2000);
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                btn.innerHTML = '❌ Failed, try again';
+                btn.disabled = false;
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2000);
+            }
         }
 
-        function saveAsPDF() {
-            const instructionMsg = document.createElement('div');
-            instructionMsg.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1f6f63;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;z-index:9999;';
-            instructionMsg.textContent = 'In the print dialog, choose Save as PDF';
-            document.body.appendChild(instructionMsg);
+        function printCertificate() {
             window.print();
-            setTimeout(() => instructionMsg.remove(), 5000);
         }
 
-        window.saveAsPDF = saveAsPDF;
-        renderCertificate();
+        document.querySelector('.btn-secondary')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/dashboard';
+        });
+        // ============================================================
+        // ATTACH EVENT LISTENERS
+        // ============================================================
+      
+      document.getElementById('downloadPngBtn').addEventListener('click', downloadAsPNG);
+      document.getElementById('downloadPdfBtn').addEventListener('click', downloadAsPDF);
+      document.getElementById('printBtn').addEventListener('click', printCertificate);
     </script>
-    <script src="/js/auth-nav.js" defer></script>
 </body>
 </html>

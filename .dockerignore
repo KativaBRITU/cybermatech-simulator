@@ -1,0 +1,17 @@
+node_modules
+npm-debug.log*
+.env
+.env.*
+!.env.example
+.git
+.cursor
+debug-*.log
+database/*.db
+database/sessions/*
+public/uploads/profiles/*
+!public/uploads/profiles/.gitkeep
+docs
+*.md
+!README.md
+canvases
+agent-transcripts

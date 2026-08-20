@@ -1,0 +1,60 @@
+/**
+ * Pro+ catalog expansion — "know the enemy by how they move and talk"
+ * Defensive training on attacker tooling, tradecraft, and TTPs.
+ * Modules 46–95 require Pro+ access.
+ */
+
+const ATTACKER_TOOLKIT_MODULES = [
+    { id: 46, name: 'Nmap Reconnaissance Tradecraft', icon_key: 'nmap', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 47, name: 'Wireshark Packet Analysis for Defenders', icon_key: 'wireshark', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 48, name: 'Metasploit Framework Awareness', icon_key: 'metasploit', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 49, name: 'Burp Suite Web Attack Paths', icon_key: 'burp', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 50, name: 'SQLMap & Injection Tooling', icon_key: 'sqlmap', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 51, name: 'Mimikatz & Credential Theft', icon_key: 'mimikatz', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 52, name: 'Cobalt Strike Tradecraft Defense', icon_key: 'cobalt', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 53, name: 'C2 Frameworks (Empire / Sliver)', icon_key: 'c2', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 54, name: 'Hashcat & Password Cracking Defense', icon_key: 'hashcat', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 55, name: 'John the Ripper Attack Patterns', icon_key: 'john', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 56, name: 'Hydra & Online Brute Force', icon_key: 'hydra', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 57, name: 'Aircrack-ng Wireless Offensive Ops', icon_key: 'aircrack', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 58, name: 'BloodHound Active Directory Attacks', icon_key: 'bloodhound', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 59, name: 'Kerberoasting & AS-REP Roasting', icon_key: 'kerberos', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 60, name: 'Pass-the-Hash / Pass-the-Ticket', icon_key: 'pth', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 61, name: 'Living Off the Land (LOLBins)', icon_key: 'lolbins', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 62, name: 'PowerShell Offensive Tradecraft', icon_key: 'powershell', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 63, name: 'Social Engineering Toolkit (SET)', icon_key: 'set', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 64, name: 'BeEF Browser Exploitation Defense', icon_key: 'beef', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 65, name: 'Phishing Kit Anatomy', icon_key: 'phishkit', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 66, name: 'OSINT with Maltego & Recon-ng', icon_key: 'osint', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 67, name: 'theHarvester & Email Recon', icon_key: 'harvester', category: 'offensive-tools', difficulty: 'easy', access_tier: 'pro_plus' },
+    { id: 68, name: 'Shodan / Censys Attack Surface', icon_key: 'shodan', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 69, name: 'Tor, Proxies & Attribution Evasion', icon_key: 'tor', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 70, name: 'DNS Tunneling & Covert Channels', icon_key: 'dnstunnel', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 71, name: 'Exploit Development Basics', icon_key: 'exploitdev', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 72, name: 'Buffer Overflow Attack Mechanics', icon_key: 'bof', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 73, name: 'Ghidra Reverse Engineering Defense', icon_key: 'ghidra', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 74, name: 'Volatility Memory Forensics Tools', icon_key: 'volatility', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 75, name: 'YARA Rules for Threat Hunting', icon_key: 'yara', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 76, name: 'Ransomware Builder Awareness', icon_key: 'ransomtools', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 77, name: 'Initial Access Brokers & Markets', icon_key: 'iab', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 78, name: 'Web Shells & Post-Exploitation', icon_key: 'webshell', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 79, name: 'Lateral Movement Tooling', icon_key: 'lateral', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 80, name: 'Privilege Escalation Techniques', icon_key: 'privesc', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 81, name: 'Persistence Mechanisms Catalog', icon_key: 'persist', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 82, name: 'Defense Evasion & Obfuscation', icon_key: 'evasion', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 83, name: 'Exfiltration Channels & DLP Bypass', icon_key: 'exfil', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 84, name: 'MITRE ATT&CK Mapping for Tools', icon_key: 'attack', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 85, name: 'Adversary Emulation Planning', icon_key: 'emulation', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 86, name: 'Deepfake & AI Voice Clone Attacks', icon_key: 'deepfake', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 87, name: 'Adversarial ML Attack Tooling', icon_key: 'advml', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 88, name: 'Cloud Credential Theft Tools', icon_key: 'cloudcred', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 89, name: 'Container Escape Techniques', icon_key: 'ctrlescape', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 90, name: 'Supply-Chain Poisoning Toolchains', icon_key: 'supplypoison', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 91, name: 'Mobile Device Attack Frameworks', icon_key: 'mobileatk', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 92, name: 'Hardware / USB Attack Vectors', icon_key: 'usbattack', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 93, name: 'OT Protocol Attack Awareness', icon_key: 'otattack', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' },
+    { id: 94, name: 'Attacker Language & Social Cues', icon_key: 'attackerlang', category: 'offensive-tools', difficulty: 'medium', access_tier: 'pro_plus' },
+    { id: 95, name: 'Purple Team Tool Correlation Lab', icon_key: 'purple', category: 'offensive-tools', difficulty: 'hard', access_tier: 'pro_plus' }
+];
+
+module.exports = { ATTACKER_TOOLKIT_MODULES };

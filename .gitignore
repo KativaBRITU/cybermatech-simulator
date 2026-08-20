@@ -1,6 +1,13 @@
+node_modules/
 .env
 .env.local
-node_modules/
 database/*.db
+database/*.db-shm
+database/*.db-wal
+database/.session_secret
+database/sessions/
+public/uploads/
+.cursor/
+.vscode/
 *.log
 .DS_Store

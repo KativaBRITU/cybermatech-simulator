@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Assessment – TRIBAMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #070b16;
+            --panel: #10182b;
+            --line: rgba(255, 80, 80, 0.35);
+            --ok: #00e59b;
+            --warn: #ffb020;
+            --danger: #ff3b5c;
+            --text: #eef3ff;
+            --muted: #8b9bb8;
+            --font: 'Syne', system-ui, sans-serif;
+            --mono: 'IBM Plex Mono', monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            min-height: 100vh;
+            font-family: var(--font);
+            color: var(--text);
+            background:
+                radial-gradient(1000px 500px at 10% -10%, rgba(255, 59, 92, 0.18), transparent 55%),
+                radial-gradient(800px 400px at 90% 0%, rgba(0, 229, 155, 0.1), transparent 50%),
+                var(--bg);
+        }
+        .wrap { max-width: 860px; margin: 0 auto; padding: 1.5rem; }
+        .top {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1.2rem; gap: 1rem; flex-wrap: wrap;
+        }
+        .brand { font-weight: 800; letter-spacing: 0.04em; }
+        .brand a { color: var(--ok); text-decoration: none; }
+        .hud {
+            display: flex; gap: 0.6rem; flex-wrap: wrap; font-family: var(--mono); font-size: 0.78rem;
+        }
+        .pill {
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(0,0,0,0.35);
+            padding: 0.4rem 0.7rem; border-radius: 999px;
+        }
+        .pill.timer { border-color: var(--line); color: var(--danger); font-weight: 700; }
+        .pill.timer.urgent { animation: pulse 0.7s infinite; background: rgba(255,59,92,0.15); }
+        @keyframes pulse { 50% { transform: scale(1.04); } }
+        .panel {
+            border: 1px solid rgba(255,255,255,0.08);
+            background: linear-gradient(180deg, rgba(16,24,43,0.95), rgba(8,12,22,0.98));
+            border-radius: 18px; padding: 1.4rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+        }
+        .brief {
+            border-left: 3px solid var(--danger);
+            background: rgba(255,59,92,0.08);
+            padding: 0.9rem 1rem; margin-bottom: 1.2rem; border-radius: 0 10px 10px 0;
+            font-family: var(--mono); font-size: 0.85rem; line-height: 1.5; color: #ffd0d8;
+        }
+        .brief strong { color: #fff; display: block; margin-bottom: 0.35rem; font-family: var(--font); }
+        h1 { font-size: 1.45rem; margin-bottom: 0.4rem; }
+        .sub { color: var(--muted); margin-bottom: 1.2rem; font-size: 0.95rem; }
+        .q { font-size: 1.1rem; line-height: 1.55; margin-bottom: 1.1rem; }
+        .opt {
+            display: flex; gap: 0.8rem; align-items: flex-start;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.65rem;
+            cursor: pointer; transition: 0.2s ease;
+        }
+        .opt:hover { border-color: rgba(0,229,155,0.45); }
+        .opt.selected { border-color: var(--ok); background: rgba(0,229,155,0.08); }
+        .letter {
+            width: 28px; height: 28px; border-radius: 50%;
+            display: grid; place-items: center; flex-shrink: 0;
+            background: rgba(255,255,255,0.08); font-family: var(--mono); font-size: 0.75rem;
+        }
+        .actions { display: flex; gap: 0.7rem; margin-top: 1.2rem; flex-wrap: wrap; }
+        .btn {
+            border: none; border-radius: 10px; padding: 0.75rem 1.1rem;
+            font-weight: 700; cursor: pointer; font-family: var(--font);
+        }
+        .btn-primary { background: var(--ok); color: #04140f; }
+        .btn-secondary { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.2); }
+        .result { text-align: center; padding: 1.5rem 0.5rem; }
+        .score {
+            width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 1rem;
+            display: grid; place-items: center; font-size: 2rem; font-weight: 800;
+            border: 3px solid var(--ok); color: var(--ok);
+        }
+        .debrief { text-align: left; margin-top: 1.2rem; font-size: 0.9rem; color: var(--muted); }
+        .debrief li { margin: 0.45rem 0 0.45rem 1rem; }
+        .loading { text-align: center; padding: 3rem; color: var(--muted); }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="top">
+            <div class="brand"><a href="/dashboard">TRIBAMS</a> / Skill Assessment</div>
+            <div class="hud">
+                <div class="pill" id="progressPill">Q —/—</div>
+                <div class="pill timer" id="timerPill"><i class="fas fa-clock"></i> --:--</div>
+            </div>
+        </div>
+
+        <div class="panel" id="panel">
+            <div class="loading"><i class="fas fa-spinner fa-spin"></i> Staging live assessment…</div>
+        </div>
+    </div>
+
+    <script>
+        // Integrity: Matte K must never run on assessment pages
+        (function () {
+            const el = document.getElementById('matteKRoot');
+            if (el) el.remove();
+            document.documentElement.setAttribute('data-matte-blocked', '1');
+        })();
+
+        let questions = [];
+        let answers = [];
+        let idx = 0;
+        let timeRemaining = 0;
+        let totalTime = 0;
+        let timer = null;
+        let immersion = null;
+        let finished = false;
+
+        function fmt(sec) {
+            const m = Math.floor(Math.max(0, sec) / 60);
+            const s = Math.max(0, sec) % 60;
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        function updateTimerUI() {
+            const el = document.getElementById('timerPill');
+            el.innerHTML = `<i class="fas fa-clock"></i> ${fmt(timeRemaining)}`;
+            el.classList.toggle('urgent', timeRemaining <= 60);
+        }
+
+        async function start() {
+            const res = await fetch('/api/skill-assessment?limit=12');
+            const data = await res.json();
+            if (!data.success && !data.questions) {
+                document.getElementById('panel').innerHTML = `<p>Could not load assessment. <a href="/login">Login</a></p>`;
+                return;
+            }
+            questions = data.questions || [];
+            immersion = data.immersion;
+            timeRemaining = data.timeLimit || 420;
+            totalTime = timeRemaining;
+            answers = new Array(questions.length);
+            timer = setInterval(() => {
+                timeRemaining--;
+                updateTimerUI();
+                if (timeRemaining <= 0) finish();
+            }, 1000);
+            render();
+        }
+
+        function render() {
+            if (finished) return;
+            const q = questions[idx];
+            if (!q) return finish();
+            document.getElementById('progressPill').textContent = `Q ${idx + 1}/${questions.length}`;
+            updateTimerUI();
+
+            const opts = q.options.map((o, i) => `
+                <div class="opt ${answers[idx] === i ? 'selected' : ''}" data-i="${i}">
+                    <div class="letter">${String.fromCharCode(65 + i)}</div>
+                    <div>${o}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('panel').innerHTML = `
+                <div class="brief">
+                    <strong>${immersion?.title || 'LIVE SKILL ASSESSMENT'}</strong>
+                    ${immersion?.subtitle || 'Decide under pressure.'}
+                    <div style="margin-top:0.5rem;opacity:0.9">${(immersion?.tips || []).slice(0,2).map(t => '• ' + t).join('<br>')}</div>
+                </div>
+                <div class="q">${q.question}</div>
+                ${opts}
+                <div class="actions">
+                    ${idx > 0 ? '<button class="btn btn-secondary" id="prevBtn">Back</button>' : ''}
+                    ${idx < questions.length - 1
+                        ? '<button class="btn btn-primary" id="nextBtn">Next decision →</button>'
+                        : '<button class="btn btn-primary" id="submitBtn">Submit assessment</button>'}
+                </div>
+            `;
+
+            document.querySelectorAll('.opt').forEach(el => {
+                el.onclick = () => {
+                    answers[idx] = parseInt(el.dataset.i, 10);
+                    render();
+                };
+            });
+            const next = document.getElementById('nextBtn');
+            const prev = document.getElementById('prevBtn');
+            const submit = document.getElementById('submitBtn');
+            if (next) next.onclick = () => { idx++; render(); };
+            if (prev) prev.onclick = () => { idx--; render(); };
+            if (submit) submit.onclick = finish;
+        }
+
+        async function finish() {
+            if (finished) return;
+            finished = true;
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            }
+
+            const panel = document.getElementById('panel');
+            if (panel) panel.innerHTML = `<div class="loading"><i class="fas fa-spinner fa-spin"></i> Scoring assessment…</div>`;
+
+            const used = totalTime - Math.max(0, timeRemaining);
+            let serverScore = 0;
+            let weak = [];
+            let strong = [];
+            let saveNote = '';
+            let debrief = [];
+            let ok = false;
+
+            try {
+                const res = await fetch('/api/skill-assessment/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        time_taken: used,
+                        total_time_limit: totalTime,
+                        answers
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    ok = true;
+                    serverScore = data.score ?? 0;
+                    weak = Array.isArray(data.weak_areas) ? data.weak_areas : [];
+                    strong = Array.isArray(data.strong_areas) ? data.strong_areas : [];
+                    if (data.domainScores && typeof data.domainScores === 'object') {
+                        debrief = Object.entries(data.domainScores).map(([k, v]) =>
+                            `<li><strong>${String(k).replace(/_/g, ' ')}</strong>: ${v}%</li>`
+                        );
+                    }
+                } else {
+                    saveNote = data.message || 'Could not persist skills — login and retake.';
+                    finished = false;
+                }
+            } catch (e) {
+                saveNote = 'Network error while saving skills.';
+                finished = false;
+            }
+
+            try {
+                document.getElementById('panel').innerHTML = `
+                <div class="result">
+                    <div class="score">${serverScore}%</div>
+                    <h1>${serverScore >= 80 ? 'Operationally ready' : serverScore >= 60 ? 'Developing under fire' : 'Back to the range'}</h1>
+                    <p class="sub">Server-scored under timed pressure (${fmt(used)} used). Answers are not revealed to the browser during the test.</p>
+                    ${saveNote ? `<p class="sub" style="color:#fcd34d;">${saveNote}</p>` : ''}
+                    <p class="sub">Weak: ${weak.length ? weak.map(w => String(w).replace(/_/g,' ')).join(', ') : 'None yet'} · Strong: ${strong.length ? strong.map(w => String(w).replace(/_/g,' ')).join(', ') : 'None yet'}</p>
+                    <div class="actions" style="justify-content:center;">
+                        ${!ok ? '<button class="btn btn-primary" id="retrySubmitBtn">Retry submit</button>' : ''}
+                        <a class="btn btn-primary" href="/dashboard">View skills on dashboard</a>
+                        <a class="btn btn-secondary" href="/scenario">Cyber Range</a>
+                        <button class="btn btn-secondary" onclick="location.reload()">Retake</button>
+                    </div>
+                    ${debrief.length ? `<ul class="debrief"><h3 style="color:#fff;margin:0 0 0.4rem">Domain breakdown</h3>${debrief.slice(0,6).join('')}</ul>` : ''}
+                </div>
+            `;
+                const retry = document.getElementById('retrySubmitBtn');
+                if (retry) retry.onclick = () => { finished = false; finish(); };
+            } catch (renderErr) {
+                finished = false;
+                document.getElementById('panel').innerHTML = `<div class="result"><h1>Could not show results</h1><p class="sub">${saveNote || 'Refresh and try again.'}</p><button class="btn btn-primary" onclick="location.reload()">Reload</button></div>`;
+            }
+        }
+
+        start().catch((err) => {
+            document.getElementById('panel').innerHTML = `<p>Assessment failed to load. <a href="/login">Login</a> then open Assessment again.</p><p style="color:#8b9bb8;margin-top:0.5rem;font-size:0.85rem;">${err.message || ''}</p>`;
+        });
+    </script>
+</body>
+</html>

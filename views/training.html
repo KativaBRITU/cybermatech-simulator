@@ -3,192 +3,1579 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Training — Cybermatech</title>
-    <link rel="stylesheet" href="/css/theme.css">
+    <title>Training – TRIBAMS</title>
+    <meta name="description" content="Interactive cybersecurity training modules, practice questions, quizzes, and certificates with TRIBAMS.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   
+    <style>
+        /* ============================================================
+           RESET & CSS VARIABLES
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            --border-color: rgba(0, 255, 136, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-orange: #f59e0b;
+            --neon-red: #ef4444;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #556688;
+            --radius: 16px;
+            --radius-sm: 8px;
+            --transition: all 0.25s ease;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-green); }
+
+        a { color: var(--neon-green); text-decoration: none; transition: var(--transition); }
+        a:hover { color: var(--neon-cyan); }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            width: 100%;
+        }
+
+        /* ============================================================
+           HEADER & NAVIGATION
+           ============================================================ */
+        header {
+            background: rgba(10, 14, 39, 0.94);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--neon-green);
+            fill: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.3rem 0.8rem 0.3rem 0.4rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+        }
+
+        .user-badge .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            color: #000;
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-badge .name { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            cursor: pointer;
+        }
+
+        /* ============================================================
+           MAIN LAYOUT & MODULE HEADER
+           ============================================================ */
+        .main {
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            width: 100%;
+        }
+
+        .module-header {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .module-header h1 { font-size: 1.6rem; font-weight: 800; display: flex; align-items: center; gap: 0.6rem; }
+        .module-header h1 i { color: var(--neon-green); }
+
+        .module-header .meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .module-header .meta i { color: var(--neon-cyan); margin-right: 0.3rem; }
+
+        .badge-group { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .badge {
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .badge-easy { background: rgba(0, 255, 136, 0.15); color: var(--neon-green); border: 1px solid rgba(0, 255, 136, 0.3); }
+        .badge-medium { background: rgba(245, 158, 11, 0.15); color: var(--neon-orange); border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge-hard { background: rgba(239, 68, 68, 0.15); color: var(--neon-red); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .badge-completed { background: rgba(0, 255, 136, 0.2); color: var(--neon-green); }
+        .badge-rank-beginner { background: rgba(0, 204, 255, 0.12); color: var(--neon-cyan); border: 1px solid rgba(0, 204, 255, 0.35); }
+        .badge-rank-intermediate { background: rgba(245, 158, 11, 0.15); color: var(--neon-orange); border: 1px solid rgba(245, 158, 11, 0.4); }
+        .badge-rank-advanced { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); }
+
+        .rank-env-banner {
+            display: none;
+            margin: 0.85rem 0 0;
+            padding: 0.95rem 1.1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 204, 255, 0.28);
+            background: linear-gradient(135deg, rgba(0, 136, 255, 0.12), rgba(0, 255, 136, 0.06));
+        }
+        .rank-env-banner.visible { display: block; }
+        .rank-env-banner .rank-title {
+            font-weight: 700;
+            color: #7dd3fc;
+            margin-bottom: 0.25rem;
+        }
+        .rank-env-banner .rank-setting {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.65rem;
+        }
+        .rank-learn-chip {
+            display: inline-block;
+            margin-bottom: 1rem;
+            padding: 0.45rem 0.85rem;
+            border-radius: 999px;
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid rgba(20, 184, 166, 0.35);
+            color: #0f766e;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+        .learn-content .rank-path-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0 1rem;
+            font-size: 0.88rem;
+        }
+        .learn-content .rank-path-table td {
+            border: 1px solid var(--border-color);
+            padding: 0.45rem 0.6rem;
+            vertical-align: top;
+        }
+        .learn-content blockquote {
+            margin: 0.8rem 0;
+            padding: 0.7rem 1rem;
+            border-left: 3px solid var(--neon-cyan, #22d3ee);
+            background: rgba(34, 211, 238, 0.06);
+            color: var(--text-secondary);
+        }
+        .learn-content hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 1.4rem 0;
+        }
+        .quiz-env-strip {
+            margin: 0 0 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            background: rgba(245, 158, 11, 0.08);
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+        }
+        .quiz-env-strip strong { color: var(--neon-orange, #f59e0b); }
+        .rank-layers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+        }
+        .rank-layer-chip {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.12);
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.04);
+        }
+        .rank-layer-chip.on {
+            color: var(--neon-green);
+            border-color: rgba(0, 255, 136, 0.35);
+            background: rgba(0, 255, 136, 0.1);
+        }
+        .rank-layer-chip.lock {
+            opacity: 0.55;
+        }
+
+        /* ============================================================
+           TRAINING TABS
+           ============================================================ */
+        .training-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 0.4rem;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 0.7rem 1.4rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: var(--font);
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover { color: var(--text-primary); background: rgba(255, 255, 255, 0.05); }
+        .tab-btn.active { color: var(--text-primary); background: rgba(0, 255, 136, 0.12); border: 1px solid rgba(0, 255, 136, 0.3); }
+
+        .tab-btn .tab-badge {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-secondary);
+        }
+
+        .tab-btn.active .tab-badge { background: rgba(0, 255, 136, 0.2); color: var(--neon-green); }
+
+        /* ============================================================
+           CONTENT CONTAINER
+           ============================================================ */
+        .content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 2rem;
+            min-height: 420px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 4rem 1rem;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0, 255, 136, 0.1);
+            border-top: 3px solid var(--neon-green);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Learn Content */
+        .learn-content h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--neon-green); }
+        .learn-content .body { font-size: 1rem; line-height: 1.8; color: #ccddee; }
+        .learn-content .body h3 { font-size: 1.25rem; margin: 1.5rem 0 0.8rem; color: var(--neon-cyan); }
+        .learn-content .body h4 { font-size: 1.1rem; margin: 1.2rem 0 0.6rem; color: #ffffff; }
+        .learn-content .body ul { margin-left: 1.5rem; margin-bottom: 1rem; }
+        .learn-content .body li { margin-bottom: 0.4rem; }
+
+        /* Questions & Options */
+        .question-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .timer-badge {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--neon-red);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-weight: 700;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .options-list { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .option:hover:not(.disabled) {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--neon-cyan);
+        }
+
+        .option .letter {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+            pointer-events: none;
+        }
+
+        .option span { pointer-events: none; }
+
+        .option.selected { border-color: var(--neon-cyan) !important; background: rgba(0, 204, 255, 0.12) !important; }
+        .option.selected .letter { background: var(--neon-cyan) !important; color: #000 !important; }
+        .option.correct-answer { border-color: var(--neon-green) !important; background: rgba(0, 255, 136, 0.12) !important; }
+        .option.correct-answer .letter { background: var(--neon-green) !important; color: #000 !important; }
+        .option.wrong-answer { border-color: var(--neon-red) !important; background: rgba(239, 68, 68, 0.12) !important; }
+        .option.wrong-answer .letter { background: var(--neon-red) !important; color: #fff !important; }
+        .option.disabled { cursor: default; }
+
+        .feedback-box {
+            padding: 1rem 1.2rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid;
+        }
+        .feedback-box.correct { background: rgba(0, 255, 136, 0.06); border-color: var(--neon-green); }
+        .feedback-box.incorrect { background: rgba(239, 68, 68, 0.06); border-color: var(--neon-red); }
+        .feedback-box .fb-title { font-weight: 700; margin-bottom: 0.3rem; }
+        .feedback-box .fb-explanation { color: var(--text-secondary); font-size: 0.92rem; }
+
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn {
+            padding: 0.65rem 1.6rem;
+            border: none;
+            border-radius: 50px;
+            font-family: var(--font);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary { background: var(--neon-green); color: #000; }
+        .btn-primary:hover { background: #00cc6e; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.08); color: var(--text-primary); border: 1px solid var(--glass-border); }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.14); }
+        .btn-success { background: var(--neon-blue); color: #fff; }
+        .btn-success:hover { background: #0066cc; transform: translateY(-2px); }
+
+        /* Quiz Results — colorful tones applied via educational-theme.css */
+        .quiz-result { text-align: center; padding: 2rem 1.2rem; border-radius: 18px; }
+        .score-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #a7f3d0, #67e8f9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 0 30px rgba(45, 212, 191, 0.35);
+            color: #0f172a;
+            font-size: 2.2rem;
+            font-weight: 900;
+        }
+
+        .quiz-result .grade { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .quiz-result .message { max-width: 520px; margin: 0 auto 1.5rem; }
+
+        /* Essay Editor */
+        .essay-question {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+        .essay-question .eq-number { font-size: 0.8rem; color: var(--neon-green); font-weight: 700; text-transform: uppercase; }
+        .essay-question .eq-question { font-weight: 600; margin: 0.4rem 0; font-size: 1.05rem; }
+
+        .essay-textarea {
+            width: 100%;
+            min-height: 180px;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: var(--font);
+            font-size: 0.95rem;
+            resize: vertical;
+            margin-bottom: 0.8rem;
+        }
+
+        .essay-textarea:focus { outline: none; border-color: var(--neon-green); }
+
+        /* Toasts */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .toast {
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: #fff;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            animation: toastIn 0.3s ease;
+        }
+
+        @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 1.5rem;
+                background: var(--bg-secondary);
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-sm);
+                padding: 1rem;
+                width: 200px;
+            }
+            .nav-links.show { display: flex; }
+            .menu-toggle { display: block; }
+            .module-header { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
 </head>
 <body>
-    <header class="site-header">
-        <nav class="site-nav">
-            <a class="logo" href="/">Cybermatech <span>Training</span></a>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li data-auth="member"><a href="/resources">Resources</a></li>
-                <li data-auth="member"><a href="/dashboard">Dashboard</a></li>
-                <li data-auth="member"><a href="/logout" class="logout">Logout</a></li>
-                <li data-auth="guest"><a href="/login">Login</a></li>
-            </ul>
-        </nav>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                    TRIBAMS
+                </a>
+                <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                <ul class="nav-links" id="mainNav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/resource-center">Resource Center</a></li>
+                    <li><a href="/lab">Evidence Workbench</a></li>
+                    <li><a href="/scenario">Cyber Range</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+                <div class="user-badge" id="userBadge">
+                    <div class="avatar" id="userAvatar">U</div>
+                    <span class="name" id="userName">User</span>
+                </div>
+            </nav>
+        </div>
     </header>
 
-    <div class="container">
-        <div id="moduleMediaSlot" hidden></div>
-        <div id="quizApp">
-            <div class="loading">
-                <div class="spinner"></div>
-                <p>Loading your training module...</p>
+    <!-- MAIN CONTAINER -->
+    <main class="main">
+
+        <!-- Module Header Banner -->
+        <div class="module-header" id="moduleHeader">
+            <div>
+                <h1 id="moduleTitle"><i class="fas fa-book-open"></i> Loading Module...</h1>
+                <div class="meta">
+                    <span><i class="fas fa-clock"></i> <span id="moduleDuration">20</span> min</span>
+                    <span><i class="fas fa-layer-group"></i> Module <span id="moduleIdDisplay">-</span></span>
+                    <span><i class="fas fa-tag"></i> <span id="moduleCategory">-</span></span>
+                    <span id="scoreDisplay" style="display:none;"><i class="fas fa-star" style="color:var(--neon-orange);"></i> Score: <span id="moduleScore">0</span>%</span>
+                </div>
+            </div>
+            <div class="badge-group">
+                <span class="badge badge-rank-beginner" id="rankBadge">Recruit</span>
+                <span class="badge" id="difficultyBadge">Medium</span>
+                <span class="badge badge-completed" id="statusBadge" style="display:none;">Completed</span>
+                <a href="/lab" class="badge" id="workbenchLink" style="text-decoration:none;color:inherit;">Evidence Workbench</a>
             </div>
         </div>
-    </div>
+        <div class="rank-env-banner" id="rankEnvBanner" aria-live="polite">
+            <div class="rank-title" id="rankEnvTitle">Training environment</div>
+            <div class="rank-setting" id="rankEnvSetting">Loading your rank environment…</div>
+            <div class="rank-layers" id="rankLayers"></div>
+        </div>
+        <div id="workbenchCta" style="display:none;margin:0.85rem 0 0;padding:0.9rem 1rem;border-radius:12px;border:1px solid rgba(45,212,191,0.35);background:rgba(45,212,191,0.08);">
+            <strong style="color:#5eead4;">Evidence Workbench lab available</strong>
+            <p style="margin:0.35rem 0 0.65rem;color:var(--text-secondary);font-size:0.9rem;">Artifact desk for this module — timers, pressure injects, ATT&amp;CK credit on your transcript.</p>
+            <a id="workbenchCtaBtn" href="/lab" class="btn btn-primary" style="display:inline-block;padding:0.45rem 1rem;border-radius:8px;text-decoration:none;">Run lab →</a>
+        </div>
+        <div id="roeBanner" style="display:none;margin:0.8rem 0 0;padding:0.75rem 1rem;border-radius:10px;border:1px solid rgba(251,191,36,0.35);background:rgba(251,191,36,0.08);color:#fde68a;font-size:0.9rem;">
+            ROE: Defensive / purple-team study only. Know how adversaries move and talk — do not practice offensive tooling on systems you do not own or have written permission to test.
+        </div>
+
+        <!-- TRAINING TABS -->
+        <div class="training-tabs" id="trainingTabs">
+            <button class="tab-btn active" id="tabLearn" data-action="switch-tab" data-tab="learn">
+                <i class="fas fa-book-reader"></i> Learn
+                <span class="tab-badge">Guide</span>
+            </button>
+            <button class="tab-btn" id="tabPractice" data-action="switch-tab" data-tab="practice">
+                <i class="fas fa-pen-to-square"></i> Practice
+                <span class="tab-badge" id="practiceBadge">0/5</span>
+            </button>
+            <button class="tab-btn" id="tabQuiz" data-action="switch-tab" data-tab="quiz">
+                <i class="fas fa-bullseye"></i> Quiz
+                <span class="tab-badge" id="quizBadge">0/10</span>
+            </button>
+            <button class="tab-btn" id="tabEssay" data-action="switch-tab" data-tab="essay">
+                <i class="fas fa-align-left"></i> Essay
+                <span class="tab-badge" id="essayBadge">0/3</span>
+            </button>
+        </div>
+
+        <!-- TAB CONTENT CONTAINER -->
+        <div class="content" id="content">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Loading module content...</p>
+            </div>
+        </div>
+
+        <!-- BACK LINK -->
+        <div style="text-align:center; margin-top:2rem;">
+            <a href="/resource-center" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Resource Center</a>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2025 TRIBAMS — Interactive Cybersecurity Education</p>
+    </footer>
+
+    <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        const moduleName = window.location.pathname.split('/')[2] || 'phishing';
-        let quiz = null;
+        // ============================================================
+        // MODULE DEFINITIONS (hydrated from /api/modules — full 95)
+        // ============================================================
+        let MODULES = [
+            { id: 1, name: 'Phishing Detection', category: 'social-engineering', difficulty: 'easy' },
+            { id: 2, name: 'Malware Analysis', category: 'malware', difficulty: 'medium' },
+            { id: 3, name: 'Network Security', category: 'network', difficulty: 'medium' },
+            { id: 4, name: 'Cloud Security', category: 'cloud', difficulty: 'medium' },
+            { id: 5, name: 'Mobile Security', category: 'network', difficulty: 'easy' },
+            { id: 6, name: 'IoT Security', category: 'network', difficulty: 'medium' },
+            { id: 7, name: 'Social Engineering', category: 'social-engineering', difficulty: 'easy' },
+            { id: 8, name: 'Incident Response', category: 'forensics', difficulty: 'medium' },
+            { id: 9, name: 'Security Compliance', category: 'governance', difficulty: 'easy' },
+            { id: 10, name: 'Ethical Hacking', category: 'social-engineering', difficulty: 'hard' },
+            { id: 11, name: 'Ransomware Defense', category: 'malware', difficulty: 'medium' },
+            { id: 12, name: 'Data Privacy (GDPR)', category: 'governance', difficulty: 'easy' },
+            { id: 13, name: 'Wireless Security', category: 'network', difficulty: 'medium' },
+            { id: 14, name: 'Database Security', category: 'malware', difficulty: 'medium' },
+            { id: 15, name: 'DevSecOps', category: 'cloud', difficulty: 'hard' },
+            { id: 16, name: 'Digital Forensics', category: 'forensics', difficulty: 'hard' },
+            { id: 17, name: 'Threat Intelligence', category: 'forensics', difficulty: 'medium' },
+            { id: 18, name: 'Security Operations (SOC)', category: 'forensics', difficulty: 'medium' },
+            { id: 19, name: 'Identity & Access Management', category: 'network', difficulty: 'easy' },
+            { id: 20, name: 'Cryptography', category: 'network', difficulty: 'hard' },
+            { id: 21, name: 'Zero Trust Architecture', category: 'network', difficulty: 'hard' },
+            { id: 22, name: 'Supply Chain Security', category: 'governance', difficulty: 'medium' },
+            { id: 23, name: 'API Security', category: 'malware', difficulty: 'medium' },
+            { id: 24, name: 'Container Security', category: 'cloud', difficulty: 'medium' },
+            { id: 25, name: 'Kubernetes Security', category: 'cloud', difficulty: 'hard' },
+            { id: 26, name: 'Serverless Security', category: 'cloud', difficulty: 'medium' },
+            { id: 27, name: 'AI & ML Security', category: 'emerging', difficulty: 'hard' },
+            { id: 28, name: 'Quantum Computing Threats', category: 'emerging', difficulty: 'hard' },
+            { id: 29, name: 'Blockchain Security', category: 'emerging', difficulty: 'medium' },
+            { id: 30, name: 'OT/ICS Security', category: 'emerging', difficulty: 'hard' },
+            { id: 31, name: 'Healthcare Security (HIPAA)', category: 'governance', difficulty: 'easy' },
+            { id: 32, name: 'Financial Security (PCI-DSS)', category: 'governance', difficulty: 'easy' },
+            { id: 33, name: 'E-Commerce Security', category: 'governance', difficulty: 'easy' },
+            { id: 34, name: 'Insider Threat Detection', category: 'social-engineering', difficulty: 'medium' },
+            { id: 35, name: 'Physical Security Integration', category: 'governance', difficulty: 'easy' },
+            { id: 36, name: 'Disaster Recovery & BCP', category: 'governance', difficulty: 'easy' },
+            { id: 37, name: 'Security Awareness Training', category: 'social-engineering', difficulty: 'easy' },
+            { id: 38, name: 'Risk Management', category: 'governance', difficulty: 'easy' },
+            { id: 39, name: 'Vulnerability Management', category: 'malware', difficulty: 'medium' },
+            { id: 40, name: 'Penetration Testing', category: 'social-engineering', difficulty: 'hard' },
+            { id: 41, name: 'Red Team / Blue Team', category: 'social-engineering', difficulty: 'hard' },
+            { id: 42, name: 'Cybersecurity Frameworks', category: 'governance', difficulty: 'easy' },
+            { id: 43, name: 'Cloud Forensics', category: 'forensics', difficulty: 'hard' },
+            { id: 44, name: 'Mobile Forensics', category: 'forensics', difficulty: 'hard' },
+            { id: 45, name: 'Cyber Law & Ethics', category: 'governance', difficulty: 'easy' }
+        ];
+
+        // ============================================================
+        // STATE MANAGEMENT & RESOLVER
+        // ============================================================
+        function findModule(param) {
+            if (!param) return MODULES[0];
+            const num = parseInt(param, 10);
+            if (!isNaN(num) && String(num) === String(param).trim()) {
+                const found = MODULES.find(m => m.id === num);
+                // Never silently remap unknown numeric IDs to Phishing (module 1)
+                if (found) return found;
+                return {
+                    id: num,
+                    name: 'Module ' + num,
+                    category: num > 45 ? 'offensive-tools' : 'network',
+                    difficulty: 'medium'
+                };
+            }
+            const clean = String(param).toLowerCase().replace(/[^a-z0-9]/g, '');
+            const found = MODULES.find(m => m.name.toLowerCase().replace(/[^a-z0-9]/g, '') === clean);
+            return found || MODULES[0];
+        }
+
+        const pathParam = decodeURIComponent(window.location.pathname.split('/').pop());
+        let currentModule = findModule(pathParam);
+        let moduleId = currentModule.id;
+        const tabFromQuery = new URLSearchParams(window.location.search).get('tab');
+        let currentTab = ['learn', 'practice', 'quiz', 'essay'].includes(tabFromQuery) ? tabFromQuery : 'learn';
+
+        // Integrity: Matte K must never appear on training / drill surfaces
+        (function purgeMatteK() {
+            const el = document.getElementById('matteKRoot');
+            if (el) el.remove();
+            document.querySelectorAll('script[src*="matte-k"]').forEach((s) => s.remove());
+        })();
+        document.documentElement.setAttribute('data-matte-blocked', '1');
+
+        let userScore = 0;
+        let learnerRank = {
+            rank: 'beginner',
+            rank_label: 'Recruit',
+            environment: 'Campus / SME Helpdesk',
+            progressive: { beginner: true, intermediate_unlocked: false, advanced_unlocked: false }
+        };
+        let practiceQuestions = [];
+        let practiceIndex = 0;
+        let practiceAnswered = [];
+        let selectedPracticeChoice = null;
+
+        const RANK_ENV_BLURBS = {
+            beginner: 'You train as a first responder in a small African business, campus lab, or branch office — foundations first.',
+            intermediate: 'You now sit on a SOC / bank / ministry ops floor — tickets, SIEM noise, and defensible decisions.',
+            advanced: 'You operate in a national / purple-team / crisis cell — campaigns, trade-offs, and executive language.'
+        };
+
+        function applyRankBanner(meta) {
+            if (!meta) return;
+            learnerRank = {
+                rank: meta.rank || learnerRank.rank,
+                rank_label: meta.rank_label || learnerRank.rank_label,
+                environment: meta.environment || learnerRank.environment,
+                progressive: meta.progressive || learnerRank.progressive
+            };
+            const rank = learnerRank.rank || 'beginner';
+            const badge = $('rankBadge');
+            if (badge) {
+                badge.textContent = learnerRank.rank_label || 'Recruit';
+                badge.className = `badge badge-rank-${rank}`;
+            }
+            const banner = $('rankEnvBanner');
+            const title = $('rankEnvTitle');
+            const setting = $('rankEnvSetting');
+            const layers = $('rankLayers');
+            if (title) title.textContent = `${learnerRank.rank_label} · ${learnerRank.environment}`;
+            if (setting) setting.textContent = RANK_ENV_BLURBS[rank] || RANK_ENV_BLURBS.beginner;
+            if (layers) {
+                const p = learnerRank.progressive || {};
+                layers.innerHTML = `
+                    <span class="rank-layer-chip on">Beginner foundation</span>
+                    <span class="rank-layer-chip ${p.intermediate_unlocked ? 'on' : 'lock'}">${p.intermediate_unlocked ? 'Intermediate unlocked' : 'Intermediate locked'}</span>
+                    <span class="rank-layer-chip ${p.advanced_unlocked ? 'on' : 'lock'}">${p.advanced_unlocked ? 'Advanced unlocked' : 'Advanced locked'}</span>
+                `;
+            }
+            if (banner) banner.classList.add('visible');
+        }
+
+        let quizQuestions = [];
+        let quizIndex = 0;
+        let quizAnswers = [];
+        let quizCompleted = false;
+        let quizTimer = null;
+        let timeRemaining = 600;
         let quizToken = null;
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
-        let username = '';
+        let integrityPledge = false;
+        let focusLosses = 0;
+        let hiddenMs = 0;
+        let hiddenStarted = null;
+        let quizResultMeta = null;
 
-        const app = () => document.getElementById('quizApp');
+        // Anti-AI / integrity: track tab blur during scored drills
+        document.addEventListener('visibilitychange', () => {
+            if (currentTab !== 'quiz' || quizCompleted || !quizToken) return;
+            if (document.hidden) {
+                focusLosses += 1;
+                hiddenStarted = Date.now();
+                showToast('Integrity notice: you left the drill tab. This is logged.', 'warning');
+            } else if (hiddenStarted) {
+                hiddenMs += Date.now() - hiddenStarted;
+                hiddenStarted = null;
+            }
+        });
+        window.addEventListener('blur', () => {
+            if (currentTab !== 'quiz' || quizCompleted || !quizToken) return;
+            // Count window blur lightly (chat apps / AI side panels)
+            if (!document.hidden) focusLosses += 1;
+        });
 
-        async function loadQuiz() {
-            const res = await fetch(`/api/modules/${encodeURIComponent(moduleName)}/quiz`, {
-                credentials: 'same-origin'
-            });
-            if (res.status === 401) {
-                window.location.href = '/login?next=' + encodeURIComponent(location.pathname);
+        const $ = id => document.getElementById(id);
+
+        function showToast(msg, type = 'info') {
+            const container = $('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fas fa-info-circle"></i> <span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3500);
+        }
+
+        // ============================================================
+        // EVENT DELEGATION
+        // ============================================================
+        document.addEventListener('click', function(e) {
+            // 1. Option Selection
+            const optionEl = e.target.closest('.option');
+            if (optionEl && !optionEl.classList.contains('disabled')) {
+                const idx = parseInt(optionEl.dataset.idx);
+                if (!isNaN(idx)) {
+                    if (currentTab === 'practice') {
+                        if (practiceAnswered[practiceIndex] !== undefined) return;
+                        selectedPracticeChoice = idx;
+                        document.querySelectorAll('.options-list .option').forEach((el, i) => {
+                            if (i === idx) el.classList.add('selected');
+                            else el.classList.remove('selected');
+                        });
+                    } else if (currentTab === 'quiz') {
+                        quizAnswers[quizIndex] = idx;
+                        document.querySelectorAll('.options-list .option').forEach((el, i) => {
+                            if (i === idx) el.classList.add('selected');
+                            else el.classList.remove('selected');
+                        });
+                        if ($('quizBadge')) {
+                            $('quizBadge').textContent = `${quizAnswers.filter(a => a !== undefined).length}/${quizQuestions.length}`;
+                        }
+                    }
+                }
                 return;
             }
-            const data = await res.json();
-            if (!data.success || !data.quiz) {
-                app().innerHTML = `<div class="quiz-container"><p>Module not found. <a href="/dashboard">Back to dashboard</a></p></div>`;
-                return;
+
+            // 2. Action Buttons
+            const actionBtn = e.target.closest('[data-action]');
+            if (actionBtn) {
+                const action = actionBtn.dataset.action;
+                
+                if (action === 'switch-tab') {
+                    switchTab(actionBtn.dataset.tab);
+                } else if (action === 'submit-practice') {
+                    if (selectedPracticeChoice === null) {
+                        showToast('Please select an option first!', 'warning');
+                        return;
+                    }
+                    practiceAnswered[practiceIndex] = selectedPracticeChoice;
+                    renderPractice();
+                } else if (action === 'next-practice') {
+                    practiceIndex++;
+                    selectedPracticeChoice = null;
+                    renderPractice();
+                } else if (action === 'retry-practice') {
+                    practiceQuestions = [];
+                    practiceIndex = 0;
+                    practiceAnswered = [];
+                    selectedPracticeChoice = null;
+                    renderPractice();
+                } else if (action === 'prev-quiz') {
+                    if (quizIndex > 0) { quizIndex--; renderQuiz(); }
+                } else if (action === 'next-quiz') {
+                    if (quizIndex < quizQuestions.length - 1) { quizIndex++; renderQuiz(); }
+                } else if (action === 'submit-quiz') {
+                    finishQuiz();
+                } else if (action === 'retry-quiz') {
+                    quizQuestions = [];
+                    quizAnswers = [];
+                    quizIndex = 0;
+                    quizCompleted = false;
+                    quizToken = null;
+                    integrityPledge = false;
+                    focusLosses = 0;
+                    hiddenMs = 0;
+                    quizResultMeta = null;
+                    window.__quizMisses = [];
+                    renderQuiz();
+                } else if (action === 'submit-essay') {
+                    const essayIdx = parseInt(actionBtn.dataset.essayIdx);
+                    submitEssayAnswer(essayIdx);
+                }
             }
-            quiz = data.quiz;
-            quizToken = data.quizToken;
-            if (window.CybermatechMedia) window.CybermatechMedia.applyModuleMedia(quiz);
-            renderQuestion();
-        }
+        });
 
-        function renderQuestion() {
-            const question = quiz.questions[currentQuestionIndex];
-            app().innerHTML = `
-                <div class="quiz-container">
-                    <div class="question-header">
-                        <div class="module-badge">${quiz.icon || ''} ${quiz.title}</div>
-                        <div class="question-counter">Question ${currentQuestionIndex + 1} of ${quiz.questions.length}</div>
-                    </div>
-                    <p class="auth-sub" style="text-align:left;margin:0 0 1rem;">${quiz.description || ''}</p>
-                    <div class="question-text">${question.question}</div>
-                    <div class="options-list">
-                        ${question.options.map((opt, idx) => `
-                            <div class="option ${userAnswers[currentQuestionIndex] === idx ? 'selected' : ''}" data-index="${idx}">
-                                <div class="option-letter">${String.fromCharCode(65 + idx)}</div>
-                                <div class="option-text">${opt}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="button-group">
-                        <button class="btn-secondary" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled style="opacity:0.5"' : ''}>← Previous</button>
-                        <button onclick="nextQuestion()">
-                            ${currentQuestionIndex === quiz.questions.length - 1 ? 'Submit drill' : 'Next question →'}
-                        </button>
-                    </div>
-                </div>
-            `;
-            document.querySelectorAll('.option').forEach((opt) => {
-                opt.addEventListener('click', () => {
-                    userAnswers[currentQuestionIndex] = parseInt(opt.dataset.index, 10);
-                    renderQuestion();
-                });
-            });
-        }
-
-        function previousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                renderQuestion();
+        // ============================================================
+        // INITIALIZATION
+        // ============================================================
+        async function hydrateModulesFromApi() {
+            try {
+                const res = await fetch('/api/modules', { credentials: 'same-origin' });
+                const data = await res.json();
+                if (data.modules && data.modules.length) {
+                    MODULES = data.modules.map(m => ({
+                        id: m.id,
+                        name: m.name,
+                        category: m.category || 'network',
+                        difficulty: m.difficulty || 'medium'
+                    }));
+                    currentModule = findModule(pathParam);
+                    moduleId = currentModule.id;
+                }
+            } catch (e) { /* keep local catalog */ }
+            try {
+                const labRes = await fetch('/api/labs', { credentials: 'same-origin' });
+                if (labRes.ok) {
+                    const labData = await labRes.json();
+                    window.__LAB_MODULE_IDS = new Set(labData.modules_with_labs || (labData.labs || []).map(l => l.module_id));
+                } else {
+                    window.__LAB_MODULE_IDS = new Set();
+                }
+            } catch (e) {
+                window.__LAB_MODULE_IDS = new Set();
             }
-        }
-
-        async function nextQuestion() {
-            if (userAnswers[currentQuestionIndex] === undefined) {
-                alert('Select an answer before continuing.');
-                return;
-            }
-            if (currentQuestionIndex === quiz.questions.length - 1) {
-                await submitQuiz();
-            } else {
-                currentQuestionIndex++;
-                renderQuestion();
-            }
-        }
-
-        async function submitQuiz() {
-            app().innerHTML = `<div class="loading"><div class="spinner"></div><p>Scoring on server...</p></div>`;
-            const res = await fetch(`/api/modules/${encodeURIComponent(moduleName)}/submit`, {
-                method: 'POST',
-                credentials: 'same-origin',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ answers: userAnswers, quizToken })
-            });
-            const data = await res.json();
-            if (!data.success) {
-                app().innerHTML = `<div class="quiz-container"><p>${data.message || 'Submit failed'}</p><button onclick="location.reload()">Reload module</button></div>`;
-                return;
-            }
-            showResults(data);
-        }
-
-        function showResults(data) {
-            const angle = (data.score / 100) * 360;
-            let message = 'Keep studying and retry this module.';
-            let certificateOption = '';
-            if (data.certificate_eligible) {
-                message = 'Excellent — you earned a certificate for this module.';
-                certificateOption = `<button class="certificate-btn" onclick="generateCertificate(${data.score})">Download certificate</button>`;
-            } else if (data.passed) {
-                message = 'Passed. Review missed items, then push for certificate score (' + (quiz.certificate_score || 80) + '%+).';
-            }
-
-            const reviewHtml = (data.review || []).map((r, i) => `
-                <div class="feature-block" style="margin-top:0.75rem;">
-                    <strong>Q${i + 1}:</strong> ${r.is_correct ? 'Correct' : 'Incorrect'}
-                    ${r.explanation ? `<div style="color:var(--muted);font-size:0.92rem;margin-top:0.25rem;">${r.explanation}</div>` : ''}
-                </div>
-            `).join('');
-
-            app().innerHTML = `
-                <div class="quiz-container result-container">
-                    <h1>Drill complete</h1>
-                    <div class="score-circle" style="background: conic-gradient(#1f6f63 ${angle}deg, #d5dee5 ${angle}deg)">
-                        <div class="score-inner">
-                            <div class="score-number">${data.score}%</div>
-                            <div class="score-label">Score</div>
-                        </div>
-                    </div>
-                    <p>You answered <strong>${data.correct}</strong> of <strong>${data.total}</strong> correctly.</p>
-                    <div class="result-message">${message}</div>
-                    <div class="button-group" style="justify-content:center;flex-wrap:wrap;">
-                        <button onclick="location.href='/dashboard'">Go to dashboard</button>
-                        <button class="btn-secondary" onclick="location.reload()">Retake</button>
-                        ${certificateOption}
-                    </div>
-                    <h2 style="margin-top:2rem;text-align:left;">Review</h2>
-                    <div style="text-align:left">${reviewHtml}</div>
-                </div>
-            `;
-        }
-
-        function generateCertificate(score) {
-            const name = encodeURIComponent(username || 'Student');
-            const mod = encodeURIComponent(quiz.title);
-            window.location.href = `/certificate?module=${mod}&score=${score}&username=${name}`;
         }
 
         async function init() {
+            const menuToggle = $('menuToggle');
+            const mainNav = $('mainNav');
+            if (menuToggle && mainNav) {
+                menuToggle.addEventListener('click', () => mainNav.classList.toggle('show'));
+            }
+
+            await hydrateModulesFromApi();
+
             try {
-                const info = await fetch('/api/user-info', { credentials: 'same-origin' }).then((r) => r.json());
-                if (info.success) username = info.username || '';
-            } catch (_) {}
-            await loadQuiz();
+                const res = await fetch('/api/user-info');
+                const data = await res.json();
+                const name = (data && data.success && data.username) ? data.username : 'User';
+                if ($('userAvatar')) $('userAvatar').textContent = name.charAt(0).toUpperCase();
+                if ($('userName')) $('userName').textContent = name;
+            } catch(e) {}
+
+            renderHeader();
+            await fetchUserProgress();
+            if (typeof switchTab === 'function') switchTab(currentTab);
+            else if (currentTab === 'practice') renderPractice();
+            else if (currentTab === 'quiz') renderQuiz();
+            else if (currentTab === 'essay') renderEssay();
+            else renderLearn();
         }
 
-        window.previousQuestion = previousQuestion;
-        window.nextQuestion = nextQuestion;
-        window.generateCertificate = generateCertificate;
-        init();
+        async function fetchUserProgress() {
+            try {
+                const res = await fetch('/api/progress');
+                const data = await res.json();
+                if (data.success && data.scores) {
+                    const match = data.scores.find(s => s.module_name === currentModule.name);
+                    if (match) {
+                        userScore = match.score;
+                        if ($('scoreDisplay')) $('scoreDisplay').style.display = 'inline';
+                        if ($('moduleScore')) $('moduleScore').textContent = userScore;
+                        if (userScore >= 80 && $('statusBadge')) {
+                            $('statusBadge').style.display = 'inline-block';
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+
+        function renderHeader() {
+            if (!currentModule) return;
+            if ($('moduleTitle')) $('moduleTitle').innerHTML = `<i class="fas fa-book-open"></i> ${currentModule.name}`;
+            if ($('moduleIdDisplay')) $('moduleIdDisplay').textContent = currentModule.id;
+            if ($('moduleCategory')) $('moduleCategory').textContent = currentModule.category.toUpperCase();
+            
+            const badge = $('difficultyBadge');
+            if (badge) {
+                badge.textContent = currentModule.difficulty.toUpperCase();
+                badge.className = `badge badge-${currentModule.difficulty}`;
+            }
+            const roe = $('roeBanner');
+            if (roe) {
+                roe.style.display = currentModule.category === 'offensive-tools' ? 'block' : 'none';
+            }
+            const wb = $('workbenchLink');
+            if (wb) wb.href = '/module/' + currentModule.id + '/lab';
+            const cta = $('workbenchCta');
+            const ctaBtn = $('workbenchCtaBtn');
+            const hasLab = window.__LAB_MODULE_IDS && window.__LAB_MODULE_IDS.has(currentModule.id);
+            if (cta) cta.style.display = hasLab ? 'block' : 'none';
+            if (ctaBtn) ctaBtn.href = '/module/' + currentModule.id + '/lab';
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            if (quizTimer) clearInterval(quizTimer);
+
+            if (tab === 'learn') {
+                if ($('tabLearn')) $('tabLearn').classList.add('active');
+                renderLearn();
+            } else if (tab === 'practice') {
+                if ($('tabPractice')) $('tabPractice').classList.add('active');
+                renderPractice();
+            } else if (tab === 'quiz') {
+                if ($('tabQuiz')) $('tabQuiz').classList.add('active');
+                renderQuiz();
+            } else if (tab === 'essay') {
+                if ($('tabEssay')) $('tabEssay').classList.add('active');
+                renderEssay();
+            }
+        }
+
+        // ============================================================
+        // 1. LEARN TAB
+        // ============================================================
+        async function renderLearn() {
+            const box = $('content');
+            box.innerHTML = `<div class="loading"><div class="spinner"></div><p>Fetching guide...</p></div>`;
+            try {
+                const res = await fetch(`/api/module-content/${moduleId}`, { credentials: 'same-origin' });
+                const data = await res.json();
+                if (data.success && data.content) {
+                    applyRankBanner(data);
+                    let raw = data.content.content
+                        .replace(/^---$/gm, '<hr>')
+                        .replace(/^### (.*$)/gm, '<h4>$1</h4>')
+                        .replace(/^## (.*$)/gm, '<h3>$1</h3>')
+                        .replace(/^# (.*$)/gm, '<h2>$1</h2>')
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+                        .replace(/^\|(.+)\|$/gm, (line) => {
+                            if (/^\|\s*-+/.test(line)) return '';
+                            const cells = line.split('|').slice(1, -1).map(c => c.trim());
+                            if (!cells.length) return '';
+                            return '<tr>' + cells.map(c => `<td>${c}</td>`).join('') + '</tr>';
+                        })
+                        .replace(/(<tr>[\s\S]*?<\/tr>\s*)+/g, (m) => `<table class="rank-path-table">${m}</table>`)
+                        .replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>')
+                        .replace(/^- (.*$)/gm, '<li>$1</li>')
+                        .replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>')
+                        .replace(/<\/ul>\s*<ul>/g, '')
+                        .replace(/\n\n/g, '</p><p>')
+                        .replace(/\n/g, '<br>');
+                    raw = `<p>${raw}</p>`;
+
+                    const resources = data.content.resources || [];
+                    const resHtml = Array.isArray(resources) && resources.length
+                        ? `<div style="margin-top:1.4rem;padding:1rem;border:1px solid var(--border-color);border-radius:10px;background:#fff;">
+                            <h3 style="margin-bottom:0.6rem;">Resources</h3>
+                            <ul>${resources.map(r => `<li><a href="${r.url}" ${String(r.url).startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${r.name}</a> <small style="color:var(--text-muted)">(${r.type})</small></li>`).join('')}</ul>
+                           </div>`
+                        : '';
+
+                    const envNote = data.rank_label
+                        ? `<div class="rank-learn-chip">Reading as <strong>${data.rank_label}</strong> · ${data.environment || ''}</div>`
+                        : '';
+
+                    box.innerHTML = `
+                        <div class="learn-content">
+                            ${envNote}
+                            <div class="body">${raw}</div>
+                            ${resHtml}
+                            <div class="actions">
+                                <button class="btn btn-primary" data-action="switch-tab" data-tab="practice">Start Practice →</button>
+                                <button class="btn btn-secondary" data-action="switch-tab" data-tab="quiz">Timed Live Drill →</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch(e) {
+                box.innerHTML = `<p>Error loading module guide.</p>`;
+            }
+        }
+
+        // ============================================================
+        // 2. PRACTICE TAB
+        // ============================================================
+        async function renderPractice() {
+            const box = $('content');
+            if (practiceQuestions.length === 0) {
+                box.innerHTML = `<div class="loading"><div class="spinner"></div><p>Loading practice questions...</p></div>`;
+                try {
+                    const res = await fetch(`/api/module-questions/${moduleId}?limit=5&mode=practice`, { credentials: 'same-origin' });
+                    const data = await res.json();
+                    if (data.locked) {
+                        box.innerHTML = `<div class="quiz-result tone-locked"><h2>Module locked</h2><p class="message">${data.message || 'Pass 65% of modules to unlock advanced drills.'}</p><div class="actions" style="justify-content:center;"><a href="/dashboard" class="btn btn-primary">View readiness</a></div></div>`;
+                        return;
+                    }
+                    applyRankBanner({
+                        ...data,
+                        progressive: data.progressive || {
+                            intermediate_unlocked: data.rank === 'intermediate' || data.rank === 'advanced',
+                            advanced_unlocked: data.rank === 'advanced'
+                        }
+                    });
+                    practiceQuestions = data.questions || [];
+                    window.__practiceImmersion = data.immersion || null;
+                } catch(e) {}
+            }
+
+            if (practiceIndex >= practiceQuestions.length && practiceQuestions.length > 0) {
+                const correct = practiceAnswered.filter((a, i) => a === practiceQuestions[i].correct).length;
+                box.innerHTML = `
+                    <div class="quiz-result ${correct / practiceQuestions.length >= 0.7 ? 'tone-success' : 'tone-pass'}">
+                        <div class="score-circle">${Math.round((correct/practiceQuestions.length)*100)}%</div>
+                        <h2>Practice Complete!</h2>
+                        <p class="message" style="margin-bottom:1.5rem;">You answered ${correct} out of ${practiceQuestions.length} questions correctly.</p>
+                        <div class="actions" style="justify-content:center;"><button class="btn btn-primary" data-action="retry-practice">Retry Practice</button></div>
+                    </div>
+                `;
+                return;
+            }
+
+            const q = practiceQuestions[practiceIndex];
+            if (!q) {
+                box.innerHTML = `<p>No practice questions available for this module.</p>`;
+                return;
+            }
+
+            const isAnswered = practiceAnswered[practiceIndex] !== undefined;
+            selectedPracticeChoice = isAnswered ? practiceAnswered[practiceIndex] : null;
+            const pImm = window.__practiceImmersion;
+
+            let optionsHtml = q.options.map((opt, idx) => {
+                let cls = 'option';
+                if (isAnswered) {
+                    cls += ' disabled';
+                    if (idx === q.correct) cls += ' correct-answer';
+                    if (idx === practiceAnswered[practiceIndex] && idx !== q.correct) cls += ' wrong-answer';
+                } else if (selectedPracticeChoice === idx) {
+                    cls += ' selected';
+                }
+
+                return `
+                    <div class="${cls}" data-idx="${idx}">
+                        <span class="letter">${String.fromCharCode(65 + idx)}</span>
+                        <span>${opt}</span>
+                    </div>
+                `;
+            }).join('');
+
+            box.innerHTML = `
+                ${pImm ? `<div class="quiz-env-strip"><strong>${pImm.rank_label || 'Recruit'}</strong> · ${pImm.subtitle || pImm.environment || ''}<div style="margin-top:0.35rem;font-size:0.82rem;">${pImm.setting || ''}</div></div>` : ''}
+                <div class="question-progress">
+                    <span>Question <strong>${practiceIndex + 1}</strong> of <strong>${practiceQuestions.length}</strong></span>
+                    <span>Practice Mode</span>
+                </div>
+                <div class="question-text">${q.question}</div>
+                <div class="options-list">${optionsHtml}</div>
+                ${isAnswered ? `
+                    <div class="feedback-box ${practiceAnswered[practiceIndex] === q.correct ? 'correct' : 'incorrect'}">
+                        <div class="fb-title">${practiceAnswered[practiceIndex] === q.correct ? '✅ Correct' : '❌ Incorrect'}</div>
+                        <div class="fb-explanation">${q.explanation}</div>
+                    </div>
+                ` : ''}
+                <div class="actions">
+                    ${!isAnswered 
+                        ? `<button class="btn btn-primary" data-action="submit-practice">Submit Answer</button>`
+                        : `<button class="btn btn-primary" data-action="next-practice">Next Question →</button>`
+                    }
+                </div>
+            `;
+            if ($('practiceBadge')) $('practiceBadge').textContent = `${practiceIndex}/${practiceQuestions.length}`;
+        }
+
+        // ============================================================
+        // 3. QUIZ TAB
+        // ============================================================
+        async function renderQuiz() {
+            const box = $('content');
+
+            if (quizCompleted) {
+                renderQuizResult();
+                return;
+            }
+
+            if (quizQuestions.length === 0) {
+                box.innerHTML = `<div class="loading"><div class="spinner"></div><p>Staging live cyber drill...</p></div>`;
+                try {
+                    const res = await fetch(`/api/module-questions/${moduleId}?limit=10&mode=quiz`, { credentials: 'same-origin' });
+                    const data = await res.json();
+                    if (data.locked) {
+                        box.innerHTML = `<div class="quiz-result tone-locked"><h2>Advanced module locked</h2><p class="message">${data.message || 'Complete 65% of modules at 70%+ to unlock the next level.'}</p><div class="actions" style="justify-content:center;"><a href="/dashboard" class="btn btn-primary">Open readiness gate</a></div></div>`;
+                        return;
+                    }
+                    applyRankBanner({
+                        ...data,
+                        progressive: data.progressive || {
+                            intermediate_unlocked: data.rank === 'intermediate' || data.rank === 'advanced',
+                            advanced_unlocked: data.rank === 'advanced'
+                        }
+                    });
+                    quizQuestions = data.questions || [];
+                    quizToken = data.quizToken || null;
+                    timeRemaining = data.timeLimit || 600;
+                    focusLosses = 0;
+                    hiddenMs = 0;
+                    integrityPledge = false;
+                    window.__quizSubmitting = false;
+                    window.__quizImmersion = data.immersion || null;
+                    window.__quizIntegrity = data.integrity || null;
+                    window.__quizTotalTime = timeRemaining;
+                    // Timer starts ONLY after integrity pledge (see acceptPledgeBtn)
+                } catch(e) {}
+            }
+
+            if (!integrityPledge && quizQuestions.length) {
+                const rules = (window.__quizIntegrity?.rules || []).map(r => `<li>${r}</li>`).join('');
+                box.innerHTML = `
+                    <div class="quiz-result tone-pledge" style="text-align:left;max-width:640px;margin:0 auto;">
+                        <h2 style="text-align:center;">Integrity pledge</h2>
+                        <p class="message">${window.__quizIntegrity?.pledge || 'I will complete this drill without external AI assistance.'}</p>
+                        <ul style="color:var(--text-secondary);margin:1rem 0 1.5rem 1.2rem;">${rules}</ul>
+                        <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:1.2rem;">Tribams builds a ready cyber force. Leaving the tab or pasting AI answers can invalidate high scores. Pass <strong>65%</strong> of modules (70%+) to unlock the next level.</p>
+                        <div class="actions" style="justify-content:center;">
+                            <button class="btn btn-success" id="acceptPledgeBtn">I pledge — start drill</button>
+                            <a href="/training/${moduleId}?tab=practice" class="btn btn-secondary">Practice first</a>
+                        </div>
+                    </div>
+                `;
+                const btn = document.getElementById('acceptPledgeBtn');
+                if (btn) btn.onclick = () => {
+                    integrityPledge = true;
+                    startQuizTimer();
+                    renderQuiz();
+                };
+                return;
+            }
+
+            const q = quizQuestions[quizIndex];
+            if (!q) {
+                box.innerHTML = `<p>No quiz questions available for this module.</p>`;
+                return;
+            }
+
+            let optionsHtml = q.options.map((opt, idx) => {
+                let cls = 'option';
+                if (quizAnswers[quizIndex] === idx) cls += ' selected';
+                return `
+                    <div class="${cls}" data-idx="${idx}">
+                        <span class="letter">${String.fromCharCode(65 + idx)}</span>
+                        <span>${opt}</span>
+                    </div>
+                `;
+            }).join('');
+
+            const mins = Math.floor(Math.max(0, timeRemaining) / 60);
+            const secs = Math.max(0, timeRemaining) % 60;
+            const urgent = timeRemaining <= 60;
+            const imm = window.__quizImmersion;
+            const answeredCount = quizAnswers.filter(a => a !== undefined && a !== null).length;
+            const allAnswered = answeredCount >= quizQuestions.length;
+            const isLast = quizIndex >= quizQuestions.length - 1;
+
+            box.innerHTML = `
+                ${imm ? `<div style="margin-bottom:1rem;padding:0.8rem 1rem;border-left:3px solid #ef4444;background:rgba(239,68,68,0.08);border-radius:0 10px 10px 0;font-size:0.9rem;">
+                    <strong style="color:#fca5a5;">${imm.title || 'LIVE ASSESSMENT DRILL'}</strong>
+                    <div style="color:var(--text-secondary);margin-top:0.3rem;"><strong>${imm.rank_label || ''}</strong>${imm.subtitle ? ` · ${imm.subtitle}` : ''}</div>
+                    ${imm.setting ? `<div style="color:var(--text-secondary);margin-top:0.35rem;font-size:0.82rem;">${imm.setting}</div>` : ''}
+                    ${imm.integrity ? `<div style="margin-top:0.4rem;color:#fcd34d;font-size:0.82rem;">${imm.integrity}</div>` : ''}
+                </div>` : ''}
+                <div class="question-progress">
+                    <span>Decision <strong>${quizIndex + 1}</strong> of <strong>${quizQuestions.length}</strong> · answered ${answeredCount}/${quizQuestions.length}</span>
+                    <span class="timer-badge" id="liveQuizTimer" style="${urgent ? 'animation:pulse 0.8s infinite;background:rgba(239,68,68,0.3);' : ''}"><i class="fas fa-clock"></i> ${mins}:${secs < 10 ? '0' : ''}${secs}</span>
+                </div>
+                <div class="question-text">${q.question}</div>
+                <div class="options-list">${optionsHtml}</div>
+                <div class="actions">
+                    ${quizIndex > 0 ? `<button class="btn btn-secondary" data-action="prev-quiz">← Back</button>` : ''}
+                    ${!isLast ? `<button class="btn btn-primary" data-action="next-quiz">Next decision →</button>` : ''}
+                    ${(isLast || allAnswered) ? `<button class="btn btn-success" data-action="submit-quiz">Commit exam 🏁</button>` : ''}
+                </div>
+            `;
+            if ($('quizBadge')) $('quizBadge').textContent = `${answeredCount}/${quizQuestions.length}`;
+        }
+
+        function startQuizTimer() {
+            if (quizTimer) clearInterval(quizTimer);
+            quizTimer = setInterval(() => {
+                timeRemaining--;
+                const el = document.getElementById('liveQuizTimer');
+                if (el) {
+                    const mins = Math.floor(Math.max(0, timeRemaining) / 60);
+                    const secs = Math.max(0, timeRemaining) % 60;
+                    el.innerHTML = `<i class="fas fa-clock"></i> ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                    if (timeRemaining <= 60) el.style.background = 'rgba(239,68,68,0.3)';
+                }
+                if (timeRemaining <= 0) {
+                    clearInterval(quizTimer);
+                    quizTimer = null;
+                    finishQuiz({ reason: 'time_up' });
+                }
+            }, 1000);
+        }
+
+        async function finishQuiz(meta = {}) {
+            if (window.__quizSubmitting || quizCompleted) {
+                return;
+            }
+            window.__quizSubmitting = true;
+            if (quizTimer) {
+                clearInterval(quizTimer);
+                quizTimer = null;
+            }
+            const used = (window.__quizTotalTime || 0) - Math.max(0, timeRemaining);
+            if (hiddenStarted) {
+                hiddenMs += Date.now() - hiddenStarted;
+                hiddenStarted = null;
+            }
+
+            const box = $('content');
+            box.innerHTML = `<div class="loading"><div class="spinner"></div><p>Scoring drill on server...</p></div>`;
+
+            try {
+                const res = await fetch('/api/module-quiz/submit', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        quizToken,
+                        answers: quizAnswers,
+                        time_taken: used,
+                        focus_losses: focusLosses,
+                        hidden_ms: hiddenMs,
+                        pledged: integrityPledge,
+                        timed_out: meta.reason === 'time_up'
+                    })
+                });
+                const text = await res.text();
+                let data = null;
+                try { data = text ? JSON.parse(text) : null; } catch (_) { data = null; }
+
+                if (!res.ok || !data || !data.success) {
+                    userScore = 0;
+                    const hint = res.status === 404
+                        ? 'Drill API missing — restart the Tribams server, then retake.'
+                        : (data?.message || `Submit failed (HTTP ${res.status})`);
+                    quizResultMeta = { error: hint };
+                    // Keep token so Retake/retry can still work after a failed attempt
+                    window.__quizSubmitting = false;
+                    quizCompleted = false;
+                    renderQuizResult();
+                    return;
+                }
+
+                quizCompleted = true;
+                quizToken = null;
+                userScore = data.score;
+                window.__quizMisses = data.debrief || [];
+                quizResultMeta = data;
+            } catch (e) {
+                userScore = 0;
+                quizResultMeta = { error: 'Could not reach the server. Confirm npm start is running, then retake.' };
+                window.__quizSubmitting = false;
+                quizCompleted = false;
+                renderQuizResult();
+                return;
+            }
+
+            window.__quizSubmitting = false;
+            try {
+                renderQuizResult();
+            } catch (renderErr) {
+                const box = $('content');
+                if (box) {
+                    box.innerHTML = `<div class="quiz-result tone-error"><h2>Score received (${userScore}%)</h2><p class="message">Result screen hit a display error. Your drill may still be saved — check Dashboard.</p><div class="actions" style="justify-content:center;"><button class="btn btn-primary" data-action="retry-quiz">Retake Drill</button><a href="/dashboard" class="btn btn-secondary">Readiness</a></div></div>`;
+                }
+            }
+        }
+
+        function renderQuizResult() {
+            const box = $('content');
+            const misses = (window.__quizMisses || []).slice(0, 4);
+            const meta = quizResultMeta || {};
+            const progress = meta.progress;
+            const integrity = meta.integrity;
+            const passed = userScore >= 70;
+            const tone = meta.error
+                ? 'tone-error'
+                : (userScore >= 80 ? 'tone-success' : (passed ? 'tone-pass' : 'tone-fail'));
+            const title = meta.error
+                ? 'Drill not recorded'
+                : (userScore >= 80 ? 'Drill cleared' : (passed ? 'Module passed — keep building the force' : 'Containment incomplete'));
+            let outcomeMsg = meta.error || (userScore >= 80
+                ? 'Professional-grade decisions under time pressure. Certificate eligibility unlocked.'
+                : (passed
+                    ? 'Counts toward the 65% level gate. Raise score to 80%+ for module certificates.'
+                    : 'Review the debrief, study the guide, and retake the live drill. Need 70%+ for module completion.'));
+            if (!meta.error && meta.essay_required && !meta.essay_passed) {
+                outcomeMsg += ` Essay is mandatory for your level (need ≥${meta.essay_min || 40}% relevant research). Open the Essay tab, then retake the drill so the composite can include it.`;
+            }
+            if (!meta.error && meta.quiz_score != null && meta.essay_count > 0) {
+                outcomeMsg += ` Composite uses drill ${meta.quiz_score}% + essay ${meta.essay_score}% (essay weight ${Math.round((meta.essay_weight || 0) * 100)}%).`;
+            }
+            if (!meta.error && meta.first_pass_official) {
+                outcomeMsg = `Official first pass recorded at ${userScore}%. This is what counts toward the 65% level gate. Retakes are welcome for practice.` +
+                    (meta.essay_passed ? '' : ` Essay still required (≥${meta.essay_min || 40}%).`);
+            } else if (!meta.error && meta.retake) {
+                outcomeMsg = `Retake scored ${userScore}%. Official progress still uses your first pass (${meta.official_pass_score ?? '—'}%). Keep drilling to sharpen judgment.`;
+            }
+            box.innerHTML = `
+                <div class="quiz-result ${tone}">
+                    <div class="score-circle">${userScore}%</div>
+                    <h2>${title}</h2>
+                    <p class="message">${outcomeMsg}</p>
+                    ${integrity?.note ? `<p style="color:#fde68a;font-size:0.9rem;margin-bottom:0.8rem;">${integrity.note}</p>` : ''}
+                    ${integrity?.flags?.length ? `<p style="font-size:0.85rem;opacity:0.9;">Integrity: ${integrity.status} — ${integrity.flags.join('; ')}</p>` : ''}
+                    ${progress ? `<div class="gate-panel" style="margin:1rem auto;max-width:520px;padding:0.9rem 1rem;text-align:left;font-size:0.9rem;">
+                        <strong>Level gate:</strong> ${progress.modules_completed}/${progress.total_modules} modules passed (${progress.completion_pct}%). Need ${progress.threshold_pct}% to unlock ${progress.next_level || 'advanced rank'}.
+                        <div style="margin-top:0.5rem;opacity:0.9;">${progress.message}</div>
+                    </div>` : ''}
+                    ${misses.length ? `<div class="debrief-panel" style="text-align:left;max-width:560px;margin:1rem auto;font-size:0.9rem;padding:0.9rem 1rem;"><strong>Debrief</strong><ul style="margin-top:0.5rem;padding-left:1.1rem;">${misses.map(m => `<li style="margin-bottom:0.4rem;">${m}</li>`).join('')}</ul></div>` : ''}
+                    <div class="actions" style="justify-content:center;position:relative;z-index:1;">
+                        ${meta.error && quizToken ? `<button class="btn btn-success" data-action="submit-quiz">Retry submit</button>` : ''}
+                        <button class="btn btn-primary" data-action="retry-quiz">Retake Drill</button>
+                        <a href="/scenario" class="btn btn-secondary">Cyber Range</a>
+                        <a href="/dashboard" class="btn btn-secondary">Readiness</a>
+                        ${!meta.error && userScore >= 80 && integrity?.status !== 'high_risk' ? `<a href="/certificate" class="btn btn-success">Claim Certificate</a>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ============================================================
+        // 4. ESSAY TAB
+        // ============================================================
+        async function renderEssay() {
+            const box = $('content');
+            box.innerHTML = `<div class="loading"><div class="spinner"></div><p>Fetching essays...</p></div>`;
+
+            try {
+                const res = await fetch(`/api/module-content/${moduleId}`);
+                const data = await res.json();
+                const questions = data.content?.essay_questions || [];
+
+                let html = `<h2>Module Essays <span style="color:var(--neon-orange);font-size:0.85rem;">(mandatory for module pass)</span></h2>
+                    <p style="color:var(--text-secondary);margin-bottom:1.5rem;">Research the topic, then write. Essays are graded for relevance and count toward your module score — beginner 40%, intermediate 50%, advanced 60% weight. Your answers stay private to your account for scoring and progress.</p>`;
+
+                questions.forEach((q, idx) => {
+                    const qText = typeof q === 'string' ? q : q.question;
+                    html += `
+                        <div class="essay-question">
+                            <div class="eq-number">Question ${idx + 1}</div>
+                            <div class="eq-question">${qText}</div>
+                            <textarea id="essay_${idx}" class="essay-textarea" placeholder="Write a researched answer (min 150 characters). Cite controls, risks, and steps you would take..."></textarea>
+                            <button class="btn btn-primary" data-action="submit-essay" data-essay-idx="${idx}">Submit Answer</button>
+                        </div>
+                    `;
+                });
+
+                if (!questions.length) {
+                    html += `<p style="color:var(--text-secondary);">No essay prompts yet for this module. Check back after content refresh.</p>`;
+                }
+
+                box.innerHTML = html;
+            } catch(e) {
+                box.innerHTML = `<p>Error loading essay questions.</p>`;
+            }
+        }
+
+        async function submitEssayAnswer(idx) {
+            const textarea = document.getElementById(`essay_${idx}`);
+            if (!textarea) return;
+            const text = textarea.value.trim();
+            if (text.length < 150) {
+                showToast(`Minimum 150 characters required (currently ${text.length}).`, 'warning');
+                return;
+            }
+            try {
+                const res = await fetch('/api/submit-essay', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ module_id: moduleId, question_index: idx, answer: text })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(data.message || 'Essay submitted.', data.grading?.passed ? 'success' : 'warning');
+                    if (data.grading) {
+                        const w = Math.round((data.grading.weight || 0) * 100);
+                        showToast(`Essay ${data.grading.score}% · need ≥${data.grading.min_required}% · weight ${w}% of module pass`, 'info');
+                    }
+                } else {
+                    showToast('❌ ' + (data.message || 'Submission failed'), 'error');
+                }
+            } catch(e) {
+                showToast('❌ Network error submitting essay.', 'error');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
     </script>
-    <script src="/js/auth-nav.js" defer></script>
-    <script src="/js/site-media.js" defer></script>
 </body>
 </html>

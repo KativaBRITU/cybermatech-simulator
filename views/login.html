@@ -3,53 +3,847 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — Cybermatech</title>
-    <link rel="stylesheet" href="/css/theme.css">
+    <title>Sign In – TRIBAMS</title>
+    <meta name="description" content="Sign in to your TRIBAMS account to continue your cybersecurity training, track progress, and earn certificates.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE – 0-200
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --border-color-hover: rgba(0, 255, 136, 0.2);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-orange: #f59e0b;
+            --neon-pink: #ec4899;
+            --neon-red: #ef4444;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            background-image: radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.03) 0%, transparent 60%);
+            min-height: 100vh;
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        /* ============================================================
+               LOGIN CONTAINER – 200-400
+               ============================================================ */
+        .login-container {
+            width: 100%;
+            max-width: 440px;
+            position: relative;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-xl), var(--shadow-glow);
+            transition: var(--transition);
+        }
+
+        .login-card:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        /* Logo */
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0, 255, 136, 0.15);
+            margin-bottom: 0.5rem;
+        }
+
+        .logo .logo-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: #fff;
+            fill: none;
+        }
+
+        .logo .logo-text {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo .logo-sub {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            display: block;
+            margin-top: -0.2rem;
+        }
+
+        /* Card header */
+        .card-header {
+            text-align: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .card-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .card-header p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ============================================================
+               FORM – 400-650
+               ============================================================ */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .form-group label .required {
+            color: var(--neon-red);
+            margin-left: 0.2rem;
+        }
+
+        .form-group .input-wrapper {
+            position: relative;
+        }
+
+        .form-group .input-wrapper .icon-left {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .form-group .input-wrapper .icon-left svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        .form-group .input-wrapper input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.8rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: var(--font);
+            transition: var(--transition);
+        }
+
+        .form-group .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.05);
+        }
+
+        .form-group .input-wrapper input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-group .input-wrapper input.error {
+            border-color: var(--neon-red);
+        }
+
+        .form-group .input-wrapper .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .form-group .input-wrapper .toggle-password:hover {
+            color: var(--text-primary);
+        }
+
+        .form-group .error-message {
+            color: var(--neon-red);
+            font-size: 0.75rem;
+            margin-top: 0.2rem;
+            display: none;
+        }
+
+        .form-group .error-message.show {
+            display: block;
+        }
+
+        /* Remember & Forgot */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0 1.5rem;
+        }
+
+        .form-options .remember {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .form-options .remember input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--neon-green);
+            cursor: pointer;
+        }
+
+        .form-options .forgot-link {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .form-options .forgot-link:hover {
+            color: var(--neon-green);
+        }
+
+        /* Submit Button */
+        .btn-login {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 255, 136, 0.25);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .btn-login .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .btn-login.loading .spinner {
+            display: inline-block;
+        }
+        .btn-login.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ============================================================
+               DIVIDER – 650-700
+               ============================================================ */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--glass-border);
+        }
+
+        /* ============================================================
+               SOCIAL LOGIN – 700-800
+               ============================================================ */
+        .social-login {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-login .btn-social {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 1.2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+        }
+
+        .social-login .btn-social:hover {
+            border-color: var(--neon-green);
+            color: var(--text-primary);
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+
+        .social-login .btn-social svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* ============================================================
+               FOOTER LINKS – 800-860
+               ============================================================ */
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.8rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer a {
+            font-weight: 600;
+        }
+
+        /* ============================================================
+               TOAST – 860-920
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+        }
+        .toast.info {
+            background: linear-gradient(135deg, var(--neon-blue), #0066cc);
+            color: #fff;
+        }
+        .toast.warning {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes toastSlideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================================
+               RESPONSIVE – 920-1020
+               ============================================================ */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 1.5rem;
+            }
+
+            .logo .logo-icon {
+                width: 44px;
+                height: 44px;
+            }
+            .logo .logo-icon svg {
+                width: 24px;
+                height: 24px;
+            }
+            .logo .logo-text {
+                font-size: 1.3rem;
+            }
+
+            .card-header h1 {
+                font-size: 1.3rem;
+            }
+
+            .social-login .btn-social {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
+            }
+
+            .form-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                max-width: none;
+                width: auto;
+                bottom: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            @keyframes toastSlideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+        }
+
+        /* ============================================================
+               PRINT STYLES – 1020-1030
+               ============================================================ */
+        @media print {
+            .login-card {
+                border: 1px solid #333 !important;
+                box-shadow: none !important;
+                background: #fff !important;
+                color: #000 !important;
+            }
+            body {
+                background: #fff !important;
+            }
+            .btn-login, .social-login, .toast {
+                display: none !important;
+            }
+            .logo .logo-text {
+                -webkit-text-fill-color: #000 !important;
+                background: none !important;
+                color: #000 !important;
+            }
+        }
+    </style>
 </head>
-<body class="auth-page">
+<body>
+
+    <!-- ============================================================
+    LOGIN CONTAINER
+    ============================================================ -->
     <div class="login-container">
-        <h1>Cybermatech</h1>
-        <p class="auth-sub">Sign in to continue training</p>
-        <form id="loginForm">
-            <input type="email" id="email" placeholder="Email" required autocomplete="email">
-            <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
-            <button type="submit">Login</button>
-        </form>
-        <div id="message" class="error"></div>
-        <div class="register-link">
-            <a href="/forgot-password">Forgot password?</a>
-        </div>
-        <div class="register-link">
-            Don't have an account? <a href="/register">Register</a>
+        <div class="login-card">
+
+            <!-- Logo -->
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                </div>
+                <span class="logo-text">TRIBAMS</span>
+                <span class="logo-sub">EST. 2025</span>
+            </div>
+
+            <!-- Card Header -->
+            <div class="card-header">
+                <h1>Welcome Back</h1>
+                <p>Sign in to continue your cybersecurity training</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" novalidate>
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email Address <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <span class="icon-left">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
+                            </svg>
+                        </span>
+                        <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+                    </div>
+                    <div class="error-message" id="emailError">Please enter a valid email address.</div>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Password <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <span class="icon-left">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16.5 10.5a6 6 0 1 1-12 0 6 6 0 0 1 12 0zm-5.25 6.75a9.75 9.75 0 0 1-9.75-9.75m9.75 9.75a9.75 9.75 0 0 0 9.75-9.75m-9.75 9.75v3.75m6.75-3.75V18m-9.75 3.75h3.75"/>
+                            </svg>
+                        </span>
+                        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required>
+                        <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">
+                            <span id="toggleIcon">👁️</span>
+                        </button>
+                    </div>
+                    <div class="error-message" id="passwordError">Password is required.</div>
+                </div>
+
+                <!-- Options -->
+                <div class="form-options">
+                    <label class="remember">
+                        <input type="checkbox" id="rememberMe" checked>
+                        Remember me
+                    </label>
+                    <a href="/forgot-password" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn-login" id="loginBtn">
+                    <span class="btn-text">Sign In</span>
+                    <span class="spinner"></span>
+                </button>
+            </form>
+
+            <p style="text-align:center;margin:1rem 0 0;font-size:0.85rem;color:var(--text-secondary,#8899bb);">
+                Sign in with your TRIBAMS email and password.
+            </p>
+            <p style="text-align:center;margin:0.45rem 0 0;font-size:0.78rem;color:var(--text-muted,#555);">
+                Beta testers: use your issued credentials.
+            </p>
+
+            <!-- Footer -->
+            <div class="auth-footer">
+                Don't have an account? <a href="/register">Create one now →</a>
+            </div>
+
         </div>
     </div>
 
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const messageDiv = document.getElementById('message');
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const form = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        const loginBtn = document.getElementById('loginBtn');
+        const togglePassword = document.getElementById('togglePassword');
+        const toggleIcon = document.getElementById('toggleIcon');
+        const rememberMe = document.getElementById('rememberMe');
 
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function showToast(message, type = 'success', duration = 3500) {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
 
-            const data = await response.json();
-            if (data.success) {
-                messageDiv.className = 'success';
-                messageDiv.textContent = data.message;
-                const next = new URLSearchParams(location.search).get('next');
-                const dest = next && next.startsWith('/') ? next : '/dashboard';
-                setTimeout(() => { window.location.href = dest; }, 600);
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'} ${message}</span>
+                <button class="toast-close" aria-label="Close notification">&times;</button>
+            `;
+            document.body.appendChild(toast);
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => toast.remove());
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        // ============================================================
+        // TOGGLE PASSWORD
+        // ============================================================
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            toggleIcon.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
+        });
+
+        // ============================================================
+        // REAL-TIME VALIDATION
+        // ============================================================
+        emailInput.addEventListener('input', function() {
+            if (this.value.length > 0 && !validateEmail(this.value)) {
+                emailError.classList.add('show');
+                this.classList.add('error');
             } else {
-                messageDiv.className = 'error';
-                messageDiv.textContent = data.message;
+                emailError.classList.remove('show');
+                this.classList.remove('error');
             }
         });
+
+        passwordInput.addEventListener('input', function() {
+            if (this.value.length === 0) {
+                passwordError.classList.add('show');
+                this.classList.add('error');
+            } else {
+                passwordError.classList.remove('show');
+                this.classList.remove('error');
+            }
+        });
+
+        // ============================================================
+        // FORM SUBMISSION
+        // ============================================================
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Validate
+            let isValid = true;
+
+            const email = emailInput.value.trim();
+            if (!validateEmail(email)) {
+                emailError.classList.add('show');
+                emailInput.classList.add('error');
+                isValid = false;
+            } else {
+                emailError.classList.remove('show');
+                emailInput.classList.remove('error');
+            }
+
+            const password = passwordInput.value;
+            if (!password) {
+                passwordError.classList.add('show');
+                passwordInput.classList.add('error');
+                isValid = false;
+            } else {
+                passwordError.classList.remove('show');
+                passwordInput.classList.remove('error');
+            }
+
+            if (!isValid) {
+                showToast('Please fix the errors above.', 'error');
+                return;
+            }
+
+            // Show loading state
+            loginBtn.classList.add('loading');
+            loginBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Store token if provided
+                    if (data.token) {
+                        localStorage.setItem('token', data.token);
+                    }
+                    if (data.user) {
+                        localStorage.setItem('user', JSON.stringify(data.user));
+                    }
+                    // Remember me
+                    if (rememberMe.checked) {
+                        localStorage.setItem('rememberedEmail', email);
+                    } else {
+                        localStorage.removeItem('rememberedEmail');
+                    }
+
+                    showToast(data.message || 'Login successful!', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1000);
+                } else {
+                    showToast(data.message || 'Invalid credentials.', 'error');
+                    loginBtn.classList.remove('loading');
+                    loginBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showToast('Network error. Please try again.', 'error');
+                loginBtn.classList.remove('loading');
+                loginBtn.disabled = false;
+            }
+        });
+
+        // ============================================================
+        // PRE-FILL REMEMBERED EMAIL
+        // ============================================================
+        (function() {
+            const remembered = localStorage.getItem('rememberedEmail');
+            if (remembered) {
+                emailInput.value = remembered;
+                rememberMe.checked = true;
+            }
+        })();
+
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+K or Cmd+K to focus email
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                emailInput.focus();
+            }
+        });
+
+        console.log('🔐 Login page loaded.');
     </script>
-    <script src="/js/site-media.js" defer></script>
+
 </body>
 </html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Force Readiness Transcript – TRIBAMS</title>
+    <meta name="description" content="Verify a TRIBAMS Force Readiness transcript — ATT&CK-mapped skills proof and honest market signals for employers.">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #e6ebf4; --panel: #ffffff; --line: rgba(15,23,42,0.14);
+            --teal: #0f766e; --amber: #b45309; --red: #b91c1c; --text: #0f172a; --muted: #475569;
+            --font: 'IBM Plex Sans', system-ui, sans-serif; --display: 'Syne', sans-serif;
+            --mono: 'IBM Plex Mono', monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font); background:
+                radial-gradient(800px 400px at 80% 0%, rgba(15,118,110,0.08), transparent 50%),
+                linear-gradient(180deg, #d5dde9, #e6ebf4 50%, #f1f5f9);
+            color: var(--text); min-height: 100vh; line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+        }
+        .wrap { max-width: 880px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+        h1 { font-family: var(--display); font-size: clamp(1.7rem, 3vw, 2.3rem); margin: 0.4rem 0 0.6rem; color: #0f172a; }
+        h3 { font-family: var(--display); margin-top: 1.2rem; margin-bottom: 0.45rem; color: #0f172a; }
+        .muted { color: var(--muted); line-height: 1.5; }
+        a { color: var(--teal); }
+        .panel {
+            margin-top: 1.4rem; background: var(--panel); border: 1px solid var(--line);
+            border-radius: 14px; padding: 1.2rem; box-shadow: 0 10px 24px rgba(15,23,42,0.06);
+        }
+        label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.35rem; }
+        input {
+            width: 100%; padding: 0.75rem 0.9rem; border-radius: 10px; border: 1px solid var(--line);
+            background: #f8fafc; color: var(--text); font-family: var(--mono); font-size: 0.9rem;
+        }
+        .row { display: flex; gap: 0.6rem; margin-top: 0.7rem; flex-wrap: wrap; }
+        button, .btn {
+            border: none; border-radius: 10px; padding: 0.7rem 1.1rem; font-weight: 600; cursor: pointer;
+            background: #1e3a5f; color: #ffffff; font-family: var(--font); text-decoration: none; display: inline-block;
+        }
+        button:hover, .btn:hover { background: var(--teal); }
+        .btn-secondary { background: #ffffff; color: #0f172a; border: 1px solid var(--line); }
+        .statgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.7rem; margin-top: 1rem; }
+        .stat { background: #f0fdfa; border-radius: 10px; padding: 0.8rem; border: 1px solid rgba(15,118,110,0.15); }
+        .stat .n { font-family: var(--display); font-size: 1.5rem; color: var(--teal); }
+        .stat .l { font-size: 0.78rem; color: var(--muted); }
+        .band {
+            margin-top: 0.85rem; padding: 0.75rem 0.9rem; border-radius: 10px;
+            border: 1px solid rgba(15,118,110,0.35); background: #f0fdfa; color: #115e59; font-weight: 600;
+        }
+        .band.developing { border-color: #f59e0b; background: #fffbeb; color: #92400e; }
+        .band.emerging { border-color: #94a3b8; background: #f1f5f9; color: #334155; }
+        .signals { display: grid; gap: 0.5rem; margin-top: 0.7rem; }
+        .signal {
+            padding: 0.65rem 0.75rem; border-radius: 10px; border: 1px solid var(--line);
+            background: #f8fafc; font-size: 0.88rem; color: #1e293b;
+        }
+        .signal strong { display: block; margin-bottom: 0.2rem; color: #0f172a; }
+        .signal.strong { border-color: rgba(15,118,110,0.4); }
+        .signal.moderate { border-color: rgba(180,83,9,0.4); }
+        .signal.weak, .signal.flagged { border-color: rgba(185,28,28,0.4); }
+        .chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.6rem; }
+        .chip {
+            font-family: var(--mono); font-size: 0.72rem; padding: 0.2rem 0.5rem; border-radius: 999px;
+            border: 1px solid var(--line); color: var(--muted); background: #f8fafc;
+        }
+        .chip.on { color: var(--teal); border-color: rgba(15,118,110,0.4); background: #f0fdfa; }
+        .heatmap {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 0.35rem; margin-top: 0.6rem;
+        }
+        .heat {
+            font-family: var(--mono); font-size: 0.68rem; text-align: center; padding: 0.45rem 0.25rem;
+            border-radius: 8px; border: 1px solid var(--line); color: var(--muted); background: #f1f5f9;
+        }
+        .heat.on { color: #042f2e; background: #5eead4; border-color: var(--teal); font-weight: 600; }
+        .summary { margin-top: 0.75rem; font-size: 0.9rem; color: #334155; line-height: 1.55; }
+        .hidden { display: none !important; }
+        .err { color: var(--red); margin-top: 0.6rem; }
+        .ok { color: var(--teal); margin-top: 0.4rem; font-size: 0.9rem; }
+        .limits { margin-top: 0.8rem; font-size: 0.82rem; color: var(--muted); }
+        .limits li { margin-left: 1.1rem; margin-top: 0.25rem; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <a href="/">← TRIBAMS</a>
+        <h1>Force Readiness Transcript</h1>
+        <p class="muted">Employer-readable market signal: modules passed, Evidence Workbench labs, ATT&amp;CK heat, integrity — with honest limits (not a live exploit lab certificate).</p>
+
+        <div class="panel" id="lookupPanel">
+            <label for="token">Transcript token (FR-…)</label>
+            <input id="token" placeholder="FR-…" autocomplete="off">
+            <div class="row">
+                <button type="button" id="lookupBtn">Verify transcript</button>
+                <button type="button" class="btn-secondary" id="mineBtn">Generate / view mine (login)</button>
+                <button type="button" class="btn-secondary hidden" id="copyBtn">Copy share link</button>
+            </div>
+            <p class="err hidden" id="err"></p>
+        </div>
+
+        <div class="panel hidden" id="out">
+            <div class="muted" id="learnerLine"></div>
+            <div class="band" id="marketBand"></div>
+            <div class="statgrid" id="stats"></div>
+            <h3>Market signals</h3>
+            <div class="signals" id="signals"></div>
+            <p class="summary" id="employerSummary"></p>
+            <h3>ATT&amp;CK heatmap (Workbench catalog)</h3>
+            <div class="heatmap" id="heatmap"></div>
+            <h3>Techniques demonstrated</h3>
+            <div class="chips" id="techs"></div>
+            <h3>Labs passed</h3>
+            <div id="labs" class="muted"></div>
+            <h3>Integrity</h3>
+            <p id="integrity" class="muted"></p>
+            <p class="ok" id="tokenShow"></p>
+            <ul class="limits" id="limits"></ul>
+        </div>
+
+        <div class="panel" id="platformPanel">
+            <h3 style="margin-top:0;">What this platform signals to the market</h3>
+            <p class="muted" id="platformPos"></p>
+            <div class="chips" id="platformClaims" style="margin-top:0.7rem;"></div>
+            <p class="muted" style="margin-top:0.7rem;font-size:0.85rem;">Explicitly not claimed:</p>
+            <ul class="limits" id="platformNot"></ul>
+        </div>
+    </div>
+    <script>
+        const $ = (id) => document.getElementById(id);
+        let lastShare = '';
+
+        function bandClass(band) {
+            if (band === 'recommendable') return 'recommendable';
+            if (band === 'developing') return 'developing';
+            return 'emerging';
+        }
+
+        function render(data, token) {
+            const t = data.transcript;
+            const ms = t.market_signals || {};
+            $('out').classList.remove('hidden');
+            $('learnerLine').textContent = (t.learner?.username || 'Learner') + ' · ' + (t.readiness?.level_label || '');
+            const band = $('marketBand');
+            band.className = 'band ' + bandClass(ms.market_band);
+            band.textContent = ms.market_band_label || 'Market band pending';
+            $('stats').innerHTML = `
+                <div class="stat"><div class="n">${t.readiness?.modules_completed || 0}/${t.readiness?.total_modules || 0}</div><div class="l">Modules passed</div></div>
+                <div class="stat"><div class="n">${t.readiness?.completion_pct || 0}%</div><div class="l">Catalog completion</div></div>
+                <div class="stat"><div class="n">${t.labs?.completed || 0}/${t.labs?.available || 0}</div><div class="l">Labs passed</div></div>
+                <div class="stat"><div class="n">${t.attack_coverage?.coverage_pct || 0}%</div><div class="l">ATT&CK lab coverage</div></div>
+            `;
+            $('signals').innerHTML = (ms.signals || []).map((s) => `
+                <div class="signal ${s.strength || ''}">
+                    <strong>${s.label || s.id}</strong>
+                    <span class="muted">${s.employer_line || ''}</span>
+                </div>
+            `).join('') || '<div class="muted">No signals yet.</div>';
+            $('employerSummary').textContent = ms.employer_summary || '';
+            $('heatmap').innerHTML = (ms.heatmap || t.attack_coverage?.techniques || []).map((x) =>
+                `<div class="heat ${x.on || x.demonstrated ? 'on' : ''}" title="${(x.labs || x.related_labs || []).join(', ')}">${x.id}</div>`
+            ).join('') || '<div class="muted">No technique catalog</div>';
+            const dem = new Set(t.attack_coverage?.demonstrated || []);
+            $('techs').innerHTML = (t.attack_coverage?.techniques || []).filter((x) => dem.has(x.id)).map((x) =>
+                `<span class="chip on">${x.id}</span>`
+            ).join('') || '<span class="chip">None yet</span>';
+            $('labs').innerHTML = (t.labs?.items || []).length
+                ? (t.labs.items.map((l) => `${l.lab_id} (${l.score}%)`).join(' · '))
+                : 'No labs passed at 70%+ yet.';
+            $('integrity').textContent = (t.integrity?.status || '') + ' — ' + (t.integrity?.note || '');
+            if (token) {
+                $('tokenShow').textContent = 'Share token: ' + token;
+                lastShare = location.origin + '/verify-readiness/' + encodeURIComponent(token);
+                $('copyBtn').classList.remove('hidden');
+            }
+            $('limits').innerHTML = `
+                <li>Pass mark for modules/labs: 70%+</li>
+                <li>ATT&CK coverage is relative to Workbench lab techniques, not the entire ATT&CK matrix</li>
+                <li>Does not prove live exploit hours or degree-equivalent education</li>
+            `;
+        }
+
+        async function lookup(token) {
+            $('err').classList.add('hidden');
+            const res = await fetch('/api/verify-readiness/' + encodeURIComponent(token));
+            const data = await res.json();
+            if (!data.success) {
+                $('err').textContent = data.message || 'Not found';
+                $('err').classList.remove('hidden');
+                return;
+            }
+            render(data, token);
+        }
+
+        $('lookupBtn').addEventListener('click', () => {
+            const token = $('token').value.trim();
+            if (!token) return;
+            lookup(token);
+        });
+        $('copyBtn').addEventListener('click', async () => {
+            if (!lastShare) return;
+            try {
+                await navigator.clipboard.writeText(lastShare);
+                $('tokenShow').textContent = 'Copied: ' + lastShare;
+            } catch (e) {
+                $('tokenShow').textContent = lastShare;
+            }
+        });
+
+        $('mineBtn').addEventListener('click', async () => {
+            $('err').classList.add('hidden');
+            const res = await fetch('/api/readiness-transcript', { credentials: 'same-origin' });
+            if (res.status === 401) {
+                location.href = '/login?next=/verify-readiness';
+                return;
+            }
+            const data = await res.json();
+            if (!data.success) {
+                $('err').textContent = data.message || 'Could not load transcript';
+                $('err').classList.remove('hidden');
+                return;
+            }
+            $('token').value = data.token || '';
+            render(data, data.token);
+        });
+
+        fetch('/api/market-signals').then((r) => r.json()).then((data) => {
+            if (!data.success) return;
+            const s = data.signals;
+            $('platformPos').textContent = s.positioning || '';
+            $('platformClaims').innerHTML = (s.does_claim || []).map((c) => `<span class="chip on">${c}</span>`).join('');
+            $('platformNot').innerHTML = (s.not_claiming || []).map((c) => `<li>${c}</li>`).join('');
+        }).catch(() => {});
+
+        const pathTok = location.pathname.split('/').pop();
+        if (pathTok && pathTok.startsWith('FR-')) {
+            $('token').value = pathTok;
+            lookup(pathTok);
+        } else {
+            const q = new URLSearchParams(location.search).get('token');
+            if (q) { $('token').value = q; lookup(q); }
+        }
+    </script>
+</body>
+</html>

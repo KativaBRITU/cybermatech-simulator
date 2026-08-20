@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy – TRIBAMS</title>
+    <meta name="description" content="Read the TRIBAMS Privacy Policy. Learn how we collect, use, and protect your personal data when you use our AI-powered cybersecurity training platform.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE – 0-200
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --border-color-hover: rgba(0, 255, 136, 0.2);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-orange: #f59e0b;
+            --neon-pink: #ec4899;
+            --neon-red: #ef4444;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ============================================================
+               HEADER & NAVIGATION – 200-400
+               ============================================================ */
+        header {
+            background: rgba(10, 14, 39, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(10, 14, 39, 0.98);
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--neon-green);
+            fill: none;
+            -webkit-text-fill-color: initial;
+            flex-shrink: 0;
+        }
+
+        .logo:hover svg {
+            stroke: var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.3rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active {
+            color: var(--neon-green);
+        }
+
+        .btn-nav {
+            padding: 0.4rem 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary) !important;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            -webkit-text-fill-color: initial;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+            color: var(--bg-primary) !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .menu-toggle span {
+            width: 26px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ============================================================
+               PAGE HEADER – 400-550
+               ============================================================ */
+        .page-header {
+            padding: 2rem 0 1.5rem;
+        }
+
+        .page-header .breadcrumb {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header .breadcrumb a {
+            color: var(--text-secondary);
+        }
+        .page-header .breadcrumb a:hover {
+            color: var(--neon-green);
+        }
+        .page-header .breadcrumb .sep {
+            margin: 0 0.3rem;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 900;
+        }
+
+        .page-header h1 .highlight {
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 600px;
+            margin-top: 0.3rem;
+        }
+
+        .page-header .meta {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .page-header .meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .page-header .meta svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        /* ============================================================
+               TABLE OF CONTENTS – 550-700
+               ============================================================ */
+        .toc-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .toc-card:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        .toc-card .toc-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toc-card .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.3rem 1rem;
+        }
+
+        .toc-card .toc-grid a {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            padding: 0.2rem 0;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .toc-card .toc-grid a:hover {
+            color: var(--neon-green);
+        }
+
+        .toc-card .toc-grid a .num {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* ============================================================
+               CONTENT – 700-1100
+               ============================================================ */
+        .content-section {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+            scroll-margin-top: 80px;
+        }
+
+        .content-section:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        .content-section .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .content-section .section-header .section-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(0, 136, 255, 0.08);
+            color: var(--neon-blue);
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .content-section .section-header h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .content-section .section-header .badge {
+            margin-left: auto;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            background: var(--glass-bg);
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .content-section p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .content-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-section ul,
+        .content-section ol {
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .content-section ul li,
+        .content-section ol li {
+            margin-bottom: 0.3rem;
+        }
+
+        .content-section .highlight-box {
+            background: rgba(0, 136, 255, 0.03);
+            border-left: 3px solid var(--neon-blue);
+            padding: 0.8rem 1.2rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 1rem 0;
+        }
+
+        .content-section .highlight-box strong {
+            color: var(--neon-blue);
+        }
+
+        .content-section .highlight-box.warning {
+            border-left-color: var(--neon-orange);
+            background: rgba(245, 158, 11, 0.03);
+        }
+
+        .content-section .highlight-box.warning strong {
+            color: var(--neon-orange);
+        }
+
+        .content-section .highlight-box.danger {
+            border-left-color: var(--neon-red);
+            background: rgba(239, 68, 68, 0.03);
+        }
+
+        .content-section .highlight-box.danger strong {
+            color: var(--neon-red);
+        }
+
+        /* ============================================================
+               COOKIE SETTINGS – 1100-1200
+               ============================================================ */
+        .cookie-settings {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .cookie-settings:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        .cookie-settings .cookie-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cookie-settings .cookie-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .cookie-settings .cookie-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .cookie-settings .cookie-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 1rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+        }
+
+        .cookie-settings .cookie-item .cookie-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .cookie-settings .cookie-item .cookie-status {
+            font-size: 0.7rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .cookie-settings .cookie-item .cookie-status.active {
+            background: rgba(0, 255, 136, 0.12);
+            color: var(--neon-green);
+        }
+
+        .cookie-settings .cookie-item .cookie-status.inactive {
+            background: var(--glass-bg);
+            color: var(--text-muted);
+        }
+
+        .cookie-settings .cookie-item .toggle-switch {
+            position: relative;
+            width: 40px;
+            height: 22px;
+            background: var(--glass-border);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .cookie-settings .cookie-item .toggle-switch.active {
+            background: var(--neon-green);
+        }
+
+        .cookie-settings .cookie-item .toggle-switch .toggle-dot {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .cookie-settings .cookie-item .toggle-switch.active .toggle-dot {
+            left: 20px;
+        }
+
+        /* ============================================================
+               FOOTER – 1200-1280
+               ============================================================ */
+        .legal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1.5rem 0 2rem;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 1rem;
+        }
+
+        .legal-footer .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .legal-footer .footer-links a {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .legal-footer .footer-links a:hover {
+            color: var(--neon-green);
+        }
+
+        .legal-footer .footer-links a.active {
+            color: var(--neon-green);
+        }
+
+        .legal-footer .copyright {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+               TOAST – 1280-1320
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+        }
+        .toast.info {
+            background: linear-gradient(135deg, var(--neon-blue), #0066cc);
+            color: #fff;
+        }
+        .toast.warning {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes toastSlideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================================
+               RESPONSIVE – 1320-1420
+               ============================================================ */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                position: absolute;
+                top: 60px;
+                right: 1rem;
+                min-width: 220px;
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-sm);
+                padding: 1.2rem;
+                gap: 1rem;
+                box-shadow: var(--shadow-xl);
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+
+            .toc-card .toc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content-section {
+                padding: 1.2rem;
+            }
+
+            .content-section .section-header {
+                flex-wrap: wrap;
+            }
+            .content-section .section-header .badge {
+                margin-left: 0;
+            }
+
+            .cookie-settings {
+                padding: 1.2rem;
+            }
+            .cookie-settings .cookie-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .legal-footer {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .legal-footer .footer-links {
+                justify-content: center;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                max-width: none;
+                width: auto;
+                bottom: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            @keyframes toastSlideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+            .page-header .meta {
+                gap: 0.8rem;
+                font-size: 0.7rem;
+            }
+            .content-section .section-header h2 {
+                font-size: 1rem;
+            }
+            .content-section p,
+            .content-section ul,
+            .content-section ol {
+                font-size: 0.85rem;
+            }
+            .cookie-settings .cookie-item {
+                flex-wrap: wrap;
+                gap: 0.3rem;
+            }
+        }
+
+        /* ============================================================
+               PRINT STYLES – 1420-1430
+               ============================================================ */
+        @media print {
+            header,
+            .toast,
+            .menu-toggle,
+            .cookie-settings,
+            .legal-footer .footer-links {
+                display: none !important;
+            }
+            .content-section {
+                border: 1px solid #333 !important;
+                box-shadow: none !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            body {
+                background: #fff;
+                color: #000;
+            }
+            .page-header h1 .highlight {
+                -webkit-text-fill-color: #000;
+                background: none;
+                color: #000;
+            }
+            .toc-card {
+                border: 1px solid #333 !important;
+            }
+            .toc-card .toc-grid a {
+                color: #000 !important;
+            }
+            .content-section p,
+            .content-section ul,
+            .content-section ol {
+                color: #333 !important;
+            }
+            .content-section .highlight-box {
+                border-left-color: #333 !important;
+            }
+            .legal-footer .copyright {
+                color: #333 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                    TRIBAMS
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/resource-center">Resource Center</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/login">Sign In</a></li>
+                    <li><a href="/register" class="btn-nav">Get Started</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <span class="sep">/</span>
+                <span style="color:var(--text-secondary);">Privacy Policy</span>
+            </div>
+            <h1>🔐 <span class="highlight">Privacy Policy</span></h1>
+            <p class="subtitle">Your privacy is important to us. This policy explains how we collect, use, and protect your personal information when you use the TRIBAMS platform.</p>
+            <div class="meta">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Last Updated: August 10, 2026
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Version 2.1
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    Effective: Immediately
+                </span>
+            </div>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc-card">
+            <div class="toc-title">📑 Table of Contents</div>
+            <div class="toc-grid">
+                <a href="#section-1"><span class="num">1.</span> Introduction</a>
+                <a href="#section-2"><span class="num">2.</span> Information We Collect</a>
+                <a href="#section-3"><span class="num">3.</span> How We Use Your Information</a>
+                <a href="#section-4"><span class="num">4.</span> Cookies & Tracking</a>
+                <a href="#section-5"><span class="num">5.</span> Data Sharing & Disclosure</a>
+                <a href="#section-6"><span class="num">6.</span> Data Security</a>
+                <a href="#section-7"><span class="num">7.</span> Your Rights</a>
+                <a href="#section-8"><span class="num">8.</span> Data Retention</a>
+                <a href="#section-9"><span class="num">9.</span> Children's Privacy</a>
+                <a href="#section-10"><span class="num">10.</span> International Transfers</a>
+                <a href="#section-11"><span class="num">11.</span> Third-Party Links</a>
+                <a href="#section-12"><span class="num">12.</span> Changes to This Policy</a>
+                <a href="#section-13"><span class="num">13.</span> Contact Us</a>
+            </div>
+        </div>
+
+        <!-- Section 1 -->
+        <div class="content-section" id="section-1">
+            <div class="section-header">
+                <span class="section-number">1</span>
+                <h2>Introduction</h2>
+                <span class="badge">Overview</span>
+            </div>
+            <p>Welcome to TRIBAMS. This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you visit our website, use our platform, or interact with our services.</p>
+            <p>By using TRIBAMS, you agree to the collection and use of information in accordance with this policy. We are committed to protecting your privacy and handling your personal data with transparency and care.</p>
+            <div class="highlight-box">
+                <strong>💡 Key Point:</strong> We only collect information that is necessary to provide you with our training services and to improve your learning experience.
+            </div>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="content-section" id="section-2">
+            <div class="section-header">
+                <span class="section-number">2</span>
+                <h2>Information We Collect</h2>
+                <span class="badge">Data</span>
+            </div>
+            <p>We collect several types of information to provide and improve our services:</p>
+            <ul>
+                <li><strong>Account Information:</strong> When you register, we collect your name, email address, username, and password (hashed with bcrypt).</li>
+                <li><strong>Profile Information:</strong> You may optionally provide a profile picture, bio, and other personal details.</li>
+                <li><strong>Training Data:</strong> We collect quiz scores, module progress, certificates, badges, and essay answers you submit.</li>
+                <li><strong>Essay answers:</strong> Stored privately on your account for scoring and progress. They are <strong>not</strong> sold or published as training content for other learners.</li>
+                <li><strong>Beta tester accounts:</strong> Issued closed-beta credentials may be flagged as beta testers to grant full module/resource access for product testing (not admin access).</li>
+                <li><strong>Usage Data:</strong> We collect information about how you interact with the platform, including pages visited, features used, and time spent.</li>
+                <li><strong>Device Information:</strong> We collect information about the device you use to access the platform, including browser type, operating system, and IP address.</li>
+                <li><strong>Communication Data:</strong> If you contact us, we collect information about your communication with us.</li>
+                <li><strong>Sessions &amp; cookies:</strong> We use session cookies to keep you signed in securely.</li>
+            </ul>
+            <div class="highlight-box warning">
+                <strong>⚠️ Important:</strong> We do not collect sensitive personal information unless you voluntarily provide it. We do not sell your personal data to third parties.
+            </div>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="content-section" id="section-3">
+            <div class="section-header">
+                <span class="section-number">3</span>
+                <h2>How We Use Your Information</h2>
+                <span class="badge">Purpose</span>
+            </div>
+            <p>We use the information we collect for the following purposes:</p>
+            <ul>
+                <li><strong>Provide and Maintain Services:</strong> To create and manage your account, deliver training modules, grade essays and quizzes, and track your progress.</li>
+                <li><strong>Improve and Personalize:</strong> To personalise your learning experience, recommend relevant modules, and improve platform features — without publishing your essay text to other learners.</li>
+                <li><strong>Communication:</strong> To send you updates, notifications, password resets, certificate notices, and responses to your inquiries (via email/SMTP when configured).</li>
+                <li><strong>Payments:</strong> To process paid subscriptions through PayPal when you choose a paid plan.</li>
+                <li><strong>Analytics:</strong> To analyse usage patterns and improve our platform's performance and user experience.</li>
+                <li><strong>Security:</strong> To detect, prevent, and address security issues and fraudulent activity.</li>
+                <li><strong>Compliance:</strong> To comply with legal obligations and enforce our terms of service.</li>
+            </ul>
+        </div>
+
+        <!-- Section 4 -->
+        <div class="content-section" id="section-4">
+            <div class="section-header">
+                <span class="section-number">4</span>
+                <h2>Cookies & Tracking</h2>
+                <span class="badge">Preferences</span>
+            </div>
+            <p>We use cookies and similar tracking technologies to enhance your experience on our platform. Cookies are small data files stored on your device.</p>
+            <p>We use the following types of cookies:</p>
+            <ul>
+                <li><strong>Essential Cookies:</strong> Necessary for the platform to function properly (e.g., authentication, session management).</li>
+                <li><strong>Preference Cookies:</strong> Remember your preferences and settings.</li>
+                <li><strong>Analytics Cookies:</strong> Help us understand how you use the platform and improve our services.</li>
+                <li><strong>Marketing Cookies:</strong> Used to deliver relevant advertisements (only with your consent).</li>
+            </ul>
+            <p>You can manage your cookie preferences in your browser settings. However, disabling certain cookies may affect your experience on the platform.</p>
+        </div>
+
+        <!-- Section 5 -->
+        <div class="content-section" id="section-5">
+            <div class="section-header">
+                <span class="section-number">5</span>
+                <h2>Data Sharing & Disclosure</h2>
+                <span class="badge">Third Parties</span>
+            </div>
+            <p>We do not sell, rent, or trade your personal information. We may share your data in the following circumstances:</p>
+            <ul>
+                <li><strong>Service Providers:</strong> Trusted providers who help operate the platform — for example hosting (PostgreSQL or SQLite database), Cloudflare DNS/HTTPS/WAF in front of our Node origin, PayPal for payments, and SMTP email delivery. These providers are contractually obligated to protect your data.</li>
+                <li><strong>Legal Compliance:</strong> We may disclose information if required by law or to protect our rights, property, or safety.</li>
+                <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or asset sale, your data may be transferred. You will be notified of any such changes.</li>
+            </ul>
+            <div class="highlight-box">
+                <strong>💡 Note:</strong> Essay answers are not shared as public study notes or labs for other learners. We only share the minimum amount of data necessary for the specific purpose and require third parties to maintain adequate security measures.
+            </div>
+        </div>
+
+        <!-- Section 6 -->
+        <div class="content-section" id="section-6">
+            <div class="section-header">
+                <span class="section-number">6</span>
+                <h2>Data Security</h2>
+                <span class="badge">Protection</span>
+            </div>
+            <p>We implement appropriate technical and organisational measures to protect your personal data against unauthorised access, alteration, disclosure, or destruction.</p>
+            <p>Our security measures include:</p>
+            <ul>
+                <li><strong>Encryption:</strong> All data transmitted between your device and our servers is encrypted using SSL/TLS.</li>
+                <li><strong>Access Control:</strong> Access to personal data is restricted to authorised personnel who require it for their job functions.</li>
+                <li><strong>Secure Storage:</strong> We store data on secure servers with firewalls and intrusion detection systems.</li>
+                <li><strong>Regular Audits:</strong> We conduct regular security audits and vulnerability assessments.</li>
+            </ul>
+            <div class="highlight-box warning">
+                <strong>⚠️ Important:</strong> While we take reasonable steps to protect your data, no method of transmission over the internet is 100% secure. We cannot guarantee absolute security.
+            </div>
+        </div>
+
+        <!-- Section 7 -->
+        <div class="content-section" id="section-7">
+            <div class="section-header">
+                <span class="section-number">7</span>
+                <h2>Your Rights</h2>
+                <span class="badge">Control</span>
+            </div>
+            <p>Depending on your jurisdiction, you may have the following rights regarding your personal data:</p>
+            <ul>
+                <li><strong>Access:</strong> You have the right to request a copy of the personal data we hold about you.</li>
+                <li><strong>Rectification:</strong> You have the right to correct any inaccurate or incomplete information.</li>
+                <li><strong>Erasure:</strong> You have the right to request deletion of your personal data, subject to legal obligations.</li>
+                <li><strong>Restriction:</strong> You have the right to restrict the processing of your data in certain circumstances.</li>
+                <li><strong>Portability:</strong> You have the right to receive your data in a structured, commonly used format.</li>
+                <li><strong>Objection:</strong> You have the right to object to the processing of your data for certain purposes.</li>
+                <li><strong>Withdraw Consent:</strong> You have the right to withdraw your consent at any time.</li>
+            </ul>
+            <p>To exercise any of these rights, please <a href="/contact">contact us</a>. We will respond to your request within 30 days.</p>
+        </div>
+
+        <!-- Section 8 -->
+        <div class="content-section" id="section-8">
+            <div class="section-header">
+                <span class="section-number">8</span>
+                <h2>Data Retention</h2>
+                <span class="badge">Storage</span>
+            </div>
+            <p>We retain your personal data for as long as necessary to provide you with our services and for legitimate business purposes.</p>
+            <p>We may retain your data:</p>
+            <ul>
+                <li>As long as your account is active.</li>
+                <li>To comply with legal obligations (e.g., tax, audit, or regulatory requirements).</li>
+                <li>To resolve disputes and enforce our agreements.</li>
+            </ul>
+            <p>After your account is closed or terminated, we will retain your data for a reasonable period to ensure compliance with legal obligations and then securely delete it.</p>
+        </div>
+
+        <!-- Section 9 -->
+        <div class="content-section" id="section-9">
+            <div class="section-header">
+                <span class="section-number">9</span>
+                <h2>Children's Privacy</h2>
+                <span class="badge">Minors</span>
+            </div>
+            <p>Our platform is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13.</p>
+            <p>If you are a parent or guardian and believe your child has provided us with personal data, please <a href="/contact">contact us</a>. We will take steps to remove that information from our systems.</p>
+            <div class="highlight-box danger">
+                <strong>🚨 Important:</strong> Users must be at least 13 years old to create an account. Users under 18 require parental or guardian consent.
+            </div>
+        </div>
+
+        <!-- Section 10 -->
+        <div class="content-section" id="section-10">
+            <div class="section-header">
+                <span class="section-number">10</span>
+                <h2>International Transfers</h2>
+                <span class="badge">Location</span>
+            </div>
+            <p>Your information may be transferred to and processed in countries other than your country of residence. These countries may have data protection laws that are different from those in your country.</p>
+            <p>We take appropriate measures to ensure that your data is protected in accordance with this Privacy Policy and applicable laws, including the use of standard contractual clauses where required.</p>
+        </div>
+
+        <!-- Section 11 -->
+        <div class="content-section" id="section-11">
+            <div class="section-header">
+                <span class="section-number">11</span>
+                <h2>Third-Party Links</h2>
+                <span class="badge">External</span>
+            </div>
+            <p>Our platform may contain links to third-party websites or services that are not owned or controlled by us. This Privacy Policy does not apply to those websites.</p>
+            <p>We are not responsible for the privacy practices of third-party websites. We encourage you to review the privacy policies of any third-party sites you visit.</p>
+        </div>
+
+        <!-- Section 12 -->
+        <div class="content-section" id="section-12">
+            <div class="section-header">
+                <span class="section-number">12</span>
+                <h2>Changes to This Policy</h2>
+                <span class="badge">Updates</span>
+            </div>
+            <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last Updated" date.</p>
+            <p>You are advised to review this Privacy Policy periodically for any changes. Continued use of the platform after changes constitutes your acceptance of the updated policy.</p>
+        </div>
+
+        <!-- Section 13 -->
+        <div class="content-section" id="section-13">
+            <div class="section-header">
+                <span class="section-number">13</span>
+                <h2>Contact Us</h2>
+                <span class="badge">Support</span>
+            </div>
+            <p>If you have any questions about this Privacy Policy, please contact us at:</p>
+            <p><strong>Email:</strong> <a href="mailto:tribams@gmail.com">tribams@gmail.com</a></p>
+            <p><strong>Phone:</strong> <a href="tel:+264812941503">+264 81 294 1503</a></p>
+            <p><strong>Address:</strong> Windhoek, Namibia</p>
+            <div class="highlight-box">
+                <strong>💡 Note:</strong> We take your privacy seriously and will respond to all inquiries within 30 days.
+            </div>
+        </div>
+
+        <!-- Cookie Settings -->
+        <div class="cookie-settings">
+            <div class="cookie-title">🍪 Cookie Preferences</div>
+            <div class="cookie-desc">Manage your cookie preferences for the TRIBAMS platform. You can enable or disable different types of cookies below.</div>
+            <div class="cookie-grid">
+                <div class="cookie-item">
+                    <span class="cookie-name">Essential Cookies</span>
+                    <div class="toggle-switch active" onclick="toggleCookie(this)">
+                        <span class="toggle-dot"></span>
+                    </div>
+                </div>
+                <div class="cookie-item">
+                    <span class="cookie-name">Preference Cookies</span>
+                    <div class="toggle-switch active" onclick="toggleCookie(this)">
+                        <span class="toggle-dot"></span>
+                    </div>
+                </div>
+                <div class="cookie-item">
+                    <span class="cookie-name">Analytics Cookies</span>
+                    <div class="toggle-switch" onclick="toggleCookie(this)">
+                        <span class="toggle-dot"></span>
+                    </div>
+                </div>
+                <div class="cookie-item">
+                    <span class="cookie-name">Marketing Cookies</span>
+                    <div class="toggle-switch" onclick="toggleCookie(this)">
+                        <span class="toggle-dot"></span>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:1rem;display:flex;gap:0.8rem;flex-wrap:wrap;">
+                <button onclick="saveCookiePreferences()" style="padding:0.4rem 1.5rem;background:var(--neon-green);color:var(--bg-primary);border:none;border-radius:30px;font-weight:600;cursor:pointer;font-family:var(--font);">💾 Save Preferences</button>
+                <button onclick="resetCookiePreferences()" style="padding:0.4rem 1.5rem;background:var(--glass-bg);color:var(--text-secondary);border:1px solid var(--glass-border);border-radius:30px;font-weight:500;cursor:pointer;font-family:var(--font);">↺ Reset to Default</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="legal-footer">
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/privacy" class="active">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
+                <a href="/contact">Contact</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 TRIBAMS. All rights reserved.
+            </div>
+        </div>
+
+        <!-- Back to Dashboard -->
+        <div style="text-align:center; padding:0.5rem 0 2rem;">
+            <a href="/dashboard" class="btn btn-secondary" style="padding:0.5rem 1.5rem;">← Back to Dashboard</a>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // HEADER SCROLL & MOBILE MENU
+        // ============================================================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('show');
+            this.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('show');
+                document.getElementById('menuToggle').classList.remove('active');
+            });
+        });
+
+        // ============================================================
+        // SMOOTH SCROLL FOR TOC
+        // ============================================================
+        document.querySelectorAll('.toc-grid a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ============================================================
+        // COOKIE TOGGLE
+        // ============================================================
+        function toggleCookie(element) {
+            element.classList.toggle('active');
+        }
+
+        function saveCookiePreferences() {
+            const toggles = document.querySelectorAll('.toggle-switch');
+            const preferences = [];
+            toggles.forEach((t, index) => {
+                const isActive = t.classList.contains('active');
+                preferences.push(isActive ? 'enabled' : 'disabled');
+            });
+            showToast('✅ Cookie preferences saved successfully!', 'success');
+            console.log('Cookie preferences saved:', preferences);
+        }
+
+        function resetCookiePreferences() {
+            const toggles = document.querySelectorAll('.toggle-switch');
+            // Default: essential and preference enabled, analytics and marketing disabled
+            toggles.forEach((t, index) => {
+                if (index === 0 || index === 1) {
+                    t.classList.add('active');
+                } else {
+                    t.classList.remove('active');
+                }
+            });
+            showToast('↺ Cookie preferences reset to default.', 'info');
+        }
+
+        // ============================================================
+        // SHOW TOAST
+        // ============================================================
+        function showToast(message, type = 'success', duration = 3500) {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
+
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'} ${message}</span>
+                <button class="toast-close" aria-label="Close notification">&times;</button>
+            `;
+            document.body.appendChild(toast);
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => toast.remove());
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        console.log('🔐 Privacy Policy page loaded.');
+    </script>
+
+</body>
+</html>

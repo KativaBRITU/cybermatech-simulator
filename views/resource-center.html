@@ -1,0 +1,3031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Center – TRIBAMS</title>
+    <meta name="description" content="Explore 95 immersive cybersecurity training modules at TRIBAMS. Master phishing, malware, network security, cloud, attacker toolkit labs, and more with AI-powered guidance.">
+    <meta property="og:title" content="Resource Center – TRIBAMS">
+    <meta property="og:description" content="Browse all 95 cybersecurity training modules. Start learning today with real-world scenarios.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE – 0–200
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #270a0f;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --border-color-hover: rgba(0, 255, 136, 0.2);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-orange: #f59e0b;
+            --neon-pink: #ec4899;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ============================================================
+               HEADER & NAVIGATION – 200–400
+               ============================================================ */
+        header {
+            background: rgba(10, 14, 39, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(10, 14, 39, 0.98);
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--neon-green);
+            fill: none;
+            -webkit-text-fill-color: initial;
+            flex-shrink: 0;
+        }
+
+        .logo:hover svg {
+            stroke: var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.3rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active {
+            color: var(--neon-green);
+        }
+
+        .btn-nav {
+            padding: 0.4rem 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary) !important;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            -webkit-text-fill-color: initial;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+            color: var(--bg-primary) !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .menu-toggle span {
+            width: 26px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ============================================================
+               PAGE HEADER – 400–550
+               ============================================================ */
+        .page-header {
+            padding: 3rem 0 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            border-radius: 4px;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2.4rem, 4.5vw, 3.4rem);
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .page-header h1 .highlight {
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .page-header .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .page-header .breadcrumb a {
+            color: var(--text-secondary);
+        }
+        .page-header .breadcrumb a:hover {
+            color: var(--neon-green);
+        }
+
+        /* ============================================================
+               STATS BANNER – 550–700
+               ============================================================ */
+        .stats-banner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem 0 2.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .stats-banner .stat-item {
+            text-align: center;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 1rem 0.8rem;
+            transition: var(--transition);
+        }
+
+        .stats-banner .stat-item:hover {
+            border-color: var(--neon-green);
+            transform: translateY(-2px);
+        }
+
+        .stats-banner .stat-item .number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--neon-green);
+            display: block;
+            line-height: 1.2;
+        }
+
+        .stats-banner .stat-item .label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* ============================================================
+               SEARCH & FILTERS – 700–950
+               ============================================================ */
+        .search-section {
+            padding: 1rem 0 2rem;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            max-width: 780px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 60px;
+            padding: 0.3rem;
+            transition: var(--transition);
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.05);
+        }
+
+        .search-bar .search-icon {
+            padding-left: 1rem;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .search-bar .search-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        .search-bar input {
+            flex: 1;
+            min-width: 180px;
+            padding: 0.7rem 0.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: var(--font);
+            outline: none;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-bar .clear-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.3rem 1rem;
+            display: none;
+            font-size: 1.2rem;
+        }
+
+        .search-bar .clear-btn.visible {
+            display: block;
+        }
+
+        .search-bar .search-btn {
+            padding: 0.6rem 1.8rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            white-space: nowrap;
+        }
+
+        .search-bar .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 255, 136, 0.25);
+        }
+
+        /* Filter Buttons */
+        .filter-section {
+            padding: 1.5rem 0 0.5rem;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .filter-row .filter-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.35rem 1.2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--neon-green);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
+
+        .filter-btn.active {
+            background: rgba(0, 255, 136, 0.08);
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.05);
+        }
+
+        .filter-btn .badge {
+            display: inline-block;
+            background: var(--glass-bg);
+            border-radius: 20px;
+            padding: 0 0.4rem;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-left: 0.2rem;
+        }
+
+        .filter-btn.active .badge {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--neon-green);
+        }
+
+        .results-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 1rem 0 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .results-meta .count {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .results-meta .count strong {
+            color: var(--text-primary);
+        }
+
+        .results-meta .sort-options {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .results-meta .sort-options label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .results-meta .sort-options select {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 0.2rem 1rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-family: var(--font);
+            cursor: pointer;
+            outline: none;
+        }
+
+        .results-meta .sort-options select:focus {
+            border-color: var(--neon-green);
+        }
+
+        /* ============================================================
+               MODULE GRID – 950–1250
+               ============================================================ */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+            padding: 2rem 0 3rem;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1.8rem 1.5rem;
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: cardAppear 0.5s ease both;
+        }
+
+        .module-card:nth-child(1) {
+            animation-delay: 0.02s;
+        }
+        .module-card:nth-child(2) {
+            animation-delay: 0.04s;
+        }
+        .module-card:nth-child(3) {
+            animation-delay: 0.06s;
+        }
+        .module-card:nth-child(4) {
+            animation-delay: 0.08s;
+        }
+        .module-card:nth-child(5) {
+            animation-delay: 0.10s;
+        }
+        .module-card:nth-child(6) {
+            animation-delay: 0.12s;
+        }
+        .module-card:nth-child(7) {
+            animation-delay: 0.14s;
+        }
+        .module-card:nth-child(8) {
+            animation-delay: 0.16s;
+        }
+        .module-card:nth-child(9) {
+            animation-delay: 0.18s;
+        }
+        .module-card:nth-child(10) {
+            animation-delay: 0.20s;
+        }
+        .module-card:nth-child(11) {
+            animation-delay: 0.22s;
+        }
+        .module-card:nth-child(12) {
+            animation-delay: 0.24s;
+        }
+        .module-card:nth-child(13) {
+            animation-delay: 0.26s;
+        }
+        .module-card:nth-child(14) {
+            animation-delay: 0.28s;
+        }
+        .module-card:nth-child(15) {
+            animation-delay: 0.30s;
+        }
+        .module-card:nth-child(16) {
+            animation-delay: 0.32s;
+        }
+        .module-card:nth-child(17) {
+            animation-delay: 0.34s;
+        }
+        .module-card:nth-child(18) {
+            animation-delay: 0.36s;
+        }
+        .module-card:nth-child(19) {
+            animation-delay: 0.38s;
+        }
+        .module-card:nth-child(20) {
+            animation-delay: 0.40s;
+        }
+        .module-card:nth-child(21) {
+            animation-delay: 0.42s;
+        }
+        .module-card:nth-child(22) {
+            animation-delay: 0.44s;
+        }
+        .module-card:nth-child(23) {
+            animation-delay: 0.46s;
+        }
+        .module-card:nth-child(24) {
+            animation-delay: 0.48s;
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .module-card:hover::before {
+            opacity: 1;
+        }
+
+        .module-card:hover {
+            border-color: var(--border-color-hover);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-glow), var(--shadow-xl);
+            background: var(--bg-card-hover);
+        }
+
+        .module-card .card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .module-card .icon-wrapper {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .module-card:hover .icon-wrapper {
+            border-color: var(--neon-green);
+            background: rgba(0, 255, 136, 0.05);
+            transform: scale(1.05);
+        }
+
+        .module-card .icon-wrapper svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--neon-green);
+            fill: none;
+        }
+
+        .module-card .badge-group {
+            display: flex;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+        }
+
+        .module-card .badge {
+            font-size: 0.55rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .module-card .badge.new {
+            background: rgba(0, 255, 136, 0.12);
+            color: var(--neon-green);
+        }
+
+        .module-card .badge.popular {
+            background: rgba(245, 158, 11, 0.12);
+            color: var(--neon-orange);
+        }
+
+        .module-card .badge.premium {
+            background: rgba(168, 85, 247, 0.12);
+            color: var(--neon-purple);
+        }
+
+        .module-card .badge.difficulty-easy {
+            background: rgba(0, 255, 136, 0.08);
+            color: var(--neon-green);
+        }
+        .module-card .badge.difficulty-medium {
+            background: rgba(245, 158, 11, 0.08);
+            color: var(--neon-orange);
+        }
+        .module-card .badge.difficulty-hard {
+            background: rgba(236, 72, 153, 0.08);
+            color: var(--neon-pink);
+        }
+        .module-card .badge.difficulty-expert {
+            background: rgba(168, 85, 247, 0.08);
+            color: var(--neon-purple);
+        }
+
+        .module-card .category-tag {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .module-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            line-height: 1.3;
+        }
+
+        .module-card .description {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            flex: 1;
+            margin-bottom: 0.8rem;
+        }
+
+        .module-card .meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .module-card .meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .module-card .meta span svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        .module-card .progress-container {
+            margin-bottom: 0.8rem;
+        }
+
+        .module-card .progress-container .progress-track {
+            width: 100%;
+            height: 4px;
+            background: var(--glass-bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .module-card .progress-container .progress-track .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            border-radius: 4px;
+            transition: width 0.8s ease;
+            width: 0%;
+        }
+
+        .module-card .progress-container .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .module-card .btn-start {
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            width: 100%;
+            text-align: center;
+        }
+
+        .module-card .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.25);
+        }
+
+        .module-card .btn-start.completed {
+            background: var(--glass-bg);
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            cursor: default;
+        }
+
+        .module-card .btn-start.completed:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .module-card .btn-start.locked {
+            background: var(--glass-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--glass-border);
+            cursor: not-allowed;
+        }
+
+        .module-card .btn-start.locked:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* ============================================================
+               EMPTY STATE – 1250–1350
+               ============================================================ */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            grid-column: 1 / -1;
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+            color: var(--text-primary);
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .empty-state .btn {
+            margin-top: 1.5rem;
+        }
+
+        /* ============================================================
+               LOADING SKELETON – 1350–1450
+               ============================================================ */
+        .skeleton-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+            padding: 2rem 0 3rem;
+        }
+
+        .skeleton-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1.8rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            animation: skeletonPulse 1.8s ease-in-out infinite;
+        }
+
+        .skeleton-card .skeleton-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: var(--glass-border);
+            margin-bottom: 0.8rem;
+        }
+
+        .skeleton-card .skeleton-title {
+            width: 70%;
+            height: 20px;
+            background: var(--glass-border);
+            border-radius: 4px;
+            margin-bottom: 0.3rem;
+        }
+
+        .skeleton-card .skeleton-category {
+            width: 40%;
+            height: 12px;
+            background: var(--glass-border);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .skeleton-card .skeleton-desc {
+            width: 95%;
+            height: 12px;
+            background: var(--glass-border);
+            border-radius: 4px;
+            margin-bottom: 0.4rem;
+        }
+
+        .skeleton-card .skeleton-desc2 {
+            width: 80%;
+            height: 12px;
+            background: var(--glass-border);
+            border-radius: 4px;
+            margin-bottom: 0.8rem;
+        }
+
+        .skeleton-card .skeleton-meta {
+            width: 60%;
+            height: 10px;
+            background: var(--glass-border);
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .skeleton-card .skeleton-btn {
+            width: 100%;
+            height: 40px;
+            background: var(--glass-border);
+            border-radius: 50px;
+        }
+
+        @keyframes skeletonPulse {
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* ============================================================
+               TOAST – 1450–1520
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+        }
+        .toast.info {
+            background: linear-gradient(135deg, var(--neon-blue), #0066cc);
+            color: #fff;
+        }
+        .toast.warning {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff;
+        }
+
+        .toast .toast-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes toastSlide {
+            from {
+                opacity: 0;
+                transform: translateX(60px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        /* ============================================================
+               BACK TO TOP – 1520–1580
+               ============================================================ */
+        .back-to-top {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            color: var(--neon-green);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px) scale(0.8);
+            pointer-events: none;
+            z-index: 998;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        .back-to-top:hover {
+            background: var(--neon-green);
+            color: var(--bg-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .back-to-top svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        /* ============================================================
+               RESPONSIVE – 1580–1750
+               ============================================================ */
+        @media (max-width: 1024px) {
+            .module-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 1.4rem;
+            }
+            .skeleton-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                position: absolute;
+                top: 60px;
+                right: 1rem;
+                min-width: 220px;
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-sm);
+                padding: 1.2rem;
+                gap: 1rem;
+                box-shadow: var(--shadow-xl);
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+
+            .search-bar {
+                border-radius: 30px;
+                padding: 0.3rem 0.3rem 0.3rem 0.8rem;
+                flex-wrap: nowrap;
+            }
+            .search-bar input {
+                min-width: 100px;
+                font-size: 0.9rem;
+            }
+            .search-bar .search-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .filter-row {
+                gap: 0.3rem;
+            }
+            .filter-btn {
+                font-size: 0.7rem;
+                padding: 0.25rem 0.8rem;
+            }
+
+            .module-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+            .skeleton-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .results-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+
+            .stats-banner {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .back-to-top {
+                bottom: 80px;
+                right: 16px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+            .skeleton-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-bar {
+                flex-wrap: wrap;
+                border-radius: 20px;
+                padding: 0.8rem;
+            }
+            .search-bar input {
+                width: 100%;
+                min-width: 0;
+            }
+            .search-bar .search-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .search-bar .search-icon {
+                display: none;
+            }
+
+            .stats-banner {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .filter-section {
+                overflow-x: auto;
+                padding: 0.5rem 0;
+            }
+            .filter-row {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                padding-bottom: 0.5rem;
+            }
+            .filter-btn {
+                flex-shrink: 0;
+            }
+
+            .toast {
+                bottom: 16px;
+                right: 16px;
+                left: 16px;
+                max-width: none;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+
+            .module-card {
+                padding: 1.2rem 1rem;
+            }
+            .module-card .icon-wrapper {
+                width: 44px;
+                height: 44px;
+            }
+            .module-card .icon-wrapper svg {
+                width: 22px;
+                height: 22px;
+            }
+            .module-card h3 {
+                font-size: 1rem;
+            }
+
+            .back-to-top {
+                bottom: 70px;
+                right: 12px;
+                width: 36px;
+                height: 36px;
+            }
+            .back-to-top svg {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        /* ============================================================
+               PRINT STYLES – 1750–1780
+               ============================================================ */
+        @media print {
+            header,
+            .search-section,
+            .filter-section,
+            .back-to-top,
+            .toast,
+            .menu-toggle {
+                display: none !important;
+            }
+            .module-card {
+                break-inside: avoid;
+                border: 1px solid #333;
+                box-shadow: none !important;
+                transform: none !important;
+            }
+            .module-card .btn-start {
+                background: #333 !important;
+                color: #fff !important;
+                border: none !important;
+            }
+            .container {
+                max-width: 100%;
+                padding: 0 0.5in;
+            }
+            body {
+                background: #fff;
+                color: #000;
+            }
+            .page-header h1 .highlight {
+                -webkit-text-fill-color: #000;
+                background: none;
+                color: #000;
+            }
+            .module-card .description {
+                color: #444;
+            }
+            .module-card .meta {
+                color: #666;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER – 1780–1850
+    ============================================================ -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                    TRIBAMS
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/resource-center" class="active">Resource Center</a></li>
+                    <li><a href="/lab">Evidence Workbench</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/scenario">Cyber Range</a></li>
+                    <li><a href="/leaderboard">Leaderboard</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    PAGE HEADER – 1850–1950
+    ============================================================ -->
+    <section class="page-header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <span style="color:var(--text-muted);">/</span>
+                <span style="color:var(--text-secondary);">Resource Center</span>
+            </div>
+            <h1>📚 <span class="highlight">Resource Center</span></h1>
+            <p>Explore 95 immersive cybersecurity modules — each with study guides, practice, quizzes, essays, and (where available) Evidence Workbench labs graded on real artifacts.</p>
+            <div class="stats-banner" id="statsBanner">
+                <div class="stat-item">
+                    <span class="number" id="totalModules">95</span>
+                    <span class="label">Total Modules</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number" id="totalQuestions">500+</span>
+                    <span class="label">Practice Questions</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number" id="labCount">22</span>
+                    <span class="label">Workbench Labs</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number" id="avgTime">45</span>
+                    <span class="label">Min per Module</span>
+                </div>
+            </div>
+            <p style="margin-top:0.85rem;"><a href="/lab" style="color:var(--neon-green);font-weight:600;">Open Evidence Workbench →</a></p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    SEARCH & FILTERS – 1950–2100
+    ============================================================ -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-bar" id="searchBar">
+                <span class="search-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                </span>
+                <input type="text" id="searchInput" placeholder="Search modules by name, topic, or keyword..." autocomplete="off" aria-label="Search modules">
+                <button class="clear-btn" id="clearBtn" aria-label="Clear search">&times;</button>
+                <button class="search-btn" id="searchBtn">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    FILTERS – 2100–2250
+    ============================================================ -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-row" id="filterRow">
+                <span class="filter-label">Filter by:</span>
+                <button class="filter-btn active" data-filter="all">All <span class="badge" id="allCount">95</span></button>
+                <button class="filter-btn" data-filter="social-engineering">🎭 Social Engineering <span class="badge" id="seCount">0</span></button>
+                <button class="filter-btn" data-filter="malware">🦠 Malware &amp; Threats <span class="badge" id="malwareCount">0</span></button>
+                <button class="filter-btn" data-filter="network">🔒 Network &amp; Access <span class="badge" id="networkCount">0</span></button>
+                <button class="filter-btn" data-filter="cloud">☁️ Cloud &amp; Virtualisation <span class="badge" id="cloudCount">0</span></button>
+                <button class="filter-btn" data-filter="forensics">🔍 Forensics &amp; Intelligence <span class="badge" id="forensicsCount">0</span></button>
+                <button class="filter-btn" data-filter="governance">📋 Governance &amp; Compliance <span class="badge" id="govCount">0</span></button>
+                <button class="filter-btn" data-filter="emerging">🧠 Emerging Technologies <span class="badge" id="emergingCount">0</span></button>
+                <button class="filter-btn" data-filter="offensive-tools">⚔️ Attacker Toolkit <span class="badge" id="offensiveCount">0</span></button>
+            </div>
+            <div class="results-meta">
+                <div class="count">Showing <strong id="visibleCount">0</strong> of <strong id="totalCount">95</strong> modules</div>
+                <div class="sort-options">
+                    <label for="sortSelect">Sort by:</label>
+                    <select id="sortSelect">
+                        <option value="default">Default</option>
+                        <option value="name">Name A–Z</option>
+                        <option value="name-desc">Name Z–A</option>
+                        <option value="difficulty">Difficulty</option>
+                        <option value="popular">Most Popular</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    MODULE GRID – 2250–2450
+    ============================================================ -->
+    <section class="container" id="moduleSection">
+        <div class="skeleton-grid" id="skeletonGrid">
+            <div class="skeleton-card"><div class="skeleton-icon"></div><div class="skeleton-title"></div><div class="skeleton-category"></div><div class="skeleton-desc"></div><div class="skeleton-desc2"></div><div class="skeleton-meta"></div><div class="skeleton-btn"></div></div>
+            <div class="skeleton-card"><div class="skeleton-icon"></div><div class="skeleton-title"></div><div class="skeleton-category"></div><div class="skeleton-desc"></div><div class="skeleton-desc2"></div><div class="skeleton-meta"></div><div class="skeleton-btn"></div></div>
+            <div class="skeleton-card"><div class="skeleton-icon"></div><div class="skeleton-title"></div><div class="skeleton-category"></div><div class="skeleton-desc"></div><div class="skeleton-desc2"></div><div class="skeleton-meta"></div><div class="skeleton-btn"></div></div>
+            <div class="skeleton-card"><div class="skeleton-icon"></div><div class="skeleton-title"></div><div class="skeleton-category"></div><div class="skeleton-desc"></div><div class="skeleton-desc2"></div><div class="skeleton-meta"></div><div class="skeleton-btn"></div></div>
+            <div class="skeleton-card"><div class="skeleton-icon"></div><div class="skeleton-title"></div><div class="skeleton-category"></div><div class="skeleton-desc"></div><div class="skeleton-desc2"></div><div class="skeleton-meta"></div><div class="skeleton-btn"></div></div>
+            <div class="skeleton-card"><div class="skeleton-icon"></div><div class="skeleton-title"></div><div class="skeleton-category"></div><div class="skeleton-desc"></div><div class="skeleton-desc2"></div><div class="skeleton-meta"></div><div class="skeleton-btn"></div></div>
+        </div>
+        <div class="module-grid" id="moduleGrid" style="display:none;"></div>
+    </section>
+
+    <!-- ============================================================
+    BACK TO TOP – 2450–2500
+    ============================================================ -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m18 15-6-6-6 6"/>
+        </svg>
+    </button>
+
+    <!-- ============================================================
+    SCRIPTS – 2500–2800
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // MODULES DATA WITH SVG ICONS (1–95; API hydrates full catalog)
+        // ============================================================
+        let MODULES = [{
+            id: 1,
+            name: 'Phishing Detection',
+            category: 'social-engineering',
+            description: 'Identify and respond to advanced phishing attacks targeting organisations. Learn to spot spoofed emails, recognise urgency tactics, and prevent credential theft.',
+            difficulty: 'easy',
+            popular: true,
+            new: false,
+            premium: false,
+            duration: '35',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.75 6.75a4.5 4.5 0 0 1-4.5 4.5h-15a4.5 4.5 0 0 1-4.5-4.5m16.5 0a4.5 4.5 0 0 0-4.5-4.5h-15a4.5 4.5 0 0 0-4.5 4.5m16.5 0v13.5a4.5 4.5 0 0 1-4.5 4.5h-15a4.5 4.5 0 0 1-4.5-4.5V6.75"/><path d="M12 3v3m0 0-1.5-1.5M12 6l1.5-1.5M6.75 21.75h10.5"/></svg>`
+        }, {
+            id: 2,
+            name: 'Malware Analysis',
+            category: 'malware',
+            description: 'Understand ransomware, trojans, and modern malware threats. Learn static and dynamic analysis techniques, sandboxing, and threat hunting.',
+            difficulty: 'medium',
+            popular: true,
+            new: false,
+            premium: false,
+            duration: '45',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v3.75m0 0v3.75m0-3.75h3.75m-3.75 0H8.25M3.75 21h16.5M4.5 3h15M4.5 3v18M19.5 3v18"/></svg>`
+        }, {
+            id: 3,
+            name: 'Network Security',
+            category: 'network',
+            description: 'Master firewalls, encryption, and zero-trust architecture. Learn to secure networks against DDoS, MITM, and other attacks.',
+            difficulty: 'medium',
+            popular: true,
+            new: false,
+            premium: false,
+            duration: '50',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.25 21v-4.5m8.25 4.5v-4.5M6 12.75h12A2.25 2.25 0 0 1 20.25 15v6a2.25 2.25 0 0 1-2.25 2.25h-12A2.25 2.25 0 0 1 3.75 21v-6A2.25 2.25 0 0 1 6 12.75zm0 0V9.75m12 3V9.75M6 9.75A2.25 2.25 0 0 1 8.25 7.5h7.5A2.25 2.25 0 0 1 18 9.75"/></svg>`
+        }, {
+            id: 4,
+            name: 'Cloud Security',
+            category: 'cloud',
+            description: 'Secure cloud infrastructure across AWS, Azure, and GCP. Learn about misconfigurations, IAM, and shared responsibility.',
+            difficulty: 'medium',
+            popular: true,
+            new: false,
+            premium: false,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5h10.5a4.5 4.5 0 0 0 4.5-4.5 4.5 4.5 0 0 0-4.5-4.5h-10.5A4.5 4.5 0 0 0 2.25 15zm0 0 1.5-6.75m0 0L5.25 3.75m-1.5 4.5h15.75"/></svg>`
+        }, {
+            id: 5,
+            name: 'Mobile Security',
+            category: 'network',
+            description: 'Protect mobile devices and applications. Learn about jailbreaking, app permissions, MDM, and mobile phishing.',
+            difficulty: 'easy',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '30',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/></svg>`
+        }, {
+            id: 6,
+            name: 'IoT Security',
+            category: 'network',
+            description: 'Secure Internet of Things devices and networks. Learn about default credentials, firmware vulnerabilities, and botnet risks.',
+            difficulty: 'medium',
+            popular: false,
+            new: true,
+            premium: false,
+            duration: '35',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 6.75v10.5A2.25 2.25 0 0 0 6.75 19.5z"/></svg>`
+        }, {
+            id: 7,
+            name: 'Social Engineering',
+            category: 'social-engineering',
+            description: 'Recognise and defend against psychological manipulation tactics. Learn about pretexting, baiting, tailgating, and authority exploitation.',
+            difficulty: 'easy',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '30',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0zM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>`
+        }, {
+            id: 8,
+            name: 'Incident Response',
+            category: 'forensics',
+            description: 'Plan and execute effective incident response. Learn the six phases: Preparation, Identification, Containment, Eradication, Recovery, and Lessons Learned.',
+            difficulty: 'medium',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '45',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.75 3.75h16.5"/></svg>`
+        }, {
+            id: 9,
+            name: 'Security Compliance',
+            category: 'governance',
+            description: 'Understand GDPR, PCI-DSS, HIPAA, and other compliance frameworks. Learn to implement controls and pass audits.',
+            difficulty: 'easy',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '35',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>`
+        }, {
+            id: 10,
+            name: 'Ethical Hacking',
+            category: 'social-engineering',
+            description: 'Learn penetration testing and vulnerability assessment. Master reconnaissance, exploitation, privilege escalation, and reporting.',
+            difficulty: 'hard',
+            popular: true,
+            new: false,
+            premium: false,
+            duration: '60',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 10.5a6 6 0 1 1-12 0 6 6 0 0 1 12 0zm-5.25 6.75a9.75 9.75 0 0 1-9.75-9.75m9.75 9.75a9.75 9.75 0 0 0 9.75-9.75m-9.75 9.75v3.75m6.75-3.75V18m-9.75 3.75h3.75"/></svg>`
+        }, {
+            id: 11,
+            name: 'Ransomware Defense',
+            category: 'malware',
+            description: 'Protect against and respond to ransomware attacks. Learn about encryption, backups, double extortion, and recovery strategies.',
+            difficulty: 'medium',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 10.5a6 6 0 1 1-12 0 6 6 0 0 1 12 0zm-5.25 6.75a9.75 9.75 0 0 1-9.75-9.75m9.75 9.75a9.75 9.75 0 0 0 9.75-9.75m-9.75 9.75v3.75m6.75-3.75V18m-9.75 3.75h3.75"/></svg>`
+        }, {
+            id: 12,
+            name: 'Data Privacy (GDPR)',
+            category: 'governance',
+            description: 'Master data privacy and GDPR requirements. Learn about data subject rights, consent, breach notification, and DPO responsibilities.',
+            difficulty: 'easy',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '30',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/></svg>`
+        }, {
+            id: 13,
+            name: 'Wireless Security',
+            category: 'network',
+            description: 'Secure Wi-Fi, Bluetooth, and wireless networks. Learn about WPA3, evil twin attacks, jamming, and rogue access points.',
+            difficulty: 'medium',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '35',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 6.75v10.5A2.25 2.25 0 0 0 6.75 19.5z"/></svg>`
+        }, {
+            id: 14,
+            name: 'Database Security',
+            category: 'malware',
+            description: 'Protect databases from SQL injection, NoSQL injection, and data breaches. Learn about encryption, masking, and least privilege.',
+            difficulty: 'medium',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.25 6.75c0 1.242-3.686 2.25-8.25 2.25S3.75 7.992 3.75 6.75m16.5 0c0-1.242-3.686-2.25-8.25-2.25S3.75 5.508 3.75 6.75m16.5 0v10.5c0 1.242-3.686 2.25-8.25 2.25S3.75 18.492 3.75 17.25V6.75"/></svg>`
+        }, {
+            id: 15,
+            name: 'DevSecOps',
+            category: 'cloud',
+            description: 'Integrate security into CI/CD pipelines. Learn about shift-left security, SAST, DAST, Infrastructure as Code, and secrets management.',
+            difficulty: 'hard',
+            popular: false,
+            new: true,
+            premium: false,
+            duration: '50',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9.75v6.75m0 0-3-3m3 3 3-3m-9 0h12"/></svg>`
+        }, {
+            id: 16,
+            name: 'Digital Forensics',
+            category: 'forensics',
+            description: 'Investigate cyber incidents with forensic techniques. Learn about acquisition, imaging, chain of custody, and volatility analysis.',
+            difficulty: 'hard',
+            popular: false,
+            new: true,
+            premium: false,
+            duration: '55',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6"/></svg>`
+        }, {
+            id: 17,
+            name: 'Threat Intelligence',
+            category: 'forensics',
+            description: 'Gather and analyse threat intelligence to anticipate attacks. Learn about IoCs, TTPs, threat actors, and the intelligence lifecycle.',
+            difficulty: 'medium',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v3.75m-3.75 3.75h7.5M12 21a9 9 0 100-18 9 9 0 000 18z"/></svg>`
+        }, {
+            id: 18,
+            name: 'Security Operations (SOC)',
+            category: 'forensics',
+            description: 'Monitor and respond to threats in a Security Operations Center. Learn about SIEM tuning, alert triage, playbook execution, and threat hunting.',
+            difficulty: 'medium',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '45',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.008-4.243l-1.59-1.59"/></svg>`
+        }, {
+            id: 19,
+            name: 'Identity & Access Management',
+            category: 'network',
+            description: 'Manage identities, authentication, and authorisation. Learn about MFA, SSO, role-based access, zero standing privileges, and IAM governance.',
+            difficulty: 'easy',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '35',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15.75 5.25a3.75 3.75 0 0 1-7.5 0 3.75 3.75 0 0 1 7.5 0zM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>`
+        }, {
+            id: 20,
+            name: 'Cryptography',
+            category: 'network',
+            description: 'Understand encryption, hashing, and digital signatures. Learn about symmetric/asymmetric key cryptography, PKI, and post-quantum crypto.',
+            difficulty: 'hard',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '50',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 10.5a6 6 0 1 1-12 0 6 6 0 0 1 12 0zm-5.25 6.75a9.75 9.75 0 0 1-9.75-9.75m9.75 9.75a9.75 9.75 0 0 0 9.75-9.75m-9.75 9.75v3.75m6.75-3.75V18m-9.75 3.75h3.75"/></svg>`
+        }, {
+            id: 21,
+            name: 'Zero Trust Architecture',
+            category: 'network',
+            description: 'Implement Zero Trust principles across your organisation. Learn about micro-segmentation, continuous verification, and the "assume breach" mindset.',
+            difficulty: 'hard',
+            popular: false,
+            new: true,
+            premium: false,
+            duration: '45',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v12m-3-3 3-3m0 0 3-3m-3 3-3 3"/></svg>`
+        }, {
+            id: 22,
+            name: 'Supply Chain Security',
+            category: 'governance',
+            description: 'Secure your software and hardware supply chains. Learn about SBOMs, vendor risk management, and supply chain attack vectors.',
+            difficulty: 'medium',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0 3 0m-3 0h3m12 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0 3 0m-3 0h3"/></svg>`
+        }, {
+            id: 23,
+            name: 'API Security',
+            category: 'malware',
+            description: 'Secure APIs from common vulnerabilities. Learn about authentication, rate limiting, GraphQL introspection, and JWT attacks.',
+            difficulty: 'medium',
+            popular: false,
+            new: true,
+            premium: false,
+            duration: '35',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/></svg>`
+        }, {
+            id: 24,
+            name: 'Container Security',
+            category: 'cloud',
+            description: 'Secure containerised applications and environments. Learn about image scanning, runtime protection, CIS benchmarks, and privileged containers.',
+            difficulty: 'medium',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/></svg>`
+        }, {
+            id: 25,
+            name: 'Kubernetes Security',
+            category: 'cloud',
+            description: 'Harden and secure Kubernetes clusters. Learn about RBAC, network policies, pod security standards, and secrets management.',
+            difficulty: 'hard',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '50',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>`
+        }, {
+            id: 26,
+            name: 'Serverless Security',
+            category: 'cloud',
+            description: 'Secure serverless functions and event-driven architectures. Learn about function permissions, event injection, and cold start risks.',
+            difficulty: 'medium',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '35',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 110-18 9 9 0 010 18zM12 9v6m3-3H9"/></svg>`
+        }, {
+            id: 27,
+            name: 'AI & ML Security',
+            category: 'emerging',
+            description: 'Secure AI systems from adversarial attacks. Learn about data poisoning, model inversion, membership inference, and adversarial ML.',
+            difficulty: 'hard',
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '55',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-5.25a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0"/></svg>`
+        }, {
+            id: 28,
+            name: 'Quantum Computing Threats',
+            category: 'emerging',
+            description: 'Prepare for post-quantum cryptography challenges. Learn about Shor\'s algorithm, QKD, and the "harvest now, decrypt later" threat.',
+            difficulty: 'hard',
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '45',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.5 0h1.5m17.5 0h-1.5"/></svg>`
+        }, {
+            id: 29,
+            name: 'Blockchain Security',
+            category: 'emerging',
+            description: 'Understand and secure blockchain technologies. Learn about 51% attacks, smart contract vulnerabilities, Sybil attacks, and privacy.',
+            difficulty: 'medium',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 21v-6.75a3.75 3.75 0 117.5 0V21M3.75 21v-6.75a3.75 3.75 0 017.5 0V21"/></svg>`
+        }, {
+            id: 30,
+            name: 'OT/ICS Security',
+            category: 'emerging',
+            description: 'Secure industrial control systems and operational technology. Learn about PLCs, SCADA, Modbus, air gaps, and critical infrastructure protection.',
+            difficulty: 'hard',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '50',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5A2.25 2.25 0 006.75 19.5z"/></svg>`
+        }, {
+            id: 31,
+            name: 'Healthcare Security (HIPAA)',
+            category: 'governance',
+            description: 'Protect health information and comply with HIPAA. Learn about EHR breaches, medical device security, patient privacy, and ransomware in healthcare.',
+            difficulty: 'easy',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '35',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>`
+        }, {
+            id: 32,
+            name: 'Financial Security (PCI-DSS)',
+            category: 'governance',
+            description: 'Secure payment card data and comply with PCI DSS. Learn about tokenization, scope management, SAQ validation, and merchant breaches.',
+            difficulty: 'easy',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '35',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.75m0 0H3m.75 0V3m.75 0h.75M3 6h.75M3 6v.75M3 6V3m0 0h.75M3 3v.75"/></svg>`
+        }, {
+            id: 33,
+            name: 'E-Commerce Security',
+            category: 'governance',
+            description: 'Secure online stores and payment gateways. Learn about payment gateway security, data leakage, session hijacking, and fraud detection.',
+            difficulty: 'easy',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '30',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>`
+        }, {
+            id: 34,
+            name: 'Insider Threat Detection',
+            category: 'social-engineering',
+            description: 'Detect and mitigate threats from within your organisation. Learn about UEBA, behavioural analytics, and data exfiltration patterns.',
+            difficulty: 'medium',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>`
+        }, {
+            id: 35,
+            name: 'Physical Security Integration',
+            category: 'governance',
+            description: 'Integrate physical security with cybersecurity. Learn about access control systems, CCTV vulnerabilities, badge cloning, and physical-cyber convergence.',
+            difficulty: 'easy',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '30',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.75 21h16.5M4.5 3h15M4.5 3v18M19.5 3v18"/></svg>`
+        }, {
+            id: 36,
+            name: 'Disaster Recovery & BCP',
+            category: 'governance',
+            description: 'Plan for business continuity and disaster recovery. Learn about RTO, RPO, tabletop exercises, and recovery strategies.',
+            difficulty: 'easy',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '30',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-6.75m0 0a3 3 0 113-3m-3 3a3 3 0 01-3-3m3 3h3m-3 0h-3"/></svg>`
+        }, {
+            id: 37,
+            name: 'Security Awareness Training',
+            category: 'social-engineering',
+            description: 'Build a security-conscious culture through effective training. Learn about phishing simulations, gamification, and behavioural change.',
+            difficulty: 'easy',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '25',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 10.5a6 6 0 11-12 0 6 6 0 0112 0zm-6 3.75v3.75m0 0H9m3.75 0h3.75"/></svg>`
+        }, {
+            id: 38,
+            name: 'Risk Management',
+            category: 'governance',
+            description: 'Identify, assess, and mitigate cybersecurity risks. Learn about risk appetite, inherent vs residual risk, and risk registers.',
+            difficulty: 'easy',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '30',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0v3.75M16.5 12.75v3.75"/></svg>`
+        }, {
+            id: 39,
+            name: 'Vulnerability Management',
+            category: 'malware',
+            description: 'Identify and prioritise vulnerabilities. Learn about CVSS scoring, patch prioritisation, vulnerability scanning, and remediation tracking.',
+            difficulty: 'medium',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '35',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v3.75m0 0v3.75m0-3.75h3.75m-3.75 0H8.25M3.75 21h16.5M4.5 3h15M4.5 3v18M19.5 3v18"/></svg>`
+        }, {
+            id: 40,
+            name: 'Penetration Testing',
+            category: 'social-engineering',
+            description: 'Conduct authorised penetration tests. Learn about reconnaissance, exploitation, privilege escalation, and reporting.',
+            difficulty: 'hard',
+            popular: false,
+            new: false,
+            premium: true,
+            duration: '60',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 10.5a6 6 0 11-12 0 6 6 0 0112 0zm-6 3.75v3.75m0 0H9m3.75 0h3.75"/></svg>`
+        }, {
+            id: 41,
+            name: 'Red Team / Blue Team',
+            category: 'social-engineering',
+            description: 'Simulate attacks and improve defence. Learn about purple teaming, threat emulation, measurement, and continuous improvement.',
+            difficulty: 'hard',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '50',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.75a6 6 0 0111.5-0.5m-3-3.75a6 6 0 01-9 0m-3 3.75a6 6 0 0111.5 0m-3 3.75a6 6 0 01-9 0"/></svg>`
+        }, {
+            id: 42,
+            name: 'Cybersecurity Frameworks',
+            category: 'governance',
+            description: 'Implement NIST, ISO 27001, and CIS frameworks. Learn about maturity models and how to align controls with business objectives.',
+            difficulty: 'easy',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '35',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>`
+        }, {
+            id: 43,
+            name: 'Cloud Forensics',
+            category: 'forensics',
+            description: 'Conduct forensic investigations in cloud environments. Learn about cloud evidence collection, VM/container forensics, and chain of custody.',
+            difficulty: 'hard',
+            popular: false,
+            new: true,
+            premium: false,
+            duration: '50',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.25 15a4.5 4.5 0 004.5 4.5h10.5a4.5 4.5 0 004.5-4.5 4.5 4.5 0 00-4.5-4.5h-10.5A4.5 4.5 0 002.25 15zm0 0l1.5-6.75m0 0L5.25 3.75m-1.5 4.5h15.75"/></svg>`
+        }, {
+            id: 44,
+            name: 'Mobile Forensics',
+            category: 'forensics',
+            description: 'Extract and analyse data from mobile devices. Learn about logical/physical acquisition, app forensics, GPS data, and anti-forensics.',
+            difficulty: 'hard',
+            popular: false,
+            new: true,
+            premium: false,
+            duration: '45',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/></svg>`
+        }, {
+            id: 45,
+            name: 'Cyber Law & Ethics',
+            category: 'governance',
+            description: 'Navigate cyber laws and ethical dilemmas. Learn about computer fraud, data protection laws, cross-border data, and ethical hacking legality.',
+            difficulty: 'easy',
+            popular: false,
+            new: false,
+            premium: false,
+            duration: '30',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v17.25m0 0l-3-3m3 3 3-3M3 12h18"/></svg>`
+        }, {
+            id: 46,
+            name: "Nmap Reconnaissance Tradecraft",
+            category: 'offensive-tools',
+            description: "Nmap Reconnaissance Tradecraft: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 47,
+            name: "Wireshark Packet Analysis for Defenders",
+            category: 'offensive-tools',
+            description: "Wireshark Packet Analysis for Defenders: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 48,
+            name: "Metasploit Framework Awareness",
+            category: 'offensive-tools',
+            description: "Metasploit Framework Awareness: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 49,
+            name: "Burp Suite Web Attack Paths",
+            category: 'offensive-tools',
+            description: "Burp Suite Web Attack Paths: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 50,
+            name: "SQLMap & Injection Tooling",
+            category: 'offensive-tools',
+            description: "SQLMap & Injection Tooling: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 51,
+            name: "Mimikatz & Credential Theft",
+            category: 'offensive-tools',
+            description: "Mimikatz & Credential Theft: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 52,
+            name: "Cobalt Strike Tradecraft Defense",
+            category: 'offensive-tools',
+            description: "Cobalt Strike Tradecraft Defense: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 53,
+            name: "C2 Frameworks (Empire / Sliver)",
+            category: 'offensive-tools',
+            description: "C2 Frameworks (Empire / Sliver): study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 54,
+            name: "Hashcat & Password Cracking Defense",
+            category: 'offensive-tools',
+            description: "Hashcat & Password Cracking Defense: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 55,
+            name: "John the Ripper Attack Patterns",
+            category: 'offensive-tools',
+            description: "John the Ripper Attack Patterns: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 56,
+            name: "Hydra & Online Brute Force",
+            category: 'offensive-tools',
+            description: "Hydra & Online Brute Force: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 57,
+            name: "Aircrack-ng Wireless Offensive Ops",
+            category: 'offensive-tools',
+            description: "Aircrack-ng Wireless Offensive Ops: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 58,
+            name: "BloodHound Active Directory Attacks",
+            category: 'offensive-tools',
+            description: "BloodHound Active Directory Attacks: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 59,
+            name: "Kerberoasting & AS-REP Roasting",
+            category: 'offensive-tools',
+            description: "Kerberoasting & AS-REP Roasting: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 60,
+            name: "Pass-the-Hash / Pass-the-Ticket",
+            category: 'offensive-tools',
+            description: "Pass-the-Hash / Pass-the-Ticket: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 61,
+            name: "Living Off the Land (LOLBins)",
+            category: 'offensive-tools',
+            description: "Living Off the Land (LOLBins): study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 62,
+            name: "PowerShell Offensive Tradecraft",
+            category: 'offensive-tools',
+            description: "PowerShell Offensive Tradecraft: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 63,
+            name: "Social Engineering Toolkit (SET)",
+            category: 'offensive-tools',
+            description: "Social Engineering Toolkit (SET): study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 64,
+            name: "BeEF Browser Exploitation Defense",
+            category: 'offensive-tools',
+            description: "BeEF Browser Exploitation Defense: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 65,
+            name: "Phishing Kit Anatomy",
+            category: 'offensive-tools',
+            description: "Phishing Kit Anatomy: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 66,
+            name: "OSINT with Maltego & Recon-ng",
+            category: 'offensive-tools',
+            description: "OSINT with Maltego & Recon-ng: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 67,
+            name: "theHarvester & Email Recon",
+            category: 'offensive-tools',
+            description: "theHarvester & Email Recon: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "easy",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 68,
+            name: "Shodan / Censys Attack Surface",
+            category: 'offensive-tools',
+            description: "Shodan / Censys Attack Surface: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 69,
+            name: "Tor, Proxies & Attribution Evasion",
+            category: 'offensive-tools',
+            description: "Tor, Proxies & Attribution Evasion: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 70,
+            name: "DNS Tunneling & Covert Channels",
+            category: 'offensive-tools',
+            description: "DNS Tunneling & Covert Channels: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 71,
+            name: "Exploit Development Basics",
+            category: 'offensive-tools',
+            description: "Exploit Development Basics: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 72,
+            name: "Buffer Overflow Attack Mechanics",
+            category: 'offensive-tools',
+            description: "Buffer Overflow Attack Mechanics: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 73,
+            name: "Ghidra Reverse Engineering Defense",
+            category: 'offensive-tools',
+            description: "Ghidra Reverse Engineering Defense: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 74,
+            name: "Volatility Memory Forensics Tools",
+            category: 'offensive-tools',
+            description: "Volatility Memory Forensics Tools: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 75,
+            name: "YARA Rules for Threat Hunting",
+            category: 'offensive-tools',
+            description: "YARA Rules for Threat Hunting: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 76,
+            name: "Ransomware Builder Awareness",
+            category: 'offensive-tools',
+            description: "Ransomware Builder Awareness: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 77,
+            name: "Initial Access Brokers & Markets",
+            category: 'offensive-tools',
+            description: "Initial Access Brokers & Markets: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 78,
+            name: "Web Shells & Post-Exploitation",
+            category: 'offensive-tools',
+            description: "Web Shells & Post-Exploitation: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 79,
+            name: "Lateral Movement Tooling",
+            category: 'offensive-tools',
+            description: "Lateral Movement Tooling: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 80,
+            name: "Privilege Escalation Techniques",
+            category: 'offensive-tools',
+            description: "Privilege Escalation Techniques: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 81,
+            name: "Persistence Mechanisms Catalog",
+            category: 'offensive-tools',
+            description: "Persistence Mechanisms Catalog: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 82,
+            name: "Defense Evasion & Obfuscation",
+            category: 'offensive-tools',
+            description: "Defense Evasion & Obfuscation: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 83,
+            name: "Exfiltration Channels & DLP Bypass",
+            category: 'offensive-tools',
+            description: "Exfiltration Channels & DLP Bypass: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 84,
+            name: "MITRE ATT&CK Mapping for Tools",
+            category: 'offensive-tools',
+            description: "MITRE ATT&CK Mapping for Tools: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 85,
+            name: "Adversary Emulation Planning",
+            category: 'offensive-tools',
+            description: "Adversary Emulation Planning: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 86,
+            name: "Deepfake & AI Voice Clone Attacks",
+            category: 'offensive-tools',
+            description: "Deepfake & AI Voice Clone Attacks: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 87,
+            name: "Adversarial ML Attack Tooling",
+            category: 'offensive-tools',
+            description: "Adversarial ML Attack Tooling: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 88,
+            name: "Cloud Credential Theft Tools",
+            category: 'offensive-tools',
+            description: "Cloud Credential Theft Tools: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 89,
+            name: "Container Escape Techniques",
+            category: 'offensive-tools',
+            description: "Container Escape Techniques: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 90,
+            name: "Supply-Chain Poisoning Toolchains",
+            category: 'offensive-tools',
+            description: "Supply-Chain Poisoning Toolchains: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 91,
+            name: "Mobile Device Attack Frameworks",
+            category: 'offensive-tools',
+            description: "Mobile Device Attack Frameworks: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 92,
+            name: "Hardware / USB Attack Vectors",
+            category: 'offensive-tools',
+            description: "Hardware / USB Attack Vectors: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 93,
+            name: "OT Protocol Attack Awareness",
+            category: 'offensive-tools',
+            description: "OT Protocol Attack Awareness: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 94,
+            name: "Attacker Language & Social Cues",
+            category: 'offensive-tools',
+            description: "Attacker Language & Social Cues: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "medium",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }, {
+            id: 95,
+            name: "Purple Team Tool Correlation Lab",
+            category: 'offensive-tools',
+            description: "Purple Team Tool Correlation Lab: study how adversaries use this tooling — how they move and talk — so you can detect and stop it.",
+            difficulty: "hard",
+            popular: false,
+            new: true,
+            premium: true,
+            duration: '40',
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`
+        }];
+
+        // ============================================================
+        // APP STATE
+        // ============================================================
+        let currentFilter = 'all';
+        let searchQuery = '';
+        let currentSort = 'default';
+        let userProgress = {};
+        let isLoading = true;
+
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const grid = document.getElementById('moduleGrid');
+        const skeleton = document.getElementById('skeletonGrid');
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+        const searchBtn = document.getElementById('searchBtn');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const sortSelect = document.getElementById('sortSelect');
+        const visibleCount = document.getElementById('visibleCount');
+        const totalCount = document.getElementById('totalCount');
+        const backToTop = document.getElementById('backToTop');
+
+        // Category counts
+        const countEls = {
+            all: document.getElementById('allCount'),
+            'social-engineering': document.getElementById('seCount'),
+            malware: document.getElementById('malwareCount'),
+            network: document.getElementById('networkCount'),
+            cloud: document.getElementById('cloudCount'),
+            forensics: document.getElementById('forensicsCount'),
+            governance: document.getElementById('govCount'),
+            emerging: document.getElementById('emergingCount'),
+            'offensive-tools': document.getElementById('offensiveCount')
+        };
+
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function showToast(message, type = 'success', duration = 3500) {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
+
+            const icons = {
+                success: '✅',
+                error: '❌',
+                info: 'ℹ️',
+                warning: '⚠️'
+            };
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type] || 'ℹ️'}</span>
+                <span>${message}</span>
+                <button class="toast-close" aria-label="Close notification">&times;</button>
+            `;
+            document.body.appendChild(toast);
+
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => {
+                toast.remove();
+            });
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(60px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        function getDifficultyLabel(diff) {
+            const map = {
+                easy: 'Easy',
+                medium: 'Medium',
+                hard: 'Hard',
+                expert: 'Expert'
+            };
+            return map[diff] || 'Medium';
+        }
+
+        function getDifficultyBadge(diff) {
+            return `difficulty-${diff}`;
+        }
+
+        function getCategoryLabel(cat) {
+            const map = {
+                'social-engineering': 'Social Engineering',
+                malware: 'Malware & Threats',
+                network: 'Network & Access',
+                cloud: 'Cloud & Virtualisation',
+                forensics: 'Forensics & Intelligence',
+                governance: 'Governance & Compliance',
+                emerging: 'Emerging Technologies',
+                'offensive-tools': 'Attacker Toolkit'
+            };
+            return map[cat] || cat;
+        }
+
+        function getCategoryEmoji(cat) {
+            const map = {
+                'social-engineering': '🎭',
+                malware: '🦠',
+                network: '🔒',
+                cloud: '☁️',
+                forensics: '🔍',
+                governance: '📋',
+                emerging: '🧠',
+                'offensive-tools': '⚔️'
+            };
+            return map[cat] || '📘';
+        }
+
+        // ============================================================
+        // LOAD USER PROGRESS
+        // ============================================================
+        async function loadUserProgress() {
+            try {
+                const res = await fetch('/api/progress');
+                const data = await res.json();
+                if (data.success && data.scores) {
+                    data.scores.forEach(s => {
+                        const module = MODULES.find(m => m.name === s.module_name);
+                        if (module) {
+                            userProgress[module.id] = s.score;
+                        }
+                    });
+                }
+            } catch (e) {
+                console.log('⚠️ Could not load progress');
+            }
+
+            // Load FULL catalog (95) from API — local list keeps icons/descriptions
+            try {
+                const res = await fetch('/api/modules', { credentials: 'same-origin' });
+                const data = await res.json();
+                if (data.modules && data.modules.length) {
+                    const iconById = new Map(MODULES.map(m => [m.id, m.icon]));
+                    const descById = new Map(MODULES.map(m => [m.id, m.description]));
+                    const defaultIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>';
+                    MODULES = data.modules.map(a => ({
+                        id: a.id,
+                        name: a.name,
+                        category: a.category || 'emerging',
+                        description: descById.get(a.id) || (a.id > 45
+                            ? (a.name + ': study how adversaries use this tooling — how they move and talk — so you can detect and stop it.')
+                            : (a.name + ' training module with practice drills and a scored live quiz.')),
+                        difficulty: a.difficulty || 'medium',
+                        popular: a.id <= 12,
+                        new: a.id > 45,
+                        premium: a.id > 45,
+                        duration: '40',
+                        icon: iconById.get(a.id) || defaultIcon,
+                        is_free: !!a.is_free,
+                        is_paid: !!a.is_paid,
+                        paid_locked: !!a.paid_locked,
+                        locked: !!a.locked,
+                        access: a.access,
+                        requires_pro_plus: !!a.requires_pro_plus
+                    }));
+                    const totalEl = document.getElementById('totalModules');
+                    if (totalEl) totalEl.textContent = String(MODULES.length);
+                    if (totalCount) totalCount.textContent = String(MODULES.length);
+                    const qEl = document.getElementById('totalQuestions');
+                    if (qEl) qEl.textContent = String(Math.max(500, MODULES.length * 5)) + '+';
+                    window.__accessMeta = data.access || null;
+                    window.__freeModuleIds = data.free_module_ids || [1, 7, 37];
+                }
+            } catch (e) {
+                console.log('⚠️ Could not hydrate full module catalog');
+                const freeIds = new Set([1, 7, 37]);
+                MODULES.forEach(m => {
+                    m.is_free = freeIds.has(m.id);
+                    m.is_paid = !m.is_free;
+                    m.paid_locked = !m.is_free;
+                    m.locked = m.paid_locked;
+                });
+            }
+
+            try {
+                const labRes = await fetch('/api/labs', { credentials: 'same-origin' });
+                if (labRes.ok) {
+                    const labData = await labRes.json();
+                    window.__LAB_MODULE_IDS = new Set(labData.modules_with_labs || (labData.labs || []).map(l => l.module_id));
+                    const labCountEl = document.getElementById('labCount');
+                    if (labCountEl) labCountEl.textContent = String((labData.labs || []).length || labData.total || 22);
+                } else {
+                    window.__LAB_MODULE_IDS = new Set();
+                }
+            } catch (e) {
+                window.__LAB_MODULE_IDS = new Set();
+            }
+        }
+
+        // ============================================================
+        // UPDATE CATEGORY COUNTS
+        // ============================================================
+        function updateCategoryCounts() {
+            const counts = { all: MODULES.length };
+            MODULES.forEach(m => {
+                counts[m.category] = (counts[m.category] || 0) + 1;
+            });
+            Object.keys(countEls).forEach(key => {
+                if (countEls[key]) {
+                    countEls[key].textContent = counts[key] || 0;
+                }
+            });
+        }
+
+        // ============================================================
+        // FILTER, SEARCH, SORT
+        // ============================================================
+        function getFilteredModules() {
+            let filtered = MODULES.filter(m => {
+                const matchesSearch = searchQuery === '' ||
+                    m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    m.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    getCategoryLabel(m.category).toLowerCase().includes(searchQuery.toLowerCase());
+                const matchesFilter = currentFilter === 'all' || m.category === currentFilter;
+                return matchesSearch && matchesFilter;
+            });
+
+            // Sort
+            switch (currentSort) {
+                case 'name':
+                    filtered.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'name-desc':
+                    filtered.sort((a, b) => b.name.localeCompare(a.name));
+                    break;
+                case 'difficulty':
+                    const diffOrder = { easy: 0, medium: 1, hard: 2, expert: 3 };
+                    filtered.sort((a, b) => (diffOrder[a.difficulty] || 1) - (diffOrder[b.difficulty] || 1));
+                    break;
+                case 'popular':
+                    filtered.sort((a, b) => (b.popular ? 1 : 0) - (a.popular ? 1 : 0));
+                    break;
+                default:
+                    // default: keep as is (id order)
+                    break;
+            }
+
+            return filtered;
+        }
+
+        // ============================================================
+        // RENDER
+        // ============================================================
+        function renderModules() {
+            const filtered = getFilteredModules();
+            visibleCount.textContent = filtered.length;
+            totalCount.textContent = MODULES.length;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">🔍</div>
+                        <h3>No modules found</h3>
+                        <p>Try adjusting your search terms or filters. We have 95 modules covering defense and attacker-toolkit readiness.</p>
+                        <button class="btn btn-primary" onclick="resetFilters()" style="margin-top:1rem;padding:0.6rem 1.8rem;background:var(--neon-green);color:var(--bg-primary);border:none;border-radius:50px;font-weight:600;cursor:pointer;font-family:var(--font);">Reset Filters</button>
+                    </div>
+                `;
+                grid.style.display = 'grid';
+                skeleton.style.display = 'none';
+                return;
+            }
+
+            grid.innerHTML = '';
+            filtered.forEach((module, index) => {
+                const score = userProgress[module.id] || 0;
+                const isCompleted = score >= 80;
+                const isInProgress = score > 0 && score < 80;
+
+                // Build badges
+                let badgesHtml = '';
+                if (module.is_free) badgesHtml += `<span class="badge" style="background:rgba(16,185,129,0.15);color:#047857;border:1px solid rgba(16,185,129,0.35);">Free</span>`;
+                if (module.is_paid || module.premium) badgesHtml += `<span class="badge premium">Pro</span>`;
+                if (module.popular) badgesHtml += `<span class="badge popular">🔥 Popular</span>`;
+                if (module.new) badgesHtml += `<span class="badge new">✨ New</span>`;
+                if (window.__LAB_MODULE_IDS && window.__LAB_MODULE_IDS.has(module.id)) {
+                    badgesHtml += `<span class="badge" style="background:rgba(45,212,191,0.15);color:#0f766e;border:1px solid rgba(45,212,191,0.4);">Workbench</span>`;
+                }
+                badgesHtml += `<span class="badge ${getDifficultyBadge(module.difficulty)}">${getDifficultyLabel(module.difficulty)}</span>`;
+
+                // Progress
+                const progressPct = Math.min(score, 100);
+                const paidLocked = !!module.paid_locked;
+
+                // Button state
+                let btnHtml = '';
+                if (paidLocked) {
+                    btnHtml = `<a href="/payment?locked=${module.id}&reason=paid" class="btn-start locked">🔒 Pro — Upgrade to unlock</a>`;
+                } else if (isCompleted) {
+                    btnHtml = `<a href="/training/${module.id}" class="btn-start completed">✅ Review</a>`;
+                } else if (isInProgress) {
+                    btnHtml = `<a href="/training/${module.id}" class="btn-start" style="background:linear-gradient(135deg,var(--neon-cyan),var(--neon-blue));">Continue ${progressPct}%</a>`;
+                } else {
+                    btnHtml = `<a href="/training/${module.id}" class="btn-start">Start Learning →</a>`;
+                }
+                if (!paidLocked && window.__LAB_MODULE_IDS && window.__LAB_MODULE_IDS.has(module.id)) {
+                    btnHtml += `<a href="/module/${module.id}/lab" class="btn-start" style="margin-top:0.45rem;background:transparent;border:1px solid rgba(45,212,191,0.5);color:#0f766e;">Evidence Workbench</a>`;
+                }
+
+                const card = document.createElement('div');
+                card.className = 'module-card';
+                card.style.animationDelay = `${(index % 12) * 0.03}s`;
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="icon-wrapper">
+                            ${module.icon || `<span style="font-size:1.8rem;">${getCategoryEmoji(module.category)}</span>`}
+                        </div>
+                        <div class="badge-group">${badgesHtml}</div>
+                    </div>
+                    <div class="category-tag">${getCategoryLabel(module.category)}</div>
+                    <h3>${module.name}</h3>
+                    <div class="description">${module.description}</div>
+                    <div class="meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            ${module.duration} min
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"/></svg>
+                            Module ${module.id}
+                        </span>
+                        ${score > 0 ? `<span style="color:var(--neon-green);">Score: ${score}%</span>` : ''}
+                    </div>
+                    ${score > 0 ? `
+                        <div class="progress-container">
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width:${progressPct}%;"></div>
+                            </div>
+                            <div class="progress-label">
+                                <span>${isCompleted ? '✅ Completed' : 'Progress'}</span>
+                                <span>${progressPct}%</span>
+                            </div>
+                        </div>
+                    ` : ''}
+                    ${btnHtml}
+                `;
+
+                grid.appendChild(card);
+            });
+
+            grid.style.display = 'grid';
+            skeleton.style.display = 'none';
+        }
+
+        // ============================================================
+        // RESET FILTERS
+        // ============================================================
+        function resetFilters() {
+            currentFilter = 'all';
+            searchQuery = '';
+            currentSort = 'default';
+            searchInput.value = '';
+            clearBtn.classList.remove('visible');
+            filterBtns.forEach(b => b.classList.remove('active'));
+            document.querySelector('[data-filter="all"]').classList.add('active');
+            sortSelect.value = 'default';
+            renderModules();
+            showToast('Filters reset', 'info');
+        }
+        window.resetFilters = resetFilters;
+
+        // ============================================================
+        // LOADING STATE
+        // ============================================================
+        function showLoading() {
+            grid.style.display = 'none';
+            skeleton.style.display = 'grid';
+        }
+
+        function hideLoading() {
+            skeleton.style.display = 'none';
+            grid.style.display = 'grid';
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        async function init() {
+            showLoading();
+
+            // Load user progress
+            await loadUserProgress();
+
+            // Update category counts
+            updateCategoryCounts();
+
+            // Render
+            renderModules();
+            hideLoading();
+
+            // Check login status
+            try {
+                const res = await fetch('/api/user-info');
+                const data = await res.json();
+                if (data.success) {
+                    console.log(`👋 Welcome, ${data.username}`);
+                }
+            } catch (e) {
+                // Not logged in – show toast after delay
+                setTimeout(() => {
+                    showToast('🔐 Log in to track your progress and earn certificates.', 'info', 5000);
+                }, 1500);
+            }
+
+            console.log('📚 Resource Center loaded – ' + MODULES.length + ' modules available.');
+        }
+
+        // ============================================================
+        // EVENT LISTENERS
+        // ============================================================
+
+        // Search input
+        searchInput.addEventListener('input', function() {
+            searchQuery = this.value.trim();
+            clearBtn.classList.toggle('visible', this.value.length > 0);
+            renderModules();
+        });
+
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            searchQuery = '';
+            this.classList.remove('visible');
+            renderModules();
+            searchInput.focus();
+        });
+
+        searchBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            searchQuery = searchInput.value.trim();
+            renderModules();
+        });
+
+        // Enter key in search
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchQuery = this.value.trim();
+                renderModules();
+            }
+        });
+
+        // Filter buttons
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                renderModules();
+                // Scroll to grid after filter
+                document.getElementById('moduleSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Sort
+        sortSelect.addEventListener('change', function() {
+            currentSort = this.value;
+            renderModules();
+        });
+
+        // Back to top
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 400) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('show');
+            this.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('show');
+                menuToggle.classList.remove('active');
+            });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+K or Cmd+K to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+                searchInput.select();
+            }
+            // Escape to clear search
+            if (e.key === 'Escape' && document.activeElement === searchInput) {
+                searchInput.blur();
+                clearBtn.click();
+            }
+        });
+
+        // ============================================================
+        // START
+        // ============================================================
+        init();
+    </script>
+</body>
+</html>

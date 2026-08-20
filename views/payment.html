@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade to Pro – TRIBAMS</title>
+    <meta name="description" content="Upgrade TRIBAMS: Pro or Pro+ (95 modules including attacker-toolkit labs). Annual plans save more than monthly.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE – 0-200
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --border-color-hover: rgba(0, 255, 136, 0.2);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-orange: #f59e0b;
+            --neon-pink: #ec4899;
+            --neon-red: #ef4444;
+            --neon-gold: #ffd700;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ============================================================
+               HEADER & NAVIGATION – 200-400
+               ============================================================ */
+        header {
+            background: rgba(10, 14, 39, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(10, 14, 39, 0.98);
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--neon-green);
+            fill: none;
+            -webkit-text-fill-color: initial;
+            flex-shrink: 0;
+        }
+
+        .logo:hover svg {
+            stroke: var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.3rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active {
+            color: var(--neon-green);
+        }
+
+        .btn-nav {
+            padding: 0.4rem 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary) !important;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            -webkit-text-fill-color: initial;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+            color: var(--bg-primary) !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .menu-toggle span {
+            width: 26px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ============================================================
+               PAGE HEADER – 400-550
+               ============================================================ */
+        .page-header {
+            padding: 2rem 0 1.5rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 900;
+        }
+
+        .page-header h1 .highlight {
+            background: linear-gradient(135deg, var(--neon-gold), var(--neon-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 560px;
+            margin: 0.3rem auto 0;
+        }
+
+        /* ============================================================
+               STATUS BANNER – 550-700
+               ============================================================ */
+        .status-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            transition: var(--transition);
+        }
+
+        .status-banner:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        .status-banner .status-icon {
+            font-size: 2rem;
+        }
+
+        .status-banner .status-text {
+            flex: 1;
+        }
+
+        .status-banner .status-text strong {
+            font-size: 1rem;
+        }
+
+        .status-banner .status-text p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 0.1rem;
+        }
+
+        .status-banner .status-badge {
+            padding: 0.3rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-banner .status-badge.free {
+            background: var(--glass-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--glass-border);
+        }
+
+        .status-banner .status-badge.pro {
+            background: rgba(0, 255, 136, 0.12);
+            color: var(--neon-green);
+            border: 1px solid rgba(0, 255, 136, 0.15);
+        }
+
+        .status-banner .status-badge.premium {
+            background: rgba(168, 85, 247, 0.12);
+            color: var(--neon-purple);
+            border: 1px solid rgba(168, 85, 247, 0.15);
+        }
+
+        /* ============================================================
+               PLANS GRID – 700-1000
+               ============================================================ */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        .plan-card.pro-plus {
+            border-color: rgba(255, 215, 0, 0.45);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.08);
+        }
+
+        .plan-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .plan-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .plan-card:hover::before {
+            opacity: 1;
+        }
+
+        .plan-card:hover {
+            border-color: var(--border-color-hover);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-glow), var(--shadow-xl);
+        }
+
+        .plan-card.popular {
+            border-color: rgba(0, 255, 136, 0.2);
+            background: rgba(0, 255, 136, 0.02);
+        }
+
+        .plan-card.popular::after {
+            content: '⭐ MOST POPULAR';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--neon-gold), var(--neon-orange));
+            color: var(--bg-primary);
+            padding: 0.15rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.55rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        .plan-card .plan-header .plan-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .plan-card .plan-header .plan-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .plan-card .plan-header .plan-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--neon-green);
+            margin: 0.5rem 0 0.2rem;
+        }
+
+        .plan-card .plan-header .plan-price .currency {
+            font-size: 1.2rem;
+            vertical-align: top;
+        }
+
+        .plan-card .plan-header .plan-price .period {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .plan-card .plan-header .plan-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .plan-card .plan-features {
+            list-style: none;
+            text-align: left;
+            margin: 0.5rem 0 1.5rem;
+            flex: 1;
+        }
+
+        .plan-card .plan-features li {
+            padding: 0.4rem 0;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .plan-card .plan-features li:last-child {
+            border-bottom: none;
+        }
+
+        .plan-card .plan-features li .check {
+            color: var(--neon-green);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .plan-card .plan-features li .cross {
+            color: var(--text-muted);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .plan-card .plan-features li .feature-icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .plan-card .plan-features li .feature-text {
+            flex: 1;
+        }
+
+        .plan-card .plan-features li.disabled {
+            color: var(--text-muted);
+        }
+
+        .plan-card .plan-features li .highlight-text {
+            color: var(--neon-green);
+            font-weight: 600;
+        }
+
+        .plan-card .btn-plan {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .plan-card .btn-plan.primary {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+
+        .plan-card .btn-plan.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 255, 136, 0.25);
+        }
+
+        .plan-card .btn-plan.primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .plan-card .btn-plan.secondary {
+            background: var(--glass-bg);
+            color: var(--text-secondary);
+            border: 1px solid var(--glass-border);
+        }
+
+        .plan-card .btn-plan.secondary:hover {
+            border-color: var(--neon-green);
+            color: var(--text-primary);
+            transform: translateY(-3px);
+        }
+
+        .plan-card .btn-plan.secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .plan-card .btn-plan .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .plan-card .btn-plan.loading .spinner {
+            display: inline-block;
+        }
+        .plan-card .btn-plan.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .plan-card .paypal-badge {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+
+        .plan-card .paypal-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .plan-card .savings-badge {
+            display: inline-block;
+            margin-top: 0.6rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(0, 255, 136, 0.12);
+            color: var(--neon-green);
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .currency-toggle-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 0 0 1.5rem;
+            flex-wrap: wrap;
+        }
+        .currency-toggle-wrap .label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .currency-toggle {
+            display: inline-flex;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            overflow: hidden;
+            background: var(--glass-bg);
+        }
+        .currency-toggle button {
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            padding: 0.55rem 1.1rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+        .currency-toggle button.active {
+            background: linear-gradient(135deg, rgba(0,255,136,0.25), rgba(0,136,255,0.25));
+            color: #fff;
+        }
+        .fx-note {
+            width: 100%;
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+            display: inline-block;
+            background: rgba(0, 255, 136, 0.08);
+            color: var(--neon-green);
+            font-size: 0.65rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 0.3rem;
+        }
+
+        /* ============================================================
+               FEATURES COMPARISON – 1000-1150
+               ============================================================ */
+        .comparison-section {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .comparison-section:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        .comparison-section .comparison-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .comparison-section table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .comparison-section th {
+            text-align: center;
+            padding: 0.6rem 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .comparison-section td {
+            padding: 0.6rem 0.8rem;
+            text-align: center;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-light);
+        }
+
+        .comparison-section td:first-child {
+            text-align: left;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .comparison-section td .check {
+            color: var(--neon-green);
+            font-size: 1.2rem;
+        }
+
+        .comparison-section td .cross {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        .comparison-section .highlight-row td {
+            background: rgba(0, 255, 136, 0.03);
+        }
+
+        /* ============================================================
+               TOAST – 1150-1210
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+        }
+        .toast.info {
+            background: linear-gradient(135deg, var(--neon-blue), #0066cc);
+            color: #fff;
+        }
+        .toast.warning {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes toastSlideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================================
+               RESPONSIVE – 1210-1320
+               ============================================================ */
+        @media (max-width: 1024px) {
+            .plans-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .plans-grid .plan-card:first-child {
+                grid-column: 1 / -1;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                position: absolute;
+                top: 60px;
+                right: 1rem;
+                min-width: 220px;
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-sm);
+                padding: 1.2rem;
+                gap: 1rem;
+                box-shadow: var(--shadow-xl);
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr;
+                max-width: 420px;
+                margin: 0 auto 2rem;
+            }
+            .plans-grid .plan-card:first-child {
+                grid-column: 1;
+                max-width: 100%;
+            }
+
+            .status-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
+
+            .comparison-section {
+                padding: 1rem;
+                overflow-x: auto;
+            }
+            .comparison-section table {
+                font-size: 0.75rem;
+                min-width: 500px;
+            }
+            .comparison-section th,
+            .comparison-section td {
+                padding: 0.4rem 0.6rem;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                max-width: none;
+                width: auto;
+                bottom: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            @keyframes toastSlideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .plan-card {
+                padding: 1.5rem 1rem;
+            }
+            .plan-card .plan-header .plan-price {
+                font-size: 2rem;
+            }
+
+            .plan-card.popular::after {
+                font-size: 0.45rem;
+                padding: 0.1rem 0.8rem;
+            }
+
+            .comparison-section table {
+                font-size: 0.65rem;
+                min-width: 400px;
+            }
+        }
+
+        /* ============================================================
+               PRINT STYLES – 1320-1330
+               ============================================================ */
+        @media print {
+            header,
+            .toast,
+            .menu-toggle,
+            .btn-plan {
+                display: none !important;
+            }
+            .plan-card {
+                border: 1px solid #333 !important;
+                box-shadow: none !important;
+                break-inside: avoid;
+            }
+            body {
+                background: #fff;
+                color: #000;
+            }
+            .page-header h1 .highlight {
+                -webkit-text-fill-color: #000;
+                background: none;
+                color: #000;
+            }
+            .status-banner {
+                border: 1px solid #333 !important;
+            }
+            .plan-card .plan-header .plan-price {
+                color: #000 !important;
+            }
+            .comparison-section {
+                border: 1px solid #333 !important;
+            }
+            .comparison-section td .check {
+                color: #000 !important;
+            }
+            .status-banner .status-badge.pro {
+                background: #ddd !important;
+                color: #000 !important;
+                border: 1px solid #333 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                    TRIBAMS
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/resource-center">Resource Center</a></li>
+                    <li><a href="/lab">Evidence Workbench</a></li>
+                    <li><a href="/payment" class="active">💳 Upgrade</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>🚀 <span class="highlight">Upgrade to Pro</span></h1>
+            <p class="subtitle">Choose Pro or Pro+ for all 95 modules including attacker-toolkit labs and Evidence Workbench desks. Annual plans beat monthly — know how adversaries move and talk.</p>
+            <p id="lockedBanner" style="display:none;margin-top:1rem;padding:0.85rem 1.1rem;border-radius:12px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.35);color:#fbbf24;font-size:0.92rem;"></p>
+        </div>
+
+        <!-- Status Banner -->
+        <div class="status-banner" id="statusBanner">
+            <div class="status-icon">ℹ️</div>
+            <div class="status-text">
+                <strong id="statusTitle">Current Plan: Free</strong>
+                <p id="statusDesc">Upgrade to Pro or Pro+ for all 95 modules. Annual Pro is the best core value; Pro+ adds attacker-toolkit focus.</p>
+            </div>
+            <span class="status-badge free" id="statusBadge">FREE</span>
+        </div>
+
+        <div class="currency-toggle-wrap">
+            <span class="label">Display currency</span>
+            <div class="currency-toggle" role="group" aria-label="Currency conversion">
+                <button type="button" id="currencyNAD" class="active" onclick="setCurrency('NAD')">N$</button>
+                <button type="button" id="currencyUSD" onclick="setCurrency('USD')">US$</button>
+            </div>
+            <div class="fx-note" id="fxNote">Prices billed in Namibian Dollars (N$). US$ shown at approximate rate.</div>
+        </div>
+
+        <!-- Plans Grid -->
+        <div class="plans-grid">
+
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="plan-icon">🎓</div>
+                    <div class="plan-name">Free</div>
+                    <div class="plan-price" data-plan="free">
+                        <span class="currency">N$</span><span class="amount">0</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <div class="plan-desc">Start the path</div>
+                </div>
+                <ul class="plan-features">
+                    <li><span class="check">✓</span> <span class="feature-text">3 starter modules</span></li>
+                    <li><span class="check">✓</span> <span class="feature-text">Practice + Matte K (outside exams)</span></li>
+                    <li class="disabled"><span class="cross">✕</span> <span class="feature-text">Full 95-module catalog</span></li>
+                    <li class="disabled"><span class="cross">✕</span> <span class="feature-text">Attacker-toolkit deep labs</span></li>
+                </ul>
+                <button class="btn-plan secondary" disabled>Current Plan</button>
+            </div>
+
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="plan-icon">⭐</div>
+                    <div class="plan-name">Pro Monthly</div>
+                    <div class="plan-price" data-plan="monthly">
+                        <span class="currency">N$</span><span class="amount">450</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <div class="plan-desc">All 95 training modules</div>
+                </div>
+                <ul class="plan-features">
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">All 95 modules</span></li>
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">Evidence Workbench labs</span></li>
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">Force Readiness transcript (employer verify)</span></li>
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">Certificates + Cyber Range</span></li>
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">Matte K coaching</span></li>
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">Attacker-toolkit readiness (46–95)</span></li>
+                </ul>
+                <button class="btn-plan primary" id="monthlyBtn" onclick="createOrder('monthly')">
+                    <span class="btn-text">Subscribe with PayPal</span>
+                    <span class="spinner"></span>
+                </button>
+            </div>
+
+            <div class="plan-card popular">
+                <div class="plan-header">
+                    <div class="plan-icon">🚀</div>
+                    <div class="plan-name">Pro Annual</div>
+                    <div class="plan-price" data-plan="annual">
+                        <span class="currency">N$</span><span class="amount">299</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <div class="plan-desc">Best Pro value — commit yearly</div>
+                    <div class="savings-badge" id="savingsBadge">💎 Save vs N$450/mo</div>
+                </div>
+                <ul class="plan-features">
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">Everything in Pro Monthly</span></li>
+                    <li><span class="feature-icon">💎</span> <span class="feature-text highlight-text" id="annualTotalNote">N$299/mo × 12</span></li>
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">Priority support</span></li>
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">Full 95-module catalog</span></li>
+                </ul>
+                <button class="btn-plan primary" id="annualBtn" onclick="createOrder('annual')">
+                    <span class="btn-text">Get Annual Pro</span>
+                    <span class="spinner"></span>
+                </button>
+            </div>
+
+            <div class="plan-card pro-plus" id="planProPlus">
+                <div class="plan-header">
+                    <div class="plan-icon">⚔️</div>
+                    <div class="plan-name">Pro+</div>
+                    <div class="plan-price" data-plan="pro_plus_2mo">
+                        <span class="currency">N$</span><span class="amount">800</span>
+                        <span class="period">/2 months</span>
+                    </div>
+                    <div class="plan-desc">95 modules — know how attackers move &amp; talk</div>
+                    <div class="savings-badge">Nmap · Metasploit · Mimikatz · C2</div>
+                </div>
+                <ul class="plan-features">
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">All 95 modules</span></li>
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">Evidence Workbench labs</span></li>
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">Attacker-toolkit labs (46–95)</span></li>
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">Purple-team tool correlation</span></li>
+                    <li><span class="feature-icon">💎</span> <span class="feature-text highlight-text">Or Pro+ Annual N$350/mo</span></li>
+                </ul>
+                <button class="btn-plan primary" id="proPlusBtn" onclick="createOrder('pro_plus_2mo')">
+                    <span class="btn-text">Unlock Pro+ (2 months)</span>
+                    <span class="spinner"></span>
+                </button>
+                <button class="btn-plan secondary" style="margin-top:0.6rem;" onclick="createOrder('pro_plus_annual')">
+                    <span class="btn-text">Pro+ Annual (best value)</span>
+                </button>
+            </div>
+
+            <div class="plan-card pro-plus" id="planSpecialOps" style="border-color:rgba(239,68,68,0.45);">
+                <div class="plan-header">
+                    <div class="plan-icon">🎯</div>
+                    <div class="plan-name">Special Ops Elite</div>
+                    <div class="plan-price" data-plan="special_ops_2mo">
+                        <span class="currency">N$</span><span class="amount">1250</span>
+                        <span class="period">/2 months</span>
+                    </div>
+                    <div class="plan-desc">Priced above Pro+ · Live Red + Blue crisis modules</div>
+                    <div class="savings-badge">Mission-Ready rank required</div>
+                </div>
+                <ul class="plan-features">
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">Everything in Pro+</span></li>
+                    <li><span class="feature-icon">🔴</span> <span class="feature-text highlight-text">Live Red Team Emulation (module 96)</span></li>
+                    <li><span class="feature-icon">🔵</span> <span class="feature-text highlight-text">Live Blue Team Crisis Cell (module 97)</span></li>
+                    <li><span class="feature-icon">✅</span> <span class="feature-text">Practical offensive + defensive labs under ROE</span></li>
+                    <li><span class="feature-icon">💎</span> <span class="feature-text">Or Special Ops Annual N$520/mo</span></li>
+                </ul>
+                <button class="btn-plan primary" id="specialOpsBtn" onclick="createOrder('special_ops_2mo')">
+                    <span class="btn-text">Unlock Special Ops (2 months)</span>
+                    <span class="spinner"></span>
+                </button>
+                <button class="btn-plan secondary" style="margin-top:0.6rem;" onclick="createOrder('special_ops_annual')">
+                    <span class="btn-text">Special Ops Annual</span>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- B2B licensing (business plan: Subscription + Licensing + Customized Training) -->
+        <div class="comparison-section" style="margin-top:1.5rem;">
+            <div class="comparison-title">🏢 <span style="color:var(--neon-cyan);">Institutions &amp; Enterprises</span></div>
+            <p style="color:var(--text-secondary);text-align:center;margin:0 0 1.25rem;max-width:640px;margin-left:auto;margin-right:auto;">
+                Annual licensing and customized Namibia-context training for schools, government, healthcare, and companies — managed from your Organization hub.
+            </p>
+            <div class="plans-grid" id="b2bPlans" style="margin-bottom:0.5rem;">
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <div class="plan-icon">🏫</div>
+                        <div class="plan-name">Institution License</div>
+                        <div class="plan-price"><span class="currency">N$</span><span class="amount">18,000</span><span class="period">/year</span></div>
+                        <div class="plan-desc">Up to 50 seats · Pro catalog</div>
+                    </div>
+                    <a class="btn-plan primary" href="/organization" style="display:block;text-align:center;text-decoration:none;">Open Organization hub</a>
+                </div>
+                <div class="plan-card popular">
+                    <div class="plan-header">
+                        <div class="plan-icon">🏛️</div>
+                        <div class="plan-name">Enterprise License</div>
+                        <div class="plan-price"><span class="currency">N$</span><span class="amount">45,000</span><span class="period">/year</span></div>
+                        <div class="plan-desc">Up to 200 seats · Pro+</div>
+                    </div>
+                    <a class="btn-plan primary" href="/organization" style="display:block;text-align:center;text-decoration:none;">License your team</a>
+                </div>
+                <div class="plan-card pro-plus">
+                    <div class="plan-header">
+                        <div class="plan-icon">🗺️</div>
+                        <div class="plan-name">Custom Training</div>
+                        <div class="plan-price"><span class="currency">N$</span><span class="amount">12,000</span><span class="period">+</span></div>
+                        <div class="plan-desc">Bespoke local scenarios &amp; compliance packs</div>
+                    </div>
+                    <a class="btn-plan primary" href="/organization" style="display:block;text-align:center;text-decoration:none;">Request custom pack</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Comparison -->
+        <div class="comparison-section">
+            <div class="comparison-title">📊 <span style="color:var(--neon-green);">Feature Comparison</span></div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align:left;">Feature</th>
+                        <th>Free</th>
+                        <th>Pro</th>
+                        <th>Pro+</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Training Modules</td>
+                        <td>3</td>
+                        <td><span style="color:var(--neon-green);font-weight:700;">95</span></td>
+                        <td><span style="color:var(--neon-gold);font-weight:700;">95</span></td>
+                    </tr>
+                    <tr>
+                        <td>Attacker toolkit (how they move &amp; talk)</td>
+                        <td><span class="cross">✕</span></td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>Certificates</td>
+                        <td>Basic</td>
+                        <td>Unlimited</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td>Matte K AI (outside exams)</td>
+                        <td>Limited</td>
+                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✓</span></td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td><strong>From</strong></td>
+                        <td><strong>N$0</strong></td>
+                        <td><strong id="comparePrice">N$299/mo yearly</strong></td>
+                        <td><strong style="color:var(--neon-gold);">N$800 / 2 mo</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FAQ mini -->
+        <div style="margin-bottom: 2rem; text-align:center;">
+            <p style="color:var(--text-secondary); font-size:0.9rem;">
+                ❓ Questions? <a href="/contact" style="color:var(--neon-green);">Contact our support team</a>
+            </p>
+        </div>
+
+        <!-- Back to Dashboard -->
+        <div style="text-align:center; padding:0.5rem 0 2rem;">
+            <a href="/dashboard" class="btn btn-secondary" style="padding:0.5rem 1.5rem;">← Back to Dashboard</a>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // PRICING — N$ base with US$ conversion toggle
+        // ============================================================
+        const PRICING = {
+            free: { nad: 0, period: '/month' },
+            monthly: { nad: 450, period: '/month' },
+            annual: { nad: 299, period: '/month', months: 12 },
+            pro_plus_2mo: { nad: 800, period: '/2 months' },
+            pro_plus_annual: { nad: 350, period: '/month', months: 12 },
+            special_ops_2mo: { nad: 1250, period: '/2 months' },
+            special_ops_annual: { nad: 520, period: '/month', months: 12 }
+        };
+        // Approx NAD→USD (override via /api/pricing if available)
+        let nadPerUsd = Number(localStorage.getItem('tribams_nad_per_usd')) || 18.5;
+        let displayCurrency = localStorage.getItem('tribams_currency') || 'NAD';
+
+        function formatAmount(nad) {
+            if (displayCurrency === 'USD') {
+                const usd = nad / nadPerUsd;
+                return {
+                    currency: 'US$',
+                    amount: usd === 0 ? '0' : usd.toFixed(2)
+                };
+            }
+            return {
+                currency: 'N$',
+                amount: nad === 0 ? '0' : String(Math.round(nad))
+            };
+        }
+
+        function renderPrices() {
+            document.querySelectorAll('.plan-price[data-plan]').forEach(el => {
+                const key = el.getAttribute('data-plan');
+                const plan = PRICING[key];
+                if (!plan) return;
+                const formatted = formatAmount(plan.nad);
+                const cur = el.querySelector('.currency');
+                const amt = el.querySelector('.amount');
+                const period = el.querySelector('.period');
+                if (cur) cur.textContent = formatted.currency;
+                if (amt) amt.textContent = formatted.amount;
+                if (period) period.textContent = plan.period || '/month';
+            });
+
+            const compare = document.getElementById('comparePrice');
+            if (compare) {
+                const f = formatAmount(PRICING.monthly.nad);
+                compare.textContent = `${f.currency}${f.amount}/mo`;
+            }
+
+            const annualNote = document.getElementById('annualTotalNote');
+            if (annualNote) {
+                const months = PRICING.annual.months || 12;
+                const total = formatAmount(PRICING.annual.nad * months);
+                const perMo = formatAmount(PRICING.annual.nad);
+                annualNote.textContent = `${perMo.currency}${perMo.amount}/mo for 1 year — billed ${total.currency}${total.amount} total`;
+            }
+
+            const badge = document.getElementById('savingsBadge');
+            if (badge) {
+                const savePerMo = PRICING.monthly.nad - PRICING.annual.nad;
+                const saveFmt = formatAmount(savePerMo);
+                badge.textContent = `💎 Save ${saveFmt.currency}${saveFmt.amount}/mo vs monthly — 12‑month commitment`;
+            }
+
+            const note = document.getElementById('fxNote');
+            if (note) {
+                note.textContent = displayCurrency === 'USD'
+                    ? `Approximate conversion at ~N$${nadPerUsd.toFixed(2)} = US$1. Checkout remains in N$ / processor currency.`
+                    : 'Prices in Namibian Dollars (N$). Tap US$ to see an approximate dollar equivalent.';
+            }
+
+            document.getElementById('currencyNAD')?.classList.toggle('active', displayCurrency === 'NAD');
+            document.getElementById('currencyUSD')?.classList.toggle('active', displayCurrency === 'USD');
+        }
+
+        function setCurrency(code) {
+            displayCurrency = code === 'USD' ? 'USD' : 'NAD';
+            localStorage.setItem('tribams_currency', displayCurrency);
+            renderPrices();
+        }
+
+        async function loadFxRate() {
+            try {
+                const res = await fetch('/api/pricing', { credentials: 'same-origin' });
+                const data = await res.json();
+                if (data?.success && data.nad_per_usd) {
+                    nadPerUsd = Number(data.nad_per_usd) || nadPerUsd;
+                    localStorage.setItem('tribams_nad_per_usd', String(nadPerUsd));
+                }
+                if (data?.plans?.monthly?.nad) PRICING.monthly.nad = data.plans.monthly.nad;
+                if (data?.plans?.annual?.nad) PRICING.annual.nad = data.plans.annual.nad;
+            } catch (e) { /* use defaults */ }
+            renderPrices();
+        }
+
+        loadFxRate();
+
+        // Show why user landed here (paid module lock)
+        (function showLockedBanner() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('reason') !== 'paid') return;
+            const id = params.get('locked');
+            const el = document.getElementById('lockedBanner');
+            if (!el) return;
+            el.style.display = 'block';
+            el.textContent = id
+                ? `Module ${id} is a Pro module. Free users can train on Phishing Detection, Social Engineering, and Security Awareness. Admins retain full access for review.`
+                : 'That content requires Tribams Pro. Free plan includes 3 starter modules.';
+        })();
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function showToast(message, type = 'success', duration = 3500) {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
+
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'} ${message}</span>
+                <button class="toast-close" aria-label="Close notification">&times;</button>
+            `;
+            document.body.appendChild(toast);
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => toast.remove());
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        // ============================================================
+        // CHECK SUBSCRIPTION STATUS
+        // ============================================================
+        async function checkSubscription() {
+            try {
+                const res = await fetch('/api/subscription-status', { credentials: 'same-origin' });
+                const data = await res.json();
+
+                const title = document.getElementById('statusTitle');
+                const desc = document.getElementById('statusDesc');
+                const badge = document.getElementById('statusBadge');
+                if (!title || !desc || !badge) return;
+
+                const tier = String(data.tier || 'free').toLowerCase();
+                const active = data.status === 'active' || data.is_pro;
+                const isSpecial = data.is_special_ops || tier === 'special_ops' || tier === 'elite';
+                const isPlus = data.is_pro_plus || tier === 'pro_plus' || tier === 'proplus' || isSpecial;
+                const expires = data.expires_at
+                    ? new Date(data.expires_at).toLocaleDateString()
+                    : null;
+
+                if (active && (tier === 'premium' || tier === 'pro' || isPlus || isSpecial)) {
+                    title.textContent = isSpecial
+                        ? 'You are on Special Ops Elite'
+                        : (isPlus ? 'You are on Pro+' : 'You are a Pro member!');
+                    desc.textContent = expires
+                        ? (isSpecial
+                            ? `Live Red/Blue Special Ops unlocked until ${expires}.`
+                            : `Full catalog unlocked. Access until ${expires}.`)
+                        : (isSpecial
+                            ? 'Special Ops Elite: Live Red Team Emulation + Live Blue Team Crisis Cell.'
+                            : 'Enjoy unlimited access to modules, certificates, and premium features.');
+                    badge.textContent = isPlus ? 'PRO+' : 'PRO';
+                    badge.className = 'status-badge pro';
+                    const icon = document.querySelector('.status-icon');
+                    if (icon) icon.textContent = '🎉';
+
+                    document.querySelectorAll('.btn-plan.primary, .plan-card.pro-plus .btn-plan.secondary').forEach(btn => {
+                        if (isPlus || !btn.closest('.plan-card.pro-plus')) {
+                            btn.disabled = true;
+                            btn.textContent = isPlus ? '✓ Already Pro+' : '✓ Already Pro';
+                            btn.className = 'btn-plan secondary';
+                            btn.style.cursor = 'default';
+                        }
+                    });
+                } else {
+                    title.textContent = 'Current Plan: Free';
+                    desc.textContent = data.paypal_configured === false
+                        ? 'Upgrade paths are being finalized. Contact support if you need Pro access now.'
+                        : 'Upgrade to Pro or Pro+ to unlock all 95 modules, certificates, and premium features.';
+                    badge.textContent = 'FREE';
+                    badge.className = 'status-badge free';
+                    const icon = document.querySelector('.status-icon');
+                    if (icon) icon.textContent = 'ℹ️';
+                }
+            } catch (error) {
+                console.error('Error checking subscription:', error);
+            }
+        }
+
+        // ============================================================
+        // CREATE PAYPAL ORDER
+        // ============================================================
+        async function createOrder(plan) {
+            const btnMap = {
+                monthly: 'monthlyBtn',
+                annual: 'annualBtn',
+                pro_plus_2mo: 'proPlusBtn',
+                pro_plus_annual: 'proPlusBtn',
+                special_ops_2mo: 'specialOpsBtn',
+                special_ops_annual: 'specialOpsBtn'
+            };
+            const btn = document.getElementById(btnMap[plan] || 'monthlyBtn');
+            const originalText = btn ? btn.innerHTML : '';
+            if (btn) {
+                btn.classList.add('loading');
+                btn.disabled = true;
+            }
+
+            try {
+                const res = await fetch('/api/paypal/create-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ plan })
+                });
+
+                const data = await res.json();
+
+                if (data.success && data.approvalUrl) {
+                    window.location.href = data.approvalUrl;
+                } else if (data.success && data.activated) {
+                    showToast(data.message || 'Plan activated for testing.', 'success');
+                    setTimeout(() => { window.location.href = '/payment'; }, 1200);
+                } else {
+                    showToast('Error: ' + (data.message || 'Could not create order'), 'error');
+                    if (btn) {
+                        btn.classList.remove('loading');
+                        btn.disabled = false;
+                        btn.innerHTML = originalText;
+                    }
+                }
+            } catch (error) {
+                console.error('PayPal error:', error);
+                showToast('Network error. Please try again.', 'error');
+                if (btn) {
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                }
+            }
+        }
+
+        // ============================================================
+        // CAPTURE PAYPAL ORDER (Return from PayPal)
+        // ============================================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        const payerId = urlParams.get('PayerID');
+
+        if (token && payerId) {
+            // Show processing message
+            showToast('⏳ Processing your payment...', 'info', 5000);
+
+            fetch('/api/paypal/capture-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ orderId: token })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast(data.message || 'Payment successful! Your plan is active.', 'success');
+                        setTimeout(() => {
+                            window.location.href = data.redirect || '/payment-success';
+                        }, 1200);
+                    } else {
+                        showToast('Payment failed: ' + (data.message || 'Unknown error'), 'error');
+                    }
+                })
+                .catch(err => {
+                    console.error('Capture error:', err);
+                    showToast('Error processing payment. Please contact support.', 'error');
+                });
+        }
+
+        // ============================================================
+        // HEADER SCROLL & MOBILE MENU
+        // ============================================================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('show');
+            this.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('show');
+                document.getElementById('menuToggle').classList.remove('active');
+            });
+        });
+
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            // Escape to cancel
+            if (e.key === 'Escape') {
+                // Close any modals or toasts if needed
+            }
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        checkSubscription();
+
+        console.log('💳 Payment page loaded.');
+    </script>
+
+</body>
+</html>

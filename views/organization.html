@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization – TRIBAMS</title>
+    <meta name="description" content="Institution and enterprise licensing, team seats, analytics, and customized Namibia-context training.">
+    <link rel="icon" href="/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #f4f7fb;
+            --ink: #0f172a;
+            --muted: #64748b;
+            --line: #dbe3ef;
+            --card: #ffffff;
+            --accent: #0f766e;
+            --accent-2: #1a56db;
+            --warn: #b45309;
+            --danger: #b91c1c;
+            --ok: #047857;
+            --font: 'IBM Plex Sans', system-ui, sans-serif;
+            --display: 'Syne', sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font);
+            background:
+                radial-gradient(900px 400px at 10% -10%, rgba(15,118,110,.12), transparent 60%),
+                radial-gradient(700px 300px at 100% 0%, rgba(26,86,219,.08), transparent 55%),
+                var(--bg);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+        header {
+            background: rgba(255,255,255,.9);
+            border-bottom: 1px solid var(--line);
+            position: sticky; top: 0; z-index: 20;
+            backdrop-filter: blur(10px);
+        }
+        .bar {
+            max-width: 1100px; margin: 0 auto; padding: 0.9rem 1.25rem;
+            display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+        }
+        .brand { font-family: var(--display); font-weight: 800; font-size: 1.25rem; color: var(--accent); text-decoration: none; }
+        .nav a { color: var(--muted); text-decoration: none; margin-left: 1rem; font-weight: 500; font-size: 0.92rem; }
+        .nav a:hover, .nav a.active { color: var(--accent); }
+        main { max-width: 1100px; margin: 0 auto; padding: 1.75rem 1.25rem 3rem; }
+        h1 { font-family: var(--display); font-size: clamp(1.6rem, 3vw, 2.2rem); letter-spacing: -0.02em; }
+        .lead { color: var(--muted); margin-top: 0.4rem; max-width: 52ch; line-height: 1.5; }
+        .grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
+        .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        @media (max-width: 860px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+        .panel {
+            background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 1.15rem 1.2rem;
+        }
+        .panel h2 { font-size: 1.05rem; margin-bottom: 0.75rem; }
+        .stat { font-family: var(--display); font-size: 1.7rem; font-weight: 800; color: var(--accent); }
+        .stat span { display: block; font-family: var(--font); font-size: 0.78rem; font-weight: 500; color: var(--muted); margin-top: 0.15rem; }
+        label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-bottom: 0.3rem; }
+        input, select, textarea {
+            width: 100%; padding: 0.65rem 0.75rem; border: 1px solid var(--line); border-radius: 10px;
+            font: inherit; background: #fff; margin-bottom: 0.75rem;
+        }
+        textarea { min-height: 100px; resize: vertical; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.4rem; border: none; border-radius: 10px;
+            padding: 0.65rem 1rem; font: inherit; font-weight: 600; cursor: pointer;
+            background: var(--accent); color: #fff;
+        }
+        .btn.secondary { background: #e2e8f0; color: var(--ink); }
+        .btn:disabled { opacity: .55; cursor: not-allowed; }
+        .org-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .org-item {
+            display: flex; justify-content: space-between; gap: 0.75rem; align-items: center;
+            padding: 0.75rem; border: 1px solid var(--line); border-radius: 10px; cursor: pointer;
+            background: #fafcff;
+        }
+        .org-item:hover, .org-item.active { border-color: var(--accent); background: #f0fdfa; }
+        .badge {
+            font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 999px;
+            background: #ecfeff; color: var(--accent);
+        }
+        .badge.warn { background: #fff7ed; color: var(--warn); }
+        .badge.ok { background: #ecfdf5; color: var(--ok); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        th, td { text-align: left; padding: 0.55rem 0.35rem; border-bottom: 1px solid var(--line); }
+        th { color: var(--muted); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: .04em; }
+        .muted { color: var(--muted); font-size: 0.88rem; }
+        .toast {
+            position: fixed; bottom: 1.25rem; left: 50%; transform: translateX(-50%);
+            background: #0f172a; color: #fff; padding: 0.75rem 1.1rem; border-radius: 10px;
+            font-size: 0.9rem; z-index: 50; max-width: 90vw;
+        }
+        .plan {
+            border: 1px solid var(--line); border-radius: 12px; padding: 0.9rem; margin-bottom: 0.6rem;
+            display: flex; justify-content: space-between; gap: 0.75rem; align-items: flex-start;
+        }
+        .plan strong { display: block; margin-bottom: 0.2rem; }
+        .hidden { display: none !important; }
+        code { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 6px; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="bar">
+        <a class="brand" href="/dashboard">TRIBAMS</a>
+        <nav class="nav">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/payment">Pricing</a>
+            <a href="/organization" class="active">Organization</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </div>
+</header>
+<main>
+    <h1>Organization hub</h1>
+    <p class="lead">License seats for schools, government, healthcare, and enterprises. Track team readiness and request Namibia-context custom training — per the Tribams B2B model.</p>
+
+    <div class="grid grid-2">
+        <section class="panel">
+            <h2>Create organization</h2>
+            <label>Name</label>
+            <input id="orgName" placeholder="e.g. NIT Cyber Lab / Ministry SOC">
+            <label>Type</label>
+            <select id="orgType">
+                <option value="education">Education / Institution</option>
+                <option value="government">Government</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="enterprise">Enterprise</option>
+                <option value="sme">SME</option>
+                <option value="other">Other</option>
+            </select>
+            <label>Industry focus</label>
+            <input id="orgIndustry" placeholder="e.g. Banking, Mining, Public sector">
+            <button class="btn" id="createBtn"><i class="fas fa-plus"></i> Create</button>
+        </section>
+        <section class="panel">
+            <h2>Join with invite code</h2>
+            <label>Invite code</label>
+            <input id="inviteCode" placeholder="ABC12DEF" style="text-transform:uppercase">
+            <button class="btn secondary" id="joinBtn"><i class="fas fa-user-plus"></i> Join organization</button>
+            <p class="muted" style="margin-top:0.75rem;">When your org license is active, members inherit Pro / Pro+ access automatically.</p>
+            <div id="myOrgs" class="org-list" style="margin-top:1rem;"></div>
+        </section>
+    </div>
+
+    <div id="detail" class="hidden" style="margin-top:1.25rem;">
+        <div class="grid grid-3">
+            <div class="panel"><div class="stat" id="statSeats">0<span>Seats used</span></div></div>
+            <div class="panel"><div class="stat" id="statAvg">0%<span>Team avg score</span></div></div>
+            <div class="panel"><div class="stat" id="statLabs">0<span>Lab passes</span></div></div>
+        </div>
+
+        <div class="grid grid-2" style="margin-top:1rem;">
+            <section class="panel">
+                <h2 id="orgTitle">Organization</h2>
+                <p class="muted" id="orgMeta"></p>
+                <p style="margin:0.75rem 0;">License: <span class="badge" id="licenseBadge">—</span></p>
+                <div id="inviteBox" class="hidden">
+                    <p class="muted">Invite code</p>
+                    <p><code id="inviteDisplay">—</code>
+                        <button class="btn secondary" id="refreshInvite" style="margin-left:0.5rem;padding:0.35rem 0.7rem;">Refresh</button>
+                    </p>
+                </div>
+                <h2 style="margin-top:1.2rem;">Members</h2>
+                <div style="overflow:auto;max-height:280px;">
+                    <table>
+                        <thead><tr><th>User</th><th>Role</th><th>Status</th></tr></thead>
+                        <tbody id="memberRows"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel">
+                <h2>License packages</h2>
+                <div id="planList"></div>
+                <h2 style="margin-top:1.2rem;">Request custom training</h2>
+                <label>Title</label>
+                <input id="ctTitle" placeholder="e.g. Ministry phishing + BEC Namibia pack">
+                <label>Industry focus</label>
+                <input id="ctIndustry" placeholder="Government / Healthcare / Banking">
+                <label>Compliance focus</label>
+                <input id="ctCompliance" placeholder="e.g. POPIA-style hygiene, PCI basics">
+                <label>Brief</label>
+                <textarea id="ctBrief" placeholder="Describe roles to train, local threat scenarios, delivery timeline..."></textarea>
+                <button class="btn" id="ctBtn"><i class="fas fa-paper-plane"></i> Submit request</button>
+                <div id="ctList" class="muted" style="margin-top:0.9rem;"></div>
+            </section>
+        </div>
+
+        <section class="panel" style="margin-top:1rem;">
+            <h2>Team module activity</h2>
+            <div style="overflow:auto;">
+                <table>
+                    <thead><tr><th>Module</th><th>Attempts</th><th>Avg score</th></tr></thead>
+                    <tbody id="moduleRows"></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</main>
+<script>
+(function () {
+    let currentOrgId = null;
+    let canManage = false;
+
+    function toast(msg) {
+        const el = document.createElement('div');
+        el.className = 'toast';
+        el.textContent = msg;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 3200);
+    }
+
+    async function api(path, opts = {}) {
+        const res = await fetch(path, {
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },
+            ...opts
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
+        return data;
+    }
+
+    async function loadMine() {
+        const data = await api('/api/org/mine');
+        const box = document.getElementById('myOrgs');
+        if (!data.organizations.length) {
+            box.innerHTML = '<p class="muted">No organizations yet — create one or join with a code.</p>';
+            return;
+        }
+        box.innerHTML = data.organizations.map(o => `
+            <div class="org-item ${currentOrgId === o.id ? 'active' : ''}" data-id="${o.id}">
+                <div>
+                    <strong>${escapeHtml(o.name)}</strong>
+                    <div class="muted">${escapeHtml(o.org_type)} · ${escapeHtml(o.role)}</div>
+                </div>
+                <span class="badge ${o.license_status === 'active' ? 'ok' : 'warn'}">${escapeHtml(o.license_status || 'inactive')}</span>
+            </div>
+        `).join('');
+        box.querySelectorAll('.org-item').forEach(el => {
+            el.addEventListener('click', () => loadOrg(Number(el.dataset.id)));
+        });
+        if (!currentOrgId && data.organizations[0]) loadOrg(data.organizations[0].id);
+    }
+
+    function escapeHtml(s) {
+        return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    async function loadOrg(id) {
+        currentOrgId = id;
+        const data = await api(`/api/org/${id}`);
+        canManage = !!data.can_manage;
+        document.getElementById('detail').classList.remove('hidden');
+        document.getElementById('orgTitle').textContent = data.org.name;
+        document.getElementById('orgMeta').textContent =
+            `${data.org.org_type} · ${data.org.industry || 'General'} · Namibia (NA)`;
+        document.getElementById('statSeats').innerHTML =
+            `${data.seats_used}/${data.seats_limit}<span>Seats used</span>`;
+        document.getElementById('statAvg').innerHTML =
+            `${data.stats.avg_score}%<span>Team avg score</span>`;
+        document.getElementById('statLabs').innerHTML =
+            `${data.stats.lab_passes}<span>Lab passes</span>`;
+
+        const badge = document.getElementById('licenseBadge');
+        badge.textContent = data.license_active
+            ? `${data.org.license_tier} · active`
+            : `${data.org.license_status || 'inactive'}`;
+        badge.className = 'badge ' + (data.license_active ? 'ok' : 'warn');
+
+        const inviteBox = document.getElementById('inviteBox');
+        if (canManage && data.invite_code) {
+            inviteBox.classList.remove('hidden');
+            document.getElementById('inviteDisplay').textContent = data.invite_code;
+        } else {
+            inviteBox.classList.add('hidden');
+        }
+
+        document.getElementById('memberRows').innerHTML = (data.members || []).map(m => `
+            <tr>
+                <td>${escapeHtml(m.username)}<div class="muted">${escapeHtml(m.email)}</div></td>
+                <td>${escapeHtml(m.role)}</td>
+                <td>${escapeHtml(m.status)}</td>
+            </tr>
+        `).join('') || '<tr><td colspan="3" class="muted">No members</td></tr>';
+
+        document.getElementById('moduleRows').innerHTML = (data.top_modules || []).map(m => `
+            <tr>
+                <td>${escapeHtml(m.module_name)}</td>
+                <td>${m.attempts}</td>
+                <td>${m.avg_score}%</td>
+            </tr>
+        `).join('') || '<tr><td colspan="3" class="muted">No quiz activity yet</td></tr>';
+
+        document.getElementById('planList').innerHTML = (data.plans || []).map(p => `
+            <div class="plan">
+                <div>
+                    <strong>${escapeHtml(p.label)}</strong>
+                    <div class="muted">${escapeHtml(p.description)}</div>
+                    <div style="margin-top:0.35rem;">N$${Number(p.nad).toLocaleString()} · ${p.seats} seats · ${p.tier}</div>
+                </div>
+                <button class="btn secondary license-btn" data-plan="${p.key}" ${canManage ? '' : 'disabled'}>
+                    ${canManage ? 'Request / Activate' : 'Admin only'}
+                </button>
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.license-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                try {
+                    btn.disabled = true;
+                    const result = await api(`/api/org/${currentOrgId}/request-license`, {
+                        method: 'POST',
+                        body: JSON.stringify({ plan: btn.dataset.plan, activate: true })
+                    });
+                    toast(result.message || 'License updated');
+                    await loadOrg(currentOrgId);
+                    await loadMine();
+                } catch (e) {
+                    toast(e.message);
+                } finally {
+                    btn.disabled = false;
+                }
+            });
+        });
+
+        document.getElementById('ctList').innerHTML = (data.custom_training || []).length
+            ? data.custom_training.map(c =>
+                `<div>• <strong>${escapeHtml(c.title)}</strong> — <span class="badge">${escapeHtml(c.status)}</span></div>`
+              ).join('')
+            : 'No custom training requests yet.';
+
+        loadMine();
+    }
+
+    document.getElementById('createBtn').addEventListener('click', async () => {
+        try {
+            const data = await api('/api/org/create', {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: document.getElementById('orgName').value,
+                    org_type: document.getElementById('orgType').value,
+                    industry: document.getElementById('orgIndustry').value
+                })
+            });
+            toast(data.message);
+            document.getElementById('orgName').value = '';
+            await loadMine();
+            if (data.organization?.id) loadOrg(data.organization.id);
+        } catch (e) { toast(e.message); }
+    });
+
+    document.getElementById('joinBtn').addEventListener('click', async () => {
+        try {
+            const data = await api('/api/org/join', {
+                method: 'POST',
+                body: JSON.stringify({ invite_code: document.getElementById('inviteCode').value })
+            });
+            toast(data.message);
+            await loadMine();
+            if (data.organization?.id) loadOrg(data.organization.id);
+        } catch (e) { toast(e.message); }
+    });
+
+    document.getElementById('refreshInvite').addEventListener('click', async () => {
+        if (!currentOrgId) return;
+        try {
+            const data = await api(`/api/org/${currentOrgId}/refresh-invite`, { method: 'POST', body: '{}' });
+            document.getElementById('inviteDisplay').textContent = data.invite_code;
+            toast('Invite code refreshed');
+        } catch (e) { toast(e.message); }
+    });
+
+    document.getElementById('ctBtn').addEventListener('click', async () => {
+        if (!currentOrgId) return toast('Select an organization first');
+        try {
+            const data = await api(`/api/org/${currentOrgId}/custom-training`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    title: document.getElementById('ctTitle').value,
+                    industry_focus: document.getElementById('ctIndustry').value,
+                    compliance_focus: document.getElementById('ctCompliance').value,
+                    brief: document.getElementById('ctBrief').value
+                })
+            });
+            toast(data.message);
+            document.getElementById('ctTitle').value = '';
+            document.getElementById('ctBrief').value = '';
+            loadOrg(currentOrgId);
+        } catch (e) { toast(e.message); }
+    });
+
+    loadMine().catch(err => toast(err.message || 'Login required'));
+})();
+</script>
+</body>
+</html>

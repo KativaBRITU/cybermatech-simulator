@@ -1,6 +1,7 @@
 /**
  * Guest vs member navigation.
  * Member-only targets stay hidden until /api/user-info confirms a session.
+ * Only toggles [data-auth="member"|"guest"] — never mutates <html>.
  */
 (function () {
     'use strict';
@@ -17,7 +18,6 @@
             el.hidden = isMember;
             el.classList.toggle('is-hidden', isMember);
         });
-        document.documentElement.dataset.auth = isMember ? 'member' : 'guest';
     }
 
     // Hide member CTAs immediately to avoid flash for guests
@@ -26,7 +26,12 @@
     fetch('/api/user-info', { credentials: 'same-origin' })
         .then((r) => r.json())
         .then((data) => {
-            const isMember = !!(data && data.success && data.member !== false && (data.username || data.user || data.member));
+            const isMember = !!(
+                data &&
+                data.success &&
+                data.member !== false &&
+                (data.username || data.user || data.member)
+            );
             setVisibility(isMember);
             if (isMember && data.username) {
                 document.querySelectorAll('[data-auth-username]').forEach((el) => {

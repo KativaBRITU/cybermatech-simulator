@@ -3,45 +3,1364 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resources — Cybermatech</title>
-    <link rel="stylesheet" href="/css/theme.css">
+    <title>Resources – TRIBAMS</title>
+    <meta name="description" content="Download free cybersecurity resources including guides, cheat sheets, templates, and checklists. Accelerate your learning with ready-to-use materials.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE – 0-200
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --border-color-hover: rgba(0, 255, 136, 0.2);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-orange: #f59e0b;
+            --neon-pink: #ec4899;
+            --neon-red: #ef4444;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ============================================================
+               HEADER & NAVIGATION – 200-400
+               ============================================================ */
+        header {
+            background: rgba(10, 14, 39, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(10, 14, 39, 0.98);
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--neon-green);
+            fill: none;
+            -webkit-text-fill-color: initial;
+            flex-shrink: 0;
+        }
+
+        .logo:hover svg {
+            stroke: var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.3rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active {
+            color: var(--neon-green);
+        }
+
+        .btn-nav {
+            padding: 0.4rem 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary) !important;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            -webkit-text-fill-color: initial;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+            color: var(--bg-primary) !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .menu-toggle span {
+            width: 26px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ============================================================
+               PAGE HEADER – 400-550
+               ============================================================ */
+        .page-header {
+            padding: 2rem 0 1.5rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 900;
+        }
+
+        .page-header h1 .highlight {
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 560px;
+            margin: 0.3rem auto 0;
+        }
+
+        /* ============================================================
+               SEARCH & FILTERS – 550-750
+               ============================================================ */
+        .search-section {
+            margin-bottom: 2rem;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 60px;
+            padding: 0.3rem 0.3rem 0.3rem 1.2rem;
+            transition: var(--transition);
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.05);
+        }
+
+        .search-bar .search-icon {
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .search-bar .search-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        .search-bar input {
+            flex: 1;
+            min-width: 160px;
+            padding: 0.6rem 0.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: var(--font);
+            outline: none;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-bar .clear-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.3rem 0.6rem;
+            display: none;
+            font-size: 1.2rem;
+        }
+
+        .search-bar .clear-btn.visible {
+            display: block;
+        }
+
+        .search-bar .search-btn {
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            white-space: nowrap;
+        }
+
+        .search-bar .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 255, 136, 0.25);
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .filter-row .filter-btn {
+            padding: 0.3rem 1.2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+        }
+
+        .filter-row .filter-btn:hover {
+            border-color: var(--neon-green);
+            color: var(--text-primary);
+        }
+
+        .filter-row .filter-btn.active {
+            background: rgba(0, 255, 136, 0.08);
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .filter-row .filter-btn .badge {
+            font-size: 0.6rem;
+            background: var(--glass-bg);
+            padding: 0.05rem 0.4rem;
+            border-radius: 20px;
+            color: var(--text-muted);
+            margin-left: 0.2rem;
+        }
+
+        .filter-row .filter-btn.active .badge {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--neon-green);
+        }
+
+        .results-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.5rem 0 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .results-meta .count {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .results-meta .count strong {
+            color: var(--text-primary);
+        }
+
+        /* ============================================================
+               RESOURCES GRID – 750-1050
+               ============================================================ */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem 0 3rem;
+        }
+
+        .resource-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            transition: all var(--transition);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .resource-card:hover::before {
+            opacity: 1;
+        }
+
+        .resource-card:hover {
+            border-color: var(--border-color-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .resource-card .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-card .card-top .resource-icon {
+            font-size: 2.2rem;
+        }
+
+        .resource-card .card-top .type-badge {
+            padding: 0.15rem 0.6rem;
+            border-radius: 30px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .resource-card .card-top .type-badge.pdf {
+            background: rgba(239, 68, 68, 0.12);
+            color: var(--neon-red);
+            border: 1px solid rgba(239, 68, 68, 0.1);
+        }
+        .resource-card .card-top .type-badge.docx {
+            background: rgba(0, 136, 255, 0.12);
+            color: var(--neon-blue);
+            border: 1px solid rgba(0, 136, 255, 0.1);
+        }
+        .resource-card .card-top .type-badge.xlsx {
+            background: rgba(0, 255, 136, 0.12);
+            color: var(--neon-green);
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+        .resource-card .card-top .type-badge.zip {
+            background: rgba(168, 85, 247, 0.12);
+            color: var(--neon-purple);
+            border: 1px solid rgba(168, 85, 247, 0.1);
+        }
+
+        .resource-card .premium-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 0.55rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 600;
+            background: rgba(255, 215, 0, 0.12);
+            color: var(--neon-gold);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+        }
+
+        .resource-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .resource-card .description {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            flex: 1;
+            margin-bottom: 0.8rem;
+        }
+
+        .resource-card .meta {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .resource-card .meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        .resource-card .meta span svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        .resource-card .action-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: auto;
+        }
+
+        .resource-card .action-row .btn {
+            padding: 0.4rem 1.2rem;
+            font-size: 0.8rem;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .resource-card .action-row .btn-download {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .resource-card .action-row .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 255, 136, 0.25);
+        }
+
+        .resource-card .action-row .btn-download.premium {
+            background: var(--glass-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--glass-border);
+            cursor: not-allowed;
+        }
+
+        .resource-card .action-row .btn-download.premium:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .resource-card .action-row .btn-preview {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            border-radius: 50px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .resource-card .action-row .btn-preview:hover {
+            border-color: var(--neon-green);
+            color: var(--text-primary);
+            background: var(--glass-bg);
+        }
+
+        /* ============================================================
+               EMPTY STATE – 1050-1100
+               ============================================================ */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            grid-column: 1 / -1;
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* ============================================================
+               TOAST – 1100-1160
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+        }
+        .toast.info {
+            background: linear-gradient(135deg, var(--neon-blue), #0066cc);
+            color: #fff;
+        }
+        .toast.warning {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes toastSlideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================================
+               RESPONSIVE – 1160-1280
+               ============================================================ */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                position: absolute;
+                top: 60px;
+                right: 1rem;
+                min-width: 220px;
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-sm);
+                padding: 1.2rem;
+                gap: 1rem;
+                box-shadow: var(--shadow-xl);
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+
+            .search-bar {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 0.8rem;
+                border-radius: var(--radius-sm);
+            }
+
+            .search-bar .search-icon {
+                display: none;
+            }
+
+            .search-bar input {
+                padding: 0.6rem 0.8rem;
+                background: var(--glass-bg);
+                border-radius: var(--radius-sm);
+                border: 1px solid var(--glass-border);
+            }
+
+            .search-bar .search-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .filter-row {
+                gap: 0.3rem;
+            }
+            .filter-row .filter-btn {
+                font-size: 0.7rem;
+                padding: 0.2rem 0.8rem;
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .resource-card .action-row {
+                flex-direction: column;
+            }
+            .resource-card .action-row .btn {
+                width: 100%;
+            }
+
+            .results-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                max-width: none;
+                width: auto;
+                bottom: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            @keyframes toastSlideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .resource-card {
+                padding: 1.2rem;
+            }
+            .resource-card .card-top .resource-icon {
+                font-size: 1.8rem;
+            }
+            .resource-card h3 {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* ============================================================
+               PRINT STYLES – 1280-1290
+               ============================================================ */
+        @media print {
+            header,
+            .toast,
+            .menu-toggle,
+            .search-section,
+            .action-row .btn {
+                display: none !important;
+            }
+            .resource-card {
+                border: 1px solid #333 !important;
+                box-shadow: none !important;
+                break-inside: avoid;
+            }
+            body {
+                background: #fff;
+                color: #000;
+            }
+            .page-header h1 .highlight {
+                -webkit-text-fill-color: #000;
+                background: none;
+                color: #000;
+            }
+            .resource-card .premium-badge {
+                color: #000 !important;
+                background: none !important;
+                border: 1px solid #000 !important;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header class="site-header">
-        <nav class="site-nav">
-            <a class="logo" href="/">Cybermatech</a>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li data-auth="member"><a href="/resources">Resources</a></li>
-                <li data-auth="member"><a href="/dashboard">Dashboard</a></li>
-                <li data-auth="member"><a href="/logout" class="logout">Logout</a></li>
-                <li data-auth="guest"><a href="/login">Login</a></li>
-            </ul>
-        </nav>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                    TRIBAMS
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/resource-center">Resource Center</a></li>
+                    <li><a href="/resources" class="active">📚 Resources</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
     </header>
 
+    <!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
     <div class="container">
-        <h1>Member resources</h1>
-        <p class="auth-sub" style="text-align:left;">Private to signed-in learners. Guests cannot open this page.</p>
 
-        <div class="modules-grid" style="margin-top:1.5rem;">
-            <div class="module-card">
-                <h3>How to add videos & backgrounds</h3>
-                <p>No coding: drop files into <code>public/media/</code> and edit <code>content/site-media.json</code> or <code>content/modules.json</code>. Full guide: <code>content/HOW-TO-ADD-MEDIA.md</code>.</p>
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>📚 <span class="highlight">Learning Resources</span></h1>
+            <p class="subtitle">Download guides, cheat sheets, templates, and checklists to accelerate your cybersecurity learning.</p>
+        </div>
+
+        <!-- Search & Filters -->
+        <div class="search-section">
+            <div class="search-bar" id="searchBar">
+                <span class="search-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                </span>
+                <input type="text" id="searchInput" placeholder="Search resources by name, topic, or category..." autocomplete="off">
+                <button class="clear-btn" id="clearBtn" aria-label="Clear search">&times;</button>
+                <button class="search-btn" id="searchBtn">Search</button>
             </div>
-            <div class="module-card">
-                <h3>Training path</h3>
-                <p>Open your dashboard, complete modules at 70%+, aim for 80%+ for certificates. Correct answers are scored on the server.</p>
-                <a class="start-btn" href="/dashboard">Open dashboard</a>
+            <div class="filter-row" id="filterRow">
+                <button class="filter-btn active" data-filter="all">All <span class="badge" id="allCount">0</span></button>
+                <button class="filter-btn" data-filter="guides">📘 Guides <span class="badge" id="guidesCount">0</span></button>
+                <button class="filter-btn" data-filter="cheatsheets">📋 Cheat Sheets <span class="badge" id="cheatsheetsCount">0</span></button>
+                <button class="filter-btn" data-filter="templates">📄 Templates <span class="badge" id="templatesCount">0</span></button>
+                <button class="filter-btn" data-filter="checklists">✅ Checklists <span class="badge" id="checklistsCount">0</span></button>
             </div>
-            <div class="module-card">
-                <h3>Study habits</h3>
-                <p>Watch any module video first (when you add one), then run the drill. Use review explanations after submit — not during the timed attempt.</p>
+            <div class="results-meta">
+                <div class="count">Showing <strong id="visibleCount">0</strong> of <strong id="totalCount">0</strong> resources</div>
             </div>
         </div>
+
+        <!-- Resources Grid -->
+        <div class="resources-grid" id="resourcesGrid">
+            <!-- Rendered by JavaScript -->
+        </div>
+
+        <!-- Back to Dashboard -->
+        <div style="text-align:center; padding:1rem 0 2rem;">
+            <a href="/dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+        </div>
+
     </div>
 
-    <script src="/js/auth-nav.js" defer></script>
-    <script src="/js/site-media.js" defer></script>
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // RESOURCE DEFINITIONS
+        // ============================================================
+        const RESOURCES = [{
+            id: 'cybersecurity-basics',
+            title: 'Cybersecurity Basics Guide',
+            icon: '📘',
+            description: 'Complete guide to cybersecurity fundamentals. Covers CIA triad, threat landscape, and defense strategies.',
+            category: 'guides',
+            type: 'pdf',
+            size: '4.2 MB',
+            premium: false
+        }, {
+            id: 'phishing-cheatsheet',
+            title: 'Phishing Detection Cheat Sheet',
+            icon: '🎣',
+            description: 'Quick reference for identifying phishing emails. Includes red flags, header analysis, and response procedures.',
+            category: 'cheatsheets',
+            type: 'pdf',
+            size: '1.8 MB',
+            premium: false
+        }, {
+            id: 'malware-analysis-guide',
+            title: 'Malware Analysis Guide',
+            icon: '🦠',
+            description: 'Step-by-step guide for analyzing malware. Learn static and dynamic analysis techniques.',
+            category: 'guides',
+            type: 'pdf',
+            size: '6.7 MB',
+            premium: true
+        }, {
+            id: 'incident-response-template',
+            title: 'Incident Response Plan Template',
+            icon: '📄',
+            description: 'Comprehensive IR plan template. Includes preparation, identification, containment, eradication, recovery, and lessons learned.',
+            category: 'templates',
+            type: 'docx',
+            size: '2.1 MB',
+            premium: false
+        }, {
+            id: 'security-tools-list',
+            title: 'Essential Security Tools List',
+            icon: '🔧',
+            description: 'Curated list of essential cybersecurity tools. Includes network scanners, vulnerability assessors, and forensic tools.',
+            category: 'guides',
+            type: 'pdf',
+            size: '3.5 MB',
+            premium: false
+        }, {
+            id: 'gdpr-compliance-checklist',
+            title: 'GDPR Compliance Checklist',
+            icon: '✅',
+            description: 'Complete checklist for GDPR compliance. Covers data mapping, subject rights, breach notification, and DPO requirements.',
+            category: 'checklists',
+            type: 'pdf',
+            size: '2.8 MB',
+            premium: true
+        }, {
+            id: 'network-security-cheatsheet',
+            title: 'Network Security Cheat Sheet',
+            icon: '🔒',
+            description: 'Quick reference for network security concepts. Includes ports, protocols, firewall rules, and encryption standards.',
+            category: 'cheatsheets',
+            type: 'pdf',
+            size: '1.5 MB',
+            premium: false
+        }, {
+            id: 'risk-assessment-template',
+            title: 'Risk Assessment Template',
+            icon: '📄',
+            description: 'Risk assessment template for identifying, analyzing, and mitigating cybersecurity risks.',
+            category: 'templates',
+            type: 'docx',
+            size: '1.9 MB',
+            premium: false
+        }, {
+            id: 'pentest-report-template',
+            title: 'Penetration Test Report Template',
+            icon: '📄',
+            description: 'Professional penetration test report template. Includes executive summary, findings, and remediation recommendations.',
+            category: 'templates',
+            type: 'docx',
+            size: '3.2 MB',
+            premium: true
+        }, {
+            id: 'cloud-security-cheatsheet',
+            title: 'Cloud Security Cheat Sheet',
+            icon: '☁️',
+            description: 'Quick reference for cloud security. Covers shared responsibility model, CASB, CSPM, and cloud compliance.',
+            category: 'cheatsheets',
+            type: 'pdf',
+            size: '2.2 MB',
+            premium: false
+        }, {
+            id: 'security-policy-template',
+            title: 'Security Policy Template',
+            icon: '📄',
+            description: 'Comprehensive security policy template. Includes access control, password policy, acceptable use, and incident reporting.',
+            category: 'templates',
+            type: 'docx',
+            size: '4.5 MB',
+            premium: false
+        }, {
+            id: 'mobile-security-checklist',
+            title: 'Mobile Security Checklist',
+            icon: '✅',
+            description: 'Complete checklist for securing mobile devices. Covers BYOD, MDM, app security, and device management.',
+            category: 'checklists',
+            type: 'pdf',
+            size: '1.6 MB',
+            premium: false
+        }, {
+            id: 'zero-trust-guide',
+            title: 'Zero Trust Implementation Guide',
+            icon: '🏛️',
+            description: 'Practical guide to implementing Zero Trust architecture. Covers micro-segmentation, continuous verification, and policy enforcement.',
+            category: 'guides',
+            type: 'pdf',
+            size: '5.1 MB',
+            premium: true
+        }, {
+            id: 'incident-response-cheatsheet',
+            title: 'Incident Response Cheat Sheet',
+            icon: '🚨',
+            description: 'Quick reference for incident response. Includes step-by-step actions, communication templates, and containment strategies.',
+            category: 'cheatsheets',
+            type: 'pdf',
+            size: '1.2 MB',
+            premium: false
+        }, {
+            id: 'cloud-forensics-checklist',
+            title: 'Cloud Forensics Checklist',
+            icon: '☁️🔍',
+            description: 'Checklist for conducting forensic investigations in cloud environments. Covers evidence collection, chain of custody, and provider cooperation.',
+            category: 'checklists',
+            type: 'pdf',
+            size: '2.3 MB',
+            premium: true
+        }];
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let currentFilter = 'all';
+        let searchQuery = '';
+
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const grid = document.getElementById('resourcesGrid');
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+        const searchBtn = document.getElementById('searchBtn');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const visibleCount = document.getElementById('visibleCount');
+        const totalCount = document.getElementById('totalCount');
+
+        // Category counts
+        const countEls = {
+            all: document.getElementById('allCount'),
+            guides: document.getElementById('guidesCount'),
+            cheatsheets: document.getElementById('cheatsheetsCount'),
+            templates: document.getElementById('templatesCount'),
+            checklists: document.getElementById('checklistsCount')
+        };
+
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function showToast(message, type = 'success', duration = 3500) {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
+
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'} ${message}</span>
+                <button class="toast-close" aria-label="Close notification">&times;</button>
+            `;
+            document.body.appendChild(toast);
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => toast.remove());
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        function getCategoryLabel(cat) {
+            const map = {
+                guides: 'Guide',
+                cheatsheets: 'Cheat Sheet',
+                templates: 'Template',
+                checklists: 'Checklist'
+            };
+            return map[cat] || cat;
+        }
+
+        function getTypeBadgeClass(type) {
+            return type;
+        }
+
+        // ============================================================
+        // UPDATE CATEGORY COUNTS
+        // ============================================================
+        function updateCategoryCounts() {
+            const counts = { all: RESOURCES.length, guides: 0, cheatsheets: 0, templates: 0, checklists: 0 };
+            RESOURCES.forEach(r => {
+                if (counts[r.category] !== undefined) counts[r.category]++;
+            });
+            Object.keys(countEls).forEach(key => {
+                if (countEls[key]) {
+                    countEls[key].textContent = counts[key] || 0;
+                }
+            });
+        }
+
+        // ============================================================
+        // FILTER & SEARCH
+        // ============================================================
+        function getFilteredResources() {
+            let filtered = RESOURCES.filter(r => {
+                const matchesSearch = searchQuery === '' ||
+                    r.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    r.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    getCategoryLabel(r.category).toLowerCase().includes(searchQuery.toLowerCase());
+                const matchesFilter = currentFilter === 'all' || r.category === currentFilter;
+                return matchesSearch && matchesFilter;
+            });
+            return filtered;
+        }
+
+        // ============================================================
+        // RENDER RESOURCES
+        // ============================================================
+        function renderResources() {
+            const filtered = getFilteredResources();
+            visibleCount.textContent = filtered.length;
+            totalCount.textContent = RESOURCES.length;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">🔍</div>
+                        <h3>No resources found</h3>
+                        <p>Try adjusting your search terms or filters. We have a growing library of cybersecurity resources.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = '';
+            filtered.forEach(resource => {
+                const card = document.createElement('div');
+                card.className = 'resource-card';
+
+                const premiumBadge = resource.premium ? '<span class="premium-badge">⭐ Premium</span>' : '';
+
+                const downloadBtn = resource.premium ?
+                    `<button class="btn-download premium" disabled>🔒 Premium</button>` :
+                    `<button class="btn-download" onclick="downloadResource('${resource.id}')">📥 Download</button>`;
+
+                const cardHtml = `
+                    ${premiumBadge}
+                    <div class="card-top">
+                        <span class="resource-icon">${resource.icon}</span>
+                        <span class="type-badge ${getTypeBadgeClass(resource.type)}">${resource.type.toUpperCase()}</span>
+                    </div>
+                    <h3>${resource.title}</h3>
+                    <div class="description">${resource.description}</div>
+                    <div class="meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            ${getCategoryLabel(resource.category)}
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.25 0v3.75m0 0h-3.75m3.75 0-3.75-3.75"/></svg>
+                            ${resource.size}
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v12m-3-3 3 3 3-3"/></svg>
+                            ${resource.premium ? 'Premium' : 'Free'}
+                        </span>
+                    </div>
+                    <div class="action-row">
+                        ${downloadBtn}
+                        <button class="btn-preview" onclick="previewResource('${resource.id}')">👁️ Preview</button>
+                    </div>
+                `;
+
+                card.innerHTML = cardHtml;
+                grid.appendChild(card);
+            });
+        }
+
+        // ============================================================
+        // DOWNLOAD & PREVIEW
+        // ============================================================
+        function downloadResource(id) {
+            const resource = RESOURCES.find(r => r.id === id);
+            if (!resource) {
+                showToast('Resource not found.', 'error');
+                return;
+            }
+            if (resource.premium) {
+                showToast('🔒 This resource requires a Pro subscription. Upgrade to access it.', 'warning');
+                return;
+            }
+            showToast(`📥 Downloading "${resource.title}"...`, 'success');
+            setTimeout(() => {
+                showToast(`✅ "${resource.title}" downloaded successfully!`, 'success');
+            }, 1500);
+        }
+
+        function previewResource(id) {
+            const resource = RESOURCES.find(r => r.id === id);
+            if (!resource) {
+                showToast('Resource not found.', 'error');
+                return;
+            }
+            showToast(`👁️ Preview of "${resource.title}" – opens in new tab (simulated)`, 'info');
+        }
+
+        // ============================================================
+        // FILTER & SEARCH EVENTS
+        // ============================================================
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                renderResources();
+            });
+        });
+
+        searchInput.addEventListener('input', function() {
+            searchQuery = this.value.trim();
+            clearBtn.classList.toggle('visible', this.value.length > 0);
+            renderResources();
+        });
+
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            searchQuery = '';
+            this.classList.remove('visible');
+            renderResources();
+            searchInput.focus();
+        });
+
+        searchBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            searchQuery = searchInput.value.trim();
+            renderResources();
+        });
+
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchQuery = this.value.trim();
+                renderResources();
+            }
+        });
+
+        // ============================================================
+        // HEADER SCROLL & MOBILE MENU
+        // ============================================================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('show');
+            this.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('show');
+                document.getElementById('menuToggle').classList.remove('active');
+            });
+        });
+
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+                searchInput.select();
+            }
+            if (e.key === 'Escape' && document.activeElement === searchInput) {
+                searchInput.blur();
+                clearBtn.click();
+            }
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        function init() {
+            // Check login
+            fetch('/api/user-info')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.success) {
+                        showToast('Please log in to access resources.', 'warning', 5000);
+                        setTimeout(() => { window.location.href = '/login'; }, 3000);
+                    }
+                })
+                .catch(() => {});
+
+            updateCategoryCounts();
+            renderResources();
+            console.log('📚 Resources page loaded.');
+        }
+
+        init();
+    </script>
+
 </body>
 </html>

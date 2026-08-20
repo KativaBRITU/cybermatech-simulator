@@ -3,66 +3,1889 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cybermatech — Cybersecurity Training</title>
-    <link rel="stylesheet" href="/css/theme.css">
+    <title>Tribams – Cybersecurity Training for Africa</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Tribams helps people and teams build practical cybersecurity skills through structured modules, drills, and verifiable certificates.">
+    <meta name="keywords" content="cybersecurity, training, Africa, phishing, malware, network, cloud, IoT, ethical hacking, certificates">
+    <meta name="author" content="Tribams">
+    <meta property="og:title" content="TRIBAMS – Cybersecurity Training">
+    <meta property="og:description" content="Learn how Tribams operates and how joining helps you build real cyber readiness.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tribams.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+           /* ============================================================
+                   TRIBAMS - HORIZONTAL SCROLLING TEXT WITH FADE EFFECT
+                   ============================================================ */
+                
+                .cyber-scroll {
+                    width: 100%;
+                    overflow: hidden;
+                    background: linear-gradient(90deg, #1a0f0a 0%, #2c1810 50%, #1a0f0a 100%);
+                    padding: 16px 0;
+                    position: relative;
+                    border-top: 1px solid rgba(45, 212, 191, 0.35);
+                    border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+                    margin: 0;
+                }
+        
+                .cyber-scroll::before,
+                .cyber-scroll::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    width: 120px;
+                    height: 100%;
+                    z-index: 2;
+                    pointer-events: none;
+                }
+        
+                .cyber-scroll::before {
+                    left: 0;
+                    background: linear-gradient(90deg, #1a0f0a, transparent);
+                }
+        
+                .cyber-scroll::after {
+                    right: 0;
+                    background: linear-gradient(270deg, #1a0f0a, transparent);
+                }
+        
+                .cyber-scroll-track {
+                    display: flex;
+                    animation: cyberScroll 25s linear infinite;
+                    white-space: nowrap;
+                }
+        
+                .cyber-scroll-track:hover {
+                    animation-play-state: paused;
+                }
+        
+                .cyber-scroll-item {
+                    flex: 0 0 auto;
+                    margin: 0 16px;
+                    color: #f1f5f9;
+                    font-size: 0.95rem;
+                    font-weight: 600;
+                    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+                    padding: 6px 16px;
+                    border-radius: 8px;
+                    background: rgba(45, 212, 191, 0.08);
+                    border: 1px solid rgba(45, 212, 191, 0.28);
+                    opacity: 0.95;
+                    transition: all 0.3s ease;
+                }
+        
+                .cyber-scroll-item:hover {
+                    transform: scale(1.04);
+                    background: rgba(45, 212, 191, 0.16);
+                    border-color: #2dd4bf;
+                    opacity: 1;
+                    box-shadow: 0 0 24px rgba(45, 212, 191, 0.18);
+                }
+        
+                .cyber-scroll-item .icon {
+                    margin-right: 8px;
+                }
+        
+                /* Different colors for items */
+                .cyber-scroll-item:nth-child(6n+1) { border-color: rgba(0, 212, 255, 0.3); }
+                .cyber-scroll-item:nth-child(6n+2) { border-color: rgba(255, 107, 107, 0.3); }
+                .cyber-scroll-item:nth-child(6n+3) { border-color: rgba(255, 217, 61, 0.3); }
+                .cyber-scroll-item:nth-child(6n+4) { border-color: rgba(107, 203, 119, 0.3); }
+                .cyber-scroll-item:nth-child(6n+5) { border-color: rgba(166, 108, 255, 0.3); }
+                .cyber-scroll-item:nth-child(6n+6) { border-color: rgba(255, 107, 107, 0.3); }
+        
+                @keyframes cyberScroll {
+                    0% {
+                        transform: translateX(0);
+                    }
+                    100% {
+                        transform: translateX(-50%);
+                    }
+                }
+        
+                /* Responsive adjustments */
+                @media (max-width: 768px) {
+                    .cyber-scroll {
+                        padding: 12px 0;
+                    }
+                    
+                    .cyber-scroll-item {
+                        font-size: 0.85rem;
+                        padding: 4px 12px;
+                        margin: 0 12px;
+                    }
+                    
+                    .cyber-scroll::before,
+                    .cyber-scroll::after {
+                        width: 60px;
+                    }
+                }
+        
+                @media (max-width: 480px) {
+                    .cyber-scroll-item {
+                        font-size: 0.75rem;
+                        padding: 3px 8px;
+                        margin: 0 8px;
+                    }
+                }
+        /* ============================================================
+               RESET & BASE
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #1a0f0a;
+            --bg-secondary: #2c1810;
+            --bg-card: rgba(52, 32, 22, 0.92);
+            --border-color: rgba(196, 154, 108, 0.28);
+            --neon-green: #2dd4bf;
+            --neon-blue: #38bdf8;
+            --neon-cyan: #5eead4;
+            --text-primary: #f5ede4;
+            --text-secondary: #d4c4b0;
+            --text-muted: #a8927a;
+            --glass-bg: rgba(44, 28, 20, 0.88);
+            --glass-border: rgba(196, 154, 108, 0.22);
+            --shadow-glow: 0 0 40px rgba(45, 212, 191, 0.1);
+            --radius: 14px;
+            --transition: 0.3s ease;
+            --font-display: 'Syne', system-ui, sans-serif;
+            --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+            --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+            --text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+            --accent-warm: #c49a6c;
+            --surface-warm: #352015;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.65;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Dark brown atmosphere — sits behind content */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+            background:
+                radial-gradient(900px 500px at 12% 18%, rgba(196, 154, 108, 0.1), transparent 55%),
+                radial-gradient(800px 480px at 88% 72%, rgba(45, 212, 191, 0.06), transparent 50%),
+                linear-gradient(180deg, #1a0f0a 0%, #221208 45%, #2c1810 100%);
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.14;
+            background-image:
+                linear-gradient(rgba(196, 154, 108, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(196, 154, 108, 0.06) 1px, transparent 1px);
+            background-size: 56px 56px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+        }
+
+        h1, h2, h3, h4, .hero-brand, .logo {
+            font-family: var(--font-display);
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            text-shadow: var(--text-shadow);
+        }
+
+        p, .faq-answer, .feature-card p, .blog-card p, .testimonial-card .quote {
+            color: var(--text-secondary);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ============================================================
+               HEADER & NAVIGATION
+               ============================================================ */
+        header {
+            background: rgba(26, 15, 10, 0.92);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(26, 15, 10, 0.97);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(125deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo-icon {
+            font-size: 1.8rem;
+            -webkit-text-fill-color: initial;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            position: relative;
+            padding: 0.3rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-green);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .nav-links a.active {
+            color: var(--neon-green);
+        }
+
+        .btn-nav {
+            padding: 0.4rem 1.2rem;
+            background: var(--neon-green);
+            color: #1a0f0a !important;
+            border-radius: 30px;
+            font-weight: 600;
+            -webkit-text-fill-color: initial;
+            transition: var(--transition);
+        }
+
+        .btn-nav:hover {
+            background: var(--neon-cyan);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(45, 212, 191, 0.28);
+            color: #1a0f0a !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ============================================================
+               HERO SECTION — full-bleed ops floor
+               ============================================================ */
+        .hero {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: flex-end;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            background: #1a0f0a;
+        }
+
+        .hero-stage {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(900px 520px at 78% 35%, rgba(56, 189, 248, 0.12), transparent 55%),
+                radial-gradient(700px 420px at 18% 70%, rgba(45, 212, 191, 0.1), transparent 50%),
+                radial-gradient(600px 400px at 50% 50%, rgba(196, 154, 108, 0.08), transparent 60%),
+                linear-gradient(180deg, #1a0f0a 0%, #2c1810 45%, #1a0f0a 100%);
+        }
+
+        .hero-stage .grid-floor {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(56, 189, 248, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.07) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(ellipse at 60% 40%, black 20%, transparent 72%);
+            animation: gridDrift 28s linear infinite;
+            opacity: 0.55;
+        }
+
+        @keyframes gridDrift {
+            from { background-position: 0 0, 0 0; }
+            to { background-position: 48px 48px, 48px 48px; }
+        }
+
+        .hero-stage svg.tech-scene {
+            position: absolute;
+            right: -2%;
+            top: 8%;
+            width: min(62vw, 820px);
+            height: auto;
+            opacity: 0.82;
+            filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.45));
+        }
+
+        .hero-stage::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(26, 15, 10, 0.88) 0%, rgba(26, 15, 10, 0.35) 48%, transparent 72%);
+            pointer-events: none;
+        }
+
+        .hero-stage .scanline {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(45, 212, 191, 0.55), transparent);
+            animation: scanSweep 7s ease-in-out infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes scanSweep {
+            0%, 100% { top: 18%; opacity: 0.15; }
+            50% { top: 72%; opacity: 0.55; }
+        }
+
+        .hero-stage .float-chip {
+            position: absolute;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.04em;
+            color: #a5f3fc;
+            border: 1px solid rgba(103, 232, 249, 0.35);
+            background: rgba(44, 28, 20, 0.82);
+            padding: 0.35rem 0.65rem;
+            border-radius: 6px;
+            backdrop-filter: blur(6px);
+            animation: chipFloat 6s ease-in-out infinite;
+        }
+        .hero-stage .float-chip.c1 { top: 18%; left: 48%; animation-delay: 0s; }
+        .hero-stage .float-chip.c2 { top: 42%; left: 66%; animation-delay: 1.2s; }
+        .hero-stage .float-chip.c3 { top: 28%; left: 80%; animation-delay: 2.1s; }
+        .hero-stage .float-chip.c4 { top: 62%; left: 54%; animation-delay: 0.7s; }
+        .hero-stage .float-chip.c5 { top: 55%; left: 76%; animation-delay: 1.8s; }
+
+        @keyframes chipFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding-top: 7rem;
+            padding-bottom: 3.5rem;
+            display: block;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 640px;
+            padding: 1.6rem 1.5rem 1.6rem 0;
+            background: linear-gradient(90deg, rgba(26, 15, 10, 0.88) 0%, rgba(26, 15, 10, 0.55) 70%, transparent 100%);
+            border-radius: 4px;
+        }
+
+        .hero-brand {
+            font-family: var(--font-display);
+            font-size: clamp(2.6rem, 7vw, 4.4rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: #ffffff;
+            margin-bottom: 0.85rem;
+            line-height: 1;
+            text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85), 0 0 40px rgba(45, 212, 191, 0.2);
+        }
+        .hero-brand span {
+            color: var(--neon-green);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-family: var(--font-mono);
+            background: rgba(44, 28, 20, 0.92);
+            color: #5eead4;
+            padding: 0.4rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.74rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 1.1rem;
+            border: 1px solid rgba(45, 212, 191, 0.45);
+        }
+
+        .hero-title {
+            font-size: clamp(1.55rem, 3.2vw, 2.15rem);
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            color: #f1f5f9;
+            max-width: 20ch;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-description {
+            font-size: 1.08rem;
+            color: #e2e8f0;
+            max-width: 40ch;
+            margin-bottom: 1.75rem;
+            line-height: 1.7;
+            font-weight: 500;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.75);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 0.85rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2dd4bf, #0ea5e9);
+            color: #041018;
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(45, 212, 191, 0.35);
+        }
+
+        .btn-secondary {
+            background: rgba(44, 28, 20, 0.85);
+            border: 1px solid rgba(125, 211, 252, 0.45);
+            color: #f1f5f9;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(61, 37, 24, 0.95);
+            border-color: var(--neon-green);
+            color: #ffffff;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 255, 136, 0.08);
+            transform: translateY(-3px);
+        }
+
+        .hero-stats {
+            display: none;
+        }
+
+        .hero-visual { display: none; }
+
+        .node-pulse {
+            animation: nodePulse 2.8s ease-in-out infinite;
+        }
+        .node-pulse.d2 { animation-delay: 0.6s; }
+        .node-pulse.d3 { animation-delay: 1.2s; }
+        @keyframes nodePulse {
+            0%, 100% { opacity: 0.45; }
+            50% { opacity: 1; }
+        }
+        .rack-glow {
+            animation: rackGlow 4.5s ease-in-out infinite;
+        }
+        @keyframes rackGlow {
+            0%, 100% { opacity: 0.55; }
+            50% { opacity: 1; }
+        }
+
+        
+        /* ============================================================
+               TRUST BAR
+               ============================================================ */
+        .trust-bar {
+            padding: 1.35rem 0;
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(26, 15, 10, 0.96);
+        }
+
+        .trust-bar .container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            letter-spacing: 0.02em;
+        }
+
+        .trust-item .icon {
+            font-size: 1.15rem;
+        }
+
+        /* ============================================================
+               FEATURES SECTION
+               ============================================================ */
+        .features-section {
+            padding: 4.5rem 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            margin-bottom: 0.55rem;
+            color: var(--text-primary);
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 620px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.4rem;
+            padding: 1rem 0 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(165deg, rgba(61, 37, 24, 0.95), rgba(26, 15, 10, 0.98));
+            border: 1px solid rgba(196, 154, 108, 0.25);
+            border-radius: var(--radius);
+            padding: 1.55rem 1.35rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            opacity: 0.85;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(45, 212, 191, 0.55);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .feature-card .icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.55rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.4rem;
+            color: #f8fafc;
+        }
+
+        .feature-card p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        .feature-card .tag {
+            display: inline-block;
+            margin-top: 0.85rem;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: #5eead4;
+            border: 1px solid rgba(45, 212, 191, 0.35);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            letter-spacing: 0.04em;
+        }
+
+        /* ============================================================
+               ROBOT / SYSTEMS DECK
+               ============================================================ */
+        .systems-deck {
+            padding: 3.5rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            background:
+                radial-gradient(700px 320px at 70% 40%, rgba(45, 212, 191, 0.08), transparent 60%),
+                rgba(26, 15, 10, 0.96);
+        }
+
+        .systems-deck .deck-layout {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .systems-deck .deck-copy h2 {
+            font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+            margin-bottom: 0.75rem;
+            color: #ffffff;
+        }
+
+        .systems-deck .deck-copy p {
+            color: #e2e8f0;
+            font-size: 1.05rem;
+            max-width: 42ch;
+            margin-bottom: 1.25rem;
+        }
+
+        .systems-deck .deck-list {
+            list-style: none;
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .systems-deck .deck-list li {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.55rem 0.75rem;
+            background: rgba(44, 28, 20, 0.85);
+            border: 1px solid rgba(196, 154, 108, 0.22);
+            border-radius: 8px;
+        }
+
+        .systems-deck .deck-list li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--neon-green);
+            box-shadow: 0 0 10px rgba(45, 212, 191, 0.8);
+            flex-shrink: 0;
+        }
+
+        .systems-art {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45));
+        }
+
+        @media (max-width: 900px) {
+            .systems-deck .deck-layout {
+                grid-template-columns: 1fr;
+            }
+            .systems-art { max-width: 520px; margin: 0 auto; display: block; }
+        }
+
+        /* ============================================================
+               STATS COUNTER SECTION
+               ============================================================ */
+        .stats-section {
+            padding: 4rem 0;
+            background:
+                linear-gradient(180deg, rgba(44, 28, 20, 0.98), rgba(26, 15, 10, 0.98));
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            text-align: center;
+        }
+
+        .stats-grid .stat-item {
+            background: rgba(52, 32, 22, 0.9);
+            border: 1px solid rgba(45, 212, 191, 0.25);
+            border-radius: 12px;
+            padding: 1.4rem 1rem;
+        }
+
+        .stats-grid .stat-item .number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            font-family: var(--font-display);
+            color: #5eead4;
+            display: block;
+            text-shadow: 0 0 24px rgba(45, 212, 191, 0.35);
+        }
+
+        .stats-grid .stat-item .label {
+            font-size: 0.92rem;
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        /* ============================================================
+               TESTIMONIALS
+               ============================================================ */
+        .testimonials {
+            padding: 4.5rem 0;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.4rem;
+        }
+
+        .testimonial-card {
+            background: linear-gradient(165deg, rgba(61, 37, 24, 0.95), rgba(26, 15, 10, 0.98));
+            border: 1px solid rgba(196, 154, 108, 0.25);
+            border-radius: var(--radius);
+            padding: 1.6rem;
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--neon-green);
+        }
+
+        .testimonial-card .quote {
+            font-style: italic;
+            color: #e2e8f0;
+            font-size: 1rem;
+            margin-bottom: 1.1rem;
+            line-height: 1.65;
+        }
+
+        .testimonial-card .author {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .testimonial-card .author .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #041018;
+        }
+
+        .testimonial-card .author .info .name {
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .testimonial-card .author .info .role {
+            font-size: 0.82rem;
+            color: #94a3b8;
+        }
+
+        /* ============================================================
+               BLOG / NEWS
+               ============================================================ */
+        .blog-section {
+            padding: 4.5rem 0;
+            background: var(--surface-warm);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.4rem;
+        }
+
+        .blog-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.45rem;
+            transition: var(--transition);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--neon-green);
+        }
+
+        .blog-card .category {
+            display: inline-block;
+            background: rgba(45, 212, 191, 0.12);
+            color: var(--neon-green);
+            font-size: 0.72rem;
+            font-family: var(--font-mono);
+            padding: 0.2rem 0.65rem;
+            border-radius: 6px;
+            margin-bottom: 0.65rem;
+            border: 1px solid rgba(45, 212, 191, 0.28);
+        }
+
+        .blog-card h4 {
+            font-size: 1.12rem;
+            margin-bottom: 0.4rem;
+            color: var(--text-primary);
+        }
+
+        .blog-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .blog-card .date {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            margin-top: 0.65rem;
+            font-family: var(--font-mono);
+        }
+
+        /* ============================================================
+               FAQ SECTION
+               ============================================================ */
+        .faq-section {
+            padding: 4.5rem 1.25rem;
+            background:
+                radial-gradient(600px 280px at 50% 0%, rgba(45, 212, 191, 0.08), transparent 60%),
+                var(--bg-primary);
+        }
+
+        .faq-section .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+            font-family: var(--font-display);
+        }
+
+        .faq-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 2.25rem;
+            font-size: 1.05rem;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color var(--transition), background var(--transition);
+            padding: 0;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(45, 212, 191, 0.4);
+            background: var(--surface-warm);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.1rem 1.4rem;
+            cursor: pointer;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: color var(--transition), background var(--transition);
+            user-select: none;
+            width: 100%;
+            background: transparent;
+            border: none;
+            text-align: left;
+            font-family: inherit;
+        }
+
+        .faq-question:hover {
+            color: var(--neon-cyan);
+            background: rgba(45, 212, 191, 0.05);
+        }
+
+        .faq-question .faq-icon {
+            font-size: 1.4rem;
+            color: var(--neon-green);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 1rem;
+            font-family: var(--font-mono);
+            line-height: 1;
+        }
+
+        .faq-question.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            padding: 0 1.4rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .faq-answer.show {
+            max-height: 500px;
+            padding: 0 1.4rem 1.15rem 1.4rem;
+        }
+
+        .faq-answer p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* ============================================================
+               CTA SECTION
+               ============================================================ */
+        .cta-section {
+            padding: 4.5rem 0;
+            text-align: center;
+            background:
+                radial-gradient(600px 260px at 50% 50%, rgba(45, 212, 191, 0.1), transparent 65%),
+                rgba(26, 15, 10, 0.98);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .cta-box {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            border: 1px solid rgba(45, 212, 191, 0.45);
+            border-radius: 18px;
+            background: linear-gradient(165deg, rgba(61, 37, 24, 0.96), rgba(26, 15, 10, 0.98));
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 50px rgba(45, 212, 191, 0.08);
+        }
+
+        .cta-box h2 {
+            font-size: clamp(1.7rem, 3.5vw, 2.2rem);
+            margin-bottom: 0.65rem;
+            color: #ffffff;
+        }
+        .cta-box p {
+            color: #e2e8f0;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .cta-box .btn {
+            font-size: 1.1rem;
+            padding: 0.8rem 2.5rem;
+        }
+
+        /* ============================================================
+               FOOTER
+               ============================================================ */
+        footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 0 1.5rem;
+            margin-top: 0;
+            background: #120a06;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-col h4 {
+            color: #5eead4;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #cbd5e1;
+            font-size: 0.92rem;
+            padding: 0.25rem 0;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .footer-col a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 1.5rem;
+            color: #94a3b8;
+            font-size: 0.88rem;
+        }
+
+        /* ============================================================
+               RESPONSIVE
+               ============================================================ */
+        @media (max-width: 1024px) {
+            .hero {
+                align-items: flex-end;
+                text-align: left;
+            }
+            .hero-stage svg.tech-scene {
+                width: min(78vw, 640px);
+                top: 4%;
+                right: -8%;
+                opacity: 0.72;
+            }
+            .hero-stage .float-chip.c3 { display: none; }
+            .hero-content {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.2rem;
+            }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                position: absolute;
+                top: 60px;
+                right: 1rem;
+                min-width: 200px;
+                border: 1px solid var(--border-color);
+                border-radius: 12px;
+                padding: 1rem;
+                gap: 1rem;
+                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+            .hero .container {
+                padding-top: 5.5rem;
+                padding-bottom: 2.5rem;
+            }
+            .hero-stage svg.tech-scene {
+                width: 110%;
+                right: -20%;
+                top: auto;
+                bottom: 28%;
+                opacity: 0.4;
+            }
+            .hero-stage .float-chip {
+                font-size: 0.6rem;
+            }
+            .hero-stage .float-chip.c2 { left: 58%; top: 58%; }
+            .hero-title {
+                max-width: none;
+            }
+            .hero-actions {
+                justify-content: flex-start;
+            }
+            .faq-section h2 { font-size: 1.7rem; }
+            .faq-question { font-size: 1rem; padding: 0.9rem 1.1rem; }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .cta-box {
+                padding: 2rem 1.5rem;
+            }
+            .cta-box h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-stage .float-chip.c1,
+            .hero-stage .float-chip.c2 { display: none; }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .trust-bar .container {
+                justify-content: center;
+            }
+            .faq-section { padding: 2.5rem 0.75rem; }
+            .faq-question { font-size: 0.92rem; padding: 0.8rem 1rem; }
+        }
+    </style>
 </head>
 <body>
-    <header class="site-header fixed">
-        <nav class="site-nav">
-            <a class="logo" href="/" data-brand-name>Cybermatech</a>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="#features">What you practice</a></li>
-                <li data-auth="member"><a href="/resources">Resources</a></li>
-                <li data-auth="member"><a href="/dashboard">Dashboard</a></li>
-                <li data-auth="member"><a href="/logout" class="logout">Logout</a></li>
-                <li data-auth="guest"><a href="/login">Login</a></li>
-                <li data-auth="guest"><a href="/register">Register</a></li>
-            </ul>
-        </nav>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <span class="logo-icon">🛡️</span> Tribams
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/" class="active">Home</a></li>
+                    <li><a href="#how">How we operate</a></li>
+                    <li><a href="#benefits">Benefits</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/login">Sign In</a></li>
+                    <li><a href="/register" class="btn-nav">Join Tribams</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
     </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <p class="brand-hero" data-brand-name>Cybermatech</p>
-            <h1>Train defenders for real African cyber ops</h1>
-            <p>Hands-on modules that build judgment under pressure — phishing, malware, and network defense in one clear path.</p>
-            <div class="hero-actions">
-                <a href="/register" class="cta-button" data-auth="guest">Create free account</a>
-                <a href="/login" class="cta-button secondary" data-auth="guest">Sign in</a>
-                <a href="/dashboard" class="cta-button" data-auth="member">Open dashboard</a>
-                <a href="/resources" class="cta-button secondary" data-auth="member">Member resources</a>
+    <!-- ============================================================
+    HERO SECTION — guest marketing only
+    ============================================================ -->
+    <section class="hero" id="home">
+        <div class="hero-stage" aria-hidden="true">
+            <div class="grid-floor"></div>
+            <div class="scanline"></div>
+            <span class="float-chip c1">TRAINING</span>
+            <span class="float-chip c2">DRILLS</span>
+            <span class="float-chip c3">CERTIFICATES</span>
+            <span class="float-chip c4">TEAMS</span>
+            <span class="float-chip c5">READINESS</span>
+            <svg class="tech-scene" viewBox="0 0 820 620" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="520" cy="540" rx="260" ry="28" fill="#020617" opacity="0.55"/>
+                <g>
+                    <rect x="90" y="310" width="120" height="42" rx="5" fill="#0f172a" stroke="#475569" stroke-width="1.5"/>
+                    <circle cx="108" cy="331" r="4" fill="#22c55e" class="node-pulse"/>
+                    <circle cx="124" cy="331" r="4" fill="#22c55e" class="node-pulse d2"/>
+                    <circle cx="140" cy="331" r="4" fill="#f59e0b" class="node-pulse d3"/>
+                    <circle cx="156" cy="331" r="4" fill="#38bdf8" class="node-pulse"/>
+                    <text x="90" y="300" fill="#64748b" font-size="10" font-family="IBM Plex Mono, monospace">SECURE LAB</text>
+                </g>
+                <g class="rack-glow">
+                    <rect x="520" y="120" width="88" height="340" rx="8" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+                    <rect x="532" y="140" width="64" height="10" rx="2" fill="#14b8a6" opacity="0.85"/>
+                    <rect x="532" y="162" width="64" height="10" rx="2" fill="#0ea5e9" opacity="0.7"/>
+                    <rect x="532" y="184" width="64" height="10" rx="2" fill="#14b8a6" opacity="0.55"/>
+                    <rect x="532" y="206" width="64" height="10" rx="2" fill="#64748b" opacity="0.5"/>
+                    <rect x="532" y="228" width="64" height="10" rx="2" fill="#14b8a6" opacity="0.75"/>
+                    <circle cx="544" cy="430" r="4" fill="#22c55e" class="node-pulse"/>
+                    <circle cx="562" cy="430" r="4" fill="#38bdf8" class="node-pulse d2"/>
+                    <rect x="630" y="150" width="88" height="310" rx="8" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+                    <rect x="642" y="170" width="64" height="10" rx="2" fill="#0ea5e9" opacity="0.8"/>
+                    <rect x="642" y="192" width="64" height="10" rx="2" fill="#14b8a6" opacity="0.65"/>
+                    <text x="528" y="105" fill="#64748b" font-size="10" font-family="IBM Plex Mono, monospace">LEARNING HALL</text>
+                </g>
+                <g>
+                    <rect x="248" y="230" width="168" height="118" rx="8" fill="#0b1220" stroke="#475569" stroke-width="2"/>
+                    <rect x="258" y="240" width="148" height="88" rx="3" fill="#020617"/>
+                    <rect x="270" y="254" width="70" height="4" rx="1" fill="#2dd4bf" opacity="0.9"/>
+                    <rect x="270" y="266" width="110" height="4" rx="1" fill="#38bdf8" opacity="0.55"/>
+                    <rect x="270" y="278" width="95" height="4" rx="1" fill="#94a3b8" opacity="0.4"/>
+                    <rect x="270" y="290" width="120" height="4" rx="1" fill="#2dd4bf" opacity="0.5"/>
+                    <text x="298" y="400" fill="#64748b" font-size="9" font-family="IBM Plex Mono, monospace">LEARNER</text>
+                </g>
+            </svg>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">Closed beta · Practical cybersecurity training · Built for Africa</div>
+                <div class="hero-brand">TRIBAMS</div>
+                <h1 class="hero-title">Build cyber skills that hold up under pressure</h1>
+                <p class="hero-description">
+                    Tribams is in closed beta. Guests can learn how we operate — full modules, labs, and progress tools unlock after you register or sign in with issued beta credentials.
+                </p>
+                <div class="hero-actions">
+                    <a href="/register" class="btn btn-primary">Create a free account →</a>
+                    <a href="#how" class="btn btn-secondary">See how we operate</a>
+                </div>
+            </div>
+        </div>
+    </section>
+<div class="cyber-scroll">
+    <div class="cyber-scroll-track">
+        <span class="cyber-scroll-item">
+            <span class="icon">🔒</span> Structured Modules
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">🎯</span> Hands-On Practice
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">📚</span> Clear Learning Paths
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">🏆</span> Earn Certificates
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">🔐</span> Team Readiness
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">🛡️</span> Threat Awareness
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">📊</span> Progress Tracking
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">🎓</span> Expert Training
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">💡</span> Daily Scenarios
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">🚀</span> Build Africa's Cyber Resilience
+        </span>
+        <!-- Duplicate for seamless scrolling -->
+        <span class="cyber-scroll-item">
+            <span class="icon">🔒</span> Structured Modules
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">🎯</span> Hands-On Practice
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">📚</span> Clear Learning Paths
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">🏆</span> Earn Certificates
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">🔐</span> Team Readiness
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">🛡️</span> Threat Awareness
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">📊</span> Progress Tracking
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">🎓</span> Expert Training
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">💡</span> Daily Scenarios
+        </span>
+        <span class="cyber-scroll-item">
+            <span class="icon">🚀</span> Build Africa's Cyber Resilience
+        </span>
+    </div>
+</div>
+    <!-- ============================================================
+    TRUST BAR
+    ============================================================ -->
+    <section class="trust-bar">
+        <div class="container">
+            <div class="trust-item"><span class="icon">🔒</span> Practical Skills</div>
+            <div class="trust-item"><span class="icon">📈</span> Career-Focused</div>
+            <div class="trust-item"><span class="icon">🏆</span> Certificates</div>
+            <div class="trust-item"><span class="icon">🔥</span> Daily Practice</div>
+            <div class="trust-item"><span class="icon">🌐</span> Broad Coverage</div>
+            <div class="trust-item"><span class="icon">👥</span> Team Ready</div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    HOW WE OPERATE
+    ============================================================ -->
+    <section id="how" class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>How <span style="color:var(--neon-green);">Tribams operates</span></h2>
+                <p>A simple path from registration to measurable readiness — without exposing member-only training assets to guests.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="icon">1️⃣</span>
+                    <h3>Register</h3>
+                    <p>Create an account so your progress, drills, and certificates stay tied to you.</p>
+                    <span class="tag">ACCOUNT</span>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">2️⃣</span>
+                    <h3>Follow a learning path</h3>
+                    <p>Study structured modules covering phishing, malware, networks, cloud, and more.</p>
+                    <span class="tag">MODULES</span>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">3️⃣</span>
+                    <h3>Practice under pressure</h3>
+                    <p>Complete timed drills and hands-on exercises that mirror real decision points.</p>
+                    <span class="tag">DRILLS</span>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">4️⃣</span>
+                    <h3>Prove what you learned</h3>
+                    <p>Earn verifiable certificates employers and partners can check with confidence.</p>
+                    <span class="tag">PROOF</span>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="features" id="features">
-        <h2>What you practice</h2>
-        <p class="section-lead">One skill focus per section — clear drills without the visual noise.</p>
-        <div class="features-grid">
-            <div class="feature-block">
-                <h3>Phishing judgment</h3>
-                <p>Spot urgency theatre, spoofed senders, and payment redirects before money moves.</p>
-            </div>
-            <div class="feature-block">
-                <h3>Malware response</h3>
-                <p>Contain first, preserve evidence, recover from known-good backups — not panic clicks.</p>
-            </div>
-            <div class="feature-block">
-                <h3>Network defense</h3>
-                <p>Segment, verify identity, and shrink blast radius when a host looks wrong.</p>
+    <!-- ============================================================
+    BENEFITS OF JOINING
+    ============================================================ -->
+    <section id="benefits" class="systems-deck" aria-label="Membership benefits">
+        <div class="container">
+            <div class="deck-layout">
+                <div class="deck-copy">
+                    <h2>What you unlock when you join</h2>
+                    <p>Guests see how we work. Members get the full training floor — modules, practice labs, progress tracking, and certificates.</p>
+                    <ul class="deck-list">
+                        <li>Full module catalog after sign-in</li>
+                        <li>Hands-on labs and timed drills</li>
+                        <li>Personal progress and readiness tracking</li>
+                        <li>Certificates you can share with employers</li>
+                    </ul>
+                    <div style="margin-top:1.25rem;">
+                        <a href="/register" class="btn btn-primary">Join Tribams →</a>
+                    </div>
+                </div>
+                <div class="features-grid" style="grid-template-columns:1fr; gap:0.85rem;">
+                    <div class="feature-card">
+                        <h3>Individuals</h3>
+                        <p>Build job-ready cyber skills at your own pace and show proof of completion.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Teams &amp; organisations</h3>
+                        <p>Train staff on common threats and track who is ready for real-world incidents.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Honest access</h3>
+                        <p>Sensitive training content stays behind registration — guests get clear, useful information only.</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <p class="section-lead" style="margin-top:2rem;">
-            <a href="/register" data-auth="guest">Register to unlock modules</a>
-            <a href="/dashboard" data-auth="member">Go to your modules</a>
-        </p>
     </section>
 
-    <footer class="site-footer">
-        <p>&copy; 2026 Cybermatech. Building cyber resilience across Africa.</p>
+    <!-- ============================================================
+    TOPIC OVERVIEW (high-level only)
+    ============================================================ -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Training areas <span style="color:var(--neon-green);">members cover</span></h2>
+                <p>After you join, you train across the threats defenders face every day.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="icon">🎣</span>
+                    <h3>Phishing Detection</h3>
+                    <p>Spot and respond to email and social phishing aimed at people and organisations.</p>
+                    <span class="tag">AWARENESS</span>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🦠</span>
+                    <h3>Malware Awareness</h3>
+                    <p>Understand ransomware and common malware behaviours with practical case studies.</p>
+                    <span class="tag">DEFENCE</span>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🔒</span>
+                    <h3>Network Security</h3>
+                    <p>Learn firewalls, encryption, and zero-trust ideas used in real environments.</p>
+                    <span class="tag">NETWORK</span>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">☁️</span>
+                    <h3>Cloud Security</h3>
+                    <p>Secure cloud accounts, identities, and shared responsibility models.</p>
+                    <span class="tag">CLOUD</span>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🎭</span>
+                    <h3>Social Engineering</h3>
+                    <p>Recognise manipulation tactics before they become a breach.</p>
+                    <span class="tag">HUMAN RISK</span>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🚨</span>
+                    <h3>Incident Response</h3>
+                    <p>Practice calm, structured response when something goes wrong.</p>
+                    <span class="tag">RESPONSE</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    STATS COUNTER SECTION
+    ============================================================ -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid" id="statsCounter">
+                <div class="stat-item">
+                    <span class="number" data-target="95">0</span>
+                    <span class="label">Modules (members)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number" data-target="22">0</span>
+                    <span class="label">Practice labs</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number" data-target="3">0</span>
+                    <span class="label">Free starter modules</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number" data-target="24">0</span>
+                    <span class="label">Hour support window</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    CLOSED BETA (honest — no fabricated testimonials)
+    ============================================================ -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>Closed <span style="color:var(--neon-green);">beta</span></h2>
+                <p>We are inviting early testers — no invented user counts or fabricated reviews.</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="quote">Be among the first testers exploring modules, essays, drills, and Force Readiness before public launch.</div>
+                    <div class="author">
+                        <div class="avatar">β</div>
+                        <div class="info">
+                            <div class="name">Closed beta</div>
+                            <div class="role">Issued credentials only</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="quote">Feedback from real testers shapes the product. We publish what we ship — not staged social proof.</div>
+                    <div class="author">
+                        <div class="avatar">T</div>
+                        <div class="info">
+                            <div class="name">Honest updates</div>
+                            <div class="role">No fake testimonials</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="quote">Built for African teams and learners who need judgment under pressure — not vanity metrics.</div>
+                    <div class="author">
+                        <div class="avatar">A</div>
+                        <div class="info">
+                            <div class="name">Africa-first</div>
+                            <div class="role">Readiness over hype</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    NEWS / UPDATES (guest-safe)
+    ============================================================ -->
+    <section class="blog-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Updates from <span style="color:var(--neon-green);">Tribams</span></h2>
+                <p>High-level platform news — full content stays inside your member account.</p>
+            </div>
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <span class="category">🎓 Training</span>
+                    <h4>New module focus: Digital Forensics</h4>
+                    <p>Members can study how investigators reconstruct incidents after a breach.</p>
+                </div>
+                <div class="blog-card">
+                    <span class="category">🏆 Certification</span>
+                    <h4>Verifiable certificates</h4>
+                    <p>Pass module drills to earn certificates employers can check on Tribams.</p>
+                </div>
+                <div class="blog-card">
+                    <span class="category">🌍 Community</span>
+                    <h4>Built for African teams</h4>
+                    <p>Practical paths for individuals, campuses, and organisations that need ready people.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    FAQ SECTION
+    ============================================================ -->
+  <section class="faq-section" id="faq">
+      <div class="container">
+          <h2>Frequently Asked Questions</h2>
+          <p class="faq-subtitle">Straight answers for guests considering Tribams</p>
+
+          <div class="faq-list" id="faqList">
+              <div class="faq-item">
+                  <button type="button" class="faq-question" aria-expanded="false">
+                      <span>What is TRIBAMS?</span>
+                      <span class="faq-icon" aria-hidden="true">+</span>
+                  </button>
+                  <div class="faq-answer">
+                      <p>TRIBAMS is a cybersecurity training platform (currently in closed beta) with structured modules, practice drills, mandatory research essays, and verifiable certificates — designed to help people and teams build practical readiness.</p>
+                  </div>
+              </div>
+
+              <div class="faq-item">
+                  <button type="button" class="faq-question" aria-expanded="false">
+                      <span>What can guests see without registering?</span>
+                      <span class="faq-icon" aria-hidden="true">+</span>
+                  </button>
+                  <div class="faq-answer">
+                      <p>Guests can learn how we operate, the benefits of joining, and how to contact us. Module catalogs, labs, drills, and progress tools require a free account.</p>
+                  </div>
+              </div>
+
+              <div class="faq-item">
+                  <button type="button" class="faq-question" aria-expanded="false">
+                      <span>Is the training free?</span>
+                      <span class="faq-icon" aria-hidden="true">+</span>
+                  </button>
+                  <div class="faq-answer">
+                      <p>After you register, you can start with free starter modules. Paid plans unlock the full catalog and deeper labs. Exact pricing is shown after sign-in on the payment page.</p>
+                  </div>
+              </div>
+
+              <div class="faq-item">
+                  <button type="button" class="faq-question" aria-expanded="false">
+                      <span>Do I get a certificate?</span>
+                      <span class="faq-icon" aria-hidden="true">+</span>
+                  </button>
+                  <div class="faq-answer">
+                      <p>Yes. Members who pass module drills can earn verifiable TRIBAMS certificates. Employers can check certificate authenticity on our verify page.</p>
+                  </div>
+              </div>
+
+              <div class="faq-item">
+                  <button type="button" class="faq-question" aria-expanded="false">
+                      <span>How do I contact Tribams?</span>
+                      <span class="faq-icon" aria-hidden="true">+</span>
+                  </button>
+                  <div class="faq-answer">
+                      <p>Use the <a href="/contact">Contact</a> page for enquiries, partnerships, and support. That is the right place for reach-us details — not the homepage marketing sections.</p>
+                  </div>
+              </div>
+
+              <div class="faq-item">
+                  <button type="button" class="faq-question" aria-expanded="false">
+                      <span>What topics are covered?</span>
+                      <span class="faq-icon" aria-hidden="true">+</span>
+                  </button>
+                  <div class="faq-answer">
+                      <p>Members train across phishing, malware, network and cloud security, social engineering, incident response, and related defence topics. The full catalog opens after you sign in.</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+    <!-- ============================================================
+    CTA SECTION
+    ============================================================ -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box">
+                <h2>Ready to <span style="color:var(--neon-green);">join Tribams</span>?</h2>
+                <p>Create a free account to unlock training. Questions? Visit <a href="/contact" style="color:var(--neon-green);">Contact / Support</a>.</p>
+                <a href="/register" class="btn btn-primary">Create your account →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>🛡️ Tribams</h4>
+                    <p style="color:var(--text-secondary); font-size:0.9rem;">Practical cybersecurity training for Africa</p>
+                    <p style="color:var(--text-muted); font-size:0.8rem; margin-top:0.5rem;">Building Africa's Cyber Resilience</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="/">Home</a>
+                    <a href="/about">About</a>
+                    <a href="/contact">Contact / Support</a>
+                    <a href="/verify">Verify Certificate</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Members</h4>
+                    <a href="/login">Sign In</a>
+                    <a href="/register">Create Account</a>
+                    <a href="/dashboard">Dashboard</a>
+                    <a href="#how">How we operate</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <a href="/contact">Contact form</a>
+                    <a href="/privacy">Privacy</a>
+                    <a href="/terms">Terms</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 Tribams. All rights reserved.
+            </div>
+        </div>
     </footer>
-    <script src="/js/auth-nav.js" defer></script>
-    <script src="/js/site-media.js" defer></script>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // MOBILE MENU TOGGLE
+        // ============================================================
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('show');
+            this.classList.toggle('active');
+        });
+
+        // Close menu on link click (mobile)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('show');
+                menuToggle.classList.remove('active');
+            });
+        });
+
+        // ============================================================
+        // SCROLL HEADER EFFECT
+        // ============================================================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // ============================================================
+        // SMOOTH SCROLL FOR ANCHOR LINKS
+        // ============================================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ============================================================
+        // COUNTER ANIMATION (Intersection Observer)
+        // ============================================================
+        const counters = document.querySelectorAll('.stats-grid .stat-item .number');
+        const speed = 150;
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = parseInt(entry.target.getAttribute('data-target'));
+                    const increment = Math.ceil(target / speed);
+                    let current = 0;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        entry.target.textContent = current;
+                    }, 20);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(counter => counterObserver.observe(counter));
+
+        // ============================================================
+        // FAQ — single accordion (event delegation)
+        // ============================================================
+        (function initFAQ() {
+            const list = document.getElementById('faqList');
+            if (!list) return;
+
+            function closeAll(exceptBtn) {
+                list.querySelectorAll('.faq-question').forEach(btn => {
+                    if (btn === exceptBtn) return;
+                    btn.classList.remove('active');
+                    btn.setAttribute('aria-expanded', 'false');
+                    const ans = btn.nextElementSibling;
+                    if (ans && ans.classList.contains('faq-answer')) {
+                        ans.classList.remove('show');
+                        ans.style.maxHeight = '0';
+                        ans.style.padding = '0 24px';
+                    }
+                });
+            }
+
+            list.addEventListener('click', function(e) {
+                const btn = e.target.closest('.faq-question');
+                if (!btn || !list.contains(btn)) return;
+                const answer = btn.nextElementSibling;
+                if (!answer || !answer.classList.contains('faq-answer')) return;
+
+                const willOpen = !btn.classList.contains('active');
+                closeAll(willOpen ? btn : null);
+
+                if (willOpen) {
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-expanded', 'true');
+                    answer.classList.add('show');
+                    answer.style.padding = '0 24px 16px 24px';
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                } else {
+                    btn.classList.remove('active');
+                    btn.setAttribute('aria-expanded', 'false');
+                    answer.classList.remove('show');
+                    answer.style.maxHeight = '0';
+                    answer.style.padding = '0 24px';
+                }
+            });
+        })();
+
+        console.log('TRIBAMS homepage ready.');
+    </script>
 </body>
 </html>
