@@ -1339,10 +1339,10 @@ app.get('/api/module-questions/:id', async (req, res) => {
         },
         immersion: {
             ...(drill.immersion || {}),
-            integrity: 'Matte K and external AI stay locked during scored drills. Focus changes are logged.'
+            integrity: 'Study assistants stay paused during scored drills. Focus changes are logged for your readiness record.'
         },
         integrity: {
-            pledge: 'I will complete this drill using my own judgment without external AI assistance.',
+            pledge: 'I will complete this drill using my own judgment and the evidence provided.',
             rules: [
                 'Correct answers are scored only on the server',
                 'Tab switches and long absences are recorded',
@@ -1593,8 +1593,8 @@ app.get('/api/matte-k/status', (req, res) => {
         locked,
         available: !locked,
         message: locked
-            ? 'Matte K is locked while a scored drill, scenario, or skill assessment is active.'
-            : 'Matte K online — full project Q&A with typo repair. Never exam answers.'
+            ? 'Study assistants stay paused while a scored drill, scenario, or skill assessment is active.'
+            : 'Matte K online — project Q&A with typo repair. Scored drills stay independent.'
     });
 });
 
@@ -1665,7 +1665,7 @@ app.get('/api/skill-assessment', (req, res) => {
         mode: assessment.mode,
         immersion: {
             ...(assessment.immersion || {}),
-            integrity: 'Matte K is locked for this assessment. External AI assistance and tab switching are integrity risks.'
+            integrity: 'Study assistants stay paused for this assessment. Stay with the evidence on screen.'
         }
     };
     req.session.save((err) => {
@@ -2740,7 +2740,8 @@ app.get('/api/labs/:id', async (req, res) => {
         await loadLearnerLabSeeds();
     }
     const sessionKey = String(req.session.user.id);
-    const pub = labEngine.getLabPublic(req.params.id, sessionKey);
+    const mode = String(req.query.mode || 'practice').toLowerCase() === 'verified' ? 'verified' : 'practice';
+    const pub = labEngine.getLabPublic(req.params.id, sessionKey, { mode });
     if (!pub) return res.status(404).json({ success: false, message: 'Lab not found' });
     const user = await getAccessUser(req);
     const check = accessControl.canAccessModule(pub.module_id, user, ADMIN_EMAILS);
@@ -2760,7 +2761,13 @@ app.post('/api/labs/:id/submit', rateLimiter(20, 15 * 60 * 1000, 'lab-submit'), 
         return res.status(403).json({ success: false, message: check.reason || 'Upgrade required' });
     }
     const sessionKey = String(req.session.user.id);
-    const result = labEngine.scoreLab(req.params.id, req.body?.answers || {}, sessionKey);
+    const mode = String(req.body?.mode || 'practice').toLowerCase() === 'verified' ? 'verified' : 'practice';
+    const result = labEngine.scoreLab(req.params.id, req.body?.answers || {}, sessionKey, {
+        mode,
+        brief: req.body?.brief || '',
+        ceo_update: req.body?.ceo_update || '',
+        telemetry: req.body?.telemetry || {}
+    });
     if (!result) return res.status(400).json({ success: false, message: 'Could not score lab' });
     try {
         await db.runAsync(
@@ -3499,7 +3506,7 @@ app.get('/api/scenario/:moduleId', async (req, res) => {
         const finish = () => res.json({
             scenario,
             day: dayNumber,
-            integrity: 'Matte K is locked during scenarios.'
+            integrity: 'Study assistants stay paused during scenarios. Stay with the evidence on screen.'
         });
         if (req.session && typeof req.session.save === 'function') {
             return req.session.save((err) => {

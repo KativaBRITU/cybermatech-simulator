@@ -273,7 +273,7 @@ ${progressiveMd}
 ## 10. Hands-on Tribams path
 1. Read this guide (beginner foundation${rank !== 'beginner' ? ` + your **${env.label}** unlock layers` : ''})
 2. Complete **Guided Practice** (learn with feedback)
-3. Run the **Timed Live Drill** (judgment under pressure — no external AI)
+3. Run the **Timed Live Drill** (judgment under pressure — evidence on screen)
 4. Attempt today’s **Cyber Range** scenario for this domain
 5. If listed in resources: complete the **Evidence Workbench** lab (artifact-based decisions)
 6. Write one essay as if submitting to a SOC lead / risk committee

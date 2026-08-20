@@ -551,7 +551,7 @@ const CATEGORY_QUESTIONS = {
             question: 'During a scored Tribams drill, a teammate whispers “just paste the question into ChatGPT.” What is the professional response?',
             options: [
                 'Do it — AI accuracy equals real readiness',
-                'Refuse: the drill measures judgment under pressure; external AI during scored exams undermines force readiness and may invalidate the score',
+                'Refuse: the drill measures judgment under pressure using the evidence provided; stay with the timed exercise',
                 'Only use AI for hard questions',
                 'Screenshot the answer key from the browser console'
             ],
@@ -1386,7 +1386,7 @@ function getModuleBriefing(module) {
         rules_of_engagement: [
             'Timer pressure is intentional — accuracy still beats panic',
             'Live drills score server-side; leaving the tab is logged as integrity risk',
-            'Do not use external AI during scored quizzes — judgment under pressure is the skill',
+            'Complete scored quizzes from the evidence provided — judgment under pressure is the skill',
             'Use Practice to learn; Quiz/Drill for certification pressure'
         ],
         suggested_path: [
