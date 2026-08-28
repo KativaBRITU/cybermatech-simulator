@@ -3,7 +3,12 @@
 // ============================================================
 
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '.env') });
+// override: false (dotenv default) is required so that platform-injected
+// environment variables (e.g. Railway Variables) always win over anything
+// found in a local .env file. Never flip this to true — a stray/incomplete
+// .env committed or created at runtime must not be able to shadow
+// DATABASE_URL, SESSION_SECRET, etc. set on the host.
+require('dotenv').config({ path: path.join(__dirname, '.env'), override: false });
 
 // Windows antivirus often MITMs SMTP TLS ("self-signed certificate in certificate chain").
 // Opt out only when EMAIL_TLS_INSECURE is not explicitly false.

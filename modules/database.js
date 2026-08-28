@@ -159,11 +159,35 @@ function createSqliteDatabase(databaseDir) {
     return api;
 }
 
+function assertValidDatabaseUrl(url) {
+    if (!url) return;
+    let parsed;
+    try {
+        parsed = new URL(url);
+    } catch (_) {
+        throw new Error(
+            `DATABASE_URL is not a valid connection URI (got: "${url}"). Expected a full ` +
+                'postgresql://user:password@host:port/dbname string — check the value in Railway ' +
+                'Variables and make sure no local .env file is overriding it.'
+        );
+    }
+    if (!/^postgres(ql)?:$/i.test(parsed.protocol) || !parsed.hostname || !parsed.hostname.includes('.')) {
+        throw new Error(
+            `DATABASE_URL looks malformed/incomplete (host: "${parsed.hostname || 'missing'}"). ` +
+                'Expected the full Supabase pooler URI, e.g. ' +
+                'postgresql://user:pass@aws-1-eu-west-1.pooler.supabase.com:6543/postgres — ' +
+                'check Railway Variables and ensure no committed/local .env is shadowing it.'
+        );
+    }
+}
+
 function createPostgresDatabase() {
     // Windows / some ISPs hang on IPv6-first lookups to Supabase poolers; prefer IPv4.
     try {
         require('dns').setDefaultResultOrder('ipv4first');
     } catch (_) { /* Node < 17 */ }
+
+    assertValidDatabaseUrl(process.env.DATABASE_URL);
 
     const { Pool } = require('pg');
     const sslServername = process.env.PGSSL_SERVERNAME || '';
