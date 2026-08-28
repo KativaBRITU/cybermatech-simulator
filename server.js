@@ -5039,8 +5039,8 @@ async function startServer() {
         console.log('\n🛑 Gracefully shutting down...');
         server.close(async () => {
             try {
-                await db.close();
-                console.log(`✅ Database disconnected (${db.dialect}).`);
+                if (db) await db.close();
+                console.log(`✅ Database disconnected (${db?.dialect || 'none'}).`);
             } catch (err) {
                 console.error('Error closing database:', err);
             }
