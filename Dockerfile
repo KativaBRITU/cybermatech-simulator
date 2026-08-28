@@ -1,7 +1,7 @@
 # Tribams — production origin image (put Cloudflare DNS/proxy in front).
 # Not for Cloudflare Workers-only; use Containers / any Node host + CF.
 
-FROM node:20-bookworm-slim
+FROM node:22-bookworm-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 make g++ \
