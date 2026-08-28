@@ -314,18 +314,19 @@ function pickNamibiaScenario(category, dayNumber) {
 }
 
 /**
- * Prefer African/Namibia scenarios most days (3 of 4) when available.
- * Locale labels surface in the Cyber Range UI.
+ * Prefer African/Namibia scenarios on odd days, global on even days (50/50).
+ * Local index uses odd-day count so every Africa item still rotates (including 4-item banks).
  */
 function resolveScenarioTemplate(category, dayNumber, fallbackBank) {
-    const preferLocal = dayNumber % 4 !== 0;
+    const preferLocal = Number(dayNumber) % 2 === 1;
     if (preferLocal) {
-        const local = pickNamibiaScenario(category, dayNumber);
+        const localIndexDay = Math.ceil(Number(dayNumber) / 2);
+        const local = pickNamibiaScenario(category, localIndexDay);
         if (local) return { template: local, locale: 'africa' };
     }
     if (fallbackBank && fallbackBank.length) {
         return {
-            template: fallbackBank[(dayNumber - 1) % fallbackBank.length],
+            template: fallbackBank[(Math.max(1, dayNumber) - 1) % fallbackBank.length],
             locale: 'global'
         };
     }

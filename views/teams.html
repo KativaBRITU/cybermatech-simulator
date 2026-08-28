@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Teams – TRIBAMS</title>
+    <meta name="description" content="TRIBAMS for teams: USD seat packs, ATT&amp;CK-mapped drills, account-bound certificates. Request a demo or quote — Namibia-rooted, built for the global village.">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #1a0f0a;
+            --bg-secondary: #2c1810;
+            --bg-card: rgba(52, 32, 22, 0.92);
+            --border-color: rgba(196, 154, 108, 0.28);
+            --neon-green: #2dd4bf;
+            --neon-blue: #38bdf8;
+            --neon-cyan: #5eead4;
+            --text-primary: #f5ede4;
+            --text-secondary: #d4c4b0;
+            --text-muted: #a8927a;
+            --glass-bg: rgba(44, 28, 20, 0.88);
+            --glass-border: rgba(196, 154, 108, 0.22);
+            --shadow-glow: 0 0 40px rgba(45, 212, 191, 0.1);
+            --radius: 14px;
+            --transition: 0.3s ease;
+            --font-display: 'Syne', system-ui, sans-serif;
+            --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+            --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+            --text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+            --surface-warm: #352015;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.65;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+            background:
+                radial-gradient(900px 500px at 12% 18%, rgba(196, 154, 108, 0.1), transparent 55%),
+                radial-gradient(800px 480px at 88% 72%, rgba(45, 212, 191, 0.06), transparent 50%),
+                linear-gradient(180deg, #1a0f0a 0%, #221208 45%, #2c1810 100%);
+        }
+        h1, h2, h3, .logo {
+            font-family: var(--font-display);
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            text-shadow: var(--text-shadow);
+        }
+        a { color: var(--neon-green); text-decoration: none; transition: var(--transition); }
+        a:hover { color: var(--neon-cyan); }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+        header {
+            background: rgba(26, 15, 10, 0.92);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+        }
+        header.scrolled { background: rgba(26, 15, 10, 0.97); box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35); }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo {
+            display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 1.4rem;
+            background: linear-gradient(125deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .logo-icon { font-size: 1.8rem; -webkit-text-fill-color: initial; }
+        .nav-links { display: flex; gap: 1.6rem; list-style: none; align-items: center; }
+        .nav-links a {
+            color: var(--text-secondary); font-size: 0.9rem; font-weight: 600;
+            position: relative; padding: 0.3rem 0;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--neon-green); transition: var(--transition);
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover { color: var(--neon-cyan); }
+        .nav-links a.active { color: var(--neon-green); }
+        .btn-nav {
+            padding: 0.4rem 1.2rem; background: var(--neon-green); color: #1a0f0a !important;
+            border-radius: 30px; font-weight: 600; -webkit-text-fill-color: initial;
+        }
+        .btn-nav:hover { background: var(--neon-cyan); color: #1a0f0a !important; }
+        .menu-toggle {
+            display: none; flex-direction: column; gap: 4px; background: none; border: none; cursor: pointer;
+        }
+        .menu-toggle span { width: 25px; height: 2px; background: var(--text-primary); border-radius: 2px; }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.7rem 1.8rem; border-radius: 50px; font-weight: 600; border: none;
+            cursor: pointer; transition: var(--transition); font-size: 1rem; font-family: inherit;
+        }
+        .btn-primary { background: linear-gradient(135deg, #2dd4bf, #0ea5e9); color: #041018; font-weight: 700; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(45, 212, 191, 0.35); }
+        .btn-secondary {
+            background: rgba(44, 28, 20, 0.85); border: 1px solid rgba(125, 211, 252, 0.45); color: #f1f5f9;
+        }
+        .btn-secondary:hover { border-color: var(--neon-green); color: #fff; }
+        .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+        .hero {
+            padding: 4.5rem 0 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-badge {
+            display: inline-block; font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em;
+            color: var(--neon-cyan); border: 1px solid rgba(45, 212, 191, 0.35); border-radius: 999px;
+            padding: 0.35rem 0.9rem; margin-bottom: 1rem; background: rgba(45, 212, 191, 0.08);
+        }
+        .hero h1 { font-size: clamp(2rem, 4.5vw, 3.2rem); max-width: 18ch; margin-bottom: 0.85rem; }
+        .hero .lead { color: #e2e8f0; max-width: 58ch; font-size: 1.08rem; margin-bottom: 1.6rem; }
+        .hero-actions { display: flex; gap: 0.85rem; flex-wrap: wrap; }
+        .roots-note {
+            margin-top: 1.4rem; font-size: 0.88rem; color: var(--text-muted); max-width: 62ch;
+        }
+
+        .section { padding: 3.5rem 0; }
+        .section-header { text-align: center; margin-bottom: 2rem; }
+        .section-header h2 { font-size: clamp(1.7rem, 3.5vw, 2.4rem); margin-bottom: 0.45rem; }
+        .section-header p { color: var(--text-secondary); max-width: 640px; margin: 0 auto; }
+
+        .features-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.4rem;
+        }
+        .feature-card {
+            background: linear-gradient(165deg, rgba(61, 37, 24, 0.95), rgba(26, 15, 10, 0.98));
+            border: 1px solid rgba(196, 154, 108, 0.25); border-radius: var(--radius);
+            padding: 1.55rem 1.35rem; position: relative; overflow: hidden;
+        }
+        .feature-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+        }
+        .features-grid .feature-card:nth-child(1) {
+            background: linear-gradient(165deg, rgba(13, 48, 46, 0.96), rgba(26, 15, 10, 0.98));
+            border-color: rgba(45, 212, 191, 0.42);
+        }
+        .features-grid .feature-card:nth-child(2) {
+            background: linear-gradient(165deg, rgba(18, 42, 78, 0.96), rgba(26, 15, 10, 0.98));
+            border-color: rgba(56, 189, 248, 0.42);
+        }
+        .features-grid .feature-card:nth-child(3) {
+            background: linear-gradient(165deg, rgba(58, 28, 48, 0.96), rgba(26, 15, 10, 0.98));
+            border-color: rgba(244, 114, 182, 0.38);
+        }
+        .feature-card .icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+        .feature-card h3 { font-size: 1.12rem; margin-bottom: 0.4rem; color: #f8fafc; }
+        .feature-card p { color: #e2e8f0; font-size: 0.95rem; }
+        .feature-card .tag {
+            display: inline-block; margin-top: 0.85rem; font-family: var(--font-mono);
+            font-size: 0.7rem; letter-spacing: 0.08em; color: var(--neon-cyan);
+            border: 1px solid rgba(45, 212, 191, 0.35); border-radius: 999px; padding: 0.15rem 0.55rem;
+        }
+
+        .packs-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem;
+        }
+        .pack-card {
+            background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius);
+            padding: 1.35rem 1.25rem; display: flex; flex-direction: column; gap: 0.45rem;
+        }
+        .pack-card.featured { border-color: rgba(45, 212, 191, 0.55); box-shadow: var(--shadow-glow); }
+        .pack-card h3 { font-size: 1.05rem; }
+        .pack-price { font-family: var(--font-display); font-size: 1.85rem; color: var(--neon-green); }
+        .pack-price span { font-size: 0.85rem; color: var(--text-muted); font-family: var(--font-body); font-weight: 500; }
+        .pack-meta { font-size: 0.88rem; color: var(--text-secondary); }
+        .pack-desc { font-size: 0.88rem; color: var(--text-muted); flex: 1; }
+        .pack-nad { font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono); }
+        .pack-card .btn { margin-top: 0.6rem; justify-content: center; width: 100%; }
+        .fx-note { text-align: center; color: var(--text-muted); font-size: 0.82rem; margin-top: 1.1rem; }
+
+        .split {
+            display: grid; grid-template-columns: 1fr 1.1fr; gap: 1.75rem; align-items: start;
+        }
+        .panel {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius); padding: 1.5rem 1.4rem;
+        }
+        .panel h2 { font-size: 1.35rem; margin-bottom: 0.4rem; }
+        .panel .muted { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.1rem; }
+        label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.3rem; }
+        input, select, textarea {
+            width: 100%; padding: 0.7rem 0.8rem; border-radius: 10px; margin-bottom: 0.85rem;
+            border: 1px solid var(--border-color); background: rgba(26, 15, 10, 0.7);
+            color: var(--text-primary); font: inherit;
+        }
+        textarea { min-height: 120px; resize: vertical; }
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+        .form-status { font-size: 0.9rem; margin-top: 0.75rem; min-height: 1.2em; }
+        .form-status.ok { color: var(--neon-green); }
+        .form-status.err { color: #fca5a5; }
+        .form-legal {
+            font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; margin: 0.75rem 0 0;
+        }
+        .self-serve {
+            margin-top: 1.25rem; padding-top: 1.1rem; border-top: 1px solid var(--glass-border);
+            color: var(--text-secondary); font-size: 0.92rem;
+        }
+
+        .cta-box {
+            max-width: 760px; margin: 0 auto; text-align: center;
+            padding: 2.5rem 2rem; border: 1px solid rgba(45, 212, 191, 0.45); border-radius: 18px;
+            background: linear-gradient(165deg, rgba(61, 37, 24, 0.96), rgba(26, 15, 10, 0.98));
+        }
+        .cta-box h2 { margin-bottom: 0.5rem; }
+        .cta-box p { color: #e2e8f0; margin-bottom: 1.25rem; }
+        .cta-actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+
+        footer {
+            border-top: 1px solid var(--glass-border); padding: 3rem 0 1.5rem; background: #120a06;
+        }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        .footer-col h4 { color: #5eead4; margin-bottom: 0.8rem; }
+        .footer-col a { display: block; color: #cbd5e1; font-size: 0.92rem; padding: 0.25rem 0; }
+        .footer-bottom { text-align: center; border-top: 1px solid var(--glass-border); padding-top: 1.5rem; color: #94a3b8; font-size: 0.88rem; }
+
+        .toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            padding: 14px 28px; border-radius: 12px; font-weight: 500; z-index: 9999;
+            max-width: 90vw; box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+        .toast.success { background: linear-gradient(135deg, var(--neon-green), #0ea5e9); color: #041018; }
+        .toast.error { background: linear-gradient(135deg, #ff4444, #cc0000); color: #fff; }
+
+        @media (max-width: 860px) {
+            .split, .row-2 { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .container { padding: 0 1.2rem; }
+            .nav-links {
+                display: none; flex-direction: column; background: var(--bg-secondary);
+                position: absolute; top: 60px; right: 1rem; left: 1rem; border: 1px solid var(--border-color);
+                border-radius: 12px; padding: 1rem; gap: 1rem; z-index: 1001;
+            }
+            .nav-links.show { display: flex; }
+            .menu-toggle { display: flex; }
+            header { position: sticky; }
+            nav { position: relative; }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo"><span class="logo-icon">🛡️</span> Tribams</a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/payment">Pricing</a></li>
+                    <li><a href="/teams" class="active">For teams</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/login">Sign In</a></li>
+                    <li><a href="/register" class="btn-nav">Join Tribams</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">B2B · USD seat packs · Demo &amp; quote</div>
+            <h1>Train teams that can still decide when the evidence is incomplete</h1>
+            <p class="lead">
+                TRIBAMS is a live cybersecurity training floor for companies, campuses, and public-sector teams.
+                Learners work incomplete cases, leave an ATT&amp;CK-mapped transcript, and earn certificates bound to their account — not a PDF anyone can reprint.
+            </p>
+            <div class="hero-actions">
+                <a href="#quote" class="btn btn-primary">Request a demo / quote →</a>
+                <a href="/payment" class="btn btn-secondary">Self-serve pricing</a>
+            </div>
+            <p class="roots-note">
+                Rooted in Windhoek, Namibia, with African threat texture in the injects — built as a global village product.
+                Local scenarios are an option, not a fence: the same packs ship to teams anywhere.
+            </p>
+        </div>
+    </section>
+
+    <section class="section" id="outcomes">
+        <div class="container">
+            <div class="section-header">
+                <h2>What operators actually get</h2>
+                <p>Not a slide deck. A shared practice floor with proof you can show a board, a dean, or a regulator.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="icon">⚖️</span>
+                    <h3>Judgment under incomplete evidence</h3>
+                    <p>Drills withhold the tidy answer. Teams practice triage, containment calls, and write-ups when logs, people, and time are all partial.</p>
+                    <span class="tag">DECISION</span>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🗺️</span>
+                    <h3>ATT&amp;CK-mapped transcript</h3>
+                    <p>Each pass leaves a readable trail of techniques and decisions — a transcript managers can review, not a high score with no story.</p>
+                    <span class="tag">TRANSCRIPT</span>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🏅</span>
+                    <h3>Account-bound certificates</h3>
+                    <p>Certificates sit on the learner account and can be checked on TRIBAMS. Employers verify the person, not a floating file.</p>
+                    <span class="tag">PROOF</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="packs">
+        <div class="container">
+            <div class="section-header">
+                <h2>USD seat packs</h2>
+                <p>List prices in US dollars. Checkout on <a href="/payment">/payment</a> is self-serve; this page is for team quotes, demos, and custom injects.</p>
+            </div>
+            <div class="packs-grid" id="packGrid"></div>
+            <p class="fx-note" id="fxNote">Checkout is USD. N$ is a Namibia display reference only.</p>
+        </div>
+    </section>
+
+    <section class="section" id="quote">
+        <div class="container">
+            <div class="split">
+                <div>
+                    <h2>Demo or quote</h2>
+                    <p class="muted" style="color:var(--text-secondary);margin:0.5rem 0 1rem;">
+                        Tell us seats, region, and what “ready” means for your team. An operator replies with a USD quote and next steps.
+                        Individuals can skip the queue and buy on <a href="/payment">Pricing</a>.
+                    </p>
+                    <ul style="color:var(--text-secondary);padding-left:1.1rem;font-size:0.95rem;">
+                        <li>SME, campus, ministry, hospital, and enterprise packs</li>
+                        <li>Optional local injects (Namibia / region) on a global catalog</li>
+                        <li>Roster seats inherit Pro or Pro+ while the license is active</li>
+                    </ul>
+                </div>
+                <form class="panel" id="quoteForm">
+                    <h2>Request a quote</h2>
+                    <p class="muted">Work email preferred. Brief must be at least 20 characters.</p>
+                    <label for="quoteName">Name *</label>
+                    <input id="quoteName" name="name" autocomplete="name" required minlength="2" placeholder="Your name">
+                    <label for="quoteEmail">Work email *</label>
+                    <input id="quoteEmail" name="email" type="email" autocomplete="email" required placeholder="you@company.org">
+                    <label for="quoteCompany">Company / institution *</label>
+                    <input id="quoteCompany" name="company" required minlength="2" placeholder="Org name">
+                    <div class="row-2">
+                        <div>
+                            <label for="quoteRole">Role</label>
+                            <input id="quoteRole" name="role" placeholder="CISO, dean, training lead…">
+                        </div>
+                        <div>
+                            <label for="quoteCountry">Country</label>
+                            <input id="quoteCountry" name="country" placeholder="Namibia, Kenya, USA…">
+                        </div>
+                    </div>
+                    <div class="row-2">
+                        <div>
+                            <label for="quotePlan">Seat pack</label>
+                            <select id="quotePlan" name="plan">
+                                <option value="">Select a pack…</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="quoteSeats">Seats</label>
+                            <input id="quoteSeats" name="seats" type="number" min="1" max="10000" placeholder="e.g. 15">
+                        </div>
+                    </div>
+                    <label for="quoteMessage">Brief *</label>
+                    <textarea id="quoteMessage" name="message" required minlength="20" placeholder="Team size, industry, timeline, and whether you want local injects or a live demo."></textarea>
+                    <button type="submit" class="btn btn-primary" id="quoteSubmit" style="width:100%;justify-content:center;">Send request</button>
+                    <p class="form-legal">We use this information to reply with a quote. See our <a href="/privacy">Privacy Policy</a> · <a href="/cookies">Cookies</a> · <a href="/terms">Terms</a>.</p>
+                    <p class="form-status" id="quoteStatus" role="status"></p>
+                    <div class="self-serve">
+                        Buying for yourself? <a href="/payment">Open public pricing (Pro / Pro+ / Special Ops)</a>.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="cta-box">
+                <h2>Self-serve or sales-assisted</h2>
+                <p>Individuals check out in USD on Pricing. Teams request a pack here — the same catalog, a human quote.</p>
+                <div class="cta-actions">
+                    <a href="/payment" class="btn btn-primary">Go to Pricing</a>
+                    <a href="#quote" class="btn btn-secondary">Stay on this form</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>🛡️ Tribams</h4>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;">Practical cybersecurity training</p>
+                    <p style="color:var(--text-muted);font-size:0.8rem;margin-top:0.5rem;">Based in Windhoek, Namibia</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="/">Home</a>
+                    <a href="/payment">Pricing</a>
+                    <a href="/teams">For teams</a>
+                    <a href="/contact">Contact</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Members</h4>
+                    <a href="/login">Sign In</a>
+                    <a href="/register">Create Account</a>
+                    <a href="/organization">Organization hub</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <a href="/privacy">Privacy</a>
+                    <a href="/terms">Terms</a>
+                    <a href="/verify">Verify certificate</a>
+                </div>
+            </div>
+            <div class="footer-bottom">&copy; 2026 Tribams. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        const PACK_DEFAULTS = [
+            { key: 'sme_pack', label: 'SME Team Pack', seats: 15, months: 12, usd: 350, nad: 6475, tier: 'pro', description: 'Small teams — 15 seats, Pro catalog, annual license. Global + regional drills included.' },
+            { key: 'institution_annual', label: 'Institution Annual License', seats: 50, months: 12, usd: 990, nad: 18315, tier: 'pro', description: 'Schools and training centres — 50 seats, Pro catalog, yearly renewal.' },
+            { key: 'enterprise_license', label: 'Enterprise License', seats: 200, months: 12, usd: 2490, nad: 46065, tier: 'pro_plus', description: 'Large orgs and government — 200 seats, Pro+ catalog, roster analytics, custom requests.' },
+            { key: 'custom_training', label: 'Customized Training Package', seats: 25, months: 6, usd: 650, nad: 12025, tier: 'pro_plus', description: 'Bespoke industry scenarios (any region) + delivery support. 25 seats, 6 months.' }
+        ];
+        let packs = PACK_DEFAULTS.slice();
+        let nadPerUsd = 18.5;
+
+        function periodLabel(months) {
+            if (Number(months) === 6) return '/6 mo';
+            return '/year';
+        }
+
+        function moneyUsd(n) {
+            const v = Number(n);
+            if (!Number.isFinite(v)) return '0';
+            return Number.isInteger(v) ? String(v) : v.toFixed(2);
+        }
+
+        function renderPacks() {
+            const grid = document.getElementById('packGrid');
+            const select = document.getElementById('quotePlan');
+            const current = select.value;
+            grid.innerHTML = packs.map((p, i) => `
+                <article class="pack-card${i === 2 ? ' featured' : ''}">
+                    <h3>${p.label || p.key}</h3>
+                    <div class="pack-price">US$${moneyUsd(p.usd)} <span>${periodLabel(p.months)}</span></div>
+                    <div class="pack-meta">${p.seats || '—'} seats · ${(p.tier || 'pro').replace('_', '+')} catalog</div>
+                    <p class="pack-desc">${p.description || ''}</p>
+                    <p class="pack-nad">Namibia reference ~N$${(Number(p.nad) || 0).toLocaleString()}</p>
+                    <button type="button" class="btn btn-secondary" data-pack="${p.key}">Request this pack</button>
+                </article>
+            `).join('');
+            select.innerHTML = '<option value="">Select a pack…</option>' +
+                packs.map(p => `<option value="${p.key}">${p.label} — US$${moneyUsd(p.usd)} · ${p.seats} seats</option>`).join('') +
+                '<option value="other">Other / not sure yet</option>';
+            if (current) select.value = current;
+            grid.querySelectorAll('[data-pack]').forEach(btn => {
+                btn.addEventListener('click', () => selectPack(btn.getAttribute('data-pack')));
+            });
+        }
+
+        function selectPack(key) {
+            const pack = packs.find(p => p.key === key);
+            document.getElementById('quotePlan').value = key;
+            if (pack && pack.seats) document.getElementById('quoteSeats').value = pack.seats;
+            document.getElementById('quote').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        document.getElementById('quotePlan').addEventListener('change', function () {
+            const pack = packs.find(p => p.key === this.value);
+            const seats = document.getElementById('quoteSeats');
+            if (pack && pack.seats) seats.value = pack.seats;
+        });
+
+        async function loadPricing() {
+            try {
+                const res = await fetch('/api/pricing', { credentials: 'same-origin' });
+                const data = await res.json();
+                if (!data?.success) return renderPacks();
+                if (data.nad_per_usd) nadPerUsd = Number(data.nad_per_usd) || nadPerUsd;
+                if (Array.isArray(data.b2b_licenses) && data.b2b_licenses.length) {
+                    packs = data.b2b_licenses;
+                }
+                const note = document.getElementById('fxNote');
+                if (note) {
+                    note.textContent = `Checkout is USD. Namibia display reference uses ~N$${nadPerUsd} per US$1.`;
+                }
+            } catch (e) { /* keep defaults */ }
+            renderPacks();
+        }
+
+        function showToast(message, type) {
+            document.querySelectorAll('.toast').forEach(t => t.remove());
+            const el = document.createElement('div');
+            el.className = 'toast ' + (type || 'success');
+            el.textContent = message;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 4000);
+        }
+
+        document.getElementById('quoteForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const status = document.getElementById('quoteStatus');
+            const btn = document.getElementById('quoteSubmit');
+            const name = document.getElementById('quoteName').value.trim();
+            const email = document.getElementById('quoteEmail').value.trim();
+            const company = document.getElementById('quoteCompany').value.trim();
+            const role = document.getElementById('quoteRole').value.trim();
+            const country = document.getElementById('quoteCountry').value.trim();
+            const planKey = document.getElementById('quotePlan').value;
+            const seatsRaw = document.getElementById('quoteSeats').value;
+            const brief = document.getElementById('quoteMessage').value.trim();
+            status.className = 'form-status';
+            status.textContent = '';
+
+            if (name.length < 2 || !email.includes('@') || company.length < 2 || brief.length < 20) {
+                status.className = 'form-status err';
+                status.textContent = 'Provide name, work email, company, and a short brief (20+ characters).';
+                return;
+            }
+
+            const pack = packs.find(p => p.key === planKey);
+            const planLine = pack
+                ? `[${pack.key}] ${pack.label}`
+                : (planKey === 'other' ? '[custom/other]' : '');
+            const message = planLine ? (planLine + '\n' + brief) : brief;
+
+            btn.disabled = true;
+            try {
+                const res = await fetch('/api/sales-lead', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        company,
+                        role: role || undefined,
+                        seats: seatsRaw ? parseInt(seatsRaw, 10) : (pack && pack.seats) || undefined,
+                        country: country || undefined,
+                        message,
+                        source: 'teams'
+                    })
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data.success) {
+                    status.className = 'form-status err';
+                    status.textContent = data.message || 'Could not send request.';
+                    showToast(data.message || 'Could not send request.', 'error');
+                    return;
+                }
+                status.className = 'form-status ok';
+                status.textContent = data.message || 'Request received.';
+                showToast(data.message || 'Request received.', 'success');
+                this.reset();
+            } catch (err) {
+                status.className = 'form-status err';
+                status.textContent = 'Network error. Please try again.';
+                showToast('Network error. Please try again.', 'error');
+            } finally {
+                btn.disabled = false;
+            }
+        });
+
+        document.getElementById('menuToggle').addEventListener('click', function () {
+            document.getElementById('navLinks').classList.toggle('show');
+        });
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => document.getElementById('navLinks').classList.remove('show'));
+        });
+        window.addEventListener('scroll', function () {
+            document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        loadPricing();
+        renderPacks();
+    </script>
+</body>
+</html>

@@ -14,7 +14,7 @@ RUN npm ci --omit=dev || npm install --omit=dev
 
 COPY . .
 
-# Persist SQLite / uploads / file sessions via a volume mount at /app/database
+# Uploads / optional file sessions. Production must use Postgres (DATABASE_URL).
 RUN mkdir -p database database/sessions public/uploads/profiles \
     && chown -R node:node /app
 

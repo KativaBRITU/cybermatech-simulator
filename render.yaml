@@ -1,51 +1,29 @@
-# Tribams on Render (free alternative to Railway)
-# Keep Neon Postgres + Cloudflare DNS/WAF in front.
-# Docs: docs/SAFE_CLOUDFLARE_DEPLOY.md
+# Phase 1 origin — Render Blueprint
+# Connect this repo in Render after you decide to push, or recreate the service in the dashboard.
+# Do not set DEMO_SQLITE_FALLBACK here.
 
 services:
   - type: web
     name: tribams
     runtime: docker
-    plan: free
     dockerfilePath: ./Dockerfile
-    dockerContext: .
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
+      - key: APP_BASE_URL
+        value: https://tribams.com
       - key: TRUST_PROXY
         value: "1"
-      - key: SESSION_STORE
-        value: memory
       - key: DB_CLIENT
         value: postgres
       - key: PGSSL
         value: "true"
-      - key: DATABASE_URL
-        sync: false
       - key: SESSION_SECRET
         sync: false
-      - key: APP_BASE_URL
+      - key: DATABASE_URL
+        sync: false
+      - key: PGSSL_SERVERNAME
         sync: false
       - key: ADMIN_EMAILS
         sync: false
-      - key: EMAIL_HOST
-        sync: false
-      - key: EMAIL_PORT
-        sync: false
-      - key: EMAIL_USER
-        sync: false
-      - key: EMAIL_PASS
-        sync: false
-      - key: EMAIL_FROM
-        sync: false
-      - key: EMAIL_TLS_INSECURE
-        value: "false"
-      - key: PAYPAL_CLIENT_ID
-        sync: false
-      - key: PAYPAL_CLIENT_SECRET
-        sync: false
-      - key: PAYPAL_MODE
-        value: sandbox
-      - key: PAYPAL_CURRENCY
-        value: USD

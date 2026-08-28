@@ -14,23 +14,27 @@ const { TIER_C_EXTRAS, getTierCEssays } = require('./tierCDepth');
 const { getLabsForModule } = require('./labEngine');
 const africanContext = require('./africanContext');
 const progressiveContent = require('./progressiveContent');
+const moduleDefinitions = require('./moduleDefinitions');
+const trainingPhases = require('./trainingPhases');
+const { getSpecialOpsExtras, getSpecialOpsEssayQuestions } = require('./specialOpsPillars');
 
 const TRUSTED_LINKS = {
     nist_csf: { name: 'NIST Cybersecurity Framework', url: 'https://www.nist.gov/cyberframework' },
     nist_800_61: { name: 'NIST SP 800-61 Incident Handling', url: 'https://csrc.nist.gov/pubs/sp/800/61/r2/final' },
     nist_800_53: { name: 'NIST SP 800-53 Security Controls', url: 'https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final' },
-    nist_800_63: { name: 'NIST SP 800-63 Digital Identity', url: 'https://pages.nist.gov/800-63-3/' },
+    nist_800_63: { name: 'NIST SP 800-63 Digital Identity', url: 'https://csrc.nist.gov/projects/digital-identity-guidelines' },
     owasp_top10: { name: 'OWASP Top 10', url: 'https://owasp.org/www-project-top-ten/' },
     owasp_asvs: { name: 'OWASP ASVS', url: 'https://owasp.org/www-project-application-security-verification-standard/' },
     owasp_api: { name: 'OWASP API Security Top 10', url: 'https://owasp.org/www-project-api-security/' },
     mitre_attack: { name: 'MITRE ATT&CK', url: 'https://attack.mitre.org/' },
+    mitre_navigator: { name: 'MITRE ATT&CK Navigator', url: 'https://mitre-attack.github.io/attack-navigator/' },
     cisa: { name: 'CISA Cybersecurity Resources', url: 'https://www.cisa.gov/cybersecurity' },
     cisa_phishing: { name: 'CISA Phishing Guidance', url: 'https://www.cisa.gov/topics/cyber-threats-and-advisories/phishing' },
     cisa_ransomware: { name: 'CISA StopRansomware', url: 'https://www.cisa.gov/stopransomware' },
     cis_controls: { name: 'CIS Critical Security Controls', url: 'https://www.cisecurity.org/controls' },
-    enisa: { name: 'ENISA Threat Landscape', url: 'https://www.enisa.europa.eu/topics/threat-risk-management/threats-and-trends' },
-    gdpr: { name: 'EU GDPR Official Text', url: 'https://gdpr.eu/' },
-    iso27001: { name: 'ISO/IEC 27001 Overview (ISO)', url: 'https://www.iso.org/standard/27001' },
+    enisa: { name: 'ENISA Threat Landscape', url: 'https://www.enisa.europa.eu/topics/cyber-threats/threats-and-trends' },
+    gdpr: { name: 'EU GDPR (official text)', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj' },
+    iso27001: { name: 'ISO/IEC 27001 Overview (ISO)', url: 'https://www.iso.org/standard/iso-iec-27001-information-security.html' },
     pci: { name: 'PCI Security Standards Council', url: 'https://www.pcisecuritystandards.org/' },
     hipaa: { name: 'HHS HIPAA Security Rule', url: 'https://www.hhs.gov/hipaa/for-professionals/security/index.html' },
     nist_cloud: { name: 'NIST Cloud Computing Security', url: 'https://csrc.nist.gov/projects/cloud-computing' },
@@ -44,15 +48,24 @@ const CATEGORY_DEPTH = {
     'offensive-tools': {
         coreIdeas: [
             'Know the enemy by how they move and talk — tooling, slang, and attack chains',
+            'Tool purpose, typical operator workflow, and tell-tale artifacts in logs/EDR',
+            'Map techniques to ATT&CK so local SOCs share a common language',
             'Popular frameworks leave detectable footprints when you know what to hunt',
-            'Purple-team skill: emulate the technique, then prove detection and response'
+            'Tooling footprints in African SME logs look the same: odd DNS, beacon timing, LSASS-class access',
+            'Purple-team skill: describe the technique, then prove detection and response on artifacts',
+            'MITRE ATT&CK mapping: initial access → execution → persistence → lateral movement',
+            'Safe lab study vs illegal misuse — TRIBAMS trains defense and purple-team awareness only',
+            'Authorization and scope are non-negotiable — TRIBAMS trains defense, not crime'
         ],
         practices: [
-            'Map each tool family to MITRE ATT&CK techniques and your log sources',
-            'Study artifacts (processes, network beacons, credential touches) not marketing names',
-            'Never practice offensive tooling on systems you do not own or have written permission to test'
+            'Use ATT&CK Navigator as a heat map of coverage gaps — not as a live attack plan against the internet',
+            'For every tool family, name the workflow step it serves and the log source that would show it',
+            'Study artifacts (process trees, beacon cadence, credential-store access), not marketing names',
+            'Hunt living-off-the-land and identity abuse; do not wait for a named APT story',
+            'Never practice offensive tooling on systems you do not own or have written permission to test',
+            'Keep live procedures in consented isolated labs outside this product; here you grade judgment on artifacts'
         ],
-        links: ['mitre_attack', 'cisa', 'nist_800_61', 'cis_controls']
+        links: ['mitre_attack', 'mitre_navigator', 'cisa', 'nist_800_61', 'cis_controls']
     },
     'social-engineering': {
         coreIdeas: [
@@ -110,14 +123,22 @@ const CATEGORY_DEPTH = {
         coreIdeas: [
             'Order of volatility and chain of custody make evidence usable',
             'IR is a team sport: tech + legal + comms',
-            'Containment can happen while collecting evidence'
+            'Containment can happen while collecting evidence',
+            'ATT&CK IDs on tickets are how blue and red share a language',
+            'Universal hunt footprints: odd DNS, beacon-like timing, credential-store access',
+            'Living-off-the-land and 02:00 admin binaries beat malware-name hunting on African SME gear',
+            'Purple loop: after a technique is named, show detection and response — then cut dwell time',
+            'Responders stay inside authorization: imaging or scanning systems you do not own is still unlawful'
         ],
         practices: [
             'Follow a written IR plan with severity definitions',
             'Preserve volatile data when safe; document every action',
-            'Run tabletop exercises quarterly'
+            'Run tabletop exercises quarterly',
+            'Ask SIEM-class questions of authorized logs (parent-child, DNS cadence, process access) — do not detonate samples on the analyst PC',
+            'Prefer portable detection logic over one vendor screenshot; prove it on workbench artifacts',
+            'Break lateral movement and revoke sessions when initial access already happened'
         ],
-        links: ['nist_800_61', 'mitre_attack', 'cisa', 'enisa']
+        links: ['nist_800_61', 'mitre_attack', 'mitre_navigator', 'cisa', 'enisa']
     },
     governance: {
         coreIdeas: [
@@ -178,15 +199,25 @@ function buildStudyGuide(module, options = {}) {
     ).join('\n');
 
     const progressiveMd = progressiveContent.buildProgressiveMarkdown(module, rank);
+    const modDef = moduleDefinitions.getModuleDefinition(module);
 
     const content = `# ${name} — Tribams Professional Study Guide
 
 > **Your rank:** ${env.label} · **Training environment:** ${env.environment}
 
+## What this module is
+**Definition:** ${modDef.definition}
+
+${modDef.summary}
+
+*${modDef.hook}*
+
 ## 1. Why this module matters
 ${name} sits at the intersection of technology, human behavior, and business risk — especially for African organisations facing WhatsApp-first fraud, mobile-money risk, and lean IT teams. In Tribams you train the way operations teams work: incomplete information, time pressure, and decisions that must be defended later to leadership, auditors, or regulators.
 
 **Beginner foundation (always available):** ${env.setting}
+
+${trainingPhases.studyGuidePhaseBanner(module)}
 
 ${extras.why || `${name} failures often start small (a click, a misconfig, a skipped verification) and escalate into credential theft, data exposure, or service disruption.`}
 ${africanContext.africanGuideSection(name)}
@@ -309,6 +340,7 @@ ${linkMd}
 
     const tierEssays = getTierAEssays(module.id) || getTierBEssays(module.id) || getTierCEssays(module.id);
     const toolkitEssays = getToolkitEssayQuestions(module);
+    const specialEssays = getSpecialOpsEssayQuestions(module);
     const defaultEssays = [
         {
             question: `You are the incident commander for a live ${name} event. Stakeholders demand updates every 5 minutes. Write an operational response plan covering containment, evidence, communications, and recovery priorities.`,
@@ -325,16 +357,41 @@ ${linkMd}
         {
             question: `Describe a near-future ${name} scenario involving AI-assisted social engineering or deepfake verification failure. Explain how you would coach a colleague (or family member) through the first 10 minutes without panicking.`,
             guidelines: 'Include psychological traps, verification steps, and what not to do under fear or authority pressure.'
+        },
+        {
+            question: `Write a learner debrief for ${name}: what mental model should stick after the drill, which control you would not skip under pressure, and how an institution should record the result on an account-bound transcript.`,
+            guidelines: 'Education-grade reflection. Name owners, evidence, and why certificates must match the scored account.'
+        },
+        {
+            question: `An institution in your region wants ${name} training for mixed junior and senior staff. Propose how to assess them fairly: practice length, timed drill, essay, and what “pass” should mean for a certificate.`,
+            guidelines: 'Do not recommend fake scores. Explain why short 5-question quizzes are not enough for a professional record.'
         }
     ];
-    const essayQuestions = tierEssays
-        ? [...tierEssays, ...defaultEssays.slice(0, 2)]
-        : (toolkitEssays || defaultEssays);
+    const essayQuestions = (tierEssays
+        ? [...tierEssays, ...defaultEssays]
+        : (specialEssays || toolkitEssays || defaultEssays)
+    ).slice();
+    const seen = new Set();
+    const unique = [];
+    for (const q of essayQuestions) {
+        const key = String(q && q.question ? q.question : q).slice(0, 80);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        unique.push(q);
+    }
+    let extra = 0;
+    while (unique.length < 5 && extra < defaultEssays.length) {
+        const q = defaultEssays[extra++];
+        const key = String(q.question).slice(0, 80);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        unique.push(q);
+    }
 
     return {
         content,
         resources,
-        essayQuestions,
+        essayQuestions: unique.slice(0, 8),
         rank,
         rank_label: env.label,
         environment: env.environment
@@ -437,7 +494,9 @@ function depthLinks(id) {
         92: [TRUSTED_LINKS.cisa, TRUSTED_LINKS.cis_controls],
         93: [TRUSTED_LINKS.ics_cert, TRUSTED_LINKS.cisa],
         94: [TRUSTED_LINKS.mitre_attack, TRUSTED_LINKS.cisa],
-        95: [TRUSTED_LINKS.mitre_attack, TRUSTED_LINKS.nist_800_61]
+        95: [TRUSTED_LINKS.mitre_attack, TRUSTED_LINKS.nist_800_61],
+        96: [TRUSTED_LINKS.mitre_attack, TRUSTED_LINKS.mitre_navigator, TRUSTED_LINKS.nist_800_61, TRUSTED_LINKS.cisa],
+        97: [TRUSTED_LINKS.mitre_attack, TRUSTED_LINKS.mitre_navigator, TRUSTED_LINKS.nist_800_61, TRUSTED_LINKS.cisa]
     };
     return (byId[id] || [TRUSTED_LINKS.mitre_attack, TRUSTED_LINKS.cisa]).filter(Boolean);
 }
@@ -447,7 +506,13 @@ function moduleExtras(module) {
     const cat = module.category || 'network';
     let base;
     const tier = TIER_A_EXTRAS[id] || TIER_B_EXTRAS[id] || TIER_C_EXTRAS[id];
-    if (tier) {
+    const special = getSpecialOpsExtras(module);
+    if (special) {
+        base = {
+            ...special,
+            links: depthLinks(id)
+        };
+    } else if (tier) {
         base = {
             ...tier,
             links: depthLinks(id)

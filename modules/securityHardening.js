@@ -21,7 +21,11 @@ function clientIp(req) {
 /** Route-scoped rate limiter (IP + bucket name). */
 function rateLimiter(maxRequests = 30, windowMs = 15 * 60 * 1000, bucket = 'default') {
     return (req, res, next) => {
-        const key = `${bucket}:${clientIp(req)}`;
+        const ip = clientIp(req);
+        const uid = req.session && req.session.user && req.session.user.id
+            ? `u${req.session.user.id}`
+            : 'anon';
+        const key = `${bucket}:${ip}:${uid}`;
         const now = Date.now();
         let record = rateBuckets.get(key);
         if (!record || now > record.resetTime) {

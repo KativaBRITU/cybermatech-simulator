@@ -8,24 +8,34 @@ const { listLabs, MODULE_NAMES } = require('./labEngine');
 const PLATFORM_CLAIMS = {
     product: 'TRIBAMS',
     positioning:
-        'Africa-first cybersecurity judgment training — Namibia-rooted scenarios, Evidence Workbench labs, and employer-readable Force Readiness transcripts.',
+        'An institutional cybersecurity judgment path — Namibia-rooted, global in threat floor — that trains community cyber officials over a semester, not a weekend PDF. Evidence Workbench labs and Force Readiness transcripts; not a VM pentest gym.',
+    competitors: {
+        vs_tryhackme_htb:
+            'Those products excel at machines and CTF hours. TRIBAMS trains defendable decisions on artifacts, ATT&CK language, and local injects (WhatsApp, mobile-money, ministry BEC).',
+        vs_sans_rangeforce:
+            'They hold brand and enterprise range trust. TRIBAMS is the emerging institutional path for campuses, SMEs, and public desks that need proof of judgment without a six-figure range.',
+        vs_generic_lms:
+            'Slide decks do not mint operators. TRIBAMS scores timed drills server-side, binds certificates to the account, and phases the catalog so completion means a community-ready desk, not a binge.'
+    },
     not_claiming: [
         'Not a full interactive network / VM attack-range substitute',
         'Not a live red-team engagement or penetration-test certificate',
-        'Not a university degree equivalent'
+        'Not a university degree equivalent',
+        'Not a weekend certificate mill'
     ],
     does_claim: [
-        '95 scenario-driven modules with African-context study guides and drills',
+        'Phased institutional semester (Foundation → Operations → Adversary literacy → Crisis cell)',
+        '97 scenario-driven modules with African-context study guides and drills',
         'WhatsApp/BEC/mobile-money and ministry/SME scenarios across the continent',
-        '22+ Evidence Workbench labs graded on artifacts under time pressure',
+        'Evidence Workbench labs graded on artifacts under time pressure',
         'ATT&CK techniques credited from passed labs (70%+)',
         'Integrity-aware scored drills (server-side grading; focus/risk signals)',
-        'Shareable Force Readiness transcript token for employers'
+        'Shareable Force Readiness transcript token for employers — after earned time on platform'
     ],
     pass_mark: 70,
-    catalog_modules: 95,
+    catalog_modules: 97,
     recommended_buyer:
-        'Namibian and African SMEs, public sector, campuses, SOC beginners, and managers who need local judgment proof — not vanity PDFs'
+        'African and global institutions that need to staff community cyber desks — SMEs, campuses, public sector — with judgment proof, not vanity PDFs'
 };
 
 function catalogMarketSignals() {

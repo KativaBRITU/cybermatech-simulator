@@ -19,7 +19,7 @@
 
         body {
             font-family: 'Inter', -apple-system, system-ui, sans-serif;
-            background: #0a0a1a;
+            background: #c9f506;
             color: #ffffff;
             min-height: 100vh;
             line-height: 1.6;
@@ -29,7 +29,7 @@
         /* HEADER & NAVIGATION - 70 lines
         /* ============================================ */
         header {
-            background: rgba(10, 10, 26, 0.95);
+            background: rgba(78, 14, 14, 0.95);
             backdrop-filter: blur(12px);
             padding: 0.8rem 0;
             border-bottom: 1px solid rgba(0, 255, 136, 0.08);
@@ -117,8 +117,8 @@
 
         .btn-nav {
             padding: 0.4rem 1.2rem;
-            background: #00ff88;
-            color: #0a0a1a;
+            background: #9e8b8f;
+            color: #3a3a6e;
             border-radius: 50px;
             font-weight: 600;
             font-size: 0.8rem;
@@ -152,12 +152,12 @@
         .page-header h1 {
             font-size: 2.2rem;
             font-weight: 800;
-            color: #00ff88;
+            color: #4c2183;
         }
 
         .page-header p {
-            color: #888;
-            font-size: 1rem;
+            color: #211fa7;
+            font-size: 1.5rem;
             margin-top: 0.3rem;
             max-width: 600px;
             margin-left: auto;
@@ -195,7 +195,7 @@
         }
 
         .about-section .content p {
-            color: #aaa;
+            color: #080808;
             font-size: 0.95rem;
             line-height: 1.8;
             margin-bottom: 1rem;
@@ -211,7 +211,7 @@
             width: 100%;
             max-width: 400px;
             aspect-ratio: 1/1;
-            background: linear-gradient(135deg, rgba(164, 176, 97, 0.719), rgba(95, 135, 148, 0.205));
+            background: linear-gradient(135deg, rgba(149, 150, 146, 0.719), rgba(95, 135, 148, 0.205));
             border: 1px solid rgba(0, 255, 136, 0.08);
             border-radius: 20px;
             display: flex;
@@ -259,14 +259,14 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #00ff88, #0088ff);
+            background: linear-gradient(135deg, #e6ebe9, #0088ff);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 0.8rem;
             font-size: 2rem;
             font-weight: 700;
-            color: #0a0a2a;
+            color: #3c3c41;
             overflow: hidden;
         }
 
@@ -283,13 +283,13 @@
 
         .team-card .role {
             font-size: 0.8rem;
-            color: #888;
+            color: #6d3c3c;
             margin-top: 0.2rem;
         }
 
         .team-card .bio {
             font-size: 0.8rem;
-            color: #666;
+            color: #030303;
             margin-top: 0.5rem;
             line-height: 1.5;
         }
@@ -462,6 +462,8 @@ document.addEventListener('DOMContentLoaded', function() {
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/about" class="active">About</a></li>
+                <li><a href="/payment">Pricing</a></li>
+                <li><a href="/teams">For teams</a></li>
                 <li><a href="/contact">Contact</a></li>
                 <li><a href="/login">Sign In</a></li>
                 <li><a href="/register" class="btn-nav">Get Started</a></li>
@@ -476,7 +478,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <div class="page-header">
             <h1>Who We Are</h1>
-            <p>Building Africa's cyber resilience through practical cybersecurity training and education.</p>
+            <p>One village, two stages — global buyers on a shared threat floor, rooted in Windhoek, Namibia, and built for Africa.</p>
         </div>
 
         <div class="about-grid">
@@ -498,6 +500,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p>
                         That's why we built Tribams (tribams.com) in Namibia — a practical
                         training platform rooted in Windhoek and designed for Africa, by Africans.
+                    </p>
+                    <p>
+                        Training is an institutional semester, not a weekend sprint. Learners finish
+                        Community Foundation before Watchfloor Operations, then Adversary Literacy,
+                        then the Crisis Cell. The aim is to equip people who can sit a cyber desk
+                        in the communities they live in — schools, clinics, SMEs, ministries — with
+                        judgment that holds under pressure. Against TryHackMe or Hack The Box we
+                        are not a machine gym; against slide-deck LMS products we are not a PDF mill.
+                        TRIBAMS is the judgment path in between.
+                    </p>
+                    <p>
+                        We also sell to a global village. Phishing, ransomware, and identity abuse
+                        do not stop at a border. Africa is the home stage (Namibia and SADC injects
+                        keep drills honest); the other stage is worldwide teams who want that same
+                        practical floor.
                     </p>
                 </div>
                 <div class="image">
@@ -558,10 +575,10 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="team-grid">
                 <div class="team-card">
                     <div class="avatar" style="overflow: hidden; padding: 0;">
-                        <img src="/uploads/founders/britu-kativa.jpg" alt="Britu Kativa" 
+                        <img src="/uploads/founders/britu-kativa.jpg" alt="Mr. Britu Kativa" 
                              style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                     </div>
-                    <div class="name">Britu Kativa</div>
+                    <div class="name">Mr. Britu Kativa</div>
                     <div class="role">Chief Executive Officer</div>
                     <div class="bio">A visionary leader who believes that every challenge holds an opportunity. Guided by the conviction that access to world-class cybersecurity training should be a right, not a privilege, Mr. Britu Kativa drives Tribams's mission to build a secure, resilient digital future for Africa.</div>
                 </div>
@@ -570,7 +587,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <img src="/uploads/founders/selma-iyambo.jpg" alt="Selma N. Iyambo" 
                              style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                     </div>
-                    <div class="name">Selma N. Iyambo</div>
+                    <div class="name">Ms. Selma N. Iyambo</div>
                     <div class="role">Chief Technology Officer</div>
                     <div class="bio">Technical leader driving innovation and development of the training simulator.</div>
                 </div>
@@ -579,7 +596,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <img src="/uploads/founders/erastus-nakapipi.jpg" alt="Erastus Nakapipi" 
                              style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                     </div>
-                    <div class="name">Erastus Nakapipi</div>
+                    <div class="name">Mr. Erastus Nakapipi</div>
                     <div class="role">Chief Information Security Officer</div>
                     <div class="bio">Cybersecurity expert ensuring the integrity and security of the platform.</div>
                 </div>
@@ -640,7 +657,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h4>Quick Links</h4>
                     <a href="/">Home</a>
                     <a href="/about">About</a>
+                    <a href="/payment">Pricing</a>
+                    <a href="/teams">For teams</a>
                     <a href="/contact">Contact</a>
+                    <a href="/privacy">Privacy</a>
+                    <a href="/cookies">Cookies</a>
+                    <a href="/terms">Terms</a>
                     <a href="/verify">Verify Certificate</a>
                 </div>
                 <div class="footer-section">
@@ -674,7 +696,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </svg>
                         </a>
                     </div>
-                    <p style="font-size: 0.8rem; color: #555; margin-top: 0.5rem;">© 2025 Tribams. All rights reserved.</p>
+                    <p style="font-size: 0.8rem; color: #555; margin-top: 0.5rem;">© 2026 TRIBAMS · Windhoek, Namibia</p>
                 </div>
             </div>
         </div>

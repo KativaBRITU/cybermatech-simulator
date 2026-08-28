@@ -169,12 +169,14 @@ const CATEGORY_AFRICA = {
         concepts: [
             'Preserve ISP/VPN/EDR logs early — retention windows can be short',
             'Evidence handling still matters for police / INTERPOL cooperation',
-            'Communications plans for customers who use USSD and WhatsApp support channels'
+            'Communications plans for customers who use USSD and WhatsApp support channels',
+            'Universal footprints on African SME logs: odd DNS, beacon-like timing, credential-store access — same as a global SOC, fewer dedicated hunters'
         ],
         prevent: [
             'Written IR severity levels with who can isolate without executive approval',
             'Retain VPN and identity logs long enough for investigations',
-            'Practice tabletops with realistic travel and power-outage injects'
+            'Practice tabletops with realistic travel and power-outage injects',
+            'Hunt living-off-the-land on commodity PCs; do not wait for a named APT narrative'
         ],
         caseStudy: 'A Windhoek bank SOC saw after-hours VPN from a residential ISP and a staged payment file while the CEO was at a coastal conference. Disabling the session and quarantining the host came first — approval theatre came second.',
         quiz: [
@@ -270,7 +272,8 @@ const CATEGORY_AFRICA = {
         prevent: [
             'Hunt behaviors (beacons, privilege abuse), not only AV tool names',
             'Lock down admin workstations used by remote contractors',
-            'Practice detection in lab ranges you own or are contracted to test'
+            'Practice detection on Evidence Workbench artifacts here; live procedures only in labs you own or are contracted to test',
+            'Written scope, time window, and abort criteria before any purple engagement'
         ],
         caseStudy: 'A Gaborone SOC mistook a rename of a common credential dumper for “unknown malware”. ATT&CK mapping to credential access behaviors caught the operator on the second host.',
         quiz: [
@@ -341,6 +344,9 @@ function africanGuideSection(moduleName) {
 TRIBAMS trains for African reality: **WhatsApp-first fraud**, mobile-money risk, ministry and parastatal BEC, SME tender hygiene, mining/port OT exposure, and privacy duties shaped by instruments like the **AU Malabo Convention** and national rules (e.g. POPIA-style regimes).
 
 When you rehearse **${moduleName}**, prefer local injects — Windhoek, Walvis Bay, Lagos, Nairobi, Gaborone, Johannesburg — and ask: would this control still work on intermittent power, shared PCs, and a three-person IT team?
+
+## Global village
+The **same threats** land everywhere: phishing, ransomware, identity abuse, rushed payments, and open cloud storage. TRIBAMS does not swap this African *why* for a generic lab story. One village, two stages — global buyers train on that shared floor; **local injects** (channels, cash rails, regulators, place names) keep the drill honest wherever you sit.
 `;
 }
 

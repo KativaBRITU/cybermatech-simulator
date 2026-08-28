@@ -101,6 +101,13 @@
         .plan strong { display: block; margin-bottom: 0.2rem; }
         .hidden { display: none !important; }
         code { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 6px; font-size: 0.85rem; }
+        .seat-bar { height: 8px; background: #e2e8f0; border-radius: 999px; overflow: hidden; margin-top: 0.5rem; }
+        .seat-bar span { display: block; height: 100%; background: var(--accent); border-radius: 999px; transition: width .3s; }
+        .seat-bar.warn span { background: var(--warn); }
+        .seat-bar.danger span { background: var(--danger); }
+        .license-meta { font-size: 0.88rem; color: var(--muted); margin: 0.35rem 0 0.75rem; }
+        .activity-row { padding: 0.45rem 0; border-bottom: 1px solid var(--line); font-size: 0.85rem; }
+        .activity-row:last-child { border-bottom: none; }
     </style>
 </head>
 <body>
@@ -149,9 +156,9 @@
 
     <div id="detail" class="hidden" style="margin-top:1.25rem;">
         <div class="grid grid-3">
-            <div class="panel"><div class="stat" id="statSeats">0<span>Seats used</span></div></div>
+            <div class="panel"><div class="stat" id="statSeats">0<span>Seats used</span></div><div class="seat-bar" id="seatBar"><span style="width:0%"></span></div><p class="muted" id="seatRemain" style="margin-top:0.4rem;font-size:0.8rem;"></p></div>
             <div class="panel"><div class="stat" id="statAvg">0%<span>Team avg score</span></div></div>
-            <div class="panel"><div class="stat" id="statLabs">0<span>Lab passes</span></div></div>
+            <div class="panel"><div class="stat" id="statLabs">0<span>Lab passes</span></div><div class="stat" id="statCerts" style="font-size:1.2rem;margin-top:0.5rem;">0<span>Certificates</span></div></div>
         </div>
 
         <div class="grid grid-2" style="margin-top:1rem;">
@@ -159,13 +166,17 @@
                 <h2 id="orgTitle">Organization</h2>
                 <p class="muted" id="orgMeta"></p>
                 <p style="margin:0.75rem 0;">License: <span class="badge" id="licenseBadge">—</span></p>
+                <p class="license-meta" id="licenseMeta"></p>
+                <div id="licenseHistory" class="muted" style="margin-bottom:0.75rem;font-size:0.85rem;"></div>
                 <div id="inviteBox" class="hidden">
                     <p class="muted">Invite code</p>
                     <p><code id="inviteDisplay">—</code>
                         <button class="btn secondary" id="refreshInvite" style="margin-left:0.5rem;padding:0.35rem 0.7rem;">Refresh</button>
                     </p>
                 </div>
-                <h2 style="margin-top:1.2rem;">Members</h2>
+                <h2 style="margin-top:1.2rem;">Members
+                    <a id="exportRoster" class="btn secondary hidden" href="#" style="margin-left:0.5rem;padding:0.35rem 0.7rem;font-size:0.85rem;">Download roster CSV</a>
+                </h2>
                 <div style="overflow:auto;max-height:280px;">
                     <table>
                         <thead><tr><th>User</th><th>Role</th><th>Status</th></tr></thead>
@@ -176,6 +187,7 @@
 
             <section class="panel">
                 <h2>License packages</h2>
+                <p class="muted" style="margin-bottom:0.75rem;">USD list prices. N$ is a Namibia reference only.</p>
                 <div id="planList"></div>
                 <h2 style="margin-top:1.2rem;">Request custom training</h2>
                 <label>Title</label>
@@ -190,6 +202,11 @@
                 <div id="ctList" class="muted" style="margin-top:0.9rem;"></div>
             </section>
         </div>
+
+        <section class="panel" style="margin-top:1rem;">
+            <h2>Recent team activity</h2>
+            <div id="activityFeed" class="muted">No activity yet.</div>
+        </section>
 
         <section class="panel" style="margin-top:1rem;">
             <h2>Team module activity</h2>
@@ -237,7 +254,7 @@
             <div class="org-item ${currentOrgId === o.id ? 'active' : ''}" data-id="${o.id}">
                 <div>
                     <strong>${escapeHtml(o.name)}</strong>
-                    <div class="muted">${escapeHtml(o.org_type)} · ${escapeHtml(o.role)}</div>
+                    <div class="muted">${escapeHtml(o.org_type)} · ${escapeHtml(o.role)}${o.seats_used != null ? ` · ${o.seats_used}/${o.seat_limit || '?'} seats` : ''}</div>
                 </div>
                 <span class="badge ${o.license_status === 'active' ? 'ok' : 'warn'}">${escapeHtml(o.license_status || 'inactive')}</span>
             </div>
@@ -262,10 +279,19 @@
             `${data.org.org_type} · ${data.org.industry || 'General'} · Namibia (NA)`;
         document.getElementById('statSeats').innerHTML =
             `${data.seats_used}/${data.seats_limit}<span>Seats used</span>`;
+        const seatPct = data.seats_limit ? Math.min(100, Math.round((data.seats_used / data.seats_limit) * 100)) : 0;
+        const seatBar = document.getElementById('seatBar');
+        seatBar.querySelector('span').style.width = seatPct + '%';
+        seatBar.className = 'seat-bar' + (seatPct >= 95 ? ' danger' : seatPct >= 80 ? ' warn' : '');
+        const remaining = Math.max(0, (data.seats_limit || 0) - (data.seats_used || 0));
+        document.getElementById('seatRemain').textContent =
+            remaining ? `${remaining} seat${remaining === 1 ? '' : 's'} remaining` : 'Seat limit reached — contact Tribams to expand';
         document.getElementById('statAvg').innerHTML =
             `${data.stats.avg_score}%<span>Team avg score</span>`;
         document.getElementById('statLabs').innerHTML =
             `${data.stats.lab_passes}<span>Lab passes</span>`;
+        document.getElementById('statCerts').innerHTML =
+            `${data.stats.certificates}<span>Certificates</span>`;
 
         const badge = document.getElementById('licenseBadge');
         badge.textContent = data.license_active
@@ -273,12 +299,52 @@
             : `${data.org.license_status || 'inactive'}`;
         badge.className = 'badge ' + (data.license_active ? 'ok' : 'warn');
 
+        const meta = document.getElementById('licenseMeta');
+        if (data.org.license_expires_at) {
+            const exp = new Date(data.org.license_expires_at);
+            const days = Math.ceil((exp - Date.now()) / 86400000);
+            if (data.license_active && days > 0) {
+                meta.textContent = `Expires ${exp.toLocaleDateString()} · renews in ${days} day${days === 1 ? '' : 's'}`;
+            } else if (days <= 0) {
+                meta.textContent = `Expired ${exp.toLocaleDateString()} — request renewal below`;
+                meta.style.color = 'var(--danger)';
+            } else {
+                meta.textContent = `Expiry: ${exp.toLocaleDateString()}`;
+            }
+        } else {
+            meta.textContent = data.license_active ? 'Annual license active' : 'No active license — request a pack below';
+        }
+
+        const hist = document.getElementById('licenseHistory');
+        hist.innerHTML = (data.licenses || []).length
+            ? '<strong style="color:var(--ink);">License history</strong>' +
+              (data.licenses || []).slice(0, 5).map(l => {
+                const usd = l.amount_usd != null && l.amount_usd !== '' ? Number(l.amount_usd) : null;
+                const nad = l.amount_nad != null ? Number(l.amount_nad) : null;
+                let amount = '—';
+                if (usd != null && Number.isFinite(usd)) {
+                    amount = `US$${usd.toLocaleString()}`;
+                    if (nad != null && Number.isFinite(nad)) amount += ` · N$${nad.toLocaleString()} ref`;
+                } else if (nad != null && Number.isFinite(nad)) {
+                    amount = `N$${nad.toLocaleString()}`;
+                }
+                return `<div>• ${escapeHtml(l.plan)} — ${escapeHtml(l.status)} · ${l.seats} seats · ${amount}${l.expires_at ? ' · exp ' + new Date(l.expires_at).toLocaleDateString() : ''}</div>`;
+              }).join('')
+            : '';
+
         const inviteBox = document.getElementById('inviteBox');
+        const exportBtn = document.getElementById('exportRoster');
         if (canManage && data.invite_code) {
             inviteBox.classList.remove('hidden');
             document.getElementById('inviteDisplay').textContent = data.invite_code;
         } else {
             inviteBox.classList.add('hidden');
+        }
+        if (canManage) {
+            exportBtn.classList.remove('hidden');
+            exportBtn.href = `/api/org/${id}/export.csv`;
+        } else {
+            exportBtn.classList.add('hidden');
         }
 
         document.getElementById('memberRows').innerHTML = (data.members || []).map(m => `
@@ -297,15 +363,24 @@
             </tr>
         `).join('') || '<tr><td colspan="3" class="muted">No quiz activity yet</td></tr>';
 
+        document.getElementById('activityFeed').innerHTML = (data.recent_activity || []).length
+            ? (data.recent_activity || []).map(a => {
+                const when = a.at ? new Date(a.at).toLocaleString() : '';
+                const member = (data.members || []).find(m => m.user_id === a.user_id);
+                const who = member ? member.username : ('User #' + a.user_id);
+                return `<div class="activity-row"><strong>${escapeHtml(who)}</strong> — ${escapeHtml(a.detail || 'activity')} · ${a.value != null ? a.value + '%' : ''} <span class="muted">${when}</span></div>`;
+            }).join('')
+            : '<span class="muted">No recent quiz activity.</span>';
+
         document.getElementById('planList').innerHTML = (data.plans || []).map(p => `
             <div class="plan">
                 <div>
                     <strong>${escapeHtml(p.label)}</strong>
                     <div class="muted">${escapeHtml(p.description)}</div>
-                    <div style="margin-top:0.35rem;">N$${Number(p.nad).toLocaleString()} · ${p.seats} seats · ${p.tier}</div>
+                    <div style="margin-top:0.35rem;">US$${Number(p.usd).toLocaleString()}${p.nad != null ? ` · N$${Number(p.nad).toLocaleString()} ref` : ''} · ${p.seats} seats · ${p.tier}</div>
                 </div>
                 <button class="btn secondary license-btn" data-plan="${p.key}" ${canManage ? '' : 'disabled'}>
-                    ${canManage ? 'Request / Activate' : 'Admin only'}
+                    ${canManage ? 'Request license' : 'Admin only'}
                 </button>
             </div>
         `).join('');
@@ -318,7 +393,7 @@
                         method: 'POST',
                         body: JSON.stringify({ plan: btn.dataset.plan, activate: true })
                     });
-                    toast(result.message || 'License updated');
+                    toast(result.message || (result.activated ? 'License activated' : 'License request submitted — Tribams admin will approve'));
                     await loadOrg(currentOrgId);
                     await loadMine();
                 } catch (e) {

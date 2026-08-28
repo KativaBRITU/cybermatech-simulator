@@ -20,22 +20,22 @@
         }
 
         :root {
-            --bg-primary: #0a0e27;
-            --bg-secondary: #1a1f3a;
-            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-primary: #3f3e2a;
+            --bg-secondary: #1a1a1b;
+            --bg-card: rgba(235, 23, 23, 0.02);
             --bg-card-hover: rgba(255, 255, 255, 0.04);
             --border-color: rgba(0, 255, 136, 0.1);
-            --border-color-hover: rgba(0, 255, 136, 0.2);
-            --neon-green: #00ff88;
-            --neon-blue: #0088ff;
+            --border-color-hover: rgba(147, 156, 152, 0.2);
+            --neon-green: #926da0;
+            --neon-blue: #5588b4;
             --neon-cyan: #00ccff;
-            --neon-purple: #a855f7;
+            --neon-purple: #ceccd1;
             --neon-orange: #f59e0b;
             --neon-pink: #ec4899;
             --neon-red: #ef4444;
-            --text-primary: #ffffff;
-            --text-secondary: #8899bb;
-            --text-muted: #555;
+            --text-primary: #fbfdf9;
+            --text-secondary: #ccb797;
+            --text-muted: #f4f7eb;
             --text-light: #aabbdd;
             --glass-bg: rgba(255, 255, 255, 0.04);
             --glass-border: rgba(255, 255, 255, 0.06);
@@ -653,13 +653,16 @@
                 Sign in with your TRIBAMS email and password.
             </p>
             <p style="text-align:center;margin:0.45rem 0 0;font-size:0.78rem;color:var(--text-muted,#555);">
-                Beta testers: use your issued credentials.
+                If you were given an account, sign in with those credentials.
             </p>
 
             <!-- Footer -->
             <div class="auth-footer">
                 Don't have an account? <a href="/register">Create one now →</a>
             </div>
+            <p style="text-align:center;margin:0.8rem 0 0;font-size:0.75rem;color:var(--text-muted,#555);">
+                <a href="/privacy">Privacy</a> · <a href="/cookies">Cookies</a> · <a href="/terms">Terms</a>
+            </p>
 
         </div>
     </div>
@@ -782,6 +785,7 @@
             try {
                 const response = await fetch('/api/login', {
                     method: 'POST',
+                    credentials: 'same-origin',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
@@ -805,7 +809,13 @@
 
                     showToast(data.message || 'Login successful!', 'success');
                     setTimeout(() => {
-                        window.location.href = '/dashboard';
+                        const raw = new URLSearchParams(window.location.search).get('next') || '/dashboard';
+                        const pathOnly = String(raw).split('?')[0];
+                        const next = (raw.startsWith('/') && !raw.startsWith('//') && !raw.includes('\\')
+                            && pathOnly !== '/login' && pathOnly !== '/register' && pathOnly !== '/logout')
+                            ? raw
+                            : '/dashboard';
+                        window.location.href = next;
                     }, 1000);
                 } else {
                     showToast(data.message || 'Invalid credentials.', 'error');

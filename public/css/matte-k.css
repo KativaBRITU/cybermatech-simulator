@@ -20,14 +20,15 @@
     position: fixed;
     right: 1.25rem;
     bottom: 1.25rem;
-    width: 64px;
-    height: 64px;
+    min-width: 88px;
+    height: 68px;
+    padding: 0 0.85rem;
     border-radius: 18px;
     border: 1px solid var(--mk-border);
-    background: linear-gradient(145deg, #0f2740, #062018);
+    background: linear-gradient(145deg, #34475c, #062018);
     color: var(--mk-cyan);
     cursor: pointer;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 0 28px rgba(45, 212, 191, 0.25);
+    box-shadow: 0 12px 40px rgba(95, 37, 37, 0.55), 0 0 28px rgba(45, 212, 191, 0.25);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,16 +40,17 @@
 
 .mk-fab:hover {
     transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.6), 0 0 36px rgba(45, 212, 191, 0.35);
+    box-shadow: 0 16px 44px rgba(121, 52, 100, 0.6), 0 0 36px rgba(45, 212, 191, 0.35);
 }
 
 .mk-fab .mk-fab-mark {
     font-family: 'Syne', system-ui, sans-serif;
     font-weight: 800;
-    font-size: 1.05rem;
-    letter-spacing: -0.03em;
+    font-size: 0.92rem;
+    letter-spacing: -0.02em;
     color: #fff;
-    line-height: 1;
+    line-height: 1.1;
+    white-space: nowrap;
 }
 
 .mk-fab .mk-fab-sub {
@@ -56,6 +58,24 @@
     font-size: 0.55rem;
     color: var(--mk-cyan);
     letter-spacing: 0.08em;
+}
+
+@media (max-width: 480px) {
+    .mk-fab {
+        right: 0.85rem;
+        bottom: 0.85rem;
+        min-width: 76px;
+        height: 62px;
+        padding: 0 0.65rem;
+    }
+    .mk-fab .mk-fab-mark { font-size: 0.82rem; }
+    .mk-panel {
+        right: 0.5rem;
+        left: 0.5rem;
+        width: auto;
+        bottom: 5.25rem;
+        height: min(70vh, 520px);
+    }
 }
 
 .mk-fab.mk-locked {
@@ -147,7 +167,7 @@
     gap: 0.75rem;
     background:
         radial-gradient(400px 200px at 80% 0%, rgba(45, 212, 191, 0.08), transparent 60%),
-        #061018;
+        #aecbe2;
 }
 
 .mk-bubble {
@@ -217,8 +237,8 @@
 .mk-chip {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.68rem;
-    color: #e2e8f0;
-    background: rgba(15, 39, 64, 0.95);
+    color: #eff0e2ee;
+    background: rgba(167, 173, 144, 0.95);
     border: 1px solid rgba(125, 211, 252, 0.3);
     border-radius: 999px;
     padding: 0.35rem 0.65rem;
@@ -279,15 +299,4 @@
     color: #94a3b8;
     text-align: center;
     padding: 0 1rem 0.65rem;
-}
-
-@media (max-width: 480px) {
-    .mk-fab { right: 0.85rem; bottom: 0.85rem; width: 58px; height: 58px; }
-    .mk-panel {
-        right: 0.5rem;
-        left: 0.5rem;
-        width: auto;
-        bottom: 5.2rem;
-        height: min(70vh, 520px);
-    }
 }

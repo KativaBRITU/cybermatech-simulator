@@ -2648,7 +2648,7 @@
                         id: a.id,
                         name: a.name,
                         category: a.category || 'emerging',
-                        description: descById.get(a.id) || (a.id > 45
+                        description: a.summary || descById.get(a.id) || a.definition || (a.id > 45
                             ? (a.name + ': study how adversaries use this tooling — how they move and talk — so you can detect and stop it.')
                             : (a.name + ' training module with practice drills and a scored live quiz.')),
                         difficulty: a.difficulty || 'medium',

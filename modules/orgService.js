@@ -3,42 +3,35 @@
  */
 
 const crypto = require('crypto');
+const pricingCatalog = require('./pricingCatalog');
 
 const ORG_TYPES = ['education', 'government', 'healthcare', 'enterprise', 'sme', 'other'];
-const LICENSE_PLANS = {
-    institution_annual: {
-        label: 'Institution Annual License',
-        seats: 50,
-        months: 12,
-        tier: 'pro',
-        nad: Number(process.env.PRICE_LICENSE_INSTITUTION_NAD) || 18000,
-        description: 'Schools & training centres — up to 50 seats, Pro catalog, yearly renewal.'
-    },
-    enterprise_license: {
-        label: 'Enterprise License',
-        seats: 200,
-        months: 12,
-        tier: 'pro_plus',
-        nad: Number(process.env.PRICE_LICENSE_ENTERPRISE_NAD) || 45000,
-        description: 'Large orgs & government — up to 200 seats, Pro+ attacker-toolkit catalog.'
-    },
-    sme_pack: {
-        label: 'SME Team Pack',
-        seats: 15,
-        months: 12,
-        tier: 'pro',
-        nad: Number(process.env.PRICE_LICENSE_SME_NAD) || 6500,
-        description: 'Small/medium businesses — 15 seats, Pro modules, annual license.'
-    },
-    custom_training: {
-        label: 'Customized Training Package',
-        seats: 25,
-        months: 6,
-        tier: 'pro_plus',
-        nad: Number(process.env.PRICE_CUSTOM_TRAINING_NAD) || 12000,
-        description: 'Bespoke Namibia/industry scenarios + compliance focus + delivery support.'
+
+function licensePlansMap() {
+    const out = {};
+    for (const p of pricingCatalog.b2bPlans()) {
+        out[p.key] = p;
     }
-};
+    return out;
+}
+
+const LICENSE_PLANS = new Proxy(
+    {},
+    {
+        get(_t, prop) {
+            if (prop === 'then') return undefined;
+            return licensePlansMap()[prop];
+        },
+        ownKeys() {
+            return Object.keys(licensePlansMap());
+        },
+        getOwnPropertyDescriptor(_t, prop) {
+            const v = licensePlansMap()[prop];
+            if (v === undefined) return undefined;
+            return { configurable: true, enumerable: true, value: v };
+        }
+    }
+);
 
 function slugify(name) {
     return String(name || 'org')
@@ -59,7 +52,7 @@ function expiresAtMonths(months) {
 }
 
 function catalogPlans() {
-    return Object.entries(LICENSE_PLANS).map(([key, p]) => ({ key, ...p }));
+    return pricingCatalog.b2bPlans();
 }
 
 function isLicenseActive(org) {
@@ -88,6 +81,17 @@ async function getUserOrgAccess(db, userId) {
     if (!rows || !rows.length) return null;
 
     for (const org of rows) {
+        if (
+            org.license_expires_at &&
+            new Date(org.license_expires_at).getTime() < Date.now() &&
+            ['active', 'trialing', 'paid'].includes(String(org.license_status || '').toLowerCase())
+        ) {
+            await db.runAsync(
+                `UPDATE organizations SET license_status = 'expired', updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
+                [org.id]
+            );
+            org.license_status = 'expired';
+        }
         if (isLicenseActive(org)) {
             return {
                 org_id: org.id,
@@ -221,9 +225,9 @@ async function activateLicense(db, orgId, planKey, extras = {}) {
     );
     await db.runAsync(
         `INSERT INTO organization_licenses
-         (org_id, plan, seats, amount_nad, status, starts_at, expires_at, notes)
-         VALUES (?, ?, ?, ?, 'active', CURRENT_TIMESTAMP, ?, ?)`,
-        [orgId, planKey, plan.seats, plan.nad, expires, extras.notes || null]
+         (org_id, plan, seats, amount_nad, amount_usd, status, starts_at, expires_at, notes)
+         VALUES (?, ?, ?, ?, ?, 'active', CURRENT_TIMESTAMP, ?, ?)`,
+        [orgId, planKey, plan.seats, plan.nad, String(plan.usd), expires, extras.notes || null]
     );
     return { plan, expires };
 }
@@ -231,6 +235,18 @@ async function activateLicense(db, orgId, planKey, extras = {}) {
 async function getOrgAnalytics(db, orgId) {
     const org = await db.getAsync('SELECT * FROM organizations WHERE id = ?', [orgId]);
     if (!org) return null;
+
+    if (
+        org.license_expires_at &&
+        new Date(org.license_expires_at).getTime() < Date.now() &&
+        ['active', 'trialing', 'paid'].includes(String(org.license_status || '').toLowerCase())
+    ) {
+        await db.runAsync(
+            `UPDATE organizations SET license_status = 'expired', updated_at = CURRENT_TIMESTAMP WHERE id = ?`,
+            [orgId]
+        );
+        org.license_status = 'expired';
+    }
 
     const members = await db.allAsync(
         `SELECT m.role, m.status, m.joined_at, u.id AS user_id, u.username, u.email,
@@ -256,10 +272,11 @@ async function getOrgAnalytics(db, orgId) {
         );
         const certs = await db.getAsync(
             `SELECT COUNT(*) AS c FROM certificates
-             WHERE recipient_name IN (
-               SELECT username FROM users WHERE id IN (${placeholders})
-             )`,
-            memberIds
+             WHERE user_id IN (${placeholders})
+                OR (user_id IS NULL AND recipient_name IN (
+                  SELECT username FROM users WHERE id IN (${placeholders})
+                ))`,
+            [...memberIds, ...memberIds]
         );
         const labs = await db.getAsync(
             `SELECT COUNT(*) AS c FROM lab_completions
@@ -319,6 +336,75 @@ async function getOrgAnalytics(db, orgId) {
     };
 }
 
+function csvCell(value) {
+    const s = String(value ?? '');
+    if (/[",\n\r]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
+    return s;
+}
+
+async function getOrgRosterCsv(db, orgId) {
+    const analytics = await getOrgAnalytics(db, orgId);
+    if (!analytics) return null;
+    const members = analytics.members || [];
+    const ids = members.map((m) => m.user_id).filter(Boolean);
+    const byUser = new Map();
+    if (ids.length) {
+        const ph = ids.map(() => '?').join(',');
+        const scores = await db.allAsync(
+            `SELECT user_id, COUNT(*) AS attempts, ROUND(AVG(score)) AS avg_score
+             FROM quiz_scores WHERE user_id IN (${ph}) GROUP BY user_id`,
+            ids
+        );
+        const certs = await db.allAsync(
+            `SELECT u.id AS user_id, COUNT(c.certificate_id) AS certificates
+             FROM users u
+             LEFT JOIN certificates c ON c.user_id = u.id
+                OR (c.user_id IS NULL AND c.recipient_name = u.username)
+             WHERE u.id IN (${ph})
+             GROUP BY u.id`,
+            ids
+        );
+        const labs = await db.allAsync(
+            `SELECT user_id, COUNT(*) AS lab_passes
+             FROM lab_completions WHERE passed = 1 AND user_id IN (${ph})
+             GROUP BY user_id`,
+            ids
+        );
+        for (const row of scores || []) {
+            byUser.set(row.user_id, { ...(byUser.get(row.user_id) || {}), attempts: row.attempts, avg_score: row.avg_score });
+        }
+        for (const row of certs || []) {
+            byUser.set(row.user_id, { ...(byUser.get(row.user_id) || {}), certificates: row.certificates });
+        }
+        for (const row of labs || []) {
+            byUser.set(row.user_id, { ...(byUser.get(row.user_id) || {}), lab_passes: row.lab_passes });
+        }
+    }
+    const header = [
+        'organization', 'username', 'email', 'role', 'status', 'joined_at',
+        'quiz_attempts', 'avg_score', 'certificates', 'lab_passes'
+    ].join(',');
+    const lines = members.map((m) => {
+        const extra = byUser.get(m.user_id) || {};
+        return [
+            csvCell(analytics.org.name),
+            csvCell(m.username),
+            csvCell(m.email),
+            csvCell(m.role),
+            csvCell(m.status),
+            csvCell(m.joined_at),
+            csvCell(extra.attempts || 0),
+            csvCell(extra.avg_score || 0),
+            csvCell(extra.certificates || 0),
+            csvCell(extra.lab_passes || 0)
+        ].join(',');
+    });
+    return {
+        filename: `tribams-org-${orgId}-roster.csv`,
+        csv: [header, ...lines].join('\n')
+    };
+}
+
 module.exports = {
     ORG_TYPES,
     LICENSE_PLANS,
@@ -331,6 +417,7 @@ module.exports = {
     joinWithInvite,
     activateLicense,
     getOrgAnalytics,
+    getOrgRosterCsv,
     makeInviteCode,
     expiresAtMonths
 };

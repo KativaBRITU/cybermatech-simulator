@@ -1061,6 +1061,7 @@
             const recipient = cert.recipient_name || 'Anonymous';
             const moduleName = cert.module_name || 'Unknown Module';
             const score = cert.score || 0;
+            const accountBound = cert.account_bound === true;
 
             // Determine grade
             let grade, gradeColor;
@@ -1104,6 +1105,12 @@
                         <div class="detail-item full-width">
                             <span class="label">Verification Status</span>
                             <span class="value" style="color:var(--neon-green);font-weight:700;">● Verified & Authentic</span>
+                        </div>
+                        <div class="detail-item full-width">
+                            <span class="label">Account Binding</span>
+                            <span class="value" style="color:${accountBound ? 'var(--neon-green)' : 'var(--neon-orange)'};font-weight:700;">
+                                ${accountBound ? '● Bound to a TRIBAMS learner account' : '○ Legacy certificate (name only)'}
+                            </span>
                         </div>
                     </div>
                     <div class="verification-badge verified">

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upgrade to Pro – TRIBAMS</title>
-    <meta name="description" content="Upgrade TRIBAMS: Pro or Pro+ (95 modules including attacker-toolkit labs). Annual plans save more than monthly.">
+    <title>Pricing – TRIBAMS</title>
+    <meta name="description" content="TRIBAMS pricing in US dollars. Subscribe with PayPal when live, or request a plan / redeem a license key.">
     <link rel="icon" href="/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -621,6 +621,58 @@
             color: var(--text-muted);
             margin-top: 0.25rem;
         }
+        .checkout-alt {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1.5rem 1.6rem;
+            margin: 0 0 2rem;
+        }
+        .checkout-alt h2 {
+            font-size: 1.15rem;
+            margin-bottom: 0.45rem;
+        }
+        .checkout-alt p.lead {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            margin-bottom: 1.1rem;
+            max-width: 720px;
+        }
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+        @media (max-width: 800px) {
+            .checkout-grid { grid-template-columns: 1fr; }
+        }
+        .checkout-alt label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin: 0.55rem 0 0.25rem;
+        }
+        .checkout-alt input, .checkout-alt select, .checkout-alt textarea {
+            width: 100%;
+            padding: 0.65rem 0.75rem;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            background: rgba(0,0,0,0.25);
+            color: #fff;
+            font-family: inherit;
+        }
+        .checkout-alt textarea { min-height: 72px; resize: vertical; }
+        .checkout-alt .btn-plan { margin-top: 0.9rem; width: 100%; }
+        .checkout-success {
+            display: none;
+            padding: 1rem 1.1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0,255,136,0.35);
+            background: rgba(0,255,136,0.08);
+            color: #d1fae5;
+            margin-bottom: 1rem;
+        }
+        .checkout-success.visible { display: block; }
             display: inline-block;
             background: rgba(0, 255, 136, 0.08);
             color: var(--neon-green);
@@ -939,12 +991,11 @@
                 </a>
                 <ul class="nav-links" id="navLinks">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/dashboard">Dashboard</a></li>
-                    <li><a href="/resource-center">Resource Center</a></li>
-                    <li><a href="/lab">Evidence Workbench</a></li>
-                    <li><a href="/payment" class="active">💳 Upgrade</a></li>
-                    <li><a href="/profile">Profile</a></li>
-                    <li><a href="/logout">Logout</a></li>
+                    <li><a href="/payment" class="active">Pricing</a></li>
+                    <li><a href="/teams">For teams</a></li>
+                    <li><a href="/privacy">Privacy</a></li>
+                    <li id="navDashboardItem" hidden><a href="/dashboard">Dashboard</a></li>
+                    <li id="authNavItem"><a href="/login">Sign in</a></li>
                 </ul>
                 <button class="menu-toggle" id="menuToggle" aria-label="Menu">
                     <span></span>
@@ -962,8 +1013,8 @@
 
         <!-- Page Header -->
         <div class="page-header">
-            <h1>🚀 <span class="highlight">Upgrade to Pro</span></h1>
-            <p class="subtitle">Choose Pro or Pro+ for all 95 modules including attacker-toolkit labs and Evidence Workbench desks. Annual plans beat monthly — know how adversaries move and talk.</p>
+            <h1>Pricing</h1>
+            <p class="subtitle">USD list prices for individuals. PayPal checkout when credentials are live. If card checkout is not available, request a plan or redeem a license key — access starts after an operator records payment, not as an unpaid unlock.</p>
             <p id="lockedBanner" style="display:none;margin-top:1rem;padding:0.85rem 1.1rem;border-radius:12px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.35);color:#fbbf24;font-size:0.92rem;"></p>
         </div>
 
@@ -971,19 +1022,19 @@
         <div class="status-banner" id="statusBanner">
             <div class="status-icon">ℹ️</div>
             <div class="status-text">
-                <strong id="statusTitle">Current Plan: Free</strong>
-                <p id="statusDesc">Upgrade to Pro or Pro+ for all 95 modules. Annual Pro is the best core value; Pro+ adds attacker-toolkit focus.</p>
+                <strong id="statusTitle">USD list prices</strong>
+                <p id="statusDesc">Checkout is US dollars. Namibia N$ figures are a display reference only.</p>
             </div>
-            <span class="status-badge free" id="statusBadge">FREE</span>
+            <span class="status-badge free" id="statusBadge">PRICING</span>
         </div>
 
         <div class="currency-toggle-wrap">
             <span class="label">Display currency</span>
             <div class="currency-toggle" role="group" aria-label="Currency conversion">
-                <button type="button" id="currencyNAD" class="active" onclick="setCurrency('NAD')">N$</button>
-                <button type="button" id="currencyUSD" onclick="setCurrency('USD')">US$</button>
+                <button type="button" id="currencyUSD" class="active" onclick="setCurrency('USD')">US$</button>
+                <button type="button" id="currencyNAD" onclick="setCurrency('NAD')">N$</button>
             </div>
-            <div class="fx-note" id="fxNote">Prices billed in Namibian Dollars (N$). US$ shown at approximate rate.</div>
+            <div class="fx-note" id="fxNote">Checkout is US dollars. N$ is a Namibia display reference only.</div>
         </div>
 
         <!-- Plans Grid -->
@@ -994,7 +1045,7 @@
                     <div class="plan-icon">🎓</div>
                     <div class="plan-name">Free</div>
                     <div class="plan-price" data-plan="free">
-                        <span class="currency">N$</span><span class="amount">0</span>
+                        <span class="currency">US$</span><span class="amount">0</span>
                         <span class="period">/month</span>
                     </div>
                     <div class="plan-desc">Start the path</div>
@@ -1013,7 +1064,7 @@
                     <div class="plan-icon">⭐</div>
                     <div class="plan-name">Pro Monthly</div>
                     <div class="plan-price" data-plan="monthly">
-                        <span class="currency">N$</span><span class="amount">450</span>
+                        <span class="currency">US$</span><span class="amount">24</span>
                         <span class="period">/month</span>
                     </div>
                     <div class="plan-desc">All 95 training modules</div>
@@ -1037,15 +1088,15 @@
                     <div class="plan-icon">🚀</div>
                     <div class="plan-name">Pro Annual</div>
                     <div class="plan-price" data-plan="annual">
-                        <span class="currency">N$</span><span class="amount">299</span>
+                        <span class="currency">US$</span><span class="amount">16</span>
                         <span class="period">/month</span>
                     </div>
                     <div class="plan-desc">Best Pro value — commit yearly</div>
-                    <div class="savings-badge" id="savingsBadge">💎 Save vs N$450/mo</div>
+                    <div class="savings-badge" id="savingsBadge">💎 Save vs US$24/mo</div>
                 </div>
                 <ul class="plan-features">
                     <li><span class="feature-icon">✅</span> <span class="feature-text">Everything in Pro Monthly</span></li>
-                    <li><span class="feature-icon">💎</span> <span class="feature-text highlight-text" id="annualTotalNote">N$299/mo × 12</span></li>
+                    <li><span class="feature-icon">💎</span> <span class="feature-text highlight-text" id="annualTotalNote">US$16/mo × 12 — PayPal charges USD</span></li>
                     <li><span class="feature-icon">✅</span> <span class="feature-text">Priority support</span></li>
                     <li><span class="feature-icon">✅</span> <span class="feature-text">Full 95-module catalog</span></li>
                 </ul>
@@ -1060,7 +1111,7 @@
                     <div class="plan-icon">⚔️</div>
                     <div class="plan-name">Pro+</div>
                     <div class="plan-price" data-plan="pro_plus_2mo">
-                        <span class="currency">N$</span><span class="amount">800</span>
+                        <span class="currency">US$</span><span class="amount">45</span>
                         <span class="period">/2 months</span>
                     </div>
                     <div class="plan-desc">95 modules — know how attackers move &amp; talk</div>
@@ -1071,7 +1122,7 @@
                     <li><span class="feature-icon">✅</span> <span class="feature-text">Evidence Workbench labs</span></li>
                     <li><span class="feature-icon">✅</span> <span class="feature-text">Attacker-toolkit labs (46–95)</span></li>
                     <li><span class="feature-icon">✅</span> <span class="feature-text">Purple-team tool correlation</span></li>
-                    <li><span class="feature-icon">💎</span> <span class="feature-text highlight-text">Or Pro+ Annual N$350/mo</span></li>
+                    <li><span class="feature-icon">💎</span> <span class="feature-text highlight-text" id="proPlusAnnualNote">Or Pro+ Annual US$19/mo</span></li>
                 </ul>
                 <button class="btn-plan primary" id="proPlusBtn" onclick="createOrder('pro_plus_2mo')">
                     <span class="btn-text">Unlock Pro+ (2 months)</span>
@@ -1087,7 +1138,7 @@
                     <div class="plan-icon">🎯</div>
                     <div class="plan-name">Special Ops Elite</div>
                     <div class="plan-price" data-plan="special_ops_2mo">
-                        <span class="currency">N$</span><span class="amount">1250</span>
+                        <span class="currency">US$</span><span class="amount">68</span>
                         <span class="period">/2 months</span>
                     </div>
                     <div class="plan-desc">Priced above Pro+ · Live Red + Blue crisis modules</div>
@@ -1098,7 +1149,7 @@
                     <li><span class="feature-icon">🔴</span> <span class="feature-text highlight-text">Live Red Team Emulation (module 96)</span></li>
                     <li><span class="feature-icon">🔵</span> <span class="feature-text highlight-text">Live Blue Team Crisis Cell (module 97)</span></li>
                     <li><span class="feature-icon">✅</span> <span class="feature-text">Practical offensive + defensive labs under ROE</span></li>
-                    <li><span class="feature-icon">💎</span> <span class="feature-text">Or Special Ops Annual N$520/mo</span></li>
+                    <li><span class="feature-icon">💎</span> <span class="feature-text" id="specialOpsAnnualNote">Or Special Ops Annual US$29/mo</span></li>
                 </ul>
                 <button class="btn-plan primary" id="specialOpsBtn" onclick="createOrder('special_ops_2mo')">
                     <span class="btn-text">Unlock Special Ops (2 months)</span>
@@ -1115,14 +1166,24 @@
         <div class="comparison-section" style="margin-top:1.5rem;">
             <div class="comparison-title">🏢 <span style="color:var(--neon-cyan);">Institutions &amp; Enterprises</span></div>
             <p style="color:var(--text-secondary);text-align:center;margin:0 0 1.25rem;max-width:640px;margin-left:auto;margin-right:auto;">
-                Annual licensing and customized Namibia-context training for schools, government, healthcare, and companies — managed from your Organization hub.
+                Annual licensing in US dollars for schools, government, healthcare, and companies — plus customized local scenarios. PayPal checkout charges USD. N$ is a Namibia display reference only.
+                Prefer a demo or quote first? <a href="/teams" style="color:var(--neon-cyan);">For teams</a>.
             </p>
             <div class="plans-grid" id="b2bPlans" style="margin-bottom:0.5rem;">
                 <div class="plan-card">
                     <div class="plan-header">
+                        <div class="plan-icon">🏢</div>
+                        <div class="plan-name">SME Team Pack</div>
+                        <div class="plan-price" data-b2b="sme_pack"><span class="currency">US$</span><span class="amount">350</span><span class="period">/year</span></div>
+                        <div class="plan-desc">15 seats · Pro catalog</div>
+                    </div>
+                    <a class="btn-plan primary" href="/organization" style="display:block;text-align:center;text-decoration:none;">License your team</a>
+                </div>
+                <div class="plan-card">
+                    <div class="plan-header">
                         <div class="plan-icon">🏫</div>
                         <div class="plan-name">Institution License</div>
-                        <div class="plan-price"><span class="currency">N$</span><span class="amount">18,000</span><span class="period">/year</span></div>
+                        <div class="plan-price" data-b2b="institution_annual"><span class="currency">US$</span><span class="amount">990</span><span class="period">/year</span></div>
                         <div class="plan-desc">Up to 50 seats · Pro catalog</div>
                     </div>
                     <a class="btn-plan primary" href="/organization" style="display:block;text-align:center;text-decoration:none;">Open Organization hub</a>
@@ -1131,7 +1192,7 @@
                     <div class="plan-header">
                         <div class="plan-icon">🏛️</div>
                         <div class="plan-name">Enterprise License</div>
-                        <div class="plan-price"><span class="currency">N$</span><span class="amount">45,000</span><span class="period">/year</span></div>
+                        <div class="plan-price" data-b2b="enterprise_license"><span class="currency">US$</span><span class="amount">2490</span><span class="period">/year</span></div>
                         <div class="plan-desc">Up to 200 seats · Pro+</div>
                     </div>
                     <a class="btn-plan primary" href="/organization" style="display:block;text-align:center;text-decoration:none;">License your team</a>
@@ -1140,8 +1201,8 @@
                     <div class="plan-header">
                         <div class="plan-icon">🗺️</div>
                         <div class="plan-name">Custom Training</div>
-                        <div class="plan-price"><span class="currency">N$</span><span class="amount">12,000</span><span class="period">+</span></div>
-                        <div class="plan-desc">Bespoke local scenarios &amp; compliance packs</div>
+                        <div class="plan-price" data-b2b="custom_training"><span class="currency">US$</span><span class="amount">650</span><span class="period">/6 mo</span></div>
+                        <div class="plan-desc">Bespoke industry scenarios (any region)</div>
                     </div>
                     <a class="btn-plan primary" href="/organization" style="display:block;text-align:center;text-decoration:none;">Request custom pack</a>
                 </div>
@@ -1187,23 +1248,64 @@
                     </tr>
                     <tr class="highlight-row">
                         <td><strong>From</strong></td>
-                        <td><strong>N$0</strong></td>
-                        <td><strong id="comparePrice">N$299/mo yearly</strong></td>
-                        <td><strong style="color:var(--neon-gold);">N$800 / 2 mo</strong></td>
+                        <td><strong id="compareFree">US$0</strong></td>
+                        <td><strong id="comparePrice">US$16/mo yearly</strong></td>
+                        <td><strong id="compareProPlus" style="color:var(--neon-gold);">US$45 / 2 mo</strong></td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
+        <div class="checkout-alt" id="manualCheckout">
+            <h2>Subscribe when PayPal is not live</h2>
+            <p class="lead">On localhost, Railway before credentials, or if PayPal does not start, use a <strong>plan request</strong> or a <strong>license key</strong>. Requests are stored for operators. They do not grant Pro by themselves.</p>
+            <div class="checkout-success" id="checkoutSuccess"></div>
+            <div class="checkout-grid">
+                <form id="requestPlanForm">
+                    <strong>Request a plan</strong>
+                    <label for="reqName">Name</label>
+                    <input id="reqName" name="name" autocomplete="name" required>
+                    <label for="reqEmail">Email</label>
+                    <input id="reqEmail" name="email" type="email" autocomplete="email" required>
+                    <label for="reqPlan">Plan</label>
+                    <select id="reqPlan" name="plan">
+                        <option value="monthly">Pro Monthly</option>
+                        <option value="annual" selected>Pro Annual</option>
+                        <option value="pro_plus_2mo">Pro+ (2 months)</option>
+                        <option value="pro_plus_annual">Pro+ Annual</option>
+                        <option value="special_ops_2mo">Special Ops (2 months)</option>
+                        <option value="special_ops_annual">Special Ops Annual</option>
+                    </select>
+                    <label for="reqNote">Note (optional)</label>
+                    <textarea id="reqNote" name="note" placeholder="How you will pay, institution name, or invoice needs."></textarea>
+                    <button type="submit" class="btn-plan primary" id="requestPlanBtn">Submit request</button>
+                </form>
+                <form id="redeemKeyForm" hidden>
+                    <strong>License key</strong>
+                    <p class="lead" style="margin:0.4rem 0 0;">Operators issue keys after payment. Sign in, then redeem once.</p>
+                    <label for="licenseKey">Key</label>
+                    <input id="licenseKey" name="key" autocomplete="off" placeholder="TRIB-XXXX-XXXX-XXXX" required>
+                    <button type="submit" class="btn-plan primary" id="redeemKeyBtn">Redeem key</button>
+                    <p id="adminActivateWrap" style="display:none;margin-top:1rem;">
+                        <button type="button" class="btn-plan secondary" id="adminActivateBtn">Activate selected plan on this operator account</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+
         <!-- FAQ mini -->
         <div style="margin-bottom: 2rem; text-align:center;">
             <p style="color:var(--text-secondary); font-size:0.9rem;">
-                ❓ Questions? <a href="/contact" style="color:var(--neon-green);">Contact our support team</a>
+                Questions? <a href="/contact" style="color:var(--neon-green);">Contact support</a>
+                · <a href="/privacy" style="color:var(--neon-green);">Privacy</a>
+                · <a href="/cookies" style="color:var(--neon-green);">Cookies</a>
+                · <a href="/terms" style="color:var(--neon-green);">Terms</a>
             </p>
+            <p style="color:var(--text-muted); font-size:0.78rem; margin-top:0.4rem;">USD checkout · Namibia home law · Windhoek</p>
         </div>
 
         <!-- Back to Dashboard -->
-        <div style="text-align:center; padding:0.5rem 0 2rem;">
+        <div id="backToDashboardWrap" hidden style="text-align:center; padding:0.5rem 0 2rem;">
             <a href="/dashboard" class="btn btn-secondary" style="padding:0.5rem 1.5rem;">← Back to Dashboard</a>
         </div>
 
@@ -1214,33 +1316,59 @@
     ============================================================ -->
     <script>
         // ============================================================
-        // PRICING — N$ base with US$ conversion toggle
+        // PRICING — USD list + PayPal checkout; N$ is Namibia reference only
+        // Fallback numbers match modules/pricingCatalog.js USD_DEFAULTS
         // ============================================================
         const PRICING = {
-            free: { nad: 0, period: '/month' },
-            monthly: { nad: 450, period: '/month' },
-            annual: { nad: 299, period: '/month', months: 12 },
-            pro_plus_2mo: { nad: 800, period: '/2 months' },
-            pro_plus_annual: { nad: 350, period: '/month', months: 12 },
-            special_ops_2mo: { nad: 1250, period: '/2 months' },
-            special_ops_annual: { nad: 520, period: '/month', months: 12 }
+            free: { usd: 0, nad: 0, period: '/month' },
+            monthly: { usd: 24, nad: 444, period: '/month' },
+            annual: { usd: 16, nad: 296, period: '/month', months: 12, yearly_total_usd: 192, yearly_total_nad: 3552 },
+            pro_plus_2mo: { usd: 45, nad: 833, period: '/2 months', months: 2 },
+            pro_plus_annual: { usd: 19, nad: 352, period: '/month', months: 12, yearly_total_usd: 228 },
+            special_ops_2mo: { usd: 68, nad: 1258, period: '/2 months', months: 2 },
+            special_ops_annual: { usd: 29, nad: 537, period: '/month', months: 12, yearly_total_usd: 348 }
         };
-        // Approx NAD→USD (override via /api/pricing if available)
+        const B2B_DEFAULTS = [
+            { key: 'sme_pack', usd: 350, nad: 6475, months: 12 },
+            { key: 'institution_annual', usd: 990, nad: 18315, months: 12 },
+            { key: 'enterprise_license', usd: 2490, nad: 46065, months: 12 },
+            { key: 'custom_training', usd: 650, nad: 12025, months: 6 }
+        ];
+        let b2bPlans = B2B_DEFAULTS.slice();
         let nadPerUsd = Number(localStorage.getItem('tribams_nad_per_usd')) || 18.5;
-        let displayCurrency = localStorage.getItem('tribams_currency') || 'NAD';
+        let displayCurrency = localStorage.getItem('tribams_currency') === 'NAD' ? 'NAD' : 'USD';
 
-        function formatAmount(nad) {
-            if (displayCurrency === 'USD') {
-                const usd = nad / nadPerUsd;
-                return {
-                    currency: 'US$',
-                    amount: usd === 0 ? '0' : usd.toFixed(2)
-                };
+        function formatNumber(n, asNad) {
+            const v = Number(n);
+            if (!Number.isFinite(v) || v === 0) return '0';
+            if (asNad) return Math.round(v).toLocaleString();
+            return Number.isInteger(v) ? String(v) : v.toFixed(2);
+        }
+
+        function formatMoney(usd, nad) {
+            if (displayCurrency === 'NAD') {
+                return { currency: 'N$', amount: formatNumber(nad, true) };
             }
-            return {
-                currency: 'N$',
-                amount: nad === 0 ? '0' : String(Math.round(nad))
-            };
+            return { currency: 'US$', amount: formatNumber(usd, false) };
+        }
+
+        function periodSlash(period, months, fallback) {
+            if (period) return period.startsWith('/') ? period : '/' + period;
+            if (months === 2) return '/2 months';
+            if (months === 6) return '/6 mo';
+            if (months === 12) return '/year';
+            return fallback || '/month';
+        }
+
+        function applyPlanFromApi(key, src) {
+            if (!src || !PRICING[key]) return;
+            if (src.usd != null) PRICING[key].usd = Number(src.usd);
+            if (src.nad != null) PRICING[key].nad = Number(src.nad);
+            if (src.months != null) PRICING[key].months = Number(src.months);
+            if (src.yearly_total_usd != null) PRICING[key].yearly_total_usd = Number(src.yearly_total_usd);
+            if (src.yearly_total_nad != null) PRICING[key].yearly_total_nad = Number(src.yearly_total_nad);
+            if (src.save_vs_monthly_usd != null) PRICING[key].save_vs_monthly_usd = Number(src.save_vs_monthly_usd);
+            if (src.period) PRICING[key].period = periodSlash(src.period, src.months, PRICING[key].period);
         }
 
         function renderPrices() {
@@ -1248,7 +1376,7 @@
                 const key = el.getAttribute('data-plan');
                 const plan = PRICING[key];
                 if (!plan) return;
-                const formatted = formatAmount(plan.nad);
+                const formatted = formatMoney(plan.usd, plan.nad);
                 const cur = el.querySelector('.currency');
                 const amt = el.querySelector('.amount');
                 const period = el.querySelector('.period');
@@ -1257,32 +1385,79 @@
                 if (period) period.textContent = plan.period || '/month';
             });
 
+            document.querySelectorAll('.plan-price[data-b2b]').forEach(el => {
+                const key = el.getAttribute('data-b2b');
+                const plan = b2bPlans.find(p => p.key === key);
+                if (!plan) return;
+                const formatted = formatMoney(plan.usd, plan.nad);
+                const cur = el.querySelector('.currency');
+                const amt = el.querySelector('.amount');
+                const period = el.querySelector('.period');
+                if (cur) cur.textContent = formatted.currency;
+                if (amt) amt.textContent = formatted.amount;
+                if (period) period.textContent = periodSlash(null, plan.months, plan.months === 6 ? '/6 mo' : '/year');
+            });
+
+            const money = (plan) => formatMoney(plan.usd, plan.nad);
+
+            const compareFree = document.getElementById('compareFree');
+            if (compareFree) {
+                const f = money(PRICING.free);
+                compareFree.textContent = `${f.currency}${f.amount}`;
+            }
+
             const compare = document.getElementById('comparePrice');
             if (compare) {
-                const f = formatAmount(PRICING.monthly.nad);
-                compare.textContent = `${f.currency}${f.amount}/mo`;
+                const f = money(PRICING.annual);
+                compare.textContent = `${f.currency}${f.amount}/mo yearly`;
+            }
+
+            const comparePlus = document.getElementById('compareProPlus');
+            if (comparePlus) {
+                const f = money(PRICING.pro_plus_2mo);
+                comparePlus.textContent = `${f.currency}${f.amount} / 2 mo`;
             }
 
             const annualNote = document.getElementById('annualTotalNote');
             if (annualNote) {
                 const months = PRICING.annual.months || 12;
-                const total = formatAmount(PRICING.annual.nad * months);
-                const perMo = formatAmount(PRICING.annual.nad);
-                annualNote.textContent = `${perMo.currency}${perMo.amount}/mo for 1 year — billed ${total.currency}${total.amount} total`;
+                const yearlyUsd = PRICING.annual.yearly_total_usd != null
+                    ? PRICING.annual.yearly_total_usd
+                    : Number(PRICING.annual.usd) * months;
+                const yearlyNad = PRICING.annual.yearly_total_nad != null
+                    ? PRICING.annual.yearly_total_nad
+                    : Number(PRICING.annual.nad) * months;
+                const total = formatMoney(yearlyUsd, yearlyNad);
+                const perMo = money(PRICING.annual);
+                annualNote.textContent = `${perMo.currency}${perMo.amount}/mo for 1 year — billed ${total.currency}${total.amount} total · PayPal charges USD`;
             }
 
             const badge = document.getElementById('savingsBadge');
             if (badge) {
-                const savePerMo = PRICING.monthly.nad - PRICING.annual.nad;
-                const saveFmt = formatAmount(savePerMo);
-                badge.textContent = `💎 Save ${saveFmt.currency}${saveFmt.amount}/mo vs monthly — 12‑month commitment`;
+                const saveUsd = Number(PRICING.monthly.usd) - Number(PRICING.annual.usd);
+                const saveNad = Number(PRICING.monthly.nad) - Number(PRICING.annual.nad);
+                const saveFmt = formatMoney(saveUsd, saveNad);
+                const monthly = money(PRICING.monthly);
+                badge.textContent = `💎 Save ${saveFmt.currency}${saveFmt.amount}/mo vs ${monthly.currency}${monthly.amount}/mo — 12‑month commitment`;
+            }
+
+            const plusNote = document.getElementById('proPlusAnnualNote');
+            if (plusNote) {
+                const f = money(PRICING.pro_plus_annual);
+                plusNote.textContent = `Or Pro+ Annual ${f.currency}${f.amount}/mo`;
+            }
+
+            const opsNote = document.getElementById('specialOpsAnnualNote');
+            if (opsNote) {
+                const f = money(PRICING.special_ops_annual);
+                opsNote.textContent = `Or Special Ops Annual ${f.currency}${f.amount}/mo`;
             }
 
             const note = document.getElementById('fxNote');
             if (note) {
-                note.textContent = displayCurrency === 'USD'
-                    ? `Approximate conversion at ~N$${nadPerUsd.toFixed(2)} = US$1. Checkout remains in N$ / processor currency.`
-                    : 'Prices in Namibian Dollars (N$). Tap US$ to see an approximate dollar equivalent.';
+                note.textContent = displayCurrency === 'NAD'
+                    ? `Namibia reference at ~N$${nadPerUsd.toFixed(2)} = US$1. PayPal checkout still charges USD.`
+                    : 'List and PayPal checkout are US dollars. N$ is a Namibia display reference only.';
             }
 
             document.getElementById('currencyNAD')?.classList.toggle('active', displayCurrency === 'NAD');
@@ -1290,26 +1465,33 @@
         }
 
         function setCurrency(code) {
-            displayCurrency = code === 'USD' ? 'USD' : 'NAD';
+            displayCurrency = code === 'NAD' ? 'NAD' : 'USD';
             localStorage.setItem('tribams_currency', displayCurrency);
             renderPrices();
         }
 
-        async function loadFxRate() {
+        async function loadPricingCatalog() {
             try {
                 const res = await fetch('/api/pricing', { credentials: 'same-origin' });
                 const data = await res.json();
-                if (data?.success && data.nad_per_usd) {
+                if (!data?.success) {
+                    renderPrices();
+                    return;
+                }
+                if (data.nad_per_usd) {
                     nadPerUsd = Number(data.nad_per_usd) || nadPerUsd;
                     localStorage.setItem('tribams_nad_per_usd', String(nadPerUsd));
                 }
-                if (data?.plans?.monthly?.nad) PRICING.monthly.nad = data.plans.monthly.nad;
-                if (data?.plans?.annual?.nad) PRICING.annual.nad = data.plans.annual.nad;
-            } catch (e) { /* use defaults */ }
+                const plans = data.plans || {};
+                Object.keys(PRICING).forEach(key => applyPlanFromApi(key, plans[key]));
+                if (Array.isArray(data.b2b_licenses) && data.b2b_licenses.length) {
+                    b2bPlans = data.b2b_licenses;
+                }
+            } catch (e) { /* keep catalog defaults */ }
             renderPrices();
         }
 
-        loadFxRate();
+        loadPricingCatalog();
 
         // Show why user landed here (paid module lock)
         (function showLockedBanner() {
@@ -1368,49 +1550,112 @@
                     ? new Date(data.expires_at).toLocaleDateString()
                     : null;
 
+                const authNav = document.getElementById('authNavItem');
+                if (authNav) {
+                    authNav.innerHTML = data.logged_in
+                        ? '<a href="/logout">Sign out</a>'
+                        : '<a href="/login?next=/payment">Sign in</a>';
+                }
+                const dashNav = document.getElementById('navDashboardItem');
+                if (dashNav) dashNav.hidden = !data.logged_in;
+                const dashBack = document.getElementById('backToDashboardWrap');
+                if (dashBack) dashBack.hidden = !data.logged_in;
+                const redeemForm = document.getElementById('redeemKeyForm');
+                if (redeemForm) redeemForm.hidden = !data.logged_in;
+                if (data.logged_in) {
+                    if (data.email && document.getElementById('reqEmail') && !document.getElementById('reqEmail').value) {
+                        document.getElementById('reqEmail').value = data.email || '';
+                    }
+                    if (data.username && document.getElementById('reqName') && !document.getElementById('reqName').value) {
+                        document.getElementById('reqName').value = data.username || '';
+                    }
+                }
+
                 if (active && (tier === 'premium' || tier === 'pro' || isPlus || isSpecial)) {
                     title.textContent = isSpecial
                         ? 'You are on Special Ops Elite'
-                        : (isPlus ? 'You are on Pro+' : 'You are a Pro member!');
+                        : (isPlus ? 'You are on Pro+' : 'You are on a paid plan');
                     desc.textContent = expires
-                        ? (isSpecial
-                            ? `Live Red/Blue Special Ops unlocked until ${expires}.`
-                            : `Full catalog unlocked. Access until ${expires}.`)
-                        : (isSpecial
-                            ? 'Special Ops Elite: Live Red Team Emulation + Live Blue Team Crisis Cell.'
-                            : 'Enjoy unlimited access to modules, certificates, and premium features.');
-                    badge.textContent = isPlus ? 'PRO+' : 'PRO';
+                        ? `Catalog access is active until ${expires}.`
+                        : 'Paid catalog access is active on this account.';
+                    badge.textContent = isSpecial ? 'SPECIAL OPS' : (isPlus ? 'PRO+' : 'PRO');
                     badge.className = 'status-badge pro';
                     const icon = document.querySelector('.status-icon');
-                    if (icon) icon.textContent = '🎉';
+                    if (icon) icon.textContent = '●';
 
                     document.querySelectorAll('.btn-plan.primary, .plan-card.pro-plus .btn-plan.secondary').forEach(btn => {
                         if (isPlus || !btn.closest('.plan-card.pro-plus')) {
                             btn.disabled = true;
-                            btn.textContent = isPlus ? '✓ Already Pro+' : '✓ Already Pro';
+                            btn.textContent = isPlus ? 'Current plan' : 'Current plan';
                             btn.className = 'btn-plan secondary';
                             btn.style.cursor = 'default';
                         }
                     });
                 } else {
-                    title.textContent = 'Current Plan: Free';
-                    desc.textContent = data.paypal_configured === false
-                        ? 'Upgrade paths are being finalized. Contact support if you need Pro access now.'
-                        : 'Upgrade to Pro or Pro+ to unlock all 95 modules, certificates, and premium features.';
+                    title.textContent = data.logged_in ? 'Current plan: Free' : 'Public USD list prices';
+                    desc.textContent = data.paypal_configured
+                        ? 'PayPal checkout is available. License keys and plan requests remain as a backup.'
+                        : 'PayPal is not live on this server. Choose a plan, submit a request, or redeem a license key. Access starts after an operator records payment.';
                     badge.textContent = 'FREE';
                     badge.className = 'status-badge free';
                     const icon = document.querySelector('.status-icon');
-                    if (icon) icon.textContent = 'ℹ️';
+                    if (icon) icon.textContent = '●';
+                    if (!data.paypal_configured) {
+                        document.querySelectorAll('#monthlyBtn .btn-text, #annualBtn .btn-text, #proPlusBtn .btn-text, #specialOpsBtn .btn-text').forEach((el) => {
+                            if (el && !el.closest('button')?.disabled) el.textContent = 'Request this plan';
+                        });
+                    }
                 }
+                window.__checkoutMeta = data;
+                const adminWrap = document.getElementById('adminActivateWrap');
+                if (adminWrap) adminWrap.style.display = data.is_admin && !data.paypal_configured ? 'block' : 'none';
             } catch (error) {
                 console.error('Error checking subscription:', error);
             }
         }
 
+        function showCheckoutSuccess(message) {
+            const el = document.getElementById('checkoutSuccess');
+            if (!el) return;
+            el.textContent = message;
+            el.classList.add('visible');
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function openManualForPlan(plan, message) {
+            const sel = document.getElementById('reqPlan');
+            if (sel && plan) sel.value = plan;
+            if (message) showToast(message, 'info', 5000);
+            document.getElementById('manualCheckout')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        async function requestPlan(plan) {
+            const name = (document.getElementById('reqName')?.value || '').trim();
+            const email = (document.getElementById('reqEmail')?.value || '').trim();
+            const note = (document.getElementById('reqNote')?.value || '').trim();
+            const chosen = plan || document.getElementById('reqPlan')?.value || 'annual';
+            const res = await fetch('/api/subscribe/request', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify({ plan: chosen, name, email, note })
+            });
+            const data = await res.json();
+            if (!data.success) throw new Error(data.message || 'Could not record request');
+            showCheckoutSuccess(data.message);
+            showToast('Request recorded.', 'success');
+            return data;
+        }
+
         // ============================================================
-        // CREATE PAYPAL ORDER
+        // CREATE PAYPAL ORDER (falls back to plan request)
         // ============================================================
         async function createOrder(plan) {
+            const meta = window.__checkoutMeta || {};
+            if (meta.logged_in === false) {
+                window.location.href = '/login?next=' + encodeURIComponent('/payment');
+                return;
+            }
             const btnMap = {
                 monthly: 'monthlyBtn',
                 annual: 'annualBtn',
@@ -1434,24 +1679,39 @@
                     body: JSON.stringify({ plan })
                 });
 
-                const data = await res.json();
+                const data = await res.json().catch(() => ({}));
+
+                if (res.status === 401) {
+                    window.location.href = '/login?next=' + encodeURIComponent('/payment');
+                    return;
+                }
 
                 if (data.success && data.approvalUrl) {
                     window.location.href = data.approvalUrl;
-                } else if (data.success && data.activated) {
-                    showToast(data.message || 'Plan activated for testing.', 'success');
+                    return;
+                }
+                if (data.success && data.activated) {
+                    showToast(data.message || 'Plan activated.', 'success');
                     setTimeout(() => { window.location.href = '/payment'; }, 1200);
-                } else {
-                    showToast('Error: ' + (data.message || 'Could not create order'), 'error');
-                    if (btn) {
-                        btn.classList.remove('loading');
-                        btn.disabled = false;
-                        btn.innerHTML = originalText;
+                    return;
+                }
+
+                openManualForPlan(plan, data.message || 'Card checkout is not available. Submit a plan request or redeem a license key.');
+                if (meta.logged_in) {
+                    try {
+                        await requestPlan(plan);
+                    } catch (reqErr) {
+                        showToast(reqErr.message || 'Complete the form below to request this plan.', 'warning');
                     }
+                }
+                if (btn) {
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
                 }
             } catch (error) {
                 console.error('PayPal error:', error);
-                showToast('Network error. Please try again.', 'error');
+                openManualForPlan(plan, 'Network error. You can still request this plan below.');
                 if (btn) {
                     btn.classList.remove('loading');
                     btn.disabled = false;
@@ -1527,12 +1787,69 @@
             }
         });
 
-        // ============================================================
-        // INIT
-        // ============================================================
-        checkSubscription();
+        document.getElementById('requestPlanForm')?.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const btn = document.getElementById('requestPlanBtn');
+            if (btn) { btn.disabled = true; }
+            try {
+                await requestPlan(document.getElementById('reqPlan')?.value);
+            } catch (err) {
+                showToast(err.message || 'Could not record request', 'error');
+            } finally {
+                if (btn) btn.disabled = false;
+            }
+        });
 
-        console.log('💳 Payment page loaded.');
+        document.getElementById('redeemKeyForm')?.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const key = (document.getElementById('licenseKey')?.value || '').trim();
+            const btn = document.getElementById('redeemKeyBtn');
+            if (btn) btn.disabled = true;
+            try {
+                const res = await fetch('/api/subscribe/redeem', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ key })
+                });
+                const data = await res.json();
+                if (res.status === 401) {
+                    window.location.href = '/login?next=' + encodeURIComponent('/payment');
+                    return;
+                }
+                if (!data.success) throw new Error(data.message || 'Could not redeem key');
+                showCheckoutSuccess(data.message);
+                showToast(data.message, 'success');
+                setTimeout(() => { window.location.href = '/payment'; }, 1400);
+            } catch (err) {
+                showToast(err.message || 'Could not redeem key', 'error');
+            } finally {
+                if (btn) btn.disabled = false;
+            }
+        });
+
+        document.getElementById('adminActivateBtn')?.addEventListener('click', async function () {
+            const plan = document.getElementById('reqPlan')?.value || 'annual';
+            const btn = this;
+            btn.disabled = true;
+            try {
+                const res = await fetch('/api/paypal/create-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ plan, admin_activate: true })
+                });
+                const data = await res.json();
+                if (!data.success) throw new Error(data.message || 'Activate failed');
+                showToast(data.message, 'success');
+                setTimeout(() => { window.location.href = '/payment'; }, 1000);
+            } catch (err) {
+                showToast(err.message, 'error');
+                btn.disabled = false;
+            }
+        });
+
+        checkSubscription();
     </script>
 
 </body>

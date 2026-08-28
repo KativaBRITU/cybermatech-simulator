@@ -98,7 +98,7 @@
 <body>
     <div class="wrap">
         <div class="top">
-            <div class="brand"><a href="/dashboard">TRIBAMS</a> / Skill Assessment</div>
+            <div class="brand"><a href="/dashboard">TRIBAMS</a> / Skill Assessment · <a href="/payment">Pricing</a> · <a href="/privacy">Privacy</a></div>
             <div class="hud">
                 <div class="pill" id="progressPill">Q —/—</div>
                 <div class="pill timer" id="timerPill"><i class="fas fa-clock"></i> --:--</div>
@@ -140,7 +140,7 @@
         }
 
         async function start() {
-            const res = await fetch('/api/skill-assessment?limit=12');
+            const res = await fetch('/api/skill-assessment?limit=20');
             const data = await res.json();
             if (!data.success && !data.questions) {
                 document.getElementById('panel').innerHTML = `<p>Could not load assessment. <a href="/login">Login</a></p>`;

@@ -6,6 +6,9 @@
  *   or DB_CLIENT=postgres + PGHOST/PGUSER/PGPASSWORD/PGDATABASE
  *
  * Without those, SQLite file database/tribams.db is used (local/dev).
+ *
+ * Laptop/demo only: DEMO_SQLITE_FALLBACK=true probes Postgres then falls
+ * back to SQLite on timeout. Do not set this on Railway/Render/VPS.
  */
 
 const path = require('path');
@@ -157,11 +160,28 @@ function createSqliteDatabase(databaseDir) {
 }
 
 function createPostgresDatabase() {
+    // Windows / some ISPs hang on IPv6-first lookups to Supabase poolers; prefer IPv4.
+    try {
+        require('dns').setDefaultResultOrder('ipv4first');
+    } catch (_) { /* Node < 17 */ }
+
     const { Pool } = require('pg');
+    const sslServername = process.env.PGSSL_SERVERNAME || '';
+    const ssl =
+        process.env.PGSSL === 'true'
+            ? {
+                  rejectUnauthorized: false,
+                  ...(sslServername ? { servername: sslServername } : {})
+              }
+            : undefined;
+
+    const connectMs = parseInt(process.env.PG_CONNECT_TIMEOUT_MS || '30000', 10) || 30000;
+
     const pool = process.env.DATABASE_URL
         ? new Pool({
               connectionString: process.env.DATABASE_URL,
-              ssl: process.env.PGSSL === 'true' ? { rejectUnauthorized: false } : undefined
+              ssl,
+              connectionTimeoutMillis: connectMs
           })
         : new Pool({
               host: process.env.PGHOST || '127.0.0.1',
@@ -169,8 +189,13 @@ function createPostgresDatabase() {
               user: process.env.PGUSER || 'tribams',
               password: process.env.PGPASSWORD || '',
               database: process.env.PGDATABASE || 'tribams',
-              ssl: process.env.PGSSL === 'true' ? { rejectUnauthorized: false } : undefined
+              ssl,
+              connectionTimeoutMillis: connectMs
           });
+
+    if (sslServername) {
+        console.log(`🐘 Postgres SSL SNI: ${sslServername}`);
+    }
 
     async function query(sql, params = []) {
         const translated = translateSql(sql, 'postgres');
@@ -217,17 +242,47 @@ function createPostgresDatabase() {
     return api;
 }
 
+function demoSqliteFallbackEnabled() {
+    return String(process.env.DEMO_SQLITE_FALLBACK || '').toLowerCase() === 'true';
+}
+
 /**
  * @param {string} databaseDir - folder for SQLite file (ignored for Postgres)
  */
-function createDatabase(databaseDir) {
+async function createDatabase(databaseDir) {
     const dialect = detectDialect();
-    if (dialect === 'postgres') {
-        console.log('🐘 Database driver: PostgreSQL');
-        return createPostgresDatabase();
+    if (dialect !== 'postgres') {
+        console.log('📦 Database driver: SQLite');
+        return createSqliteDatabase(databaseDir);
     }
-    console.log('📦 Database driver: SQLite');
-    return createSqliteDatabase(databaseDir);
+
+    const allowSqliteFallback = demoSqliteFallbackEnabled();
+    console.log(
+        allowSqliteFallback
+            ? '🐘 Database driver: PostgreSQL (DEMO_SQLITE_FALLBACK=true)'
+            : '🐘 Database driver: PostgreSQL'
+    );
+
+    const pg = createPostgresDatabase();
+    try {
+        await pg.getAsync('SELECT 1 AS ok');
+        return pg;
+    } catch (err) {
+        const msg = err && err.message ? err.message : String(err);
+        try {
+            await pg.close();
+        } catch (_) {
+            /* ignore */
+        }
+        if (allowSqliteFallback) {
+            console.error('DEMO: using SQLite because Postgres timed out');
+            console.error(`Postgres connect failed: ${msg}`);
+            console.log('📦 Database driver: SQLite');
+            return createSqliteDatabase(databaseDir);
+        }
+        console.error('❌ PostgreSQL connection failed (no DEMO_SQLITE_FALLBACK).');
+        throw err;
+    }
 }
 
 module.exports = {

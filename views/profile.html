@@ -1048,7 +1048,7 @@
                     <div style="margin-top:0.8rem;display:flex;flex-direction:column;gap:0.5rem;">
                         <a href="/payment" class="btn btn-primary" style="padding:0.4rem 1.2rem;font-size:0.8rem;text-align:center;">💳 Upgrade to Pro</a>
                         <a href="/dashboard" class="btn btn-secondary" style="padding:0.4rem 1.2rem;font-size:0.8rem;text-align:center;">📊 Go to Dashboard</a>
-                        <a href="/resource-center" class="btn btn-secondary" style="padding:0.4rem 1.2rem;font-size:0.8rem;text-align:center;">📚 Resource Center</a>
+                        <a href="/privacy" class="btn btn-secondary" style="padding:0.4rem 1.2rem;font-size:0.8rem;text-align:center;">Privacy &amp; data</a>
                     </div>
                 </div>
 
@@ -1128,6 +1128,34 @@
                         </div>
                         <div id="passwordMessage" style="margin-top:0.8rem;font-size:0.85rem;"></div>
                     </form>
+                </div>
+
+                <!-- Privacy & data (wired to real APIs) -->
+                <div class="profile-card" id="privacy-data">
+                    <div class="card-title">Privacy &amp; data</div>
+                    <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:0.8rem;">
+                        Namibia is TRIBAMS’s home law. Download a JSON copy of your training and payment refs, or purge this account. Details:
+                        <a href="/privacy">Privacy Policy</a> · <a href="/cookies">Cookies</a>.
+                    </p>
+                    <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1rem;">
+                        <button type="button" class="btn btn-secondary" id="exportDataBtn">Download my data</button>
+                        <a href="/contact#privacy" class="btn btn-secondary" style="padding:0.45rem 1rem;">Ask via /contact</a>
+                    </div>
+                    <p id="exportStatus" style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1rem;"></p>
+                    <div style="border:1px solid rgba(239,68,68,0.25);border-radius:12px;padding:1rem;background:rgba(239,68,68,0.05);" class="password-form">
+                        <p style="color:#fca5a5;font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;">Delete this account</p>
+                        <p style="color:var(--text-secondary);font-size:0.82rem;margin-bottom:0.7rem;">Removes your user row and related training records (same purge as the operator console). PayPal keeps its own receipts. Type DELETE and enter your password.</p>
+                        <div class="form-group">
+                            <label for="deleteConfirm">Confirmation</label>
+                            <input type="text" id="deleteConfirm" placeholder="Type DELETE" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="deletePassword">Password</label>
+                            <input type="password" id="deletePassword" placeholder="Current password" autocomplete="current-password">
+                        </div>
+                        <button type="button" class="btn" id="deleteAccountBtn" style="background:#ef4444;color:#fff;border:none;">Delete my account</button>
+                        <p id="deleteStatus" style="font-size:0.82rem;margin-top:0.6rem;color:var(--text-muted);"></p>
+                    </div>
                 </div>
 
             </div>
@@ -1609,6 +1637,72 @@
 
             saveBtn.classList.remove('loading');
             saveBtn.disabled = false;
+        });
+
+        document.getElementById('exportDataBtn').addEventListener('click', async function () {
+            const status = document.getElementById('exportStatus');
+            status.textContent = 'Preparing export…';
+            try {
+                const res = await fetch('/api/account/export');
+                const data = await res.json();
+                if (!res.ok || !data.success) {
+                    status.textContent = data.message || 'Export failed. Sign in again and retry.';
+                    showToast(status.textContent, 'error');
+                    return;
+                }
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'tribams-account-export.json';
+                a.click();
+                URL.revokeObjectURL(url);
+                status.textContent = 'Downloaded tribams-account-export.json (password hashes omitted).';
+                showToast('Account export downloaded.', 'success');
+            } catch (err) {
+                status.textContent = 'Network error while exporting.';
+                showToast('Network error while exporting.', 'error');
+            }
+        });
+
+        document.getElementById('deleteAccountBtn').addEventListener('click', async function () {
+            const status = document.getElementById('deleteStatus');
+            const confirmWord = (document.getElementById('deleteConfirm').value || '').trim();
+            const password = document.getElementById('deletePassword').value || '';
+            if (confirmWord.toUpperCase() !== 'DELETE') {
+                status.textContent = 'Type DELETE in the confirmation box.';
+                showToast('Type DELETE to confirm.', 'warning');
+                return;
+            }
+            if (!password) {
+                status.textContent = 'Enter your password.';
+                return;
+            }
+            if (!window.confirm('This permanently deletes your TRIBAMS account and training records. Continue?')) {
+                return;
+            }
+            this.disabled = true;
+            status.textContent = 'Deleting…';
+            try {
+                const res = await fetch('/api/account/delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password, confirm: 'DELETE' })
+                });
+                const data = await res.json();
+                if (!res.ok || !data.success) {
+                    status.textContent = data.message || 'Could not delete account.';
+                    showToast(status.textContent, 'error');
+                    this.disabled = false;
+                    return;
+                }
+                showToast('Account deleted.', 'success');
+                window.location.href = data.redirect || '/';
+            } catch (err) {
+                status.textContent = 'Network error while deleting.';
+                showToast('Network error while deleting.', 'error');
+                this.disabled = false;
+            }
         });
 
         // ============================================================

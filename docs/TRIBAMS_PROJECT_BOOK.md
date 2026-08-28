@@ -263,7 +263,7 @@ Human support contact on the site is **tribams@gmail.com** — that is the monit
 
 ### 7.1 Public pages
 
-`/`, `/about`, `/contact`, `/login`, `/register`, `/forgot-password`, `/reset-password`, `/terms`, `/privacy`, `/verify`, `/verify-readiness`
+`/`, `/about`, `/contact`, `/login`, `/register`, `/forgot-password`, `/reset-password`, `/terms`, `/privacy`, `/cookies`, `/verify`, `/verify-readiness`
 
 ### 7.2 Member pages (login required)
 

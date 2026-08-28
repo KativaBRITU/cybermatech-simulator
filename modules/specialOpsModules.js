@@ -18,7 +18,7 @@ const SPECIAL_OPS_MODULES = [
         special_ops: true,
         badge_label: 'Special Ops Elite',
         description:
-            'Authorized, rules-of-engagement red-team tradecraft under live pressure. Offensive, practical, and educational — not a crime toolkit.'
+            'Authorized red-cell judgment: ATT&CK language, operator workflow, hunt artifacts, and written ROE. Evidence Workbench and drills — not a pentest gym or live exploit range.'
     },
     {
         id: 97,
@@ -31,7 +31,7 @@ const SPECIAL_OPS_MODULES = [
         special_ops: true,
         badge_label: 'Special Ops Elite',
         description:
-            'Mission-Ready blue-cell: contain, hunt, and brief leadership while a live intrusion unfolds. Paired counterpart to the Red Team Special Ops module.'
+            'Mission-Ready blue cell: contain, hunt universal footprints, prove detections, and brief leadership. Same four pillars as Red — defender desk, not a SIEM appliance to install.'
     }
 ];
 

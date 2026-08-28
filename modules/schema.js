@@ -52,6 +52,7 @@ async function initSchema(db) {
         status ${T} DEFAULT 'active',
         subscription_tier ${T} DEFAULT 'free',
         subscription_status ${T} DEFAULT 'inactive',
+        subscription_expires_at ${db.dialect === 'postgres' ? 'TIMESTAMP' : 'DATETIME'},
         daily_streak INTEGER DEFAULT 0,
         last_daily_attempt DATE,
         created_at ${TS},
@@ -158,6 +159,25 @@ async function initSchema(db) {
         verified INTEGER DEFAULT 1,
         downloaded INTEGER DEFAULT 0
     )`);
+    await addColumnIfMissing(db, 'certificates', 'user_id', 'INTEGER');
+    try {
+        if (db.dialect === 'postgres') {
+            await db.runAsync(`
+                UPDATE certificates c
+                SET user_id = u.id
+                FROM users u
+                WHERE c.user_id IS NULL AND u.username = c.recipient_name
+            `);
+        } else {
+            await db.runAsync(`
+                UPDATE certificates
+                SET user_id = (SELECT id FROM users WHERE username = certificates.recipient_name)
+                WHERE user_id IS NULL
+            `);
+        }
+    } catch (e) {
+        console.warn('Certificate user_id backfill skipped:', e.message);
+    }
 
     await db.runAsync(`CREATE TABLE IF NOT EXISTS badges (
         id ${PK},
@@ -400,6 +420,14 @@ async function initSchema(db) {
         UNIQUE(user_id, lab_id),
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
     )`);
+    await addColumnIfMissing(db, 'lab_completions', 'content_hash', T);
+    await addColumnIfMissing(db, 'lab_completions', 'lab_generation', 'INTEGER DEFAULT 1');
+    await db.runAsync(`CREATE TABLE IF NOT EXISTS lab_module_generations (
+        module_id INTEGER PRIMARY KEY,
+        generation INTEGER DEFAULT 1,
+        lab_hashes ${T},
+        updated_at ${TS}
+    )`);
 
     // Public Force Readiness transcript tokens
     await db.runAsync(`CREATE TABLE IF NOT EXISTS readiness_tokens (
@@ -456,6 +484,23 @@ async function initSchema(db) {
         created_at ${TS},
         FOREIGN KEY (org_id) REFERENCES organizations(id) ON DELETE CASCADE
     )`);
+    await addColumnIfMissing(db, 'organization_licenses', 'amount_usd', T);
+
+    await db.runAsync(`CREATE TABLE IF NOT EXISTS sales_leads (
+        id ${PK},
+        name ${T},
+        email ${T},
+        company ${T},
+        role ${T},
+        seats INTEGER,
+        country ${T},
+        message ${T},
+        source ${T} DEFAULT 'teams',
+        status ${T} DEFAULT 'new',
+        created_at ${TS}
+    )`);
+    await addColumnIfMissing(db, 'feedback', 'email', T);
+    await addColumnIfMissing(db, 'feedback', 'company', T);
 
     await db.runAsync(`CREATE TABLE IF NOT EXISTS custom_training_requests (
         id ${PK},
@@ -477,6 +522,32 @@ async function initSchema(db) {
     await db.runAsync(
         `CREATE INDEX IF NOT EXISTS idx_org_members_user ON organization_members(user_id)`
     );
+
+    await db.runAsync(`CREATE TABLE IF NOT EXISTS license_keys (
+        id ${PK},
+        code ${T} UNIQUE,
+        plan ${T},
+        status ${T} DEFAULT 'unused',
+        created_by INTEGER,
+        used_by INTEGER,
+        note ${T},
+        created_at ${TS},
+        used_at ${db.dialect === 'postgres' ? 'TIMESTAMP' : 'DATETIME'}
+    )`);
+
+    await db.runAsync(`CREATE TABLE IF NOT EXISTS news_posts (
+        id ${PK},
+        title ${T} NOT NULL,
+        summary ${T},
+        body ${T},
+        kind ${T} DEFAULT 'update',
+        image_url ${T},
+        published INTEGER DEFAULT 0,
+        pinned INTEGER DEFAULT 0,
+        author ${T},
+        created_at ${TS},
+        updated_at ${TS}
+    )`);
 
     console.log('✅ Database tables created');
 }

@@ -8,6 +8,7 @@ const LABS = [
     {
         id: 'phish-triage-01',
         module_id: 1,
+        locale: 'africa',
         title: 'Phish Triage Desk',
         subtitle: 'Raw headers + body. Classify and contain under pressure.',
         difficulty: 'easy',
@@ -2018,6 +2019,7 @@ OT network still flat with IT (separate risk register)`
     {
         id: 'mobile-money-fraud-01',
         module_id: 32,
+        locale: 'africa',
         title: 'Mobile Money Fraud Desk',
         subtitle: 'SIM swap, USSD push, and agent float — payroll Friday in Windhoek.',
         difficulty: 'medium',
@@ -2303,6 +2305,7 @@ No lockfile pin change review in PR`
     {
         id: 'ai-voice-bec-wa-01',
         module_id: 1,
+        locale: 'africa',
         title: 'WhatsApp Voice-Clone BEC',
         subtitle: 'AI audio note + lookalike domain — payroll pressure.',
         difficulty: 'medium',
@@ -2642,6 +2645,204 @@ Challenge phrase required for voice-only payment requests`
                 attack_techniques: ['T1486', 'T1078']
             }
         ]
+    },
+    {
+        id: 'soc-alert-queue-global-01',
+        module_id: 18,
+        locale: 'global',
+        title: 'Global SOC Alert Queue',
+        subtitle: 'Three alerts, one true incident. A lead will ask how you knew.',
+        difficulty: 'medium',
+        attack_techniques: ['T1078', 'T1110', 'T1566'],
+        time_limit_sec: 480,
+        mental_model:
+            'A SOC lead cares about the question you are answering, not the volume of tickets. Rank by blast radius × confidence × actionability. Close noise with a reason a peer can audit.',
+        roe: 'Defensive lab. You are Tier-1 on a follow-the-sun desk. Do not scan live systems outside this sandbox.',
+        briefing:
+            'London 02:10 UTC. Queue: (1) Okta "impossible travel" for a VP, (2) 400 failed RDP from a printer VLAN, (3) user-reported "Microsoft 365 billing" mail. The VP is on a transatlantic flight. CISO wants a one-line in 8 minutes.',
+        artifacts: [
+            {
+                type: 'siem',
+                title: 'Alert 1 — Identity',
+                body: `Okta: user vp.finance@globex.com
+Last success: 01:48 UTC Frankfurt (known device, passkey)
+New success: 02:06 UTC São Paulo (new device, SMS OTP)
+Impossible travel: 8h flight vs 18 min
+Session: new refresh token issued
+Note: VP calendar shows GRU connection — but device is unnamed Android, no MDM.`
+            },
+            {
+                type: 'siem',
+                title: 'Alert 2 — Noise candidate',
+                body: `RDP 3389 denied × 400 from 10.40.12.18 (label: FLOOR-PRINTER-04)
+Target: jump-legacy.corp
+Time: 01:00–02:00 every night this month
+Same count last Tuesday change window
+EDR: no new process on printer`
+            },
+            {
+                type: 'email_headers',
+                title: 'Alert 3 — Reported mail',
+                body: `From: "Microsoft 365 Billing" <invoice@micros0ft-billing.com>
+SPF: fail  DKIM: fail  DMARC: fail
+User did not click. Reported via phish button.
+Lookalike domain registered 3 days ago.`
+            }
+        ],
+        steps: [
+            {
+                id: 's1',
+                prompt: 'Which alert is the true incident you work first?',
+                options: [
+                    'The printer RDP spray — 400 events look serious',
+                    'Okta impossible travel on a new unmanaged device with SMS OTP — identity may already be in',
+                    'The billing phish — Microsoft brand is always #1',
+                    'None; wait for day shift in New York'
+                ],
+                correct: 1,
+                explanation: 'New device + weaker factor + impossible travel is live identity risk. Printer noise is a known pattern. The phish was reported and not clicked.',
+                points: 4,
+                attack_techniques: ['T1078']
+            },
+            {
+                id: 's2',
+                prompt: 'Immediate containment that a lead can defend?',
+                options: [
+                    'Lock the VP out of email forever without a recovery path',
+                    'Revoke Okta sessions/tokens for that user, disable SMS as a factor, require known-device/passkey step-up, then call the VP on a number from HR — not the new phone',
+                    'Shut down Okta tenant-wide',
+                    'Ignore because the calendar shows a Brazil flight'
+                ],
+                correct: 1,
+                explanation: 'Calendar context is a hint, not proof. Session revoke + stronger factors + out-of-band verify is the professional pattern.',
+                points: 4,
+                attack_techniques: ['T1078', 'T1110']
+            },
+            {
+                id: 's3',
+                prompt: 'How do you close the printer alert without lying?',
+                options: [
+                    'Mark false positive with no note',
+                    'Tune/suppress with a written reason: historical nightly denies from a labelled printer, no EDR process — create a detection-eng ticket to move RDP off that VLAN',
+                    'Wipe the printer firmware now',
+                    'Page the CISO for the printer'
+                ],
+                correct: 1,
+                explanation: 'Noise still gets a reason and an owner. Silent closes are how real RDP later gets ignored.',
+                points: 3
+            },
+            {
+                id: 's4',
+                prompt: 'One-line to the CISO?',
+                options: [
+                    'All clear, users are dramatic',
+                    'Working suspected account takeover: VP Okta session on new Android via SMS; sessions revoked; verifying out-of-band. Printer RDP is known noise. Phish reported, no click.',
+                    'We are under APT attack from Brazil',
+                    'Need to buy another SIEM before we can act'
+                ],
+                correct: 1,
+                explanation: 'Leads want: what you think, what you did, what is still unknown. Not theatre and not false calm.',
+                points: 3
+            }
+        ]
+    },
+    {
+        id: 'identity-session-theft-01',
+        module_id: 19,
+        locale: 'global',
+        title: 'Session Theft Desk',
+        subtitle: 'MFA was not bypassed. The session was stolen. Prove you know the difference.',
+        difficulty: 'hard',
+        attack_techniques: ['T1539', 'T1078', 'T1550'],
+        time_limit_sec: 480,
+        mental_model:
+            'MFA protects the login event. A stolen cookie/refresh token is already past that door. Containment is session kill + device + token family, not "reset the password and hope."',
+        roe: 'Defensive identity lab. No live phishing. You are IAM + SOC joint desk.',
+        briefing:
+            'Singapore bank SaaS. User passed passkey 40 minutes ago from a managed Mac. Now Graph API mail-forward rules appear from an IP in a hosting ASN. Password not used. Helpdesk already "reset the password" and closed the ticket.',
+        artifacts: [
+            {
+                type: 'idp_log',
+                title: 'Entra / Okta-style sign-in log',
+                body: `T+0  managed Mac, passkey, Compliant=true, city=Singapore
+T+12 same session, User-Agent=headless Chrome, ASN=hosting, no device ID
+Refresh token replay: yes
+Conditional access: "trusted location" skipped because session already existed
+MFA event: none after T+0`
+            },
+            {
+                type: 'saas',
+                title: 'Mailbox audit',
+                body: `Inbox rule: if subject contains "OTP" or "invoice" → forward to 8821drop@proton.me, delete
+Rule created T+14
+No password change until helpdesk T+38
+Old refresh tokens still valid after password reset`
+            },
+            {
+                type: 'chat',
+                title: '#iam-urgent',
+                body: `Helpdesk: Password reset done. User can login. Closing.
+SOC: Forward rule still there.
+Helpdesk: That's a mail thing not identity.`
+            }
+        ],
+        steps: [
+            {
+                id: 's1',
+                prompt: 'What actually happened?',
+                options: [
+                    'User typed the password to an attacker (classic phish)',
+                    'Primary factor was satisfied earlier; a token/cookie was replayed from an unmanaged client — session theft, not a fresh MFA bypass',
+                    'Printer VLAN brute force',
+                    'The proton.me address proves it is an insider only'
+                ],
+                correct: 1,
+                explanation: 'No second MFA, new UA, hosting ASN, refresh replay. That is session theft after a good login.',
+                points: 4,
+                attack_techniques: ['T1539']
+            },
+            {
+                id: 's2',
+                prompt: 'Why did password reset fail to contain?',
+                options: [
+                    'Password reset always ends every session in every SaaS',
+                    'Refresh/session tokens and mailbox rules can survive a password change unless you revoke tokens and hunt persistence',
+                    'ProtonMail cannot receive mail',
+                    'Managed Macs cannot be stolen from'
+                ],
+                correct: 1,
+                explanation: 'Identity incidents have two halves: credentials and issued sessions/persistence. Resetting one is not closing.',
+                points: 4,
+                attack_techniques: ['T1550']
+            },
+            {
+                id: 's3',
+                prompt: 'Correct containment set?',
+                options: [
+                    'Tell the user to "be more careful" and close',
+                    'Revoke refresh/session tokens, disable the forward rule, hunt other rules/consents, require compliant device + phishing-resistant factor, notify the user on a known channel',
+                    'Turn off email for the whole bank',
+                    'Only delete the proton.me message'
+                ],
+                correct: 1,
+                explanation: 'Token revoke + persistence hunt + stronger CA is the global IAM pattern.',
+                points: 4,
+                attack_techniques: ['T1078', 'T1539']
+            },
+            {
+                id: 's4',
+                prompt: 'What do you teach the helpdesk so this does not recur in their heads?',
+                options: [
+                    'Always close identity tickets at password reset',
+                    'Password reset is not IR complete: check sessions, mailbox rules, OAuth grants, then hand to SOC if tokens look alien',
+                    'Disable MFA so tickets drop',
+                    'Only executives deserve this check'
+                ],
+                correct: 1,
+                explanation: 'Skill that sticks: the ticket is not the incident. Persistence is.',
+                points: 3
+            }
+        ]
     }
 ];
 
@@ -2688,6 +2889,30 @@ function shuffleIndices(n, rng) {
         [a[i], a[j]] = [a[j], a[i]];
     }
     return a;
+}
+
+const MENTAL_MODELS = {
+    'phish-triage-01': 'Logos lie. Authentication-Results and lookalike domains do not. Never authenticate from the message that created the panic.',
+    'siem-queue-01': 'Rank alerts by blast radius × confidence, not by how loud the dashboard is.',
+    'bec-deepfake-01': 'Authority plus urgency is not authorization. Dual control on a known channel is.',
+    'mobile-money-fraud-01': 'Mobile-money rails fail the same way wires do: out-of-band verify, then pay.',
+    'ai-voice-bec-wa-01': 'A familiar voice on WhatsApp is still an untrusted channel.',
+    'soc-alert-queue-global-01': 'A lead wants the question you answered, the action you took, and what is still unknown.',
+    'identity-session-theft-01': 'MFA guards the door. Stolen sessions are already inside. Kill tokens, then hunt persistence.'
+};
+
+function buildDebrief(lab, breakdown, passed) {
+    const missed = (breakdown || []).filter((b) => !b.correct);
+    const model = lab.mental_model || MENTAL_MODELS[lab.id] ||
+        'Judgment under incomplete evidence: contain blast radius, preserve facts, do not perform theatre.';
+    if (passed && missed.length === 0) {
+        return `Pass with a clean board. Carry this mental model: ${model} Replay the artifacts once more so the pattern sticks when a real queue is on fire.`;
+    }
+    if (passed) {
+        return `Pass. You still missed ${missed.length} call(s). Mental model: ${model} Re-read those artifacts before you trust the certificate in your head.`;
+    }
+    const hint = missed[0]?.explanation ? ` Start here: ${missed[0].explanation}` : '';
+    return `Below 70%. Mental model: ${model}${hint} Retry when you can defend each call to a SOC lead in one sentence.`;
 }
 
 function inferTrack(lab) {
@@ -2747,7 +2972,8 @@ function summarizeLab(lab) {
         steps: steps.length,
         max_points: steps.reduce((sum, s) => sum + (s.points || 0), 0),
         objectives: lab.objectives || defaultObjectives(lab),
-        source: lab.source || 'builtin'
+        source: lab.source || 'builtin',
+        locale: lab.locale || 'global'
     };
 }
 
@@ -2896,9 +3122,8 @@ function scoreLab(labId, answers = {}, sessionKey = 'anon') {
         breakdown,
         attack_techniques_demonstrated: [...techniques],
         all_techniques: lab.attack_techniques,
-        debrief_summary: passed
-            ? 'Pass. Techniques credit toward your readiness transcript. Retest after you change detections in real life.'
-            : 'Below 70%. Re-read artifacts, avoid panic options, and retry — Workbench value is judgment under pressure.',
+        mental_model: lab.mental_model || MENTAL_MODELS[lab.id] || null,
+        debrief_summary: buildDebrief(lab, breakdown, passed),
         next_urls: {
             training: `/training/${lab.module_id}`,
             workbench: '/lab',

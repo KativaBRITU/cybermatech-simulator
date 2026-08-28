@@ -175,6 +175,42 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
+        .ops-cluster {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .ops-status {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        .ops-pill {
+            padding: 0.28rem 0.75rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            background: var(--glass-bg);
+        }
+        .ops-pill.ok {
+            color: var(--neon-green);
+            background: rgba(0,255,136,0.1);
+            border-color: rgba(0,255,136,0.2);
+        }
+        .ops-pill.warn {
+            color: var(--neon-orange);
+            background: rgba(245,158,11,0.1);
+            border-color: rgba(245,158,11,0.25);
+        }
+        .ops-pill.bad {
+            color: var(--neon-red);
+            background: rgba(239,68,68,0.1);
+            border-color: rgba(239,68,68,0.25);
+        }
 
         /* ============================================================
                STATS GRID – 550-750
@@ -476,6 +512,31 @@
             .stat-card .number { color: #000 !important; }
             .admin-table .score-cell { color: #000 !important; }
         }
+
+        .user-modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 8, 24, 0.72);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .user-modal-backdrop.open { display: flex; }
+        .user-modal {
+            width: min(520px, 100%);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-xl);
+            padding: 1.4rem 1.5rem 1.2rem;
+        }
+        .user-modal h3 { margin-bottom: 1rem; font-size: 1.1rem; }
+        .user-modal dl { display: grid; grid-template-columns: 8.5rem 1fr; gap: 0.45rem 0.8rem; font-size: 0.9rem; }
+        .user-modal dt { color: var(--text-muted); }
+        .user-modal dd { color: var(--text-primary); word-break: break-word; }
+        .user-modal .modal-actions { margin-top: 1.1rem; text-align: right; }
     </style>
 </head>
 <body>
@@ -521,7 +582,14 @@
                 <h1>👑 <span class="highlight">Admin Dashboard</span></h1>
                 <p>Monitor platform statistics, manage users, and oversee platform operations.</p>
             </div>
-            <span class="admin-badge">🔐 Admin Access</span>
+            <div class="ops-cluster">
+                <span class="admin-badge">🔐 Admin Access</span>
+                <div class="ops-status" id="opsStatus" aria-label="Launch readiness">
+                    <span class="ops-pill" id="opsPaypal">PayPal …</span>
+                    <span class="ops-pill" id="opsEmail">Email …</span>
+                    <span class="ops-pill" id="opsDb">DB …</span>
+                </div>
+            </div>
         </div>
 
         <!-- Stats Grid -->
@@ -548,13 +616,35 @@
             </div>
             <div class="stat-card">
                 <div class="stat-icon">💳</div>
-                <span class="number" id="totalRevenue">$0</span>
-                <span class="label">Revenue</span>
+                <span class="number" id="totalRevenue">US$0.00</span>
+                <span class="label">Revenue (USD)</span>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">🔥</div>
                 <span class="number" id="activeUsers">0</span>
                 <span class="label">Active Today</span>
+            </div>
+        </div>
+        <div class="stats-grid" id="orgStatsGrid" style="margin-top:0.75rem;">
+            <div class="stat-card">
+                <div class="stat-icon">🏢</div>
+                <span class="number" id="totalOrgs">0</span>
+                <span class="label">Organizations</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📜</div>
+                <span class="number" id="activeOrgLicenses">0</span>
+                <span class="label">Active Org Licenses</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💺</div>
+                <span class="number" id="orgSeatsUsed">0</span>
+                <span class="label">Seats in Use</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <span class="number" id="pendingLicenseRequests">0</span>
+                <span class="label">Pending License Requests</span>
             </div>
         </div>
 
@@ -565,6 +655,9 @@
             <button class="tab-btn" data-tab="feedback">💬 Feedback <span class="badge" id="feedbackTabBadge">0</span></button>
             <button class="tab-btn" data-tab="labs">🧪 Labs <span class="badge" id="labTabBadge">0</span></button>
             <button class="tab-btn" data-tab="payments">💳 Payments <span class="badge" id="paymentTabBadge">0</span></button>
+            <button class="tab-btn" data-tab="organizations">🏢 Organizations <span class="badge" id="orgTabBadge">0</span></button>
+            <button class="tab-btn" data-tab="sales">💼 Sales <span class="badge" id="salesTabBadge">0</span></button>
+            <button class="tab-btn" data-tab="news">📢 News <span class="badge" id="newsTabBadge">0</span></button>
             <button class="tab-btn" data-tab="activity">📡 Process Monitor <span class="badge" id="activityTabBadge">0</span></button>
         </div>
 
@@ -586,6 +679,7 @@
                             <tr>
                                 <th>User</th>
                                 <th>Email</th>
+                                <th>Plan</th>
                                 <th>Modules</th>
                                 <th>Best Score</th>
                                 <th>Joined</th>
@@ -595,7 +689,7 @@
                         </thead>
                         <tbody id="usersTableBody">
                             <tr>
-                                <td colspan="7" style="text-align:center;padding:2rem;color:var(--text-muted);">Loading users...</td>
+                                <td colspan="8" style="text-align:center;padding:2rem;color:var(--text-muted);">Loading users...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -736,8 +830,203 @@
         </div>
 
         <!-- ============================================================
-        TAB: PROCESS MONITOR
+        TAB: ORGANIZATIONS
         ============================================================ -->
+        <div class="tab-content" id="tab-organizations">
+            <div class="table-card" style="margin-bottom:1rem;">
+                <div class="table-header">
+                    <span class="table-title">🏢 Registered Organizations</span>
+                    <div class="table-actions">
+                        <button class="btn btn-primary btn-small" onclick="loadOrganizations()">🔄 Refresh</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Organization</th>
+                                <th>Type</th>
+                                <th>Seats</th>
+                                <th>License</th>
+                                <th>Expires</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orgsTableBody">
+                            <tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-muted);">Loading organizations...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                <div class="table-card">
+                    <div class="table-header"><span class="table-title">⏳ Pending License Requests</span></div>
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead><tr><th>Org</th><th>Plan</th><th>Seats</th><th>Action</th></tr></thead>
+                            <tbody id="pendingLicensesBody"><tr><td colspan="4" class="muted" style="padding:1rem;">None pending</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="table-card">
+                    <div class="table-header"><span class="table-title">📋 Custom Training Queue</span></div>
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead><tr><th>Org</th><th>Title</th><th>Status</th><th>Update</th></tr></thead>
+                            <tbody id="pendingCustomBody"><tr><td colspan="4" class="muted" style="padding:1rem;">None pending</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+        TAB: SALES LEADS
+        ============================================================ -->
+        <div class="tab-content" id="tab-sales">
+            <div class="table-card">
+                <div class="table-header">
+                    <span class="table-title">💼 Sales queue (demo / quote)</span>
+                    <div class="table-actions">
+                        <button class="btn btn-primary btn-small" onclick="loadSalesLeads()">🔄 Refresh</button>
+                    </div>
+                </div>
+                <p style="color:var(--text-muted);font-size:0.85rem;margin:0 0 0.75rem;">From public <code>/teams</code> via POST /api/sales-lead. Newest first.</p>
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>When</th>
+                                <th>Name / email</th>
+                                <th>Company</th>
+                                <th>Role</th>
+                                <th>Seats</th>
+                                <th>Country</th>
+                                <th>Status</th>
+                                <th>Brief</th>
+                            </tr>
+                        </thead>
+                        <tbody id="salesLeadsBody">
+                            <tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text-muted);">Loading sales leads...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="table-card" style="margin-top:1.25rem;">
+                <div class="table-header">
+                    <span class="table-title">Pending checkouts</span>
+                </div>
+                <p style="color:var(--text-muted);font-size:0.85rem;margin:0 0 0.75rem;">Plan requests from /payment when PayPal is not live. Activate the learner from Users → Activate plan after you confirm payment.</p>
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>When</th>
+                                <th>Learner</th>
+                                <th>Plan</th>
+                                <th>USD</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pendingSubsBody">
+                            <tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--text-muted);">Loading…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="table-card" style="margin-top:1.25rem;">
+                <div class="table-header">
+                    <span class="table-title">License keys</span>
+                    <div class="table-actions">
+                        <select id="newKeyPlan" style="padding:0.35rem 0.6rem;border-radius:8px;">
+                            <option value="annual">Pro annual</option>
+                            <option value="monthly">Pro monthly</option>
+                            <option value="pro_plus_annual">Pro+ annual</option>
+                            <option value="special_ops_annual">Special Ops annual</option>
+                        </select>
+                        <button class="btn btn-primary btn-small" onclick="createLicenseKey()">Create key</button>
+                    </div>
+                </div>
+                <p style="color:var(--text-muted);font-size:0.85rem;margin:0 0 0.75rem;">Give the key to a learner after they pay offline. They redeem it on /payment.</p>
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Plan</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tbody id="licenseKeysBody">
+                            <tr><td colspan="4" style="text-align:center;padding:1.5rem;color:var(--text-muted);">Loading…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content" id="tab-news">
+            <div class="table-card">
+                <div class="table-header">
+                    <span class="table-title">📢 Customer news &amp; offers</span>
+                    <div class="table-actions">
+                        <a class="btn btn-small" href="/news" target="_blank" rel="noopener">View public page</a>
+                        <button class="btn btn-primary btn-small" type="button" onclick="loadNewsAdmin()">Refresh</button>
+                    </div>
+                </div>
+                <p style="color:var(--text-muted);font-size:0.85rem;margin:0 0 0.75rem;">
+                    Write here. Tick <strong>Publish</strong> to show it on the website (<a href="/news" target="_blank">/news</a> and Home). No coding required. Optional image: JPEG/PNG/WebP, 4MB.
+                </p>
+                <form id="newsForm" style="display:grid;gap:0.65rem;margin-bottom:1.25rem;">
+                    <input type="hidden" id="newsId" value="">
+                    <label>Title
+                        <input id="newsTitle" required maxlength="160" placeholder="e.g. New Special Ops intake in September" style="width:100%;padding:0.55rem 0.7rem;border-radius:8px;border:1px solid var(--glass-border);background:var(--bg-secondary);color:var(--text-primary);">
+                    </label>
+                    <label>Type
+                        <select id="newsKind" style="width:100%;padding:0.55rem 0.7rem;border-radius:8px;border:1px solid var(--glass-border);background:var(--bg-secondary);color:var(--text-primary);">
+                            <option value="update">Update</option>
+                            <option value="training">Training</option>
+                            <option value="offer">Offer / advert</option>
+                            <option value="event">Event</option>
+                        </select>
+                    </label>
+                    <label>Short summary (home page)
+                        <input id="newsSummary" maxlength="280" placeholder="One or two sentences customers will see first" style="width:100%;padding:0.55rem 0.7rem;border-radius:8px;border:1px solid var(--glass-border);background:var(--bg-secondary);color:var(--text-primary);">
+                    </label>
+                    <label>Full message
+                        <textarea id="newsBody" rows="7" maxlength="12000" placeholder="Paste the full announcement. Plain text is safest." style="width:100%;padding:0.55rem 0.7rem;border-radius:8px;border:1px solid var(--glass-border);background:var(--bg-secondary);color:var(--text-primary);"></textarea>
+                    </label>
+                    <label>Picture (optional)
+                        <input type="file" id="newsImageFile" accept="image/jpeg,image/png,image/webp,image/gif">
+                    </label>
+                    <input type="hidden" id="newsImageUrl" value="">
+                    <div id="newsImagePreview" style="display:none;"><img alt="" style="max-width:220px;border-radius:10px;"></div>
+                    <label style="display:flex;gap:0.5rem;align-items:center;"><input type="checkbox" id="newsPublished" checked> Publish now (visible to customers)</label>
+                    <label style="display:flex;gap:0.5rem;align-items:center;"><input type="checkbox" id="newsPinned"> Pin to top</label>
+                    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                        <button class="btn btn-primary" type="submit" id="newsSaveBtn">Save post</button>
+                        <button class="btn btn-small" type="button" onclick="resetNewsForm()">Clear form</button>
+                    </div>
+                    <p id="newsFormMsg" style="color:var(--text-muted);font-size:0.85rem;"></p>
+                </form>
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>When</th>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Live</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="newsAdminBody">
+                            <tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--text-muted);">Loading…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         <div class="tab-content" id="tab-activity">
             <div class="stats-grid" style="margin-bottom:1rem;">
                 <div class="stat-card"><div class="stat-label">Inbound (24h)</div><div class="stat-value" id="inboundCount">0</div></div>
@@ -785,6 +1074,16 @@
             <a href="/dashboard" class="btn btn-secondary" style="padding:0.5rem 1.5rem;">← Back to Dashboard</a>
         </div>
 
+    </div>
+
+    <div class="user-modal-backdrop" id="userViewModal" role="dialog" aria-modal="true" aria-labelledby="userViewTitle">
+        <div class="user-modal">
+            <h3 id="userViewTitle">User</h3>
+            <dl id="userViewBody"></dl>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary btn-small" id="userViewClose">Close</button>
+            </div>
+        </div>
     </div>
 
     <!-- ============================================================
@@ -842,6 +1141,9 @@
                 const target = document.getElementById('tab-' + tabId);
                 if (target) target.classList.add('active');
                 if (tabId === 'activity') loadActivity();
+                if (tabId === 'organizations') loadOrganizations();
+                if (tabId === 'sales') loadSalesLeads();
+                if (tabId === 'news') loadNewsAdmin();
             });
         });
 
@@ -857,11 +1159,60 @@
                     document.getElementById('totalQuizzes').textContent = data.totalQuizzes || 0;
                     document.getElementById('avgScore').textContent = (data.avgScore || 0) + '%';
                     document.getElementById('totalCertificates').textContent = data.totalCertificates || 0;
-                    document.getElementById('totalRevenue').textContent = '$' + (data.totalRevenue || 0);
+                    const usd = Number(data.totalRevenue || 0);
+                    const revEl = document.getElementById('totalRevenue');
+                    revEl.textContent = 'US$' + usd.toFixed(2);
+                    if (data.revenueNadOnlyRows) {
+                        revEl.title = data.revenueNadOnlyRows + ' historical NAD-only row(s) converted at ~N$' +
+                            (data.revenueNadPerUsd || '') + ' per US$1 — not a live FX feed.';
+                    } else {
+                        revEl.title = 'Sum of paid subscriptions.amount_usd + active org license USD';
+                    }
                     document.getElementById('activeUsers').textContent = data.activeUsers || 0;
+                    document.getElementById('totalOrgs').textContent = data.totalOrgs || 0;
+                    document.getElementById('activeOrgLicenses').textContent = data.activeOrgLicenses || 0;
+                    document.getElementById('orgSeatsUsed').textContent = data.orgSeatsUsed || 0;
+                    document.getElementById('pendingLicenseRequests').textContent = data.pendingLicenseRequests || 0;
                 }
             } catch (error) {
                 console.error('Error loading stats:', error);
+            }
+        }
+
+        function setOpsPill(id, ok, label, warn) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.textContent = label;
+            el.classList.remove('ok', 'warn', 'bad');
+            el.classList.add(warn ? 'warn' : (ok ? 'ok' : 'bad'));
+        }
+
+        async function loadOpsStatus() {
+            try {
+                const res = await fetch('/api/launch-readiness', { credentials: 'same-origin' });
+                const data = await res.json();
+                const c = data.checks || {};
+                setOpsPill(
+                    'opsPaypal',
+                    Boolean(c.paypal),
+                    c.paypal_live ? 'PayPal live' : (c.paypal ? 'PayPal sandbox' : 'PayPal off'),
+                    Boolean(c.paypal) && !c.paypal_live
+                );
+                setOpsPill(
+                    'opsEmail',
+                    Boolean(c.email_configured && c.email_ready),
+                    c.email_ready ? 'Email ready' : (c.email_configured ? 'Email untested' : 'Email off'),
+                    Boolean(c.email_configured) && !c.email_ready
+                );
+                const dbOk = c.database_ok !== false;
+                const dbLabel = !dbOk
+                    ? 'DB down'
+                    : (c.database_postgres ? 'DB postgres' : 'DB sqlite');
+                setOpsPill('opsDb', dbOk, dbLabel, dbOk && !c.database_postgres);
+            } catch (error) {
+                setOpsPill('opsPaypal', false, 'PayPal ?');
+                setOpsPill('opsEmail', false, 'Email ?');
+                setOpsPill('opsDb', false, 'DB ?');
             }
         }
 
@@ -927,33 +1278,53 @@
                         const initials = getInitials(user.username);
                         const statusClass = user.status === 'active' ? 'active' : 'inactive';
                         const score = user.best_score || 0;
-                        const safeName = String(user.username || 'Unknown').replace(/'/g, "\\'");
+                        const uid = Number(user.id);
+                        const displayName = String(user.username || 'Unknown');
+                        const planLabel = user.subscription_status === 'active'
+                            ? (user.subscription_tier || 'paid')
+                            : (user.subscription_tier && user.subscription_tier !== 'free'
+                                ? (user.subscription_tier + ' / ' + (user.subscription_status || 'inactive'))
+                                : 'free');
                         tr.innerHTML = `
                             <td>
                                 <div class="user-cell">
                                     <div class="avatar">${initials}</div>
-                                    <span>${user.username || 'Unknown'}</span>
+                                    <span></span>
                                 </div>
                             </td>
-                            <td>${user.email || '—'}</td>
+                            <td></td>
+                            <td>${planLabel}</td>
                             <td>${user.modules_completed || 0}</td>
                             <td class="score-cell">${score}%</td>
                             <td>${formatDate(user.created_at)}</td>
                             <td><span class="status-badge ${statusClass}">${user.status || 'inactive'}</span></td>
                             <td>
                                 <div class="actions-cell">
-                                    <button class="btn-icon" onclick="viewUser(${Number(user.id)})" title="View">👁️</button>
-                                    <button class="btn-icon danger" onclick="deleteUser(${Number(user.id)}, '${safeName}')" title="Delete user">🗑️</button>
+                                    <button type="button" class="btn-icon" data-user-action="view" data-user-id="${uid}" title="View">👁️</button>
+                                    <select class="btn-small" data-user-action="activate-plan" data-user-id="${uid}" title="Activate paid plan" style="max-width:9rem;">
+                                        <option value="">Activate plan</option>
+                                        <option value="monthly">Pro monthly</option>
+                                        <option value="annual">Pro annual</option>
+                                        <option value="pro_plus_2mo">Pro+ 2mo</option>
+                                        <option value="pro_plus_annual">Pro+ annual</option>
+                                        <option value="special_ops_2mo">Special Ops 2mo</option>
+                                        <option value="special_ops_annual">Special Ops annual</option>
+                                    </select>
+                                    <button type="button" class="btn-icon danger" data-user-action="delete" data-user-id="${uid}" title="Delete user">🗑️</button>
                                 </div>
                             </td>
                         `;
+                        tr.querySelector('.user-cell span').textContent = displayName;
+                        tr.children[1].textContent = user.email || '—';
+                        const delBtn = tr.querySelector('[data-user-action="delete"]');
+                        if (delBtn) delBtn.dataset.username = displayName;
                         tbody.appendChild(tr);
                     });
                 } else {
                     document.getElementById('userTabBadge').textContent = '0';
                     tbody.innerHTML = `
                         <tr>
-                            <td colspan="7" style="text-align:center;padding:2rem;color:var(--text-muted);">
+                            <td colspan="8" style="text-align:center;padding:2rem;color:var(--text-muted);">
                                 <div class="empty-state">
                                     <div class="icon">👥</div>
                                     <h4>No Users Registered</h4>
@@ -1006,7 +1377,7 @@
                                 <div class="empty-state">
                                     <div class="icon">🎓</div>
                                     <h4>No Certificates Issued</h4>
-                                    <p>Certificates will appear here when users complete modules with 80%+ scores.</p>
+                                    <p>Program completion certificates appear here when learners pass 65% of modules at 70%+.</p>
                                 </div>
                             </td>
                         </tr>
@@ -1120,30 +1491,54 @@
                 const res = await fetch('/api/admin/payments');
                 const data = await res.json();
                 const tbody = document.getElementById('paymentsTableBody');
+                const rows = [];
+                if (data.success && Array.isArray(data.subscriptions)) {
+                    data.subscriptions.forEach((s) => {
+                        rows.push({
+                            user: s.username || s.email || 'User #' + s.user_id,
+                            plan: s.plan || s.tier || 'subscription',
+                            amount: s.amount != null ? '$' + s.amount : '—',
+                            status: s.status || 'pending',
+                            date: s.created_at
+                        });
+                    });
+                }
+                if (data.success && Array.isArray(data.organization_licenses)) {
+                    data.organization_licenses.forEach((l) => {
+                        rows.push({
+                            user: l.org_name || 'Org #' + l.org_id,
+                            plan: 'B2B: ' + (l.plan || 'license'),
+                            amount: l.amount_nad != null ? 'N$' + Number(l.amount_nad).toLocaleString() : '—',
+                            status: l.status || 'pending',
+                            date: l.starts_at || l.created_at
+                        });
+                    });
+                }
 
-                if (data.success && data.payments && data.payments.length > 0) {
-                    document.getElementById('paymentTabBadge').textContent = data.payments.length;
+                if (rows.length > 0) {
+                    document.getElementById('paymentTabBadge').textContent = rows.length;
                     tbody.innerHTML = '';
-                    data.payments.forEach(payment => {
+                    rows.forEach(payment => {
                         const tr = document.createElement('tr');
-                        const statusClass = payment.status === 'completed' ? 'active' : 'pending';
+                        const statusClass = ['completed', 'active', 'paid'].includes(String(payment.status).toLowerCase()) ? 'active' : 'pending';
                         tr.innerHTML = `
-                            <td>${payment.username || 'Unknown'}</td>
-                            <td>${payment.plan || '—'}</td>
-                            <td>$${payment.amount || '0.00'}</td>
-                            <td><span class="status-badge ${statusClass}">${payment.status || 'pending'}</span></td>
-                            <td>${formatDate(payment.created_at)}</td>
+                            <td>${payment.user}</td>
+                            <td>${payment.plan}</td>
+                            <td>${payment.amount}</td>
+                            <td><span class="status-badge ${statusClass}">${payment.status}</span></td>
+                            <td>${formatDate(payment.date)}</td>
                         `;
                         tbody.appendChild(tr);
                     });
                 } else {
+                    document.getElementById('paymentTabBadge').textContent = '0';
                     tbody.innerHTML = `
                         <tr>
                             <td colspan="5" style="text-align:center;padding:2rem;color:var(--text-muted);">
                                 <div class="empty-state">
                                     <div class="icon">💳</div>
                                     <h4>No Payments Recorded</h4>
-                                    <p>Payments will appear here when users subscribe to Pro.</p>
+                                    <p>Consumer subscriptions and org licenses will appear here.</p>
                                 </div>
                             </td>
                         </tr>
@@ -1154,30 +1549,447 @@
             }
         }
 
+        async function loadOrganizations() {
+            try {
+                const res = await fetch('/api/admin/orgs');
+                const data = await res.json();
+                if (!data.success) throw new Error(data.message || 'Failed');
+
+                const orgs = data.organizations || [];
+                document.getElementById('orgTabBadge').textContent = orgs.length;
+                const orgBody = document.getElementById('orgsTableBody');
+                if (!orgs.length) {
+                    orgBody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-muted);">No organizations yet.</td></tr>';
+                } else {
+                    orgBody.innerHTML = orgs.map(o => {
+                        const exp = o.license_expires_at ? formatDate(o.license_expires_at) : '—';
+                        const seats = `${o.seats_used || 0}/${o.seat_limit || '?'}`;
+                        const tier = o.license_tier || 'free';
+                        const status = o.license_status || 'inactive';
+                        return `<tr>
+                            <td><strong>${o.name || '—'}</strong><div style="font-size:0.75rem;color:var(--text-muted);">${o.industry || o.org_type || ''}</div></td>
+                            <td>${o.org_type || '—'}</td>
+                            <td>${seats}</td>
+                            <td>${tier} · <span class="status-badge ${status === 'active' ? 'active' : 'pending'}">${status}</span></td>
+                            <td>${exp}</td>
+                            <td>
+                                <select onchange="activateOrgLicense(${o.id}, this.value, this)" style="font-size:0.75rem;padding:0.2rem;">
+                                    <option value="">Activate plan…</option>
+                                    <option value="sme_pack">SME pack</option>
+                                    <option value="institution_annual">Institution</option>
+                                    <option value="enterprise_license">Enterprise</option>
+                                    <option value="custom_training">Custom training</option>
+                                </select>
+                            </td>
+                        </tr>`;
+                    }).join('');
+                }
+
+                const pending = data.pending_licenses || [];
+                const pendBody = document.getElementById('pendingLicensesBody');
+                pendBody.innerHTML = pending.length ? pending.map(p => `<tr>
+                    <td>${p.org_name || '#' + p.org_id}</td>
+                    <td>${p.plan}</td>
+                    <td>${p.seats || '—'}</td>
+                    <td><button class="btn btn-primary btn-small" onclick="activateOrgLicense(${p.org_id}, '${p.plan}')">Activate</button></td>
+                </tr>`).join('') : '<tr><td colspan="4" class="muted" style="padding:1rem;">None pending</td></tr>';
+
+                const custom = data.pending_custom || [];
+                const customBody = document.getElementById('pendingCustomBody');
+                customBody.innerHTML = custom.length ? custom.map(c => `<tr>
+                    <td>${c.org_name || '#' + c.org_id}</td>
+                    <td>${c.title || '—'}</td>
+                    <td>${c.status}</td>
+                    <td>
+                        <select onchange="updateCustomTraining(${c.id}, this.value)" style="font-size:0.75rem;">
+                            <option value="">Set status…</option>
+                            <option value="pending">pending</option>
+                            <option value="in_progress">in_progress</option>
+                            <option value="delivered">delivered</option>
+                            <option value="closed">closed</option>
+                        </select>
+                    </td>
+                </tr>`).join('') : '<tr><td colspan="4" class="muted" style="padding:1rem;">None pending</td></tr>';
+            } catch (error) {
+                console.error('Error loading organizations:', error);
+                showToast('Could not load organizations', 'error');
+            }
+        }
+
+        function escapeHtml(str) {
+            return String(str ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        async function loadSalesLeads() {
+            try {
+                const res = await fetch('/api/admin/sales-leads', { credentials: 'same-origin' });
+                const data = await res.json();
+                const body = document.getElementById('salesLeadsBody');
+                const badge = document.getElementById('salesTabBadge');
+                if (!data.success) throw new Error(data.message || 'Failed');
+                const leads = data.leads || [];
+                if (badge) badge.textContent = leads.length;
+                if (!leads.length) {
+                    body.innerHTML = `
+                        <tr>
+                            <td colspan="8" style="text-align:center;padding:2rem;color:var(--text-muted);">
+                                <div class="empty-state">
+                                    <div class="icon">💼</div>
+                                    <h4>No sales leads yet</h4>
+                                    <p>Quotes from /teams will appear here.</p>
+                                </div>
+                            </td>
+                        </tr>`;
+                    return;
+                }
+                body.innerHTML = leads.map(row => {
+                    const status = String(row.status || 'new').toLowerCase();
+                    const statusClass = status === 'new' ? 'pending' : (status === 'closed' ? 'inactive' : 'active');
+                    const brief = String(row.message || '—');
+                    const short = brief.length > 90 ? brief.slice(0, 90) + '…' : brief;
+                    return `<tr>
+                        <td>${escapeHtml(formatDate(row.created_at))}</td>
+                        <td>
+                            <strong>${escapeHtml(row.name || '—')}</strong>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">${escapeHtml(row.email || '')}</div>
+                        </td>
+                        <td>${escapeHtml(row.company || '—')}</td>
+                        <td>${escapeHtml(row.role || '—')}</td>
+                        <td>${row.seats != null ? escapeHtml(row.seats) : '—'}</td>
+                        <td>${escapeHtml(row.country || '—')}</td>
+                        <td><span class="status-badge ${statusClass}">${escapeHtml(row.status || 'new')}</span>
+                            <div style="font-size:0.7rem;color:var(--text-muted);">${escapeHtml(row.source || '')}</div>
+                        </td>
+                        <td style="max-width:280px;white-space:pre-wrap;font-size:0.8rem;" title="${escapeHtml(brief)}">${escapeHtml(short)}</td>
+                    </tr>`;
+                }).join('');
+                const pendingBody = document.getElementById('pendingSubsBody');
+                const pending = data.pending_subscriptions || [];
+                if (pendingBody) {
+                    if (!pending.length) {
+                        pendingBody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.2rem;color:var(--text-muted);">No pending checkouts.</td></tr>';
+                    } else {
+                        pendingBody.innerHTML = pending.map(row => `<tr>
+                            <td>${escapeHtml(formatDate(row.created_at))}</td>
+                            <td><strong>${escapeHtml(row.username || '—')}</strong><div style="font-size:0.75rem;color:var(--text-muted);">${escapeHtml(row.email || '')}</div></td>
+                            <td>${escapeHtml(row.plan || row.tier || '—')}</td>
+                            <td>${escapeHtml(row.amount_usd != null ? String(row.amount_usd) : '—')}</td>
+                            <td><span class="status-badge pending">${escapeHtml(row.status || 'pending')}</span></td>
+                        </tr>`).join('');
+                    }
+                }
+                loadLicenseKeys();
+            } catch (error) {
+                console.error('Error loading sales leads:', error);
+                showToast('Could not load sales leads (admin login required)', 'error');
+            }
+        }
+
+        async function loadLicenseKeys() {
+            const body = document.getElementById('licenseKeysBody');
+            if (!body) return;
+            try {
+                const res = await fetch('/api/admin/license-keys', { credentials: 'same-origin' });
+                const data = await res.json();
+                const keys = data.keys || [];
+                if (!keys.length) {
+                    body.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:1.2rem;color:var(--text-muted);">No keys yet.</td></tr>';
+                    return;
+                }
+                body.innerHTML = keys.map(row => `<tr>
+                    <td><code>${escapeHtml(row.code || '')}</code></td>
+                    <td>${escapeHtml(row.plan || '')}</td>
+                    <td><span class="status-badge ${String(row.status) === 'unused' ? 'pending' : 'active'}">${escapeHtml(row.status || '')}</span></td>
+                    <td>${escapeHtml(formatDate(row.created_at))}</td>
+                </tr>`).join('');
+            } catch (e) {
+                body.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:1.2rem;color:var(--text-muted);">Could not load keys.</td></tr>';
+            }
+        }
+
+        let newsCache = [];
+        function resetNewsForm() {
+            document.getElementById('newsId').value = '';
+            document.getElementById('newsTitle').value = '';
+            document.getElementById('newsKind').value = 'update';
+            document.getElementById('newsSummary').value = '';
+            document.getElementById('newsBody').value = '';
+            document.getElementById('newsImageUrl').value = '';
+            document.getElementById('newsImageFile').value = '';
+            document.getElementById('newsPublished').checked = true;
+            document.getElementById('newsPinned').checked = false;
+            document.getElementById('newsImagePreview').style.display = 'none';
+            document.getElementById('newsSaveBtn').textContent = 'Save post';
+            document.getElementById('newsFormMsg').textContent = '';
+        }
+        function fillNewsForm(p) {
+            document.getElementById('newsId').value = p.id;
+            document.getElementById('newsTitle').value = p.title || '';
+            document.getElementById('newsKind').value = p.kind || 'update';
+            document.getElementById('newsSummary').value = p.summary || '';
+            document.getElementById('newsBody').value = p.body || '';
+            document.getElementById('newsImageUrl').value = p.image_url || '';
+            document.getElementById('newsPublished').checked = !!(p.published);
+            document.getElementById('newsPinned').checked = !!(p.pinned);
+            const preview = document.getElementById('newsImagePreview');
+            if (p.image_url) {
+                preview.style.display = 'block';
+                preview.querySelector('img').src = p.image_url;
+            } else {
+                preview.style.display = 'none';
+            }
+            document.getElementById('newsSaveBtn').textContent = 'Update post';
+            window.scrollTo({ top: document.getElementById('newsForm').offsetTop - 80, behavior: 'smooth' });
+        }
+        async function loadNewsAdmin() {
+            const body = document.getElementById('newsAdminBody');
+            if (!body) return;
+            try {
+                const res = await fetch('/api/admin/news', { credentials: 'same-origin' });
+                const data = await res.json();
+                newsCache = data.posts || [];
+                const badge = document.getElementById('newsTabBadge');
+                if (badge) badge.textContent = newsCache.length;
+                if (!newsCache.length) {
+                    body.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--text-muted);">No posts yet. Write one above and tick Publish.</td></tr>';
+                    return;
+                }
+                body.innerHTML = newsCache.map((p) => `<tr>
+                    <td>${escapeHtml(formatDate(p.created_at))}</td>
+                    <td><strong>${escapeHtml(p.title || '')}</strong>${p.pinned ? ' · pinned' : ''}</td>
+                    <td>${escapeHtml(p.kind || '')}</td>
+                    <td>${p.published ? 'Yes' : 'Draft'}</td>
+                    <td>
+                        <button class="btn btn-small" type="button" onclick="editNewsPost(${Number(p.id)})">Edit</button>
+                        <button class="btn btn-small" type="button" onclick="deleteNewsPost(${Number(p.id)})">Delete</button>
+                    </td>
+                </tr>`).join('');
+            } catch (e) {
+                body.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--text-muted);">Could not load news.</td></tr>';
+            }
+        }
+        function editNewsPost(id) {
+            const p = newsCache.find((x) => Number(x.id) === Number(id));
+            if (p) fillNewsForm(p);
+        }
+        async function deleteNewsPost(id) {
+            if (!confirm('Delete this post? Customers will no longer see it.')) return;
+            const res = await fetch('/api/admin/news/' + id + '/delete', { method: 'POST', credentials: 'same-origin' });
+            const data = await res.json();
+            if (!data.success) { showToast(data.message || 'Delete failed', 'error'); return; }
+            showToast('Deleted', 'success');
+            resetNewsForm();
+            await loadNewsAdmin();
+        }
+        document.getElementById('newsForm')?.addEventListener('submit', async (ev) => {
+            ev.preventDefault();
+            const msg = document.getElementById('newsFormMsg');
+            msg.textContent = 'Saving…';
+            try {
+                let imageUrl = document.getElementById('newsImageUrl').value;
+                const file = document.getElementById('newsImageFile').files[0];
+                if (file) {
+                    const fd = new FormData();
+                    fd.append('image', file);
+                    const up = await fetch('/api/admin/news-image', { method: 'POST', credentials: 'same-origin', body: fd });
+                    const upData = await up.json();
+                    if (!upData.success) throw new Error(upData.message || 'Image upload failed');
+                    imageUrl = upData.image_url;
+                    document.getElementById('newsImageUrl').value = imageUrl;
+                }
+                const payload = {
+                    title: document.getElementById('newsTitle').value,
+                    kind: document.getElementById('newsKind').value,
+                    summary: document.getElementById('newsSummary').value,
+                    body: document.getElementById('newsBody').value,
+                    image_url: imageUrl,
+                    published: document.getElementById('newsPublished').checked,
+                    pinned: document.getElementById('newsPinned').checked
+                };
+                const id = document.getElementById('newsId').value;
+                const url = id ? '/api/admin/news/' + id : '/api/admin/news';
+                const res = await fetch(url, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (!data.success) throw new Error(data.message || 'Save failed');
+                msg.textContent = id ? 'Updated. If Publish is ticked, customers can see it now.' : 'Saved. If Publish is ticked, customers can see it now.';
+                showToast('News saved', 'success');
+                resetNewsForm();
+                await loadNewsAdmin();
+            } catch (err) {
+                msg.textContent = err.message || 'Could not save';
+                showToast(msg.textContent, 'error');
+            }
+        });
+
+        async function createLicenseKey() {
+            const plan = document.getElementById('newKeyPlan')?.value || 'annual';
+            try {
+                const res = await fetch('/api/admin/license-keys', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ plan, count: 1 })
+                });
+                const data = await res.json();
+                if (!data.success) throw new Error(data.message || 'Create failed');
+                const code = data.keys && data.keys[0] && data.keys[0].code;
+                showToast(code ? ('Key created: ' + code) : (data.message || 'Created'), 'success');
+                await loadLicenseKeys();
+            } catch (err) {
+                showToast(err.message || 'Could not create key', 'error');
+            }
+        }
+
+        async function activateUserPlan(userId, selectEl) {
+            const plan = selectEl && selectEl.value;
+            if (!plan) return;
+            if (!confirm('Activate ' + plan + ' for user #' + userId + '? This records an operator activation.')) {
+                selectEl.value = '';
+                return;
+            }
+            try {
+                const res = await fetch('/api/admin/users/' + userId + '/activate-plan', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ plan })
+                });
+                const data = await res.json();
+                if (!data.success) throw new Error(data.message || 'Activate failed');
+                showToast(data.message, 'success');
+                if (typeof loadUsers === 'function') loadUsers();
+                if (typeof loadSalesLeads === 'function') loadSalesLeads();
+            } catch (err) {
+                showToast(err.message || 'Activate failed', 'error');
+            } finally {
+                if (selectEl) selectEl.value = '';
+            }
+        }
+
+        async function activateOrgLicense(orgId, planKey, selectEl) {
+            if (!planKey) return;
+            if (!confirm(`Activate "${planKey}" for organization #${orgId}?`)) {
+                if (selectEl) selectEl.value = '';
+                return;
+            }
+            try {
+                const res = await fetch(`/api/admin/orgs/${orgId}/activate-license`, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ plan: planKey })
+                });
+                const data = await res.json();
+                if (!res.ok || !data.success) throw new Error(data.message || 'Activate failed');
+                showToast('License activated for org #' + orgId, 'success');
+                await loadOrganizations();
+                if (typeof loadStats === 'function') loadStats();
+                if (typeof loadPayments === 'function') loadPayments();
+            } catch (err) {
+                showToast(err.message || 'Activate failed', 'error');
+            } finally {
+                if (selectEl) selectEl.value = '';
+            }
+        }
+
+        async function updateCustomTraining(id, status) {
+            if (!status) return;
+            try {
+                const res = await fetch(`/api/admin/custom-training/${id}/status`, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status })
+                });
+                const data = await res.json();
+                if (!res.ok || !data.success) throw new Error(data.message || 'Update failed');
+                showToast('Custom training status updated', 'success');
+                await loadOrganizations();
+            } catch (err) {
+                showToast(err.message || 'Update failed', 'error');
+            }
+        }
+
         // ============================================================
         // ACTIONS
         // ============================================================
-        function viewUser(userId) {
-            showToast('User #' + userId + ' — use Delete to remove accounts. Profile details live under Users.', 'info');
+        function closeUserModal() {
+            document.getElementById('userViewModal')?.classList.remove('open');
+        }
+
+        function fillUserModal(user) {
+            const title = document.getElementById('userViewTitle');
+            const body = document.getElementById('userViewBody');
+            if (title) title.textContent = user.username || ('User #' + user.id);
+            const expires = user.subscription_expires_at
+                ? new Date(user.subscription_expires_at).toLocaleString()
+                : '—';
+            const rows = [
+                ['Username', user.username || '—'],
+                ['Email', user.email || '—'],
+                ['Account status', user.status || '—'],
+                ['Plan tier', user.subscription_tier || 'free'],
+                ['Plan status', user.subscription_status || 'inactive'],
+                ['Plan expires', expires],
+                ['Joined', user.created_at ? formatDate(user.created_at) : '—'],
+                ['Modules completed', String(user.modules_completed ?? 0)]
+            ];
+            if (body) {
+                body.innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${String(v)}</dd>`).join('');
+            }
+            document.getElementById('userViewModal')?.classList.add('open');
+        }
+
+        async function viewUser(userId) {
+            try {
+                const res = await fetch('/api/admin/users/' + encodeURIComponent(userId), { credentials: 'same-origin' });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data.success || !data.user) {
+                    showToast(data.message || 'Could not load user', 'error');
+                    return;
+                }
+                fillUserModal(data.user);
+            } catch (err) {
+                console.error(err);
+                showToast('Network error while loading user', 'error');
+            }
         }
 
         async function deleteUser(userId, username) {
             const label = username || ('#' + userId);
-            if (!confirm(`Delete user “${label}”?\\n\\nThis permanently removes their account, scores, badges, and related data. This cannot be undone.`)) {
+            if (!confirm('Delete user “' + label + '”? This permanently removes their account, scores, badges, and related data. This cannot be undone.')) {
                 return;
             }
-            if (!confirm(`Final confirmation: delete “${label}” forever?`)) {
+            if (!confirm('Final confirmation: delete “' + label + '” forever?')) {
                 return;
             }
 
             try {
-                const res = await fetch(`/api/admin/users/${encodeURIComponent(userId)}`, {
+                let res = await fetch('/api/admin/users/' + encodeURIComponent(userId), {
                     method: 'DELETE',
-                    credentials: 'same-origin'
+                    credentials: 'same-origin',
+                    headers: { 'Accept': 'application/json' }
                 });
+                if (res.status === 404 || res.status === 405) {
+                    res = await fetch('/api/admin/users/' + encodeURIComponent(userId) + '/delete', {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                        body: '{}'
+                    });
+                }
                 const data = await res.json().catch(() => ({}));
                 if (!res.ok || !data.success) {
-                    showToast(data.message || 'Could not delete user', 'error');
+                    showToast(data.message || ('Could not delete user (HTTP ' + res.status + ')'), 'error');
                     return;
                 }
                 showToast(data.message || 'User deleted', 'success');
@@ -1244,12 +2056,14 @@
             if (refreshInterval) clearInterval(refreshInterval);
             refreshInterval = setInterval(() => {
                 loadStats();
+                loadOpsStatus();
                 loadUsers();
                 loadCertificates();
                 loadFeedback();
                 loadLabs();
                 loadPayments();
                 if (document.getElementById('tab-activity')?.classList.contains('active')) loadActivity();
+                if (document.getElementById('tab-sales')?.classList.contains('active')) loadSalesLeads();
             }, 60000);
         }
 
@@ -1266,6 +2080,11 @@
                     setTimeout(() => { window.location.href = '/login'; }, 3000);
                     return;
                 }
+                if (!data.is_admin) {
+                    showToast('Admin authorization required.', 'error', 4000);
+                    setTimeout(() => { window.location.href = '/dashboard'; }, 1500);
+                    return;
+                }
             } catch (e) {
                 showToast('Please log in to access the admin panel.', 'warning', 5000);
                 setTimeout(() => { window.location.href = '/login'; }, 3000);
@@ -1273,15 +2092,51 @@
             }
 
             await loadStats();
+            await loadOpsStatus();
             await loadUsers();
             await loadCertificates();
             await loadFeedback();
             await loadLabs();
             await loadPayments();
+            await loadOrganizations();
+            await loadSalesLeads();
+            await loadNewsAdmin();
             await loadActivity();
             startAutoRefresh();
 
             console.log('👑 Admin Dashboard loaded.');
+        }
+
+        document.getElementById('userViewClose')?.addEventListener('click', closeUserModal);
+        document.getElementById('userViewModal')?.addEventListener('click', function (e) {
+            if (e.target === this) closeUserModal();
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeUserModal();
+        });
+
+        // Event delegation — CSP script-src-attr must not block these controls
+        const usersTableBody = document.getElementById('usersTableBody');
+        if (usersTableBody) {
+            usersTableBody.addEventListener('click', function (e) {
+                const btn = e.target.closest('[data-user-action]');
+                if (!btn || btn.tagName === 'SELECT') return;
+                const action = btn.getAttribute('data-user-action');
+                const userId = Number(btn.getAttribute('data-user-id'));
+                if (!Number.isFinite(userId) || userId <= 0) return;
+                if (action === 'view') viewUser(userId);
+                if (action === 'delete') deleteUser(userId, btn.dataset.username || '');
+            });
+            usersTableBody.addEventListener('change', function (e) {
+                const sel = e.target.closest('select[data-user-action="activate-plan"]');
+                if (!sel) return;
+                const userId = Number(sel.getAttribute('data-user-id'));
+                if (!Number.isFinite(userId) || userId <= 0) {
+                    sel.value = '';
+                    return;
+                }
+                activateUserPlan(userId, sel);
+            });
         }
 
         init();

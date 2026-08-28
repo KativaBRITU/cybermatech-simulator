@@ -20,7 +20,7 @@
         }
 
         :root {
-            --bg-primary: #0a0e27;
+            --bg-primary: #6f717e;
             --bg-secondary: #1a1f3a;
             --bg-card: rgba(255, 255, 255, 0.02);
             --bg-card-hover: rgba(255, 255, 255, 0.04);
@@ -275,6 +275,7 @@
             border-radius: var(--radius);
             padding: 2rem;
             transition: var(--transition);
+            scroll-margin-top: 5.5rem;
         }
 
         .contact-form-card:hover {
@@ -924,7 +925,6 @@
                 <ul class="nav-links" id="navLinks">
                     <li><a href="/">Home</a></li>
                     <li><a href="/about">About</a></li>
-                    <li><a href="/lab">Evidence Workbench</a></li>
                     <li><a href="/contact" class="active">Contact</a></li>
                     <li><a href="/login">Sign In</a></li>
                     <li><a href="/register" class="btn-nav">Get Started</a></li>
@@ -955,9 +955,9 @@
         <div class="contact-grid">
 
             <!-- Contact Form -->
-            <div class="contact-form-card">
+            <div class="contact-form-card" id="feedback">
                 <div class="card-title">✉️ Send a Message</div>
-                <div class="card-subtitle">We'll get back to you within 24 hours.</div>
+                <div class="card-subtitle">Questions, partnerships, or product feedback — we usually reply within 24 hours.</div>
 
                 <form class="contact-form" id="contactForm" novalidate>
                     <div class="form-row">
@@ -985,6 +985,7 @@
                             <option value="partnership">Partnership</option>
                             <option value="training">Training Questions</option>
                             <option value="billing">Billing & Subscriptions</option>
+                            <option value="privacy">Privacy / data request</option>
                             <option value="feedback">Feedback & Suggestions</option>
                             <option value="security">Security Concern</option>
                             <option value="other">Other</option>
@@ -1118,7 +1119,14 @@
                         <span>Is Tribams free to use?</span>
                         <span class="toggle">▼</span>
                     </div>
-                    <div class="faq-answer">Yes! Free accounts can start with selected modules. Pro unlocks the full catalog; Pro+ includes deeper labs. Certificates are available after you pass module drills.</div>
+                    <div class="faq-answer">Yes. Free accounts start selected modules. Paid plans are listed and charged in USD on PayPal. N$ on some screens is a Namibia display reference only. Pro unlocks the catalog; org seats are on /teams and /organization.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Which privacy law applies?</span>
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">TRIBAMS is established in Windhoek, Namibia. That is the governing law for the service. EEA and UK users have additional rights described in the <a href="/privacy" style="color:var(--neon-green);">Privacy Policy</a>.</div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
@@ -1132,14 +1140,19 @@
                         <span>Can I get a demo for my organisation?</span>
                         <span class="toggle">▼</span>
                     </div>
-                    <div class="faq-answer">Absolutely! Contact us at <a href="mailto:tribams@gmail.com" style="color:var(--neon-green);">tribams@gmail.com</a> and we'll schedule a personalised demo.</div>
+                    <div class="faq-answer">Yes. Request a demo or USD quote on the <a href="/teams" style="color:var(--neon-green);">For teams</a> page, or email <a href="mailto:tribams@gmail.com" style="color:var(--neon-green);">tribams@gmail.com</a>.</div>
                 </div>
             </div>
         </div>
 
         <!-- Back to Home -->
-        <div style="text-align:center; padding:2rem 0 3rem;">
+        <div style="text-align:center; padding:2rem 0 1rem;">
             <a href="/" class="btn btn-secondary" style="padding:0.5rem 1.5rem;">← Back to Home</a>
+        </div>
+        <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:1.2rem;padding:0 0 3rem;font-size:0.85rem;">
+            <a href="/privacy">Privacy</a>
+            <a href="/cookies">Cookies</a>
+            <a href="/terms">Terms</a>
         </div>
 
     </div>
@@ -1358,7 +1371,30 @@
             }
         });
 
-        console.log('📧 Contact page loaded successfully.');
+        // Deep-link from homepage feedback button
+        (function applyContactDeepLink() {
+            const hash = location.hash;
+            if (hash !== '#feedback' && hash !== '#privacy') return;
+            const cat = document.getElementById('contactCategory');
+            const sub = document.getElementById('contactSubject');
+            const title = document.querySelector('#feedback .card-title');
+            if (hash === '#privacy') {
+                if (cat) cat.value = 'privacy';
+                if (sub && !sub.value) {
+                    sub.placeholder = 'e.g., Export / delete / privacy question';
+                    sub.value = 'Privacy / data request';
+                }
+                if (title) title.textContent = 'Privacy / data request';
+            } else {
+                if (cat) cat.value = 'feedback';
+                if (sub && !sub.value) sub.placeholder = 'e.g., Platform feedback';
+                if (title) title.textContent = 'Share feedback';
+            }
+            const panel = document.getElementById('feedback') || document.getElementById('contactForm');
+            if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        })();
+
+        console.log('Contact page loaded successfully.');
     </script>
 </body>
 </html>

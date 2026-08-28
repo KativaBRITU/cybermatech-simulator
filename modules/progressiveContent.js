@@ -615,7 +615,8 @@ const CATEGORY_PROGRESSION = {
             playbook: [
                 'Write detections for behaviors, not one hash',
                 'Stop out-of-scope activity immediately',
-                'Track findings to remediated controls'
+                'Track findings to remediated controls',
+                'Grade TRIBAMS workbench artifacts here; keep live procedures in consented isolated labs only'
             ],
             caseStudy:
                 'Operator halts a contractor’s out-of-scope sweep, then ships a detection for the same technique the next sprint.',

@@ -1,0 +1,605 @@
+/* TRIBAMS homepage — gold studio theme (all sections + mobile) */
+
+:root {
+    --gold-light: #f5e6b8;
+    --gold-mid: #d4af37;
+    --gold-deep: #b8860b;
+    --gold-glow: rgba(212, 175, 55, 0.22);
+    --studio-bg: #0b1220;
+    --studio-bg-soft: #111827;
+    --studio-panel: rgba(255, 255, 255, 0.04);
+    --studio-border: rgba(212, 175, 55, 0.22);
+    --studio-text: #eef2f8;
+    --studio-muted: #b8c4dc;
+    --accent-glow: #f0b429;
+    --accent-glow-soft: #f5d08a;
+    --accent-glow-shadow: 0 0 14px rgba(240, 180, 41, 0.45);
+    /* Override legacy brown/teal tokens from inline CSS */
+    --bg-primary: #0b1220 !important;
+    --bg-secondary: #111827 !important;
+    --surface-warm: #111827 !important;
+    --neon-green: #f0b429 !important;
+    --neon-cyan: #f5d08a !important;
+    --neon-blue: #d4af37 !important;
+    --text-primary: #eef2f8 !important;
+    --text-secondary: #b8c4dc !important;
+    --text-muted: #94a3b8 !important;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    background: var(--studio-bg) !important;
+    color: var(--studio-text) !important;
+    overflow-x: hidden;
+}
+
+body::before {
+    background: linear-gradient(180deg, #070b12 0%, #0b1220 48%, #111827 100%) !important;
+}
+
+body::after {
+    opacity: 0.06 !important;
+    background-image:
+        linear-gradient(rgba(212, 175, 55, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 175, 55, 0.06) 1px, transparent 1px) !important;
+}
+
+a {
+    color: var(--gold-mid) !important;
+}
+
+a:hover {
+    color: var(--gold-light) !important;
+}
+
+/* Header */
+header {
+    background: rgba(11, 18, 32, 0.94) !important;
+    border-bottom: 1px solid var(--studio-border) !important;
+}
+
+header.scrolled {
+    background: rgba(7, 11, 18, 0.98) !important;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45) !important;
+}
+
+.nav-links a {
+    color: #cbd5e1 !important;
+}
+
+.nav-links a::after {
+    background: var(--gold-mid) !important;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--gold-light) !important;
+}
+
+.btn-nav {
+    background: linear-gradient(135deg, var(--gold-mid), var(--gold-deep)) !important;
+    color: #1a1205 !important;
+}
+
+.btn-nav:hover {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-mid)) !important;
+    box-shadow: 0 8px 20px var(--gold-glow) !important;
+}
+
+/* Typography — readable on every device */
+h1, h2, h3, h4, .section-header h2, .faq-section h2 {
+    color: #f8fafc !important;
+    text-shadow: none !important;
+}
+
+p, .hero-description, .section-header p, .feature-card p,
+.blog-card p, .testimonial-card .quote, .faq-answer p,
+.faq-subtitle, .deck-copy p, .cta-box p {
+    color: var(--studio-muted) !important;
+}
+
+/* Hero */
+.hero.hero--studio {
+    min-height: auto;
+    padding: 1.5rem 0 2.5rem;
+    background: transparent !important;
+    align-items: stretch;
+}
+
+.hero.hero--studio .hero-stage {
+    display: none !important;
+}
+
+.hero-layout {
+    display: grid;
+    grid-template-columns: 1fr minmax(260px, 400px);
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    align-items: start;
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
+}
+
+.hero-logo-wide {
+    width: min(100%, 300px);
+    height: auto;
+    margin-bottom: 1rem;
+    display: block;
+    filter: drop-shadow(0 8px 24px rgba(212, 175, 55, 0.15));
+}
+
+.hero-content {
+    max-width: none !important;
+    padding: 0 !important;
+    background: none !important;
+}
+
+.hero-badge {
+    background: rgba(212, 175, 55, 0.12) !important;
+    color: var(--gold-light) !important;
+    border: 1px solid var(--studio-border) !important;
+    font-size: clamp(0.65rem, 2.5vw, 0.74rem) !important;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.hero-brand {
+    display: none !important;
+}
+
+.hero-title {
+    max-width: none !important;
+    color: #f8fafc !important;
+    font-size: clamp(1.5rem, 4.5vw, 2.35rem) !important;
+    line-height: 1.25 !important;
+}
+
+.hero-description {
+    max-width: 100% !important;
+    color: var(--studio-muted) !important;
+    font-size: clamp(0.95rem, 2.8vw, 1.08rem) !important;
+    line-height: 1.65 !important;
+}
+
+/* Full portrait — no crop */
+.hero-portrait-card {
+    margin: 0;
+    padding: 0.65rem;
+    background: var(--studio-panel);
+    border: 1px solid var(--studio-border);
+    border-radius: 16px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    align-self: center;
+}
+
+.hero-portrait-card img {
+    width: 100%;
+    height: auto !important;
+    max-height: none !important;
+    border-radius: 12px;
+    display: block;
+    object-fit: contain !important;
+    object-position: center top;
+    aspect-ratio: auto !important;
+}
+
+.hero-portrait-card figcaption {
+    text-align: center;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold-mid);
+    margin-top: 0.55rem;
+}
+
+/* Buttons */
+.btn {
+    min-height: 44px;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--gold-mid), var(--gold-deep)) !important;
+    color: #1a1205 !important;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 12px 30px var(--gold-glow) !important;
+}
+
+.btn-secondary {
+    border-color: var(--studio-border) !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    color: #f8fafc !important;
+}
+
+.btn-outline {
+    border-color: var(--gold-mid) !important;
+    color: var(--gold-light) !important;
+}
+
+.btn-outline:hover {
+    background: rgba(212, 175, 55, 0.1) !important;
+}
+
+.hero-actions {
+    gap: 0.65rem;
+}
+
+/* Ticker */
+.cyber-scroll {
+    background: linear-gradient(90deg, #1a1205 0%, #0b1220 50%, #1a1205 100%) !important;
+    border-color: var(--studio-border) !important;
+}
+
+.cyber-scroll::before {
+    background: linear-gradient(90deg, #0b1220, transparent) !important;
+}
+
+.cyber-scroll::after {
+    background: linear-gradient(270deg, #0b1220, transparent) !important;
+}
+
+.cyber-scroll-item {
+    background: rgba(212, 175, 55, 0.08) !important;
+    border-color: var(--studio-border) !important;
+    color: var(--gold-light) !important;
+    font-size: clamp(0.72rem, 2.2vw, 0.9rem) !important;
+    padding: 0.45rem 0.85rem !important;
+}
+
+/* All sections — unified studio panels */
+.features-section,
+.testimonials,
+.blog-section,
+.faq-section,
+.cta-section {
+    background: transparent !important;
+    border-color: var(--studio-border) !important;
+}
+
+.systems-deck {
+    background: rgba(0, 0, 0, 0.15) !important;
+    border-color: var(--studio-border) !important;
+}
+
+.section-header h2 span {
+    color: var(--gold-mid) !important;
+}
+
+.feature-card,
+.testimonial-card,
+.blog-card,
+.stats-grid .stat-item,
+.faq-item,
+.cta-box {
+    background: var(--studio-panel) !important;
+    border: 1px solid var(--studio-border) !important;
+}
+
+/* Kill old rainbow card variants */
+.features-grid .feature-card:nth-child(n),
+.testimonial-card:nth-child(n),
+.blog-card:nth-child(n) {
+    background: var(--studio-panel) !important;
+    border-color: var(--studio-border) !important;
+}
+
+.feature-card::before,
+.features-grid .feature-card:nth-child(n)::before {
+    background: linear-gradient(90deg, var(--gold-mid), var(--gold-light)) !important;
+}
+
+.feature-card h3,
+.blog-card h4,
+.testimonial-card .author .info .name,
+.systems-deck .deck-copy h2 {
+    color: #f8fafc !important;
+}
+
+.feature-card .tag {
+    color: var(--gold-light) !important;
+    border-color: var(--studio-border) !important;
+}
+
+.feature-card:hover,
+.testimonial-card:hover,
+.blog-card:hover {
+    border-color: rgba(212, 175, 55, 0.45) !important;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25) !important;
+}
+
+.systems-deck .deck-list li {
+    background: var(--studio-panel) !important;
+    border-color: var(--studio-border) !important;
+    color: var(--studio-muted) !important;
+    font-size: clamp(0.8rem, 2.5vw, 0.86rem) !important;
+}
+
+.systems-deck .deck-list li::before {
+    background: var(--gold-mid) !important;
+    box-shadow: 0 0 10px var(--gold-glow) !important;
+}
+
+.testimonial-card .author .avatar {
+    background: linear-gradient(135deg, var(--gold-mid), var(--gold-deep)) !important;
+    color: #1a1205 !important;
+}
+
+.stats-section {
+    background: rgba(212, 175, 55, 0.06) !important;
+    border-top: 1px solid var(--studio-border) !important;
+    border-bottom: 1px solid var(--studio-border) !important;
+}
+
+.stats-grid .stat-item .number {
+    color: var(--gold-mid) !important;
+    text-shadow: 0 0 20px var(--gold-glow) !important;
+    font-size: clamp(2rem, 6vw, 2.8rem) !important;
+}
+
+.stats-grid .stat-item .label {
+    color: var(--studio-muted) !important;
+    font-size: clamp(0.82rem, 2.5vw, 0.92rem) !important;
+}
+
+.faq-question {
+    color: #f8fafc !important;
+    background: var(--studio-panel) !important;
+    border-color: var(--studio-border) !important;
+}
+
+.faq-item {
+    border-color: var(--studio-border) !important;
+}
+
+.cta-box {
+    border: 1px solid var(--studio-border) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25) !important;
+    background: var(--studio-panel) !important;
+}
+
+footer {
+    background: #070b12 !important;
+    border-top: 1px solid var(--studio-border) !important;
+}
+
+.footer-col h4 {
+    color: var(--gold-light) !important;
+}
+
+.footer-col a {
+    color: var(--studio-muted) !important;
+}
+
+.footer-bottom {
+    color: #94a3b8 !important;
+}
+
+#community.features-section {
+    background: rgba(0, 0, 0, 0.2) !important;
+}
+
+.deck-copy {
+    background: transparent !important;
+}
+
+.features-grid {
+    gap: clamp(0.85rem, 2vw, 1.4rem);
+}
+
+.container {
+    padding-left: clamp(1rem, 4vw, 2rem) !important;
+    padding-right: clamp(1rem, 4vw, 2rem) !important;
+}
+
+/* ========== MOBILE & TABLET ========== */
+@media (max-width: 960px) {
+    .hero-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-portrait-card {
+        order: -1;
+        max-width: min(100%, 420px);
+        margin: 0 auto 0.5rem;
+        width: 100%;
+    }
+
+    .hero-content {
+        text-align: left;
+    }
+
+    .hero-logo-wide {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .systems-deck .deck-layout {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero.hero--studio {
+        padding: 0.75rem 0 2rem;
+    }
+
+    .hero-layout {
+        padding-top: 0.5rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .nav-links {
+        background: rgba(11, 18, 32, 0.98) !important;
+        border-color: var(--studio-border) !important;
+    }
+
+    .nav-links a {
+        font-size: 1rem !important;
+        padding: 0.35rem 0 !important;
+    }
+
+    .features-section,
+    .systems-deck,
+    .testimonials,
+    .blog-section,
+    .faq-section,
+    .stats-section,
+    .cta-section {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
+    }
+
+    .section-header {
+        margin-bottom: 2rem !important;
+    }
+
+    .section-header h2 {
+        font-size: clamp(1.45rem, 5.5vw, 2rem) !important;
+    }
+
+    .section-header p {
+        font-size: clamp(0.92rem, 3vw, 1.02rem) !important;
+        padding: 0 0.25rem;
+    }
+
+    .features-grid,
+    .testimonial-grid,
+    .blog-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.75rem !important;
+    }
+
+    .feature-card,
+    .testimonial-card,
+    .blog-card {
+        padding: 1.15rem !important;
+    }
+
+    .feature-card p,
+    .testimonial-card .quote {
+        font-size: clamp(0.9rem, 3vw, 0.98rem) !important;
+    }
+
+    .cta-box {
+        padding: 1.5rem 1.1rem !important;
+    }
+
+    .cta-box h2 {
+        font-size: clamp(1.35rem, 5vw, 1.75rem) !important;
+    }
+
+    .faq-section h2 {
+        font-size: clamp(1.4rem, 5vw, 1.75rem) !important;
+    }
+
+    .faq-question {
+        font-size: clamp(0.9rem, 3.2vw, 1rem) !important;
+        padding: 0.85rem 1rem !important;
+        text-align: left;
+    }
+
+    .cyber-scroll {
+        padding: 10px 0 !important;
+    }
+
+    .cyber-scroll::before,
+    .cyber-scroll::after {
+        width: 40px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-badge {
+        padding: 0.5rem 0.75rem !important;
+    }
+
+    .hero-portrait-card {
+        padding: 0.5rem;
+        max-width: 100%;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .footer-grid {
+        gap: 1.5rem !important;
+    }
+
+    .cyber-scroll-item {
+        margin: 0 8px !important;
+    }
+}
+
+/* ========== Clean background + warm amber accents (no brown / no blue glow) ========== */
+.hero,
+.systems-deck,
+.blog-section,
+.stats-section,
+.trust-bar {
+    background: transparent !important;
+}
+
+.cyber-scroll {
+    background: linear-gradient(90deg, #0a0f18 0%, #111827 50%, #0a0f18 100%) !important;
+}
+
+.section-header h2 span,
+.cta-box h2 span {
+    color: var(--accent-glow) !important;
+    text-shadow: var(--accent-glow-shadow) !important;
+}
+
+.faq-question .faq-icon {
+    color: var(--accent-glow) !important;
+    text-shadow: var(--accent-glow-shadow) !important;
+}
+
+.faq-question:hover {
+    color: var(--accent-glow-soft) !important;
+    background: rgba(240, 180, 41, 0.06) !important;
+}
+
+.faq-item:hover {
+    border-color: rgba(240, 180, 41, 0.35) !important;
+    background: var(--studio-panel) !important;
+}
+
+.stats-grid .stat-item .number {
+    color: var(--accent-glow) !important;
+    text-shadow: var(--accent-glow-shadow) !important;
+}
+
+.blog-card .category,
+.kind {
+    color: var(--accent-glow) !important;
+    text-shadow: var(--accent-glow-shadow) !important;
+}
+
+a:not(.btn):not(.btn-nav):not(.btn-primary):not(.btn-secondary):not(.btn-outline) {
+    color: var(--gold-mid) !important;
+}
+
+a:not(.btn):hover {
+    color: var(--accent-glow-soft) !important;
+}

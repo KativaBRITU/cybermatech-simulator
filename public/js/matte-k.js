@@ -37,9 +37,9 @@
     const root = document.createElement('div');
     root.id = 'matteKRoot';
     root.innerHTML = `
-        <button type="button" class="mk-fab" id="mkFab" aria-label="Open Matte K AI">
-            <span class="mk-fab-mark">MK</span>
-            <span class="mk-fab-sub">AI</span>
+        <button type="button" class="mk-fab" id="mkFab" aria-label="Open Matte K AI" title="Matte K">
+            <span class="mk-fab-mark">Matte K</span>
+            <span class="mk-fab-sub">AI GUIDE</span>
         </button>
         <div class="mk-panel" id="mkPanel" role="dialog" aria-label="Matte K assistant">
             <div class="mk-header">
@@ -127,8 +127,10 @@
     const chips = [
         'Who are you?',
         'How do ranks unlock?',
-        'What does Pro cost?',
-        'Explain module 11'
+        'What does Pro cost in USD?',
+        'Privacy policy & Namibia law',
+        'Org licenses & seats',
+        'Evidence Workbench labs'
     ];
     chips.forEach((label) => {
         const b = document.createElement('button');

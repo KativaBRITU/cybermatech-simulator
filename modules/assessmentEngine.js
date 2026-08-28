@@ -11,6 +11,7 @@ const {
 const { TIER_A_QUESTIONS } = require('./tierADepth');
 const { TIER_B_QUESTIONS } = require('./tierBDepth');
 const { TIER_C_QUESTIONS } = require('./tierCDepth');
+const { getSpecialOpsQuestions } = require('./specialOpsPillars');
 
 function mulberry32(seed) {
     let t = seed >>> 0;
@@ -753,6 +754,21 @@ const SCENARIO_BANK = {
             difficulty: 'hard'
         },
         {
+            briefing: 'SUPPLY CHAIN — PAYROLL VENDOR PORTAL',
+            stressCues: ['US$2.1M payroll file', 'Vendor SSO outage email', 'CFO in an airport lounge'],
+            question: 'AP receives a "Workday/ADP-style" portal reset from a lookalike domain during a real vendor incident tweet. Dual control exists. Safest move?',
+            options: [
+                'Use the email link — the tweet proves it is real',
+                'Navigate from a bookmarked vendor URL / known-good app, verify via a phone number you already have, keep dual control',
+                'Process a "temporary" wire to the new account in the email',
+                'Ask the whole finance WhatsApp group to click-test the link'
+            ],
+            correct: 1,
+            explanation: 'Incident news is used as cover. You never enter credentials from the message that created the urgency.',
+            timeLimit: 55,
+            difficulty: 'medium'
+        },
+        {
             briefing: 'HELP DESK — PASSWORD RESET STORM',
             stressCues: ['Queue: 34 open tickets', 'User claims MFA device was stolen', 'Attacker may be on the line'],
             question: 'Someone calling as "Alex from Marketing" wants MFA reset and a temporary password. They know Alex\'s manager name (OSINT). Your identity proofing script is incomplete. Best action?',
@@ -815,6 +831,21 @@ const SCENARIO_BANK = {
             explanation: 'Impossible-use of privileged credentials demands identity containment and AD compromise hunting.',
             timeLimit: 60,
             difficulty: 'hard'
+        },
+        {
+            briefing: 'ZERO TRUST — CONTRACTOR LAPTOP',
+            stressCues: ['M&A war room', 'BYOD contractor', 'Sensitive dataroom'],
+            question: 'A contractor on an unmanaged laptop needs 4-hour access to a virtual dataroom. VPN into the whole campus is the old pattern. Best design?',
+            options: [
+                'Full VPN + domain join for convenience',
+                'Brokered app access: device posture check, short-lived identity, least privilege to the dataroom only, session recording if policy requires',
+                'Share a domain admin password in chat',
+                'Turn off MFA because they are "trusted people"'
+            ],
+            correct: 1,
+            explanation: 'Location on a VPN is not trust. Identity, device, and least privilege per request is the global pattern.',
+            timeLimit: 50,
+            difficulty: 'medium'
         }
     ],
     cloud: [
@@ -883,6 +914,53 @@ const SCENARIO_BANK = {
             explanation: 'Treat prompt injection like an app vuln: reduce tool privilege, monitor, and contain data exposure.',
             timeLimit: 55,
             difficulty: 'hard'
+        },
+        {
+            briefing: 'OT / SAFETY — VENDOR REMOTE ACCESS',
+            stressCues: ['Plant manager on radio', 'Safety PLC in scope', 'Vendor insists on AnyDesk now'],
+            question: 'A turbine OEM wants unattended remote access "to patch firmware before weekend load." No change ticket. Safety system is adjacent. Best call?',
+            options: [
+                'Grant persistent AnyDesk on the safety VLAN',
+                'Refuse unattended access; require ticket, jump host, MFA, time-box, and a safety-engineering review before any firmware change',
+                'Air-gap by unplugging the plant from the grid immediately',
+                'Share the HMI password in email so they can "just look"'
+            ],
+            correct: 1,
+            explanation: 'OT remote access is a blast-radius decision. Safety adjacency means process, not convenience.',
+            timeLimit: 60,
+            difficulty: 'hard'
+        }
+    ],
+    'offensive-tools': [
+        {
+            briefing: 'PURPLE TEAM — SCOPE CREEP',
+            stressCues: ['Red cell wants production DC', 'Written ROE is lab-only', 'Exec watching Slack'],
+            question: 'Red proposes "just one BloodHound collect against prod so the graph is real." You own detections. Correct response?',
+            options: [
+                'Approve — realism always beats paperwork',
+                'Hold ROE: use a representative lab/staging graph; if prod is ever in scope it needs written authorization, time box, and abort criteria',
+                'Run it silently so legal never knows',
+                'Dump NTDS.dit to a USB for later'
+            ],
+            correct: 1,
+            explanation: 'Tool knowledge is not a license. Unauthorized production enumeration is still an incident.',
+            timeLimit: 55,
+            difficulty: 'hard'
+        },
+        {
+            briefing: 'DETECTION ENG — C2 LOOKALIKE TRAFFIC',
+            stressCues: ['Beacon-like jitter on 443', 'JA3 not in intel', 'Night shift'],
+            question: 'You see regular HTTPS to a newly registered domain from a finance VDI. Payload looks like a common C2 profile. First professional move?',
+            options: [
+                'Ignore — HTTPS means encrypted so it is safe',
+                'Treat as suspected C2: isolate the VDI, preserve EDR/proxy, hunt identity reuse, do not detonate malware on the analyst laptop',
+                'Download the sample to your personal PC to "reverse it"',
+                'Block all 443 company-wide'
+            ],
+            correct: 1,
+            explanation: 'Encrypted channels still beacon. Isolate and hunt; do not become the second victim.',
+            timeLimit: 55,
+            difficulty: 'medium'
         }
     ]
 };
@@ -995,6 +1073,84 @@ function synthesizeModuleQuestions(module) {
                 explanation: 'Attackers weaponize urgency around tooling and access. Verify and keep gates.',
                 topic: 'decision_under_pressure',
                 time_expected: 35
+            },
+            {
+                question: `[${name}] A vendor offers a “free emergency remote session” during a ${name} drill. They are not on the approved list. Professional response?`,
+                options: [
+                    'Grant domain admin so they can work faster',
+                    'Refuse until identity, contract, and scoped access are verified',
+                    'Share the VPN password in chat and hope they are helpful',
+                    'Disable logging so their work is not recorded'
+                ],
+                correct: 1,
+                explanation: 'Unvetted remote access is a classic intrusion path. Verify identity and keep least privilege.',
+                topic: 'vendor_access',
+                time_expected: 35
+            },
+            {
+                question: `[${name}] Someone asks for a live exploit walkthrough of ${name} against a production customer. Teaching stance?`,
+                options: [
+                    'Provide the chain for realism',
+                    'Refuse: defensive/purple-team study only, written authorization, isolated labs',
+                    'Tell them to try it after hours',
+                    'Post the payload publicly for peer review'
+                ],
+                correct: 1,
+                explanation: 'TRIBAMS trains recognition and defence. Unauthorized production attacks are illegal.',
+                topic: 'ethics',
+                time_expected: 30
+            },
+            {
+                question: `[${name}] Two alerts conflict during ${name} emulation: contain now vs wait for a press statement. First operational duty?`,
+                options: [
+                    'Freeze all technical work until marketing drafts language',
+                    'Stop preventable harm while preserving evidence and briefing legal/comms',
+                    'Wipe endpoints so there is nothing left to investigate',
+                    'Ignore both until the next business day'
+                ],
+                correct: 1,
+                explanation: 'Containment and evidence preservation can proceed together.',
+                topic: 'incident_priority',
+                time_expected: 40
+            },
+            {
+                question: `[${name}] A learner scored 40% on the ${name} drill and wants a certificate today for a job application. What do you do?`,
+                options: [
+                    'Issue the certificate to be supportive',
+                    'Withhold it — certificates are account-bound proof of the required standard',
+                    'Let them screenshot someone else’s certificate',
+                    'Backdate a passing score'
+                ],
+                correct: 1,
+                explanation: 'Certificates are evidence of competence, not favours.',
+                topic: 'integrity',
+                time_expected: 30
+            },
+            {
+                question: `[${name}] Handover notes for a ${name} desk are missing owners and times. Professional fix?`,
+                options: [
+                    'Rely on memory and informal chat',
+                    'Record owners, times, decisions, and open actions before the next shift',
+                    'Delete the incomplete notes so the file looks tidy',
+                    'Wait for a post-incident report next month'
+                ],
+                correct: 1,
+                explanation: 'Handover quality is part of incident control.',
+                topic: 'handover',
+                time_expected: 30
+            },
+            {
+                question: `[${name}] Leadership asks you to mark a failed ${name} lab as passed because the team is busy. Correct response?`,
+                options: [
+                    'Change the score; leadership knows best',
+                    'Keep the recorded result and offer a retake with coaching',
+                    'Hide the lab from the transcript',
+                    'Copy a passing score from another learner'
+                ],
+                correct: 1,
+                explanation: 'Training records stay honest. Retakes are legitimate; falsifying scores is not.',
+                topic: 'integrity',
+                time_expected: 30
             }
         ];
     }
@@ -1073,9 +1229,87 @@ function synthesizeModuleQuestions(module) {
                 'Reduce exposure, raise monitoring, and set a dated risk exception'
             ],
             correct: 3,
-            explanation: 'Compensating controls + time-boxed risk acceptance are standard when patches lag.',
+                explanation: 'Compensating controls + time-boxed risk acceptance are standard when patches lag.',
             topic: 'risk_treatment',
             time_expected: 35
+        },
+        {
+            question: `[${name}] A vendor offers a “free emergency remote session” during a ${name} event. They are not on the approved list. Professional response?`,
+            options: [
+                'Grant domain admin so they can work faster',
+                'Refuse until identity, contract, and scoped access are verified',
+                'Share the VPN password in chat and hope they are helpful',
+                'Disable logging so their work is not recorded'
+            ],
+            correct: 1,
+            explanation: 'Unvetted remote access is a classic intrusion path. Verify identity and keep least privilege.',
+            topic: 'vendor_access',
+            time_expected: 35
+        },
+        {
+            question: `[${name}] Learners ask for a walkthrough of how to reproduce a live ${name} attack on a neighbour’s network. Correct teaching stance?`,
+            options: [
+                'Give step-by-step exploit instructions for realism',
+                'Teach defensive recognition, authorization, and isolated lab judgment only',
+                'Tell them to try it after hours if nobody is watching',
+                'Post the payload on a public forum for peer review'
+            ],
+            correct: 1,
+            explanation: 'TRIBAMS trains judgment and defence. Unauthorized testing of systems you do not own is illegal.',
+            topic: 'ethics',
+            time_expected: 30
+        },
+        {
+            question: `[${name}] Two alerts conflict: one says contain now, another says wait for legal. For ${name}, what is the first operational duty?`,
+            options: [
+                'Freeze all decisions until a lawyer drafts a press release',
+                'Stop preventable harm (containment) while preserving evidence and briefing legal',
+                'Wipe endpoints so there is nothing left to investigate',
+                'Ignore both alerts until the next business day'
+            ],
+            correct: 1,
+            explanation: 'Containment and evidence preservation can proceed together. Delay that lets harm spread is not professionalism.',
+            topic: 'incident_priority',
+            time_expected: 40
+        },
+        {
+            question: `[${name}] A certificate is requested after a ${name} drill scored 40%. The learner wants it for a job application today. What do you do?`,
+            options: [
+                'Issue the certificate to be supportive',
+                'Withhold it — certificates are account-bound proof of the required standard',
+                'Let them screenshot someone else’s certificate',
+                'Backdate a passing score in the database'
+            ],
+            correct: 1,
+            explanation: 'Certificates are evidence of competence. Inflating them destroys trust with employers and institutions.',
+            topic: 'integrity',
+            time_expected: 30
+        },
+        {
+            question: `[${name}] Shift handover notes for a ${name} incident are missing owners and times. What is the professional fix?`,
+            options: [
+                'Rely on memory and informal chat',
+                'Record owners, times, decisions, and open actions before the next shift takes the desk',
+                'Delete the incomplete notes so the file looks tidy',
+                'Wait for a post-incident report next month'
+            ],
+            correct: 1,
+            explanation: 'Handover quality is part of incident control. Unowned actions are how containment fails overnight.',
+            topic: 'handover',
+            time_expected: 30
+        },
+        {
+            question: `[${name}] An executive asks you to mark a failed ${name} lab as passed because “the team is busy.” Correct response?`,
+            options: [
+                'Change the score; leadership knows best',
+                'Keep the recorded result and offer a retake with coaching',
+                'Hide the lab from the transcript',
+                'Copy a passing score from another learner'
+            ],
+            correct: 1,
+            explanation: 'Training records are account-bound. Coaching and retakes are legitimate; falsifying scores is not.',
+            topic: 'integrity',
+            time_expected: 30
         }
     ];
 }
@@ -1085,32 +1319,211 @@ function buildQuestionPool(module, rank = 'beginner') {
     const progressiveContent = require('./progressiveContent');
     const synthesized = synthesizeModuleQuestions(module);
     const specific = MODULE_QUESTIONS[module.id] || [];
+    const specialOps = getSpecialOpsQuestions(module);
     const tierA = TIER_A_QUESTIONS[module.id] || [];
     const tierB = TIER_B_QUESTIONS[module.id] || [];
     const tierC = TIER_C_QUESTIONS[module.id] || [];
     const africaQuiz = africanContext.getAfricanQuizQuestions(module.category, module.name);
     const progressiveQuiz = progressiveContent.getProgressiveQuestions(module, rank);
+    const premiumQuiz = require('./premiumQuestionBank').getPremiumQuestions(module);
     const category = getCategoryQuestions(module.category).map(q => ({
         ...q,
-        question: q.question.startsWith('[') ? q.question : `[${module.name}] ${q.question}`
+        question: q.question.startsWith('[') ? q.question : `[${module.name}] ${q.question}`,
+        pool_tier: 'shared_category'
     }));
-    // Progressive + African injects prepend so higher ranks feel the new environment
-    const pool = [...progressiveQuiz, ...africaQuiz, ...tierA, ...tierB, ...tierC, ...specific, ...synthesized, ...category];
 
+    const unique = [
+        ...premiumQuiz.map((q) => ({ ...q, pool_tier: 'premium' })),
+        ...progressiveQuiz.map((q) => ({ ...q, pool_tier: 'progressive' })),
+        ...africaQuiz.map((q) => ({ ...q, pool_tier: 'africa' })),
+        ...tierA.map((q) => ({ ...q, pool_tier: 'tier_a' })),
+        ...tierB.map((q) => ({ ...q, pool_tier: 'tier_b' })),
+        ...tierC.map((q) => ({ ...q, pool_tier: 'tier_c' })),
+        ...specialOps.map((q) => ({ ...q, pool_tier: 'special_ops' })),
+        ...specific.map((q) => ({ ...q, pool_tier: 'module_specific' })),
+        ...synthesized.map((q) => ({ ...q, pool_tier: 'synthesized' }))
+    ];
+
+    const shared = [...category];
     if (module.category === 'malware') {
-        pool.push(...CATEGORY_QUESTIONS.forensics.slice(0, 2).map(q => ({
+        shared.push(...CATEGORY_QUESTIONS.forensics.slice(0, 2).map(q => ({
             ...q,
-            question: `[${module.name}] ${q.question}`
+            question: `[${module.name}] ${q.question}`,
+            pool_tier: 'shared_cross'
         })));
     }
     if (module.category === 'cloud') {
-        pool.push(...CATEGORY_QUESTIONS.network.slice(0, 2).map(q => ({
+        shared.push(...CATEGORY_QUESTIONS.network.slice(0, 2).map(q => ({
             ...q,
-            question: `[${module.name}] ${q.question}`
+            question: `[${module.name}] ${q.question}`,
+            pool_tier: 'shared_cross'
         })));
     }
 
-    return pool;
+    return { unique, shared, all: unique.concat(shared) };
+}
+
+/** Extra unique judgment items so drills can reach 10 / 16 / 20 without exploit walkthroughs. */
+function padJudgmentQuestions(module) {
+    const name = module.name || 'this module';
+    return [
+        {
+            question: `[${name}] Dual control is slowing a ${name} decision and a senior voice is angry. What do you do?`,
+            options: [
+                'Skip the second approver to restore calm',
+                'Keep dual control and verify the request on a known channel',
+                'Share privileged credentials so they can finish it themselves',
+                'Delete the ticket so the queue looks clean'
+            ],
+            correct: 1,
+            explanation: 'Pressure is not authorization. Dual control exists for this moment.',
+            topic: 'dual_control',
+            time_expected: 35
+        },
+        {
+            question: `[${name}] Evidence for a ${name} event is incomplete, but executives demand a public statement in ten minutes. First move?`,
+            options: [
+                'Publish a detailed technical post immediately',
+                'Contain, preserve what you have, and share only confirmed facts with legal/comms',
+                'Power off the company without an approved plan',
+                'Wait until morning stand-up before any containment'
+            ],
+            correct: 1,
+            explanation: 'Confirmed facts and containment come before public messaging.',
+            topic: 'incident_comms',
+            time_expected: 40
+        },
+        {
+            question: `[${name}] A learner wants the “easy version” of a ${name} assessment: three trivia items, no timer. Professional stance?`,
+            options: [
+                'Agree — shorter tests convert better',
+                'Keep education-grade length and scoring; judgment under time is the product',
+                'Let them copy answers from a friend',
+                'Disable scoring so everyone passes'
+            ],
+            correct: 1,
+            explanation: 'Practice, timed drills, and essays are sized for real assessment, not a demo quiz.',
+            topic: 'integrity',
+            time_expected: 30
+        },
+        {
+            question: `[${name}] Logs that would explain a ${name} incident are about to rotate off the cheapest storage tier. Best action?`,
+            options: [
+                'Let them expire to save cost',
+                'Preserve relevant logs and note retention as an operational control',
+                'Screenshot one alert and delete the rest',
+                'Turn logging off so the next incident is quieter'
+            ],
+            correct: 1,
+            explanation: 'Evidence preservation is part of a defensible response.',
+            topic: 'evidence',
+            time_expected: 35
+        },
+        {
+            question: `[${name}] An institution asks whether ${name} certificates are bound to a named learner account. Correct answer?`,
+            options: [
+                'No — anyone may reprint the PDF with a new name',
+                'Yes — records and certificates stay on the learner account that earned them',
+                'Yes, but only if they pay extra in cash',
+                'Certificates are decorative and never verified'
+            ],
+            correct: 1,
+            explanation: 'TRIBAMS certificates are account-bound training records, not transferable badges.',
+            topic: 'certificates',
+            time_expected: 30
+        },
+        {
+            question: `[${name}] A WhatsApp voice note claims to be a director authorizing a ${name}-related exception. Policy requires a known-number callback. What do you do?`,
+            options: [
+                'Approve immediately; voice notes are hard to fake',
+                'Call back on a directory number and keep the written control',
+                'Ask the voice note for the VPN password to “verify”',
+                'Post the voice note in a public channel'
+            ],
+            correct: 1,
+            explanation: 'Voice cloning and authority bias are standard social-engineering tools. Out-of-band verification holds.',
+            topic: 'social_engineering',
+            time_expected: 35
+        },
+        {
+            question: `[${name}] The SIEM is noisy during a ${name} drill. A junior proposes disabling high-severity rules until the exercise ends. Coaching?`,
+            options: [
+                'Approve a full detection holiday',
+                'Reject blind gaps; tune noisy rules and keep high-risk coverage on',
+                'Turn off EDR estate-wide until Friday',
+                'Delete the SIEM project to simplify dashboards'
+            ],
+            correct: 1,
+            explanation: 'Temporary blind spots are how real breaches succeed during “quiet” windows.',
+            topic: 'detection_hygiene',
+            time_expected: 35
+        },
+        {
+            question: `[${name}] A teammate wants to reuse another learner’s ${name} essay because “the topic is the same.” Correct response?`,
+            options: [
+                'Allow it if they change three words',
+                'Refuse — essays are individual judgment records on the account that submits them',
+                'Submit it under both names',
+                'Publish the essay as a shared lab for everyone'
+            ],
+            correct: 1,
+            explanation: 'Essays are scored, account-bound evidence of thinking — not shared cheat sheets.',
+            topic: 'integrity',
+            time_expected: 30
+        },
+        {
+            question: `[${name}] Legal, IT, and a business owner disagree on whether to isolate a host in a ${name} incident. Your first duty as the on-call analyst?`,
+            options: [
+                'Wait for unanimous email agreement',
+                'Stop preventable spread using approved isolation, then document owners and residual risk',
+                'Wipe the host immediately with no snapshot',
+                'Leave the host up so the attacker remains “observable” without a plan'
+            ],
+            correct: 1,
+            explanation: 'Containment with documentation is the professional default when harm is spreading.',
+            topic: 'containment',
+            time_expected: 40
+        },
+        {
+            question: `[${name}] A public visitor asks for the exact ${name} list price only after they create an account. What does TRIBAMS actually do?`,
+            options: [
+                'Hide all prices until login',
+                'Publish USD list prices on /payment; teams request quotes on /teams',
+                'Quote a different currency for every visitor',
+                'Say the price depends on how they heard about the product'
+            ],
+            correct: 1,
+            explanation: 'List prices are public in USD. Team deals are quoted separately.',
+            topic: 'commercial',
+            time_expected: 25
+        },
+        {
+            question: `[${name}] After a ${name} tabletop, nobody owns the follow-up actions. What closes the loop?`,
+            options: [
+                'Declare the exercise complete in chat',
+                'Assign owners, dates, and playbook updates, then track them',
+                'Only buy another tool brochure',
+                'Publicly shame the first person who made a mistake'
+            ],
+            correct: 1,
+            explanation: 'Lessons learned with owners turn drills into resilience.',
+            topic: 'lessons_learned',
+            time_expected: 30
+        },
+        {
+            question: `[${name}] A guest on a shared workstation wants to stay signed in to TRIBAMS after a ${name} session. Professional advice?`,
+            options: [
+                'Leave the session open for convenience',
+                'Sign out; session cookies authenticate the account on that browser',
+                'Write the password on a sticky note',
+                'Email the password to a personal account for later'
+            ],
+            correct: 1,
+            explanation: 'Account-bound training records follow the signed-in session. Shared browsers need a clean sign-out.',
+            topic: 'session_hygiene',
+            time_expected: 25
+        }
+    ];
 }
 
 function generateModuleQuestions(module, difficulty = 'medium', limit = 10, options = {}) {
@@ -1118,63 +1531,99 @@ function generateModuleQuestions(module, difficulty = 'medium', limit = 10, opti
     const rank = progressiveContent.normalizeRank(options.rank || options.overall_level || 'beginner');
     const profile = progressiveContent.drillProfileForRank(rank);
     const effectiveDifficulty = options.difficulty || difficulty || profile.difficulty;
-    const effectiveLimit = Math.min(16, (limit || 10) + profile.limitBonus);
+    const mode = options.mode === 'practice' ? 'practice' : 'quiz';
+    const floor = mode === 'practice'
+        ? (DRILL_COUNTS.practiceMin || DRILL_COUNTS.practice)
+        : (DRILL_COUNTS.quizMin || DRILL_COUNTS.quiz);
+    const requested = Math.max(floor, Number(limit) || floor);
+    const effectiveLimit = Math.min(24, requested + (profile.limitBonus || 0));
+    const rng = Number.isFinite(options.sessionSeed)
+        ? mulberry32(options.sessionSeed >>> 0)
+        : Math.random;
 
-    const pool = buildQuestionPool(module, rank);
-    const shuffledPool = shuffleArray(pool);
-    const count = Math.min(effectiveLimit, Math.max(8, Math.min(effectiveLimit, shuffledPool.length)));
+    const { unique, shared } = buildQuestionPool(module, rank);
+    const shuffledUnique = shuffleArray(unique, rng);
+    const shuffledShared = shuffleArray(shared, rng);
+    const maxShared = Math.max(1, Math.floor(effectiveLimit * 0.15));
+    const targetUnique = Math.max(1, effectiveLimit - maxShared);
 
     const selected = [];
     const used = new Set();
-    for (let i = 0; i < shuffledPool.length && selected.length < count; i++) {
-        const base = shuffledPool[i];
-        const key = base.question.slice(0, 80);
-        if (used.has(key)) continue;
+    const topics = new Set();
+
+    function pushQuestion(base, points) {
+        if (!base || !base.question || !Array.isArray(base.options) || base.options.length < 2) return false;
+        const key = String(base.question).slice(0, 90);
+        if (used.has(key)) return false;
         used.add(key);
+        if (base.topic) topics.add(String(base.topic));
         selected.push(shuffleQuestion({
             id: selected.length + 1,
             question: base.question,
             options: base.options,
-            correct: base.correct,
+            correct: Number.isInteger(base.correct) ? base.correct : 0,
             explanation: base.explanation,
-            points: effectiveDifficulty === 'hard' || module.difficulty === 'hard' || rank === 'advanced' ? 3 : effectiveDifficulty === 'easy' ? 1 : 2,
+            points: points != null ? points : (effectiveDifficulty === 'hard' || module.difficulty === 'hard' || rank === 'advanced' ? 3 : effectiveDifficulty === 'easy' ? 1 : 2),
             topic: base.topic || module.category,
             category: module.category,
             time_expected: base.time_expected || (rank === 'advanced' ? 48 : rank === 'intermediate' ? 44 : 40),
             module_name: module.name,
             pressure: true,
-            rank_tier: base.rank_tier || rank
-        }));
+            rank_tier: base.rank_tier || rank,
+            pool_tier: base.pool_tier || 'unknown'
+        }, rng));
+        return true;
     }
 
-    // Fill if needed
-    while (selected.length < Math.min(effectiveLimit, 8)) {
-        const synth = synthesizeModuleQuestions(module)[selected.length % 6];
-        selected.push(shuffleQuestion({
-            id: selected.length + 1,
-            ...synth,
-            options: [...synth.options],
-            points: 2,
-            category: module.category,
-            module_name: module.name,
-            pressure: true
-        }));
+    for (let i = 0; i < shuffledUnique.length && selected.length < targetUnique; i++) {
+        pushQuestion(shuffledUnique[i]);
+    }
+    for (let i = 0; i < shuffledShared.length && selected.length < effectiveLimit; i++) {
+        pushQuestion(shuffledShared[i]);
     }
 
-    const expectedSum = selected.reduce((s, q) => s + (q.time_expected || 40), 0);
+    const fillers = [...padJudgmentQuestions(module)];
+    let guard = 0;
+    while (selected.length < effectiveLimit && guard < fillers.length * 4) {
+        pushQuestion(fillers[guard % fillers.length], 2);
+        guard += 1;
+    }
+
+    let extra = 0;
+    while (selected.length < effectiveLimit && extra < 12) {
+        extra += 1;
+        pushQuestion({
+            question: `[${module.name}] Decision ${selected.length + 1}: a requester uses urgency to bypass a written ${module.name} control. Professional response?`,
+            options: [
+                'Comply immediately so the requester stays calm',
+                'Verify on a known channel and keep the written control',
+                'Share admin credentials so they can finish faster',
+                'Ignore every alert, including confirmed emergencies'
+            ],
+            correct: 1,
+            explanation: 'Urgency is not authorization. Verify identity and keep dual-control gates.',
+            topic: `${module.category}_judgment_${extra}`,
+            time_expected: 30,
+            pool_tier: 'pad'
+        }, 2);
+    }
+
+    const finalQuestions = shuffleArray(selected, rng).map((q, idx) => ({ ...q, id: idx + 1 }));
+    const expectedSum = finalQuestions.reduce((s, q) => s + (q.time_expected || 40), 0);
     const timeLimit = Math.max(180, Math.round(expectedSum * profile.timeFactor));
     const immersion = progressiveContent.immersionForRank(rank, module.name);
 
     return {
-        questions: selected,
-        totalQuestions: selected.length,
+        questions: finalQuestions,
+        totalQuestions: finalQuestions.length,
         timeLimit,
         difficulty: effectiveDifficulty,
         rank,
         rank_label: immersion.rank_label,
         environment: immersion.environment,
         immersion,
-        mode: 'module_drill'
+        mode: mode === 'practice' ? 'practice' : 'module_drill',
+        topic_count: topics.size
     };
 }
 
@@ -1387,7 +1836,8 @@ function getModuleBriefing(module) {
             'Timer pressure is intentional — accuracy still beats panic',
             'Live drills score server-side; leaving the tab is logged as integrity risk',
             'Do not use external AI during scored quizzes — judgment under pressure is the skill',
-            'Use Practice to learn; Quiz/Drill for certification pressure'
+            'Use Practice to learn; Quiz/Drill for certification pressure',
+            'TRIBAMS trains defense and purple-team awareness on artifacts — not unscoped live exploits'
         ],
         suggested_path: [
             { action: 'study', label: 'Study guide', href: `/training/${module.id}?tab=learn` },
@@ -1399,14 +1849,14 @@ function getModuleBriefing(module) {
 }
 
 /** Cross-domain skill assessment (dashboard Assessment button) */
-function generateSkillAssessment(modulesList, limit = 14) {
+function generateSkillAssessment(modulesList, limit = 20) {
     const categories = shuffleArray(Object.keys(CATEGORY_QUESTIONS));
     const picked = [];
     let id = 1;
-    // At least 2 per domain when possible
+    // About 3 per domain when the bank allows — education-grade length
     for (const cat of categories) {
         const qs = shuffleArray(CATEGORY_QUESTIONS[cat]);
-        const take = Math.min(2, qs.length);
+        const take = Math.min(3, qs.length);
         for (let i = 0; i < take && picked.length < limit; i++) {
             const base = qs[i];
             const mod = modulesList.find(m => m.category === cat) || modulesList[0];
@@ -1423,6 +1873,24 @@ function generateSkillAssessment(modulesList, limit = 14) {
                 points: 2
             }));
         }
+    }
+
+    const padMod = (modulesList && modulesList[0]) || { name: 'Skill Assessment', category: 'network' };
+    const extras = padJudgmentQuestions(padMod);
+    for (let i = 0; i < extras.length && picked.length < limit; i++) {
+        const base = extras[i];
+        picked.push(shuffleQuestion({
+            id: id++,
+            question: base.question,
+            options: base.options,
+            correct: base.correct,
+            explanation: base.explanation,
+            topic: base.topic || 'judgment',
+            category: padMod.category,
+            module_name: 'Skill Assessment',
+            time_expected: base.time_expected || 40,
+            points: 2
+        }));
     }
 
     const timeLimit = Math.max(300, picked.length * 38);
@@ -1444,7 +1912,18 @@ function generateSkillAssessment(modulesList, limit = 14) {
     };
 }
 
+const DRILL_COUNTS = {
+    practice: 10,
+    practiceMin: 10,
+    quiz: 16,
+    quizMin: 16,
+    skillAssessment: 20,
+    essay: 5,
+    essayMinPass: 3
+};
+
 module.exports = {
+    DRILL_COUNTS,
     generateModuleQuestions,
     generateDailyScenario,
     computeSkillProfile,

@@ -677,15 +677,24 @@
             color: var(--success);
         }
 
+        .cert-item .cert-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .cert-item .view,
         .cert-item .download {
             background: none;
             border: none;
             color: var(--text-muted);
             cursor: pointer;
             transition: var(--transition);
-            padding: 0.2rem 0.4rem;
+            padding: 0.2rem 0.45rem;
+            font-size: 0.9rem;
         }
 
+        .cert-item .view:hover,
         .cert-item .download:hover {
             color: var(--accent);
         }
@@ -1094,7 +1103,7 @@
                 <div id="recentCertificates">
                     <div class="empty">
                         <i class="fas fa-file-pdf"></i>
-                        <p>Score 80%+ to earn certificates</p>
+                        <p>Complete the program (65% at 70%+) — TRIBAMS signs off your certificate and sends you a verify link</p>
                     </div>
                 </div>
             </div>
@@ -1707,7 +1716,7 @@
                     container.innerHTML = `
                         <div class="empty">
                             <i class="fas fa-file-pdf"></i>
-                            <p>Score 80%+ to earn certificates</p>
+                            <p>Complete the program (65% at 70%+) — TRIBAMS signs off your certificate and sends you a verify link</p>
                         </div>
                     `;
                     return;
@@ -1719,12 +1728,17 @@
                         <div class="cert-item">
                             <div class="cert-info">
                                 <i class="fas fa-certificate"></i>
-                                <span class="name">${cert.module_name}</span>
+                                <span class="name">${cert.module_name === 'TRIBAMS Cybersecurity Training Program' ? 'Training Program' : cert.module_name}</span>
                                 <span class="score">${cert.score}%</span>
                             </div>
-                            <button class="download" onclick="window.location.href='/api/certificate/${cert.certificate_id}/pdf'">
-                                <i class="fas fa-download"></i>
-                            </button>
+                            <div class="cert-actions">
+                                <button class="view" type="button" title="View certificate" onclick="window.location.href='/certificate?id=${encodeURIComponent(cert.certificate_id)}'">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="download" type="button" title="Download PDF" onclick="window.location.href='/api/certificate/${cert.certificate_id}/pdf'">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
                         </div>
                     `;
                 }

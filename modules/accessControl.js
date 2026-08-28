@@ -32,7 +32,17 @@ function getProMaxId() {
 
 function isAdminEmail(email, adminEmails = []) {
     if (!email) return false;
-    return adminEmails.map(e => String(e).toLowerCase()).includes(String(email).toLowerCase());
+    const e = String(email).toLowerCase();
+    return adminEmails.map((x) => String(x).toLowerCase()).includes(e);
+}
+
+/**
+ * Operator catalog access — ADMIN_EMAILS only (never usernames).
+ * Server /admin uses the same email check via userIsAdmin.
+ */
+function isOperatorUser(user = {}, adminEmails = []) {
+    if (!user) return false;
+    return isAdminEmail(user.email, adminEmails);
 }
 
 /**
@@ -92,10 +102,8 @@ function orgGrantsSpecialOps(user = {}) {
 function isProUser(user = {}) {
     if (orgGrantsPro(user) || orgGrantsProPlus(user) || orgGrantsSpecialOps(user)) return true;
     const tier = normalizeTier(user);
-    if (['pro', 'pro_plus', 'proplus', 'premium', 'annual', 'monthly', 'paid', 'special_ops', 'elite'].includes(tier)) {
-        return isActivePaid(user) || ['pro', 'pro_plus', 'proplus', 'premium', 'annual', 'monthly', 'paid', 'special_ops', 'elite'].includes(tier);
-    }
-    if (isActivePaid(user)) return true;
+    const paidTiers = ['pro', 'pro_plus', 'proplus', 'premium', 'annual', 'monthly', 'paid', 'special_ops', 'elite'];
+    if (paidTiers.includes(tier)) return isActivePaid(user);
     return false;
 }
 
@@ -104,17 +112,16 @@ function isProPlusUser(user = {}) {
     if (isSpecialOpsUser(user)) return true;
     if (orgGrantsProPlus(user)) return true;
     const tier = normalizeTier(user);
-    if (['pro_plus', 'proplus', 'premium_plus'].includes(tier)) {
-        return true;
-    }
-    return false;
+    if (!['pro_plus', 'proplus', 'premium_plus'].includes(tier)) return false;
+    return isActivePaid(user);
 }
 
 /** Highest consumer tier — Special Ops Elite modules 96–97 */
 function isSpecialOpsUser(user = {}) {
     if (orgGrantsSpecialOps(user)) return true;
     const tier = normalizeTier(user);
-    return ['special_ops', 'elite', 'specialops'].includes(tier);
+    if (!['special_ops', 'elite', 'specialops'].includes(tier)) return false;
+    return isActivePaid(user);
 }
 
 function moduleIdOf(moduleOrId) {
@@ -147,7 +154,7 @@ function moduleRequiresProPlus(moduleOrId) {
 function canAccessModule(moduleId, user, adminEmails = [], moduleMeta = null) {
     const id = parseInt(moduleId, 10);
     const freeIds = getFreeModuleIds();
-    const admin = isAdminEmail(user?.email, adminEmails);
+    const admin = isOperatorUser(user, adminEmails);
     const beta = isBetaTester(user);
     const specialOps = isSpecialOpsUser(user) || beta;
     const proPlus = isProPlusUser(user) || beta;
@@ -265,7 +272,7 @@ function canAccessModule(moduleId, user, adminEmails = [], moduleMeta = null) {
 
 function annotateModules(modulesList = [], user = null, adminEmails = []) {
     const freeIds = new Set(getFreeModuleIds());
-    const admin = user ? isAdminEmail(user.email, adminEmails) : false;
+    const admin = user ? isOperatorUser(user, adminEmails) : false;
     const beta = user ? isBetaTester(user) : false;
     const specialOps = user ? (isSpecialOpsUser(user) || beta) : false;
     const proPlus = user ? (isProPlusUser(user) || beta) : false;
@@ -325,6 +332,7 @@ module.exports = {
     getFreeModuleIds,
     getProMaxId,
     isAdminEmail,
+    isOperatorUser,
     isBetaTester,
     isProUser,
     isProPlusUser,

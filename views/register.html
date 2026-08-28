@@ -677,7 +677,7 @@
             <!-- Card Header -->
             <div class="card-header">
                 <h1>Create Account</h1>
-                <p>Start your cybersecurity journey today</p>
+                <p>Create an account to start cybersecurity judgment training.</p>
             </div>
 
             <!-- Register Form -->
@@ -760,7 +760,8 @@
                         <input type="checkbox" id="termsCheck" required>
                         <label for="termsCheck">
                             I agree to the <a href="/terms" target="_blank">Terms of Service</a> and
-                            <a href="/privacy" target="_blank">Privacy Policy</a>.
+                            <a href="/privacy" target="_blank">Privacy Policy</a>
+                            (Namibia home law; USD checkout; professional training for adults).
                         </label>
                     </div>
                     <div class="error-message" id="termsError">You must agree to the terms to continue.</div>
@@ -781,6 +782,9 @@
             <div class="auth-footer">
                 Already have an account? <a href="/login">Sign in →</a>
             </div>
+            <p style="text-align:center;margin:0.8rem 0 0;font-size:0.75rem;color:var(--text-muted,#555);">
+                <a href="/privacy">Privacy</a> · <a href="/cookies">Cookies</a> · <a href="/terms">Terms</a>
+            </p>
 
         </div>
     </div>
@@ -1042,6 +1046,7 @@
             try {
                 const response = await fetch('/api/register', {
                     method: 'POST',
+                    credentials: 'same-origin',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, email, password })
                 });

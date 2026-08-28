@@ -151,37 +151,57 @@ function categoryKey(category) {
     return CATEGORY_KEYWORDS[catKey] ? catKey : 'default';
 }
 
-function scoreEssay({ answer, question, category, rankOrDifficulty }) {
+function scoreEssay({ answer, question, category, rankOrDifficulty, moduleName, moduleKeywords = [] }) {
     const text = String(answer || '').trim();
     const words = tokenize(text);
     const qWords = new Set(tokenize(question));
     const catKey = categoryKey(category);
     const catWords = CATEGORY_KEYWORDS[catKey] || CATEGORY_KEYWORDS.default;
+    const modWords = Array.isArray(moduleKeywords) ? moduleKeywords : [];
 
     let score = 0;
-    if (text.length >= 150) score += 20;
-    if (text.length >= 300) score += 15;
+    if (text.length >= 150) score += 15;
+    if (text.length >= 300) score += 12;
     if (text.length >= 500) score += 10;
-    if (words.length >= 40) score += 10;
+    if (text.length >= 800) score += 8;
+    if (words.length >= 40) score += 8;
+    if (words.length >= 80) score += 7;
 
     let qHits = 0;
     for (const w of words) if (qWords.has(w)) qHits++;
-    score += Math.min(20, qHits * 2);
+    score += Math.min(15, qHits * 2);
 
     let cHits = 0;
     const lower = text.toLowerCase();
     for (const kw of catWords) if (lower.includes(kw)) cHits++;
-    score += Math.min(25, cHits * 5);
+    score += Math.min(20, cHits * 4);
+
+    let mHits = 0;
+    for (const kw of modWords) {
+        if (kw.length > 3 && lower.includes(kw.toLowerCase())) mHits++;
+    }
+    score += Math.min(15, mHits * 3);
+
+    // Reject obvious filler / copy-paste spam
+    const fillerRe = /(\b(lorem ipsum|as an ai|i cannot|test test|security is important)\b)/i;
+    const repeated = /(.{20,})\1{2,}/;
+    if (fillerRe.test(text)) score = Math.min(score, 25);
+    if (repeated.test(text)) score = Math.min(score, 30);
 
     score = Math.max(0, Math.min(100, Math.round(score)));
     const min = essayMinScore(rankOrDifficulty);
-    const relevant = score >= min && cHits >= 1 && text.length >= 150;
+    const relevant = score >= min
+        && cHits >= 2
+        && (mHits >= 2 || (moduleName && lower.includes(String(moduleName).toLowerCase().split(' ')[0])))
+        && text.length >= 200
+        && words.length >= 45;
     return {
         score,
         min_required: min,
         passed: score >= min,
         relevant,
         category_hits: cHits,
+        module_hits: mHits,
         question_hits: qHits,
         weight: essayWeight(rankOrDifficulty),
         category: catKey
@@ -338,6 +358,30 @@ function buildLabSeed({ moduleId, moduleName, category, answer, score, question 
     };
 }
 
+function essayPassStatus(essays = [], rankOrDifficulty) {
+    const minE = essayMinScore(rankOrDifficulty);
+    const minPass = assessmentEngineMinPassCount();
+    const relevantPassed = essays.filter(
+        (e) => (e.relevant === 1 || e.relevant === true) && (Number(e.score) || 0) >= minE
+    ).length;
+    return {
+        count: essays.length,
+        relevant_passed: relevantPassed,
+        required: minPass,
+        passed: relevantPassed >= minPass,
+        min_score: minE
+    };
+}
+
+function assessmentEngineMinPassCount() {
+    try {
+        const ae = require('./assessmentEngine');
+        return ae.DRILL_COUNTS?.essayMinPass || 3;
+    } catch (_) {
+        return 3;
+    }
+}
+
 module.exports = {
     ESSAY_WEIGHT,
     ESSAY_MIN_SCORE,
@@ -346,6 +390,7 @@ module.exports = {
     essayWeight,
     essayMinScore,
     scoreEssay,
+    essayPassStatus,
     compositeModuleScore,
     buildStudySnippet,
     buildLabSeed,

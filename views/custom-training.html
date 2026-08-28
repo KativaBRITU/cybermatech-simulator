@@ -1400,7 +1400,6 @@
                         </div>
                     </div>
                     <div class="action-row">
-                        ${finalScore >= 80 ? `<a href="/certificate?module=${encodeURIComponent(labData.module_name)}&score=${finalScore}&username=${encodeURIComponent(username || 'Student')}" class="btn btn-success">🎓 View Certificate</a>` : ''}
                         <button class="btn btn-primary" onclick="resetQuiz()">🔄 Retake</button>
                         <a href="/resource-center" class="btn btn-secondary">← Back to Resource Center</a>
                     </div>

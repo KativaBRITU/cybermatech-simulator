@@ -1,0 +1,39 @@
+/* TRIBAMS gold mark — platform-wide brand */
+.tribams-brand-mark {
+    width: 2rem;
+    height: 2rem;
+    flex: 0 0 auto;
+    display: block;
+    object-fit: contain;
+}
+
+a.logo,
+.logo.tribams-brand,
+.tribams-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    text-decoration: none;
+}
+
+.tribams-brand-word {
+    font-family: Syne, "Arial Black", sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 45%, #b8860b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.login-card .logo-icon .tribams-brand-mark,
+.logo-icon .tribams-brand-mark {
+    width: 2.75rem;
+    height: 2.75rem;
+}
+
+.admin-sidebar .tribams-brand-mark {
+    width: 1.75rem;
+    height: 1.75rem;
+}

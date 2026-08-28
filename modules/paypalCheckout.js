@@ -1,9 +1,10 @@
 /**
  * Live PayPal Orders (create + capture) for TRIBAMS subscriptions.
- * Charges in USD (PayPal does not support NAD); prices convert from NAD env rates.
+ * List and charge currency is USD.
  */
 
 const paypal = require('@paypal/checkout-server-sdk');
+const pricingCatalog = require('./pricingCatalog');
 
 const PLAN_META = {
     monthly: { tier: 'pro', months: 1, label: 'TRIBAMS Pro Monthly' },
@@ -37,34 +38,42 @@ function getClient() {
 }
 
 function getPricingSnapshot() {
-    const nadPerUsd = Number(process.env.NAD_PER_USD) || 18.5;
-    const monthly = Number(process.env.PRICE_MONTHLY_NAD) || 450;
-    const annualMonthly = Number(process.env.PRICE_ANNUAL_MONTHLY_NAD || process.env.PRICE_ANNUAL_NAD) || 299;
-    const proPlus2mo = Number(process.env.PRICE_PRO_PLUS_2MO_NAD) || 800;
-    const proPlusAnnualMonthly = Number(process.env.PRICE_PRO_PLUS_ANNUAL_MONTHLY_NAD) || 350;
-    // Special Ops Elite sits clearly above Pro+ (defaults ~50% higher)
-    const specialOps2mo = Number(process.env.PRICE_SPECIAL_OPS_2MO_NAD) || 1250;
-    const specialOpsAnnualMonthly = Number(process.env.PRICE_SPECIAL_OPS_ANNUAL_MONTHLY_NAD) || 520;
-
-    const toUsd = (nad) => Number((nad / nadPerUsd).toFixed(2));
-
+    const snap = pricingCatalog.snapshot();
+    const c = snap.consumer;
     return {
-        nadPerUsd,
+        nadPerUsd: snap.nad_per_usd,
         currency: process.env.PAYPAL_CURRENCY || 'USD',
         plans: {
-            monthly: { nad: monthly, usd: toUsd(monthly), totalNad: monthly },
-            annual: { nad: annualMonthly, usd: toUsd(annualMonthly * 12), totalNad: annualMonthly * 12 },
-            pro_plus_2mo: { nad: proPlus2mo, usd: toUsd(proPlus2mo), totalNad: proPlus2mo },
-            pro_plus_annual: {
-                nad: proPlusAnnualMonthly,
-                usd: toUsd(proPlusAnnualMonthly * 12),
-                totalNad: proPlusAnnualMonthly * 12
+            monthly: { nad: c.monthly.nad, usd: c.monthly.usd, totalNad: c.monthly.nad, totalUsd: c.monthly.usd },
+            annual: {
+                nad: c.annual.nad,
+                usd: c.annual.yearly_total_usd,
+                totalNad: c.annual.yearly_total_nad,
+                totalUsd: c.annual.yearly_total_usd
             },
-            special_ops_2mo: { nad: specialOps2mo, usd: toUsd(specialOps2mo), totalNad: specialOps2mo },
+            pro_plus_2mo: {
+                nad: c.pro_plus_2mo.nad,
+                usd: c.pro_plus_2mo.usd,
+                totalNad: c.pro_plus_2mo.nad,
+                totalUsd: c.pro_plus_2mo.usd
+            },
+            pro_plus_annual: {
+                nad: c.pro_plus_annual.nad,
+                usd: c.pro_plus_annual.yearly_total_usd,
+                totalNad: c.pro_plus_annual.yearly_total_nad,
+                totalUsd: c.pro_plus_annual.yearly_total_usd
+            },
+            special_ops_2mo: {
+                nad: c.special_ops_2mo.nad,
+                usd: c.special_ops_2mo.usd,
+                totalNad: c.special_ops_2mo.nad,
+                totalUsd: c.special_ops_2mo.usd
+            },
             special_ops_annual: {
-                nad: specialOpsAnnualMonthly,
-                usd: toUsd(specialOpsAnnualMonthly * 12),
-                totalNad: specialOpsAnnualMonthly * 12
+                nad: c.special_ops_annual.nad,
+                usd: c.special_ops_annual.yearly_total_usd,
+                totalNad: c.special_ops_annual.yearly_total_nad,
+                totalUsd: c.special_ops_annual.yearly_total_usd
             }
         }
     };

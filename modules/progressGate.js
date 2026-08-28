@@ -7,6 +7,7 @@
 
 const COMPLETION_THRESHOLD = 0.65; // 65%
 const PASS_SCORE = 70; // module counts as done at 70%+
+const trainingPhases = require('./trainingPhases');
 
 function sortChronologically(scores = []) {
     return [...scores]
@@ -43,7 +44,7 @@ function getCompletedModuleNames(scores = [], modulesList = []) {
     return names;
 }
 
-function getProgressSnapshot(scores = [], modulesList = []) {
+function getProgressSnapshot(scores = [], modulesList = [], options = {}) {
     // Always derive denominator from live catalog length (auto-scales when modules are added)
     const total = Array.isArray(modulesList) && modulesList.length > 0 ? modulesList.length : 1;
     const firstPass = buildFirstPassScores(scores);
@@ -74,7 +75,7 @@ function getProgressSnapshot(scores = [], modulesList = []) {
         level_label = 'Field Analyst';
     }
 
-    return {
+    const snapshot = {
         total_modules: total,
         modules_completed: completed,
         completed_names: completedNames,
@@ -92,18 +93,28 @@ function getProgressSnapshot(scores = [], modulesList = []) {
         first_pass_scores: Object.fromEntries(
             [...firstPass.entries()].map(([name, v]) => [name, v.score])
         ),
+        phase: trainingPhases.getPhaseSnapshot({
+            catalog: modulesList,
+            scores,
+            createdAt: options.createdAt || null
+        }),
         message: meetsGate
             ? (avg >= 80
                 ? 'Mission-Ready unlocked — advanced crisis-cell layers are live in your study guides and drills.'
                 : 'Field Analyst unlocked — intermediate SOC/ops-floor layers are live. Raise first-pass average toward 80%+ for Mission-Ready.')
             : `Pass ${required - completed} more module(s) at ${PASS_SCORE}%+ to unlock Field Analyst environments (${pct}% / ${Math.round(COMPLETION_THRESHOLD * 100)}% of ${total} modules). Same modules deepen as you rank up.`
     };
+
+    if (snapshot.phase && snapshot.phase.message) {
+        snapshot.message = `${snapshot.phase.message} ${snapshot.message}`;
+    }
+    return snapshot;
 }
 
-/** Hard/expert modules locked until level gate; Special Ops also needs Mission-Ready (advanced). */
+/** Phase semester first; Special Ops still needs Mission-Ready. Hard modules unlock with their phase, not the whole catalog. */
 function isModuleUnlocked(module, progress) {
     if (!module) return false;
-    if (!progress.meets_level_gate && (module.difficulty === 'hard' || module.difficulty === 'expert')) {
+    if (progress && progress.phase && !trainingPhases.isModuleInUnlockedPhase(module, progress.phase)) {
         return false;
     }
     const needRank = String(module.requires_rank || '').toLowerCase();

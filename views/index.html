@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tribams – Cybersecurity Training for Africa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>TRIBAMS – Cybersecurity Training</title>
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Tribams helps people and teams build practical cybersecurity skills through structured modules, drills, and verifiable certificates.">
+    <meta name="description" content="TRIBAMS helps individuals, teams, and institutions across Africa build practical cybersecurity skills — structured training, real scenarios, and verifiable certificates from Windhoek.">
     <meta name="keywords" content="cybersecurity, training, Africa, phishing, malware, network, cloud, IoT, ethical hacking, certificates">
     <meta name="author" content="Tribams">
     <meta property="og:title" content="TRIBAMS – Cybersecurity Training">
@@ -15,7 +15,6 @@
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -26,7 +25,7 @@
                 .cyber-scroll {
                     width: 100%;
                     overflow: hidden;
-                    background: linear-gradient(90deg, #1a0f0a 0%, #2c1810 50%, #1a0f0a 100%);
+                    background: linear-gradient(90deg, #0a0f18 0%, #111827 50%, #0a0f18 100%);
                     padding: 16px 0;
                     position: relative;
                     border-top: 1px solid rgba(45, 212, 191, 0.35);
@@ -47,12 +46,12 @@
         
                 .cyber-scroll::before {
                     left: 0;
-                    background: linear-gradient(90deg, #1a0f0a, transparent);
+                    background: linear-gradient(90deg, #0b1220, transparent);
                 }
-        
+
                 .cyber-scroll::after {
                     right: 0;
-                    background: linear-gradient(270deg, #1a0f0a, transparent);
+                    background: linear-gradient(270deg, #0b1220, transparent);
                 }
         
                 .cyber-scroll-track {
@@ -74,7 +73,7 @@
                     font-family: 'IBM Plex Mono', ui-monospace, monospace;
                     padding: 6px 16px;
                     border-radius: 8px;
-                    background: rgba(45, 212, 191, 0.08);
+                    background: rgba(3, 233, 164, 0.08);
                     border: 1px solid rgba(45, 212, 191, 0.28);
                     opacity: 0.95;
                     transition: all 0.3s ease;
@@ -93,12 +92,12 @@
                 }
         
                 /* Different colors for items */
-                .cyber-scroll-item:nth-child(6n+1) { border-color: rgba(0, 212, 255, 0.3); }
+                .cyber-scroll-item:nth-child(6n+1) { border-color: rgba(112, 96, 111, 0.3); }
                 .cyber-scroll-item:nth-child(6n+2) { border-color: rgba(255, 107, 107, 0.3); }
-                .cyber-scroll-item:nth-child(6n+3) { border-color: rgba(255, 217, 61, 0.3); }
-                .cyber-scroll-item:nth-child(6n+4) { border-color: rgba(107, 203, 119, 0.3); }
+                .cyber-scroll-item:nth-child(6n+3) { border-color: rgba(141, 116, 14, 0.3); }
+                .cyber-scroll-item:nth-child(6n+4) { border-color: rgba(71, 80, 73, 0.3); }
                 .cyber-scroll-item:nth-child(6n+5) { border-color: rgba(166, 108, 255, 0.3); }
-                .cyber-scroll-item:nth-child(6n+6) { border-color: rgba(255, 107, 107, 0.3); }
+                .cyber-scroll-item:nth-child(6n+6) { border-color: rgba(145, 117, 117, 0.3); }
         
                 @keyframes cyberScroll {
                     0% {
@@ -144,27 +143,27 @@
         }
 
         :root {
-            --bg-primary: #1a0f0a;
-            --bg-secondary: #2c1810;
-            --bg-card: rgba(52, 32, 22, 0.92);
-            --border-color: rgba(196, 154, 108, 0.28);
-            --neon-green: #2dd4bf;
-            --neon-blue: #38bdf8;
-            --neon-cyan: #5eead4;
-            --text-primary: #f5ede4;
-            --text-secondary: #d4c4b0;
-            --text-muted: #a8927a;
-            --glass-bg: rgba(44, 28, 20, 0.88);
-            --glass-border: rgba(196, 154, 108, 0.22);
-            --shadow-glow: 0 0 40px rgba(45, 212, 191, 0.1);
+            --bg-primary: #0b1220;
+            --bg-secondary: #111827;
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(212, 175, 55, 0.22);
+            --neon-green: #f0b429;
+            --neon-blue: #d4af37;
+            --neon-cyan: #f5d08a;
+            --text-primary: #eef2f8;
+            --text-secondary: #c5d0e8;
+            --text-muted: #a8b4c8;
+            --glass-bg: rgba(11, 18, 32, 0.92);
+            --glass-border: rgba(212, 175, 55, 0.22);
+            --shadow-glow: 0 0 40px rgba(212, 175, 55, 0.12);
             --radius: 14px;
             --transition: 0.3s ease;
             --font-display: 'Syne', system-ui, sans-serif;
             --font-body: 'IBM Plex Sans', system-ui, sans-serif;
             --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
-            --text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
-            --accent-warm: #c49a6c;
-            --surface-warm: #352015;
+            --text-shadow: none;
+            --accent-warm: #d4af37;
+            --surface-warm: #111827;
         }
 
         html {
@@ -181,17 +180,14 @@
             position: relative;
         }
 
-        /* Dark brown atmosphere — sits behind content */
+        /* Studio atmosphere */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             z-index: -2;
             pointer-events: none;
-            background:
-                radial-gradient(900px 500px at 12% 18%, rgba(196, 154, 108, 0.1), transparent 55%),
-                radial-gradient(800px 480px at 88% 72%, rgba(45, 212, 191, 0.06), transparent 50%),
-                linear-gradient(180deg, #1a0f0a 0%, #221208 45%, #2c1810 100%);
+            background: linear-gradient(180deg, #070b12 0%, #0b1220 48%, #111827 100%);
         }
 
         body::after {
@@ -200,10 +196,10 @@
             inset: 0;
             z-index: -1;
             pointer-events: none;
-            opacity: 0.14;
+            opacity: 0.06;
             background-image:
-                linear-gradient(rgba(196, 154, 108, 0.06) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(196, 154, 108, 0.06) 1px, transparent 1px);
+                linear-gradient(rgba(212, 175, 55, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(212, 175, 55, 0.06) 1px, transparent 1px);
             background-size: 56px 56px;
             mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
         }
@@ -238,7 +234,7 @@
                HEADER & NAVIGATION
                ============================================================ */
         header {
-            background: rgba(26, 15, 10, 0.92);
+            background: rgba(11, 18, 32, 0.94);
             backdrop-filter: blur(14px);
             border-bottom: 1px solid var(--border-color);
             position: sticky;
@@ -249,8 +245,8 @@
         }
 
         header.scrolled {
-            background: rgba(26, 15, 10, 0.97);
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+            background: rgba(7, 11, 18, 0.98);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
         }
 
         nav {
@@ -369,7 +365,7 @@
             padding: 0;
             position: relative;
             overflow: hidden;
-            background: #1a0f0a;
+            background: transparent;
         }
 
         .hero-stage {
@@ -377,19 +373,15 @@
             inset: 0;
             z-index: 0;
             pointer-events: none;
-            background:
-                radial-gradient(900px 520px at 78% 35%, rgba(56, 189, 248, 0.12), transparent 55%),
-                radial-gradient(700px 420px at 18% 70%, rgba(45, 212, 191, 0.1), transparent 50%),
-                radial-gradient(600px 400px at 50% 50%, rgba(196, 154, 108, 0.08), transparent 60%),
-                linear-gradient(180deg, #1a0f0a 0%, #2c1810 45%, #1a0f0a 100%);
+            background: transparent;
         }
 
         .hero-stage .grid-floor {
             position: absolute;
             inset: 0;
             background-image:
-                linear-gradient(rgba(56, 189, 248, 0.07) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(56, 189, 248, 0.07) 1px, transparent 1px);
+                linear-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
             background-size: 48px 48px;
             mask-image: radial-gradient(ellipse at 60% 40%, black 20%, transparent 72%);
             animation: gridDrift 28s linear infinite;
@@ -424,7 +416,7 @@
             left: 0;
             right: 0;
             height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(45, 212, 191, 0.55), transparent);
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.45), transparent);
             animation: scanSweep 7s ease-in-out infinite;
             opacity: 0.5;
         }
@@ -439,9 +431,9 @@
             font-family: var(--font-mono);
             font-size: 0.68rem;
             letter-spacing: 0.04em;
-            color: #a5f3fc;
-            border: 1px solid rgba(103, 232, 249, 0.35);
-            background: rgba(44, 28, 20, 0.82);
+            color: #f5d08a;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            background: rgba(11, 18, 32, 0.82);
             padding: 0.35rem 0.65rem;
             border-radius: 6px;
             backdrop-filter: blur(6px);
@@ -493,9 +485,9 @@
         .hero-badge {
             display: inline-block;
             font-family: var(--font-mono);
-            background: rgba(44, 28, 20, 0.92);
-            color: #5eead4;
-            padding: 0.4rem 0.9rem;
+            background: rgba(86, 89, 107, 0.92);
+            color: #161615;
+            padding: 0.6rem 1.0rem;
             border-radius: 6px;
             font-size: 0.74rem;
             font-weight: 600;
@@ -546,14 +538,14 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #2dd4bf, #0ea5e9);
-            color: #041018;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: #1a1205;
             font-weight: 700;
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(45, 212, 191, 0.35);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.35);
         }
 
         .btn-secondary {
@@ -687,13 +679,36 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 2px;
+            height: 3px;
             background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
-            opacity: 0.85;
+            opacity: 0.95;
+        }
+
+        /* Unified gold cards — no rainbow/blue variants */
+        .features-grid .feature-card:nth-child(n) {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--border-color);
+        }
+        .features-grid .feature-card:nth-child(n)::before {
+            background: linear-gradient(90deg, #d4af37, #f5d08a);
+        }
+        .features-grid .feature-card:nth-child(n) .tag {
+            color: #f5d08a;
+            border-color: rgba(212, 175, 55, 0.35);
+        }
+
+        .testimonial-card:nth-child(n) {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--border-color);
+        }
+
+        .blog-card:nth-child(n) {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--border-color);
         }
 
         .feature-card:hover {
-            border-color: rgba(45, 212, 191, 0.55);
+            border-color: rgba(45, 212, 191, 0.75);
             transform: translateY(-5px);
             box-shadow: var(--shadow-glow);
         }
@@ -711,7 +726,7 @@
         }
 
         .feature-card p {
-            color: #cbd5e1;
+            color: #e2e8f0;
             font-size: 0.95rem;
             line-height: 1.65;
         }
@@ -737,9 +752,7 @@
             overflow: hidden;
             border-top: 1px solid var(--glass-border);
             border-bottom: 1px solid var(--glass-border);
-            background:
-                radial-gradient(700px 320px at 70% 40%, rgba(45, 212, 191, 0.08), transparent 60%),
-                rgba(26, 15, 10, 0.96);
+            background: rgba(0, 0, 0, 0.15);
         }
 
         .systems-deck .deck-layout {
@@ -807,14 +820,6 @@
         /* ============================================================
                STATS COUNTER SECTION
                ============================================================ */
-        .stats-section {
-            padding: 4rem 0;
-            background:
-                linear-gradient(180deg, rgba(44, 28, 20, 0.98), rgba(26, 15, 10, 0.98));
-            border-top: 1px solid var(--glass-border);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -822,9 +827,16 @@
             text-align: center;
         }
 
+        .stats-section {
+            padding: 4rem 0;
+            background: rgba(212, 175, 55, 0.06);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
         .stats-grid .stat-item {
-            background: rgba(52, 32, 22, 0.9);
-            border: 1px solid rgba(45, 212, 191, 0.25);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 1.4rem 1rem;
         }
@@ -833,9 +845,9 @@
             font-size: 2.8rem;
             font-weight: 800;
             font-family: var(--font-display);
-            color: #5eead4;
+            color: #f0b429;
             display: block;
-            text-shadow: 0 0 24px rgba(45, 212, 191, 0.35);
+            text-shadow: 0 0 14px rgba(240, 180, 41, 0.35);
         }
 
         .stats-grid .stat-item .label {
@@ -865,6 +877,19 @@
             border-radius: var(--radius);
             padding: 1.6rem;
             transition: var(--transition);
+        }
+
+        .testimonial-card:nth-child(3n+1) {
+            background: linear-gradient(165deg, rgba(13, 48, 46, 0.96), rgba(26, 15, 10, 0.98));
+            border-color: rgba(45, 212, 191, 0.4);
+        }
+        .testimonial-card:nth-child(3n+2) {
+            background: linear-gradient(165deg, rgba(18, 42, 78, 0.96), rgba(26, 15, 10, 0.98));
+            border-color: rgba(56, 189, 248, 0.4);
+        }
+        .testimonial-card:nth-child(3n+3) {
+            background: linear-gradient(165deg, rgba(42, 28, 72, 0.96), rgba(26, 15, 10, 0.98));
+            border-color: rgba(167, 139, 250, 0.4);
         }
 
         .testimonial-card:hover {
@@ -911,7 +936,7 @@
                ============================================================ */
         .blog-section {
             padding: 4.5rem 0;
-            background: var(--surface-warm);
+            background: transparent;
             border-top: 1px solid var(--glass-border);
         }
 
@@ -927,6 +952,19 @@
             border-radius: var(--radius);
             padding: 1.45rem;
             transition: var(--transition);
+        }
+
+        .blog-card:nth-child(3n+1) {
+            background: linear-gradient(165deg, rgba(13, 48, 46, 0.95), rgba(26, 15, 10, 0.98));
+            border-color: rgba(45, 212, 191, 0.38);
+        }
+        .blog-card:nth-child(3n+2) {
+            background: linear-gradient(165deg, rgba(42, 28, 72, 0.95), rgba(26, 15, 10, 0.98));
+            border-color: rgba(167, 139, 250, 0.38);
+        }
+        .blog-card:nth-child(3n+3) {
+            background: linear-gradient(165deg, rgba(18, 42, 78, 0.95), rgba(26, 15, 10, 0.98));
+            border-color: rgba(56, 189, 248, 0.38);
         }
 
         .blog-card:hover {
@@ -1117,7 +1155,7 @@
             border-top: 1px solid var(--glass-border);
             padding: 3rem 0 1.5rem;
             margin-top: 0;
-            background: #120a06;
+            background: #070b12;
         }
 
         .footer-grid {
@@ -1128,14 +1166,14 @@
         }
 
         .footer-col h4 {
-            color: #5eead4;
+            color: #d4af37;
             margin-bottom: 0.8rem;
             font-size: 1rem;
         }
 
         .footer-col a {
             display: block;
-            color: #cbd5e1;
+            color: #e2e8f0;
             font-size: 0.92rem;
             padding: 0.25rem 0;
             transition: var(--transition);
@@ -1143,14 +1181,14 @@
         }
 
         .footer-col a:hover {
-            color: #ffffff;
+            color: #f5d08a;
         }
 
         .footer-bottom {
             text-align: center;
             border-top: 1px solid var(--glass-border);
             padding-top: 1.5rem;
-            color: #94a3b8;
+            color: #d1d9e6;
             font-size: 0.88rem;
         }
 
@@ -1168,9 +1206,16 @@
                 right: -8%;
                 opacity: 0.72;
             }
-            .hero-stage .float-chip.c3 { display: none; }
+            .hero-stage .float-chip.c5 { display: none; }
             .hero-content {
                 max-width: 100%;
+            }
+            .systems-deck .deck-layout {
+                grid-template-columns: 1fr;
+                gap: 1.75rem;
+            }
+            .features-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
@@ -1185,12 +1230,15 @@
                 position: absolute;
                 top: 60px;
                 right: 1rem;
-                min-width: 200px;
+                left: 1rem;
+                min-width: 0;
+                width: auto;
                 border: 1px solid var(--border-color);
                 border-radius: 12px;
                 padding: 1rem;
                 gap: 1rem;
                 box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+                z-index: 1001;
             }
             .nav-links.show {
                 display: flex;
@@ -1215,9 +1263,21 @@
             .hero-stage .float-chip.c2 { left: 58%; top: 58%; }
             .hero-title {
                 max-width: none;
+                font-size: clamp(1.7rem, 7vw, 2.4rem);
+            }
+            .hero-brand {
+                font-size: clamp(2rem, 10vw, 3.2rem);
             }
             .hero-actions {
                 justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+            .hero-actions .btn {
+                width: 100%;
+                text-align: center;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
             }
             .faq-section h2 { font-size: 1.7rem; }
             .faq-question { font-size: 1rem; padding: 0.9rem 1.1rem; }
@@ -1243,8 +1303,17 @@
             }
             .faq-section { padding: 2.5rem 0.75rem; }
             .faq-question { font-size: 0.92rem; padding: 0.8rem 1rem; }
+            .section-header h2 {
+                font-size: 1.55rem;
+            }
+            .blog-grid,
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
         }
+
     </style>
+    <link rel="stylesheet" href="/css/index-gold-theme.css">
 </head>
 <body>
 
@@ -1254,13 +1323,18 @@
     <header id="header">
         <div class="container">
             <nav>
-                <a href="/" class="logo">
-                    <span class="logo-icon">🛡️</span> Tribams
+                <a href="/" class="logo tribams-brand">
+                    <img src="/brand/tribams-mark.svg" alt="" class="tribams-brand-mark" width="36" height="36">
+                    <span class="tribams-brand-word">TRIBAMS</span>
                 </a>
                 <ul class="nav-links" id="navLinks">
                     <li><a href="/" class="active">Home</a></li>
-                    <li><a href="#how">How we operate</a></li>
+                    <li><a href="#how">How it works</a></li>
+                    <li><a href="#community">Who we serve</a></li>
                     <li><a href="#benefits">Benefits</a></li>
+                    <li><a href="/news">News</a></li>
+                    <li><a href="/payment">Pricing</a></li>
+                    <li><a href="/teams">For teams</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/contact">Contact</a></li>
                     <li><a href="/login">Sign In</a></li>
@@ -1278,63 +1352,28 @@
     <!-- ============================================================
     HERO SECTION — guest marketing only
     ============================================================ -->
-    <section class="hero" id="home">
-        <div class="hero-stage" aria-hidden="true">
-            <div class="grid-floor"></div>
-            <div class="scanline"></div>
-            <span class="float-chip c1">TRAINING</span>
-            <span class="float-chip c2">DRILLS</span>
-            <span class="float-chip c3">CERTIFICATES</span>
-            <span class="float-chip c4">TEAMS</span>
-            <span class="float-chip c5">READINESS</span>
-            <svg class="tech-scene" viewBox="0 0 820 620" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="520" cy="540" rx="260" ry="28" fill="#020617" opacity="0.55"/>
-                <g>
-                    <rect x="90" y="310" width="120" height="42" rx="5" fill="#0f172a" stroke="#475569" stroke-width="1.5"/>
-                    <circle cx="108" cy="331" r="4" fill="#22c55e" class="node-pulse"/>
-                    <circle cx="124" cy="331" r="4" fill="#22c55e" class="node-pulse d2"/>
-                    <circle cx="140" cy="331" r="4" fill="#f59e0b" class="node-pulse d3"/>
-                    <circle cx="156" cy="331" r="4" fill="#38bdf8" class="node-pulse"/>
-                    <text x="90" y="300" fill="#64748b" font-size="10" font-family="IBM Plex Mono, monospace">SECURE LAB</text>
-                </g>
-                <g class="rack-glow">
-                    <rect x="520" y="120" width="88" height="340" rx="8" fill="#0f172a" stroke="#334155" stroke-width="2"/>
-                    <rect x="532" y="140" width="64" height="10" rx="2" fill="#14b8a6" opacity="0.85"/>
-                    <rect x="532" y="162" width="64" height="10" rx="2" fill="#0ea5e9" opacity="0.7"/>
-                    <rect x="532" y="184" width="64" height="10" rx="2" fill="#14b8a6" opacity="0.55"/>
-                    <rect x="532" y="206" width="64" height="10" rx="2" fill="#64748b" opacity="0.5"/>
-                    <rect x="532" y="228" width="64" height="10" rx="2" fill="#14b8a6" opacity="0.75"/>
-                    <circle cx="544" cy="430" r="4" fill="#22c55e" class="node-pulse"/>
-                    <circle cx="562" cy="430" r="4" fill="#38bdf8" class="node-pulse d2"/>
-                    <rect x="630" y="150" width="88" height="310" rx="8" fill="#0f172a" stroke="#334155" stroke-width="2"/>
-                    <rect x="642" y="170" width="64" height="10" rx="2" fill="#0ea5e9" opacity="0.8"/>
-                    <rect x="642" y="192" width="64" height="10" rx="2" fill="#14b8a6" opacity="0.65"/>
-                    <text x="528" y="105" fill="#64748b" font-size="10" font-family="IBM Plex Mono, monospace">LEARNING HALL</text>
-                </g>
-                <g>
-                    <rect x="248" y="230" width="168" height="118" rx="8" fill="#0b1220" stroke="#475569" stroke-width="2"/>
-                    <rect x="258" y="240" width="148" height="88" rx="3" fill="#020617"/>
-                    <rect x="270" y="254" width="70" height="4" rx="1" fill="#2dd4bf" opacity="0.9"/>
-                    <rect x="270" y="266" width="110" height="4" rx="1" fill="#38bdf8" opacity="0.55"/>
-                    <rect x="270" y="278" width="95" height="4" rx="1" fill="#94a3b8" opacity="0.4"/>
-                    <rect x="270" y="290" width="120" height="4" rx="1" fill="#2dd4bf" opacity="0.5"/>
-                    <text x="298" y="400" fill="#64748b" font-size="9" font-family="IBM Plex Mono, monospace">LEARNER</text>
-                </g>
-            </svg>
-        </div>
-        <div class="container">
+    <section class="hero hero--studio" id="home">
+        <div class="container hero-layout">
             <div class="hero-content">
-                <div class="hero-badge">Closed beta · Practical cybersecurity training · Built for Africa</div>
-                <div class="hero-brand">TRIBAMS</div>
-                <h1 class="hero-title">Build cyber skills that hold up under pressure</h1>
+                <img src="/brand/tribams-logo.svg" alt="TRIBAMS Cyber" class="hero-logo-wide" width="320" height="92">
+                <div class="hero-badge">Windhoek · Namibia · Training that respects your time</div>
+                <h1 class="hero-title">Build cyber skills that hold up when it matters</h1>
                 <p class="hero-description">
-                    Tribams is in closed beta. Guests can learn how we operate — full modules, labs, and progress tools unlock after you register or sign in with issued beta credentials.
+                    Whether you are a student taking your first step, a professional sharpening your judgment, or a team leader building readiness across your organisation — TRIBAMS meets you where you are. We train through structured modules, realistic scenarios, and practice that feels like real decisions under pressure.
+                </p>
+                <p class="hero-description" style="margin-top:0.85rem; font-size:0.98rem;">
+                    Join a growing community of learners across Namibia, the region, and beyond. Create a free account to start training today.
                 </p>
                 <div class="hero-actions">
-                    <a href="/register" class="btn btn-primary">Create a free account →</a>
-                    <a href="#how" class="btn btn-secondary">See how we operate</a>
+                    <a href="/register" class="btn btn-primary">Join the community →</a>
+                    <a href="#how" class="btn btn-secondary">See how it works</a>
+                    <a href="/teams" class="btn btn-outline">For teams &amp; institutions</a>
                 </div>
             </div>
+            <figure class="hero-portrait-card">
+                <img src="/uploads/news/britu-kativa-founder-gold.png" alt="Mr. Britu Kativa, Chief Executive Officer, TRIBAMS" onerror="this.onerror=null;this.src='/uploads/news/news_1787830186577.jpg';">
+                <figcaption>Mr. Britu Kativa · Leadership · Purpose · Readiness</figcaption>
+            </figure>
         </div>
     </section>
 <div class="cyber-scroll">
@@ -1367,7 +1406,7 @@
             <span class="icon">💡</span> Daily Scenarios
         </span>
         <span class="cyber-scroll-item">
-            <span class="icon">🚀</span> Build Africa's Cyber Resilience
+            <span class="icon">🚀</span> Build Cyber Resilience
         </span>
         <!-- Duplicate for seamless scrolling -->
         <span class="cyber-scroll-item">
@@ -1398,57 +1437,44 @@
             <span class="icon">💡</span> Daily Scenarios
         </span>
         <span class="cyber-scroll-item">
-            <span class="icon">🚀</span> Build Africa's Cyber Resilience
+            <span class="icon">🚀</span> Build Cyber Resilience
         </span>
     </div>
 </div>
-    <!-- ============================================================
-    TRUST BAR
-    ============================================================ -->
-    <section class="trust-bar">
-        <div class="container">
-            <div class="trust-item"><span class="icon">🔒</span> Practical Skills</div>
-            <div class="trust-item"><span class="icon">📈</span> Career-Focused</div>
-            <div class="trust-item"><span class="icon">🏆</span> Certificates</div>
-            <div class="trust-item"><span class="icon">🔥</span> Daily Practice</div>
-            <div class="trust-item"><span class="icon">🌐</span> Broad Coverage</div>
-            <div class="trust-item"><span class="icon">👥</span> Team Ready</div>
-        </div>
-    </section>
-
+   
     <!-- ============================================================
     HOW WE OPERATE
     ============================================================ -->
     <section id="how" class="features-section">
         <div class="container">
             <div class="section-header">
-                <h2>How <span style="color:var(--neon-green);">Tribams operates</span></h2>
-                <p>A simple path from registration to measurable readiness — without exposing member-only training assets to guests.</p>
+                <h2>How <span style="color:var(--neon-green);">TRIBAMS works</span></h2>
+                <p>A clear path from your first login to measurable readiness — built for people who want training that feels serious, practical, and worth their time.</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
                     <span class="icon">1️⃣</span>
-                    <h3>Register</h3>
-                    <p>Create an account so your progress, drills, and certificates stay tied to you.</p>
-                    <span class="tag">ACCOUNT</span>
+                    <h3>Create your account</h3>
+                    <p>Register in minutes. Your progress, drills, and certificates stay tied to you — so every step forward counts.</p>
+                    <span class="tag">JOIN</span>
                 </div>
                 <div class="feature-card">
                     <span class="icon">2️⃣</span>
-                    <h3>Follow a learning path</h3>
-                    <p>Study structured modules covering phishing, malware, networks, cloud, and more.</p>
+                    <h3>Learn with structure</h3>
+                    <p>Follow guided modules across phishing, malware, networks, cloud, social engineering, and incident response — at a pace that respects your level.</p>
                     <span class="tag">MODULES</span>
                 </div>
                 <div class="feature-card">
                     <span class="icon">3️⃣</span>
                     <h3>Practice under pressure</h3>
-                    <p>Complete timed drills and hands-on exercises that mirror real decision points.</p>
+                    <p>Work through timed drills and hands-on exercises that mirror the decisions defenders face when something goes wrong.</p>
                     <span class="tag">DRILLS</span>
                 </div>
                 <div class="feature-card">
                     <span class="icon">4️⃣</span>
-                    <h3>Prove what you learned</h3>
-                    <p>Earn verifiable certificates employers and partners can check with confidence.</p>
-                    <span class="tag">PROOF</span>
+                    <h3>Earn proof you can share</h3>
+                    <p>Complete the program (65% of modules at 70%+). TRIBAMS signs off your certificate and sends a secure link so employers can verify originality.</p>
+                    <span class="tag">CERTIFY</span>
                 </div>
             </div>
         </div>
@@ -1461,30 +1487,30 @@
         <div class="container">
             <div class="deck-layout">
                 <div class="deck-copy">
-                    <h2>What you unlock when you join</h2>
-                    <p>Guests see how we work. Members get the full training floor — modules, practice labs, progress tracking, and certificates.</p>
+                    <h2>What you gain as a member</h2>
+                    <p>TRIBAMS is more than a course library. It is a training desk you can return to — whether you are building a career, strengthening a team, or helping your organisation take security seriously without the fear campaigns.</p>
                     <ul class="deck-list">
-                        <li>Full module catalog after sign-in</li>
-                        <li>Hands-on labs and timed drills</li>
-                        <li>Personal progress and readiness tracking</li>
-                        <li>Certificates you can share with employers</li>
+                        <li>Full module catalog and learning paths after sign-in</li>
+                        <li>Hands-on labs, practice drills, and progress tracking</li>
+                        <li>Signed-off certificates with a unique verify link for originality</li>
+                        <li>Support for individuals, teams, schools, and institutions</li>
                     </ul>
                     <div style="margin-top:1.25rem;">
-                        <a href="/register" class="btn btn-primary">Join Tribams →</a>
+                        <a href="/register" class="btn btn-primary">Join TRIBAMS →</a>
                     </div>
                 </div>
                 <div class="features-grid" style="grid-template-columns:1fr; gap:0.85rem;">
                     <div class="feature-card">
-                        <h3>Individuals</h3>
-                        <p>Build job-ready cyber skills at your own pace and show proof of completion.</p>
+                        <h3>Students &amp; career builders</h3>
+                        <p>Build job-ready cyber awareness and defensive thinking — whether you are entering the field or strengthening your CV with proof of competence.</p>
                     </div>
                     <div class="feature-card">
-                        <h3>Teams &amp; organisations</h3>
-                        <p>Train staff on common threats and track who is ready for real-world incidents.</p>
+                        <h3>Professionals &amp; teams</h3>
+                        <p>Train staff on common threats, align language across departments, and track who is ready when an incident lands on your desk.</p>
                     </div>
                     <div class="feature-card">
-                        <h3>Honest access</h3>
-                        <p>Sensitive training content stays behind registration — guests get clear, useful information only.</p>
+                        <h3>Institutions &amp; enterprises</h3>
+                        <p>Government units, health organisations, campuses, and businesses — structured rollout paths and licensing for serious adoption.</p>
                     </div>
                 </div>
             </div>
@@ -1492,13 +1518,54 @@
     </section>
 
     <!-- ============================================================
-    TOPIC OVERVIEW (high-level only)
+    WHO THIS IS FOR — broad audience
     ============================================================ -->
+    <section id="community" class="features-section" style="background:rgba(15,23,42,0.35);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Built for a <span style="color:var(--neon-green);">broad community</span></h2>
+                <p>Digital risk touches everyone. TRIBAMS speaks to learners at every stage — from first-time awareness to mission-ready judgment.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="icon">🎓</span>
+                    <h3>Students &amp; graduates</h3>
+                    <p>Start with foundations that make sense, grow into scenarios that challenge you, and graduate with credentials that mean something.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">💼</span>
+                    <h3>Working professionals</h3>
+                    <p>Finance, HR, operations, management, IT — cyber judgment is a career skill, not only a specialist skill.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🏛️</span>
+                    <h3>Government &amp; public sector</h3>
+                    <p>Train teams who handle sensitive data and public trust. Practical modules aligned to real operational pressure.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🏥</span>
+                    <h3>Health &amp; essential services</h3>
+                    <p>Protect patient records, administrative systems, and the people who depend on uninterrupted service.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🏢</span>
+                    <h3>SMEs &amp; growing businesses</h3>
+                    <p>Right-sized training for teams that cannot afford a full security academy but cannot afford to ignore risk either.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🌍</span>
+                    <h3>Regional &amp; global learners</h3>
+                    <p>Rooted in Windhoek, open to the world. The threats are global; the training should still feel relevant where you live and work.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="features" class="features-section">
         <div class="container">
             <div class="section-header">
-                <h2>Training areas <span style="color:var(--neon-green);">members cover</span></h2>
-                <p>After you join, you train across the threats defenders face every day.</p>
+                <h2>Training areas <span style="color:var(--neon-green);">you will cover</span></h2>
+                <p>After you join, you train across the threats defenders face every day — with examples that connect to real roles and real decisions.</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
@@ -1552,7 +1619,7 @@
                     <span class="label">Modules (members)</span>
                 </div>
                 <div class="stat-item">
-                    <span class="number" data-target="22">0</span>
+                    <span class="number" data-target="30">0</span>
                     <span class="label">Practice labs</span>
                 </div>
                 <div class="stat-item">
@@ -1568,42 +1635,42 @@
     </section>
 
     <!-- ============================================================
-    CLOSED BETA (honest — no fabricated testimonials)
+    WHY PEOPLE JOIN
     ============================================================ -->
     <section class="testimonials">
         <div class="container">
             <div class="section-header">
-                <h2>Closed <span style="color:var(--neon-green);">beta</span></h2>
-                <p>We are inviting early testers — no invented user counts or fabricated reviews.</p>
+                <h2>Why people <span style="color:var(--neon-green);">choose TRIBAMS</span></h2>
+                <p>Clear training, honest communication, and a community that takes readiness seriously.</p>
             </div>
             <div class="testimonial-grid">
                 <div class="testimonial-card">
-                    <div class="quote">Be among the first testers exploring modules, essays, drills, and Force Readiness before public launch.</div>
+                    <div class="quote">If you are building your career, you deserve training that respects your intelligence — clear modules, honest feedback, and certificates you can stand behind when opportunity knocks.</div>
                     <div class="author">
-                        <div class="avatar">β</div>
+                        <div class="avatar">L</div>
                         <div class="info">
-                            <div class="name">Closed beta</div>
-                            <div class="role">Issued credentials only</div>
+                            <div class="name">Individual learners</div>
+                            <div class="role">Grow at your own pace</div>
                         </div>
                     </div>
                 </div>
                 <div class="testimonial-card">
-                    <div class="quote">Feedback from real testers shapes the product. We publish what we ship — not staged social proof.</div>
+                    <div class="quote">If you lead a team, you need more than a once-a-year slideshow. You need shared language, measurable progress, and practice that prepares people before the incident — not during the panic.</div>
                     <div class="author">
                         <div class="avatar">T</div>
                         <div class="info">
-                            <div class="name">Honest updates</div>
-                            <div class="role">No fake testimonials</div>
+                            <div class="name">Teams &amp; managers</div>
+                            <div class="role">Readiness across every role</div>
                         </div>
                     </div>
                 </div>
                 <div class="testimonial-card">
-                    <div class="quote">Built for African teams and learners who need judgment under pressure — not vanity metrics.</div>
+                    <div class="quote">If you serve a school, clinic, agency, or enterprise, you need a partner that answers plainly — what we cover, how we assess, and how certificates are signed off and verified by link. TRIBAMS was built for that conversation.</div>
                     <div class="author">
-                        <div class="avatar">A</div>
+                        <div class="avatar">I</div>
                         <div class="info">
-                            <div class="name">Africa-first</div>
-                            <div class="role">Readiness over hype</div>
+                            <div class="name">Institutions</div>
+                            <div class="role">Namibia, the region, and beyond</div>
                         </div>
                     </div>
                 </div>
@@ -1617,10 +1684,10 @@
     <section class="blog-section">
         <div class="container">
             <div class="section-header">
-                <h2>Updates from <span style="color:var(--neon-green);">Tribams</span></h2>
-                <p>High-level platform news — full content stays inside your member account.</p>
+                <h2>News from <span style="color:var(--neon-green);">TRIBAMS</span></h2>
+                <p>Leadership notes, training updates, and community announcements — <a href="/news">read the latest</a>.</p>
             </div>
-            <div class="blog-grid">
+            <div class="blog-grid" id="homeNewsGrid">
                 <div class="blog-card">
                     <span class="category">🎓 Training</span>
                     <h4>New module focus: Digital Forensics</h4>
@@ -1628,13 +1695,14 @@
                 </div>
                 <div class="blog-card">
                     <span class="category">🏆 Certification</span>
-                    <h4>Verifiable certificates</h4>
-                    <p>Pass module drills to earn certificates employers can check on Tribams.</p>
+                    <h4>Signed-off certificates</h4>
+                    <p>When you complete the program, TRIBAMS leadership signs off your certificate and you receive a personal link to view and verify it.</p>
                 </div>
                 <div class="blog-card">
                     <span class="category">🌍 Community</span>
-                    <h4>Built for African teams</h4>
-                    <p>Practical paths for individuals, campuses, and organisations that need ready people.</p>
+                    <h4>Join the TRIBAMS community</h4>
+                    <p>Individuals, teams, campuses, and institutions — one training desk, many paths in. Start free, grow with structure, earn proof you can share.</p>
+                    <p style="margin-top:0.65rem;"><a href="/register">Create your account →</a> · <a href="/teams">Team &amp; institutional enquiries →</a></p>
                 </div>
             </div>
         </div>
@@ -1646,7 +1714,7 @@
   <section class="faq-section" id="faq">
       <div class="container">
           <h2>Frequently Asked Questions</h2>
-          <p class="faq-subtitle">Straight answers for guests considering Tribams</p>
+          <p class="faq-subtitle">Straight answers for anyone considering TRIBAMS</p>
 
           <div class="faq-list" id="faqList">
               <div class="faq-item">
@@ -1655,7 +1723,7 @@
                       <span class="faq-icon" aria-hidden="true">+</span>
                   </button>
                   <div class="faq-answer">
-                      <p>TRIBAMS is a cybersecurity training platform (currently in closed beta) with structured modules, practice drills, mandatory research essays, and verifiable certificates — designed to help people and teams build practical readiness.</p>
+                      <p>TRIBAMS is a cybersecurity training platform built in Windhoek — structured modules, practice drills, reflective essays, and verifiable certificates. We help individuals and organisations build judgment under pressure, not just memorise definitions.</p>
                   </div>
               </div>
 
@@ -1665,7 +1733,7 @@
                       <span class="faq-icon" aria-hidden="true">+</span>
                   </button>
                   <div class="faq-answer">
-                      <p>Guests can learn how we operate, the benefits of joining, and how to contact us. Module catalogs, labs, drills, and progress tools require a free account.</p>
+                      <p>You can explore how we work, who we serve, and how to get started on this page. The full module catalog, labs, drills, and progress tools open after you create a free account.</p>
                   </div>
               </div>
 
@@ -1675,7 +1743,7 @@
                       <span class="faq-icon" aria-hidden="true">+</span>
                   </button>
                   <div class="faq-answer">
-                      <p>After you register, you can start with free starter modules. Paid plans unlock the full catalog and deeper labs. Exact pricing is shown after sign-in on the payment page.</p>
+                      <p>After you register, you can start with free starter modules. Paid plans unlock the full catalog and deeper labs. Public USD prices are on <a href="/payment">Pricing</a>. Teams and institutions can request a demo or quote on <a href="/teams">For teams</a>.</p>
                   </div>
               </div>
 
@@ -1685,7 +1753,7 @@
                       <span class="faq-icon" aria-hidden="true">+</span>
                   </button>
                   <div class="faq-answer">
-                      <p>Yes. Members who pass module drills can earn verifiable TRIBAMS certificates. Employers can check certificate authenticity on our verify page.</p>
+                      <p>Yes. When you complete the training program (65% of modules at 70%+), TRIBAMS signs off your certificate and issues it to your account. You receive an email with a secure link to view it, plus a unique verification URL (<a href="/verify">/verify</a>) so employers and partners can confirm originality. Module Master badges still unlock at 80%+ per module.</p>
                   </div>
               </div>
 
@@ -1695,7 +1763,7 @@
                       <span class="faq-icon" aria-hidden="true">+</span>
                   </button>
                   <div class="faq-answer">
-                      <p>Use the <a href="/contact">Contact</a> page for enquiries, partnerships, and support. That is the right place for reach-us details — not the homepage marketing sections.</p>
+                      <p>Visit our <a href="/contact">Contact</a> page for enquiries, partnerships, institutional training, and support. We respond through the channels listed there.</p>
                   </div>
               </div>
 
@@ -1711,15 +1779,16 @@
           </div>
       </div>
   </section>
+
     <!-- ============================================================
     CTA SECTION
     ============================================================ -->
     <section class="cta-section">
         <div class="container">
             <div class="cta-box">
-                <h2>Ready to <span style="color:var(--neon-green);">join Tribams</span>?</h2>
-                <p>Create a free account to unlock training. Questions? Visit <a href="/contact" style="color:var(--neon-green);">Contact / Support</a>.</p>
-                <a href="/register" class="btn btn-primary">Create your account →</a>
+                <h2>Ready to join the <span style="color:var(--neon-green);">TRIBAMS community</span>?</h2>
+                <p>Take the first step today. Create a free account, explore starter modules, and train at a pace that fits your life. Need pricing or a team rollout? See <a href="/payment" style="color:var(--neon-green);">Pricing</a> or <a href="/teams" style="color:var(--neon-green);">For teams</a>. We are glad you are here.</p>
+                <a href="/register" class="btn btn-primary">Create your free account →</a>
             </div>
         </div>
     </section>
@@ -1731,14 +1800,17 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>🛡️ Tribams</h4>
-                    <p style="color:var(--text-secondary); font-size:0.9rem;">Practical cybersecurity training for Africa</p>
-                    <p style="color:var(--text-muted); font-size:0.8rem; margin-top:0.5rem;">Building Africa's Cyber Resilience</p>
+                    <h4>TRIBAMS</h4>
+                    <p style="color:var(--text-secondary); font-size:0.9rem;">Practical cybersecurity training for individuals, teams, and institutions.</p>
+                    <p style="color:var(--text-muted); font-size:0.8rem; margin-top:0.5rem;">Based in Windhoek, Namibia</p>
                 </div>
                 <div class="footer-col">
                     <h4>Quick Links</h4>
                     <a href="/">Home</a>
+                    <a href="/news">News</a>
                     <a href="/about">About</a>
+                    <a href="/payment">Pricing</a>
+                    <a href="/teams">For teams</a>
                     <a href="/contact">Contact / Support</a>
                     <a href="/verify">Verify Certificate</a>
                 </div>
@@ -1752,6 +1824,7 @@
                 <div class="footer-col">
                     <h4>Connect</h4>
                     <a href="/contact">Contact form</a>
+                    <a href="/contact#feedback">Feedback</a>
                     <a href="/privacy">Privacy</a>
                     <a href="/terms">Terms</a>
                 </div>
@@ -1883,6 +1956,29 @@
                     answer.style.padding = '0 24px';
                 }
             });
+        })();
+
+        (function loadHomeNews() {
+            const grid = document.getElementById('homeNewsGrid');
+            if (!grid) return;
+            const fallback = grid.innerHTML;
+            fetch('/api/news?limit=3').then((r) => r.json()).then((data) => {
+                const posts = (data && data.posts) || [];
+                if (!posts.length) return;
+                function esc(s) {
+                    return String(s || '').replace(/[&<>"']/g, (c) => ({
+                        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+                    }[c]));
+                }
+                grid.innerHTML = posts.map((p) => `
+                    <div class="blog-card">
+                        <span class="category">${esc((p.kind || 'update').toUpperCase())}</span>
+                        <h4>${esc(p.title)}</h4>
+                        <p>${esc(p.summary || (p.body || '').slice(0, 160))}</p>
+                        <p style="margin-top:0.65rem;"><a href="/news#post-${esc(p.id)}">Read update →</a></p>
+                    </div>
+                `).join('');
+            }).catch(() => { grid.innerHTML = fallback; });
         })();
 
         console.log('TRIBAMS homepage ready.');

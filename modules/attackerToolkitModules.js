@@ -1,7 +1,7 @@
 /**
  * Pro+ catalog expansion — "know the enemy by how they move and talk"
  * Defensive training on attacker tooling, tradecraft, and TTPs.
- * Modules 46–95 require Pro+ access.
+ * Modules 46–95 sit at or below PRO_MAX (default 95): accessControl unlocks them on Pro; Pro+ currently shares that ceiling.
  */
 
 const ATTACKER_TOOLKIT_MODULES = [

@@ -81,6 +81,37 @@ async function main() {
         if (!res.ok) throw new Error(`status ${res.status}`);
     });
 
+    await run('GET /admin rejects anonymous (redirect or 401)', async () => {
+        const res = await fetch(`${BASE}/admin`, { redirect: 'manual' });
+        if (![301, 302, 303, 307, 308, 401, 403].includes(res.status)) {
+            throw new Error(`expected auth challenge, got ${res.status}`);
+        }
+        if (res.status >= 300 && res.status < 400) {
+            const loc = res.headers.get('location') || '';
+            if (!/\/login/i.test(loc)) throw new Error(`expected redirect to login, got ${loc}`);
+        }
+        const text = await res.text();
+        if (/api\/admin\/users|Admin Dashboard|user list/i.test(text)) {
+            throw new Error('admin page body leaked without auth');
+        }
+    });
+
+    await run('GET /api/admin/stats rejects anonymous', async () => {
+        const { res, body } = await getJson('/api/admin/stats');
+        if (![401, 403].includes(res.status)) {
+            throw new Error(`expected 401/403, got ${res.status}`);
+        }
+        if (body && body.success === true) throw new Error('admin API returned success without auth');
+    });
+
+    await run('GET /api/launch-readiness rejects anonymous', async () => {
+        const { res, body } = await getJson('/api/launch-readiness');
+        if (![401, 403].includes(res.status)) {
+            throw new Error(`expected 401/403, got ${res.status}`);
+        }
+        if (body && body.success === true) throw new Error('launch-readiness leaked without auth');
+    });
+
     await run('POST /api/paypal/create-order requires auth', async () => {
         const { res, body } = await getJson('/api/paypal/create-order', {
             method: 'POST',

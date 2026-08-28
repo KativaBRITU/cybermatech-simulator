@@ -227,6 +227,9 @@
             <p class="lede" id="labSub"></p>
             <div class="meta" id="labMeta" style="margin:0.5rem 0 0.75rem;"></div>
             <div class="roe" id="labRoe"></div>
+            <div id="staleBanner" class="hidden" style="margin:0.75rem 0;padding:0.75rem 1rem;border-radius:10px;background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.45);color:var(--ink);font-size:0.9rem;">
+                ⚠️ Lab content was updated since your last pass — retake recommended to keep your transcript current.
+            </div>
             <div class="lab-shell">
                 <div class="panel">
                     <h2>Evidence</h2>
@@ -356,6 +359,7 @@
             grid.innerHTML = filtered.map((l) => `
                 <article class="card" data-id="${esc(l.id)}">
                     ${l.user_passed ? `<span class="pass-pill">${l.user_score}% passed</span>` : (l.user_score != null ? `<span class="pass-pill" style="color:var(--amber);border-color:rgba(251,191,36,0.4);">${l.user_score}% retry</span>` : '')}
+                    ${l.completion_stale ? `<span class="pass-pill" style="color:var(--amber);border-color:rgba(251,191,36,0.4);">content updated</span>` : ''}
                     <div class="mod">Module ${l.module_id} · ${esc(l.module_name || '')}</div>
                     <h3>${esc(l.title)}</h3>
                     <p>${esc(l.subtitle)}</p>
@@ -400,6 +404,9 @@
             $('labTitle').textContent = current.title;
             $('labSub').textContent = current.subtitle;
             $('labRoe').textContent = 'ROE: ' + current.roe;
+            const staleEl = $('staleBanner');
+            if (current.completion_stale) staleEl.classList.remove('hidden');
+            else staleEl.classList.add('hidden');
             $('briefing').textContent = current.briefing;
             $('moduleLink').href = current.training_url || ('/training/' + current.module_id);
             $('labMeta').innerHTML = [
@@ -484,6 +491,7 @@
                 <div>Lab score</div>
                 <div class="score ${r.passed ? '' : 'fail'}">${r.score}%</div>
                 <div>${esc(r.debrief_summary || (r.passed ? 'Passed.' : 'Retry recommended.'))}</div>
+                ${r.mental_model ? `<div style="margin-top:0.65rem;padding:0.7rem 0.85rem;border:1px solid var(--line, rgba(251,191,36,0.35));border-radius:10px;font-size:0.9rem;"><strong>Carry this:</strong> ${esc(r.mental_model)}</div>` : ''}
                 <div style="margin-top:0.35rem;color:var(--muted);font-size:0.88rem;">${r.earned}/${r.max} points</div>
                 <div class="meta" style="margin-top:0.6rem;">
                     ${(r.attack_techniques_demonstrated || []).map((t) => `<span class="chip tech">${esc(t)}</span>`).join('') || '<span class="chip">No techniques credited this run</span>'}

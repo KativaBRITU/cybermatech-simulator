@@ -315,24 +315,32 @@ async function sendPasswordResetEmail(email, username, resetLink) {
 async function sendCertificateEmail(email, username, moduleName, score, certificateId) {
     const name = escapeHtml(username);
     const mod = escapeHtml(moduleName);
-    const certUrl = certificateId
-        ? `${APP_BASE_URL}/verify?id=${encodeURIComponent(certificateId)}`
+    const viewUrl = certificateId
+        ? `${APP_BASE_URL}/certificate?id=${encodeURIComponent(certificateId)}`
         : `${APP_BASE_URL}/dashboard`;
+    const verifyUrl = certificateId
+        ? `${APP_BASE_URL}/verify?id=${encodeURIComponent(certificateId)}`
+        : `${APP_BASE_URL}/verify`;
     const html = wrapLayout({
-        title: 'Certificate earned',
+        title: 'Your TRIBAMS certificate is ready',
         bodyHtml: `
-          <h2 style="margin:0 0 12px;">Well done, ${name}</h2>
-          <p>You earned a TRIBAMS certificate for <strong>${mod}</strong>.</p>
-          <p>Score: <strong style="color:#0f766e;">${Number(score)}%</strong>
-          ${certificateId ? `<br>ID: <code>${escapeHtml(certificateId)}</code>` : ''}</p>
-          ${ctaButton(certUrl, 'View / Verify Certificate')}
+          <h2 style="margin:0 0 12px;">Congratulations, ${name}</h2>
+          <p>You have completed the TRIBAMS training program. Your credential has been <strong>signed off</strong> by TRIBAMS leadership and issued to your account.</p>
+          <p>Credential: <strong>${mod}</strong><br>
+          Program average: <strong style="color:#b8860b;">${Number(score)}%</strong>
+          ${certificateId ? `<br>Certificate ID: <code>${escapeHtml(certificateId)}</code>` : ''}</p>
+          <p style="font-size:14px;color:#64748b;">Share your certificate using the secure links below. Anyone can confirm originality on our verify page — no copies or screenshots replace the official record.</p>
+          ${ctaButton(viewUrl, 'View your certificate')}
+          <p style="margin-top:16px;text-align:center;">
+            <a href="${verifyUrl}" style="color:#b8860b;font-weight:600;">Verify originality →</a>
+          </p>
         `
     });
     return sendMail({
         to: email,
-        subject: `Certificate earned: ${moduleName} — TRIBAMS`,
+        subject: `Your TRIBAMS certificate — signed off and ready to share`,
         html,
-        text: `Certificate for ${moduleName} (${score}%). Verify: ${certUrl}`
+        text: `TRIBAMS training program completed (${score}%). View: ${viewUrl} Verify: ${verifyUrl}`
     });
 }
 
