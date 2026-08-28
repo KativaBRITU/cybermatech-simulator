@@ -159,6 +159,27 @@ function createSqliteDatabase(databaseDir) {
     return api;
 }
 
+function postgresSslFromEnv() {
+    const url = process.env.DATABASE_URL || '';
+    const explicitSsl = String(process.env.PGSSL || '').toLowerCase();
+    const hostMatch = url.match(/@([^/:?]+)/);
+    const host = hostMatch ? hostMatch[1] : '';
+    const isSupabase =
+        /\.supabase\.com$/i.test(host) ||
+        /\.supabase\.co$/i.test(host) ||
+        /pooler\.supabase\.com$/i.test(host);
+    const sslServername = (process.env.PGSSL_SERVERNAME || '').trim() || host;
+    const useSsl =
+        explicitSsl === 'true' ||
+        (explicitSsl !== 'false' && (isSupabase || /sslmode=require/i.test(url)));
+
+    if (!useSsl) return undefined;
+    return {
+        rejectUnauthorized: false,
+        ...(sslServername ? { servername: sslServername } : {})
+    };
+}
+
 function createPostgresDatabase() {
     // Windows / some ISPs hang on IPv6-first lookups to Supabase poolers; prefer IPv4.
     try {
@@ -166,14 +187,8 @@ function createPostgresDatabase() {
     } catch (_) { /* Node < 17 */ }
 
     const { Pool } = require('pg');
-    const sslServername = process.env.PGSSL_SERVERNAME || '';
-    const ssl =
-        process.env.PGSSL === 'true'
-            ? {
-                  rejectUnauthorized: false,
-                  ...(sslServername ? { servername: sslServername } : {})
-              }
-            : undefined;
+    const ssl = postgresSslFromEnv();
+    const sslServername = process.env.PGSSL_SERVERNAME || (process.env.DATABASE_URL || '').match(/@([^/:?]+)/)?.[1] || '';
 
     const connectMs = parseInt(process.env.PG_CONNECT_TIMEOUT_MS || '30000', 10) || 30000;
 
