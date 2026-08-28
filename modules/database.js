@@ -251,6 +251,15 @@ function demoSqliteFallbackEnabled() {
  */
 async function createDatabase(databaseDir) {
     const dialect = detectDialect();
+    const isProd = process.env.NODE_ENV === 'production';
+
+    if (isProd && dialect !== 'postgres') {
+        const msg =
+            'Production requires DATABASE_URL (PostgreSQL). Add it in Railway Variables and link your Postgres service — SQLite is not supported on Railway.';
+        console.error(`❌ ${msg}`);
+        throw new Error(msg);
+    }
+
     if (dialect !== 'postgres') {
         console.log('📦 Database driver: SQLite');
         return createSqliteDatabase(databaseDir);

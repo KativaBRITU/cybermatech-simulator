@@ -60,7 +60,8 @@ app.set('trust proxy', Number(process.env.TRUST_PROXY) > 0 ? Number(process.env.
 app.disable('x-powered-by');
 
 // Persistent Session Secret Fallback
-let SESSION_SECRET = process.env.SESSION_SECRET;
+const envSessionSecret = String(process.env.SESSION_SECRET || '').trim();
+let SESSION_SECRET = envSessionSecret || null;
 if (!SESSION_SECRET) {
     const secretPath = path.join(__dirname, 'database', '.session_secret');
     if (fs.existsSync(secretPath)) {
@@ -441,8 +442,9 @@ if (sessionStoreMode === 'file') {
 if (!SESSION_SECRET || SESSION_SECRET.length < 32) {
     console.warn('⚠️ SESSION_SECRET is weak/short. Use a 64+ char random secret before production deploy.');
 }
-if (IS_PROD && (!process.env.SESSION_SECRET || process.env.SESSION_SECRET.length < 32)) {
-    console.error('❌ Refusing weak SESSION_SECRET in production. Set SESSION_SECRET in .env');
+if (IS_PROD && (!envSessionSecret || envSessionSecret.length < 32)) {
+    console.error('❌ Refusing to start in production: SESSION_SECRET must be set in host env (Railway Variables), 32+ chars.');
+    console.error(`   Detected SESSION_SECRET from environment: ${envSessionSecret ? envSessionSecret.length + ' chars' : 'missing'}`);
     process.exit(1);
 }
 
