@@ -288,25 +288,37 @@ async function createDatabase(databaseDir) {
     );
 
     const pg = createPostgresDatabase();
-    try {
-        await pg.getAsync('SELECT 1 AS ok');
-        return pg;
-    } catch (err) {
-        const msg = err && err.message ? err.message : String(err);
+    const maxAttempts = Math.max(1, parseInt(process.env.PG_CONNECT_RETRIES || '5', 10) || 5);
+    let lastErr;
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
         try {
-            await pg.close();
-        } catch (_) {
-            /* ignore */
+            await pg.getAsync('SELECT 1 AS ok');
+            if (attempt > 1) console.log(`🐘 Postgres connected on attempt ${attempt}/${maxAttempts}`);
+            return pg;
+        } catch (err) {
+            lastErr = err;
+            const msg = err && err.message ? err.message : String(err);
+            if (attempt < maxAttempts) {
+                const wait = Math.min(3000 * attempt, 15000);
+                console.warn(`Postgres attempt ${attempt}/${maxAttempts} failed: ${msg} — retry in ${wait}ms`);
+                await new Promise((r) => setTimeout(r, wait));
+            }
         }
-        if (allowSqliteFallback) {
-            console.error('DEMO: using SQLite because Postgres timed out');
-            console.error(`Postgres connect failed: ${msg}`);
-            console.log('📦 Database driver: SQLite');
-            return createSqliteDatabase(databaseDir);
-        }
-        console.error('❌ PostgreSQL connection failed (no DEMO_SQLITE_FALLBACK).');
-        throw err;
     }
+    const msg = lastErr && lastErr.message ? lastErr.message : String(lastErr);
+    try {
+        await pg.close();
+    } catch (_) {
+        /* ignore */
+    }
+    if (allowSqliteFallback) {
+        console.error('DEMO: using SQLite because Postgres timed out');
+        console.error(`Postgres connect failed: ${msg}`);
+        console.log('📦 Database driver: SQLite');
+        return createSqliteDatabase(databaseDir);
+    }
+    console.error('❌ PostgreSQL connection failed (no DEMO_SQLITE_FALLBACK).');
+    throw lastErr;
 }
 
 module.exports = {

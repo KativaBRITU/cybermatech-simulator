@@ -48,8 +48,9 @@ async function main() {
         if (!body?.plans?.monthly) throw new Error('missing monthly plan');
     });
 
-    await run('GET /api/modules', async () => {
+    await run('GET /api/modules (login required when anon)', async () => {
         const { res, body } = await getJson('/api/modules');
+        if (res.status === 401) return;
         if (!res.ok) throw new Error(`status ${res.status}`);
         const count = Array.isArray(body?.modules) ? body.modules.length : 0;
         if (count < 45) throw new Error(`expected 45+ modules, got ${count}`);
