@@ -196,7 +196,9 @@ function createPostgresDatabase() {
         ? new Pool({
               connectionString: process.env.DATABASE_URL,
               ssl,
-              connectionTimeoutMillis: connectMs
+              connectionTimeoutMillis: connectMs,
+              keepAlive: true,
+              keepAliveInitialDelayMillis: 10000
           })
         : new Pool({
               host: process.env.PGHOST || '127.0.0.1',
@@ -286,9 +288,11 @@ async function createDatabase(databaseDir) {
             ? '🐘 Database driver: PostgreSQL (DEMO_SQLITE_FALLBACK=true)'
             : '🐘 Database driver: PostgreSQL'
     );
+    const dbHost = (process.env.DATABASE_URL || '').match(/@([^/:?]+)/)?.[1] || '';
+    if (dbHost) console.log(`🐘 Postgres host: ${dbHost}`);
 
     const pg = createPostgresDatabase();
-    const maxAttempts = Math.max(1, parseInt(process.env.PG_CONNECT_RETRIES || '5', 10) || 5);
+    const maxAttempts = Math.max(1, parseInt(process.env.PG_CONNECT_RETRIES || (isProd ? '8' : '5'), 10) || 5);
     let lastErr;
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
         try {

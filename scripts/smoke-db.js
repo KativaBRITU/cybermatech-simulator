@@ -4,7 +4,7 @@ const { createDatabase, translateSql } = require('../modules/database');
 const { initSchema } = require('../modules/schema');
 
 (async () => {
-    const db = createDatabase(path.join(__dirname, '..', 'database'));
+    const db = await createDatabase(path.join(__dirname, '..', 'database'));
     console.log('dialect', db.dialect, db.label);
     await initSchema(db);
     const rows = await db.allAsync('SELECT COUNT(*) as c FROM modules');
