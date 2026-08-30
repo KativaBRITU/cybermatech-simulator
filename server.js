@@ -233,6 +233,7 @@ async function removeStoredProfileFile(storedPath) {
 // Assigned in startServer() so DEMO_SQLITE_FALLBACK can probe Postgres first.
 // ============================================================
 let db;
+let serverInitComplete = false;
 
 async function initDatabase() {
     await initSchema(db);
@@ -2513,13 +2514,18 @@ async function sendPaymentEmailSafe(user, activation, orderMeta = {}) {
 
 app.get('/api/health', async (req, res) => {
     let dbOk = false;
-    try {
-        await db.getAsync('SELECT 1 AS ok');
-        dbOk = true;
-    } catch (_) { /* ignore */ }
+    if (db) {
+        try {
+            await db.getAsync('SELECT 1 AS ok');
+            dbOk = true;
+        } catch (_) { /* ignore */ }
+    }
     res.set('Cache-Control', 'no-store');
-    res.status(dbOk ? 200 : 503).json({
-        ok: dbOk,
+    // Railway healthcheck: return 200 while seeding so the container is not killed mid-startup.
+    res.status(200).json({
+        ok: true,
+        ready: serverInitComplete && dbOk,
+        db: dbOk,
         service: 'TRIBAMS',
         time: new Date().toISOString()
     });
@@ -4995,18 +5001,40 @@ async function initializeServer() {
 }
 
 async function startServer() {
+    const server = app.listen(PORT, '0.0.0.0', () => {
+        console.log(`🚀 HTTP listening on 0.0.0.0:${PORT} (database + seed in progress…)`);
+    });
+
+    const shutdown = () => {
+        console.log('\n🛑 Gracefully shutting down...');
+        server.close(async () => {
+            try {
+                if (db) {
+                    await db.close();
+                    console.log(`✅ Database disconnected (${db.dialect}).`);
+                }
+            } catch (err) {
+                console.error('Error closing database:', err);
+            }
+            process.exit(0);
+        });
+    };
+
+    process.on('SIGINT', shutdown);
+    process.on('SIGTERM', shutdown);
+
     db = await createDatabase(databaseDir);
     await initializeServer();
+    serverInitComplete = true;
 
-    const server = app.listen(PORT, '0.0.0.0', () => {
-        const emailService = require('./services/emailService');
-        const emailNote = emailService.isConfigured()
-            ? 'Email: SMTP configured'
-            : 'Email: not configured (reset links log to console)';
-        const paypalNote = paypalCheckout.isConfigured()
-            ? `PayPal: ${paypalCheckout.isLiveMode() ? 'LIVE' : 'sandbox'} ready`
-            : 'PayPal: not configured — learners can request a plan or redeem a license key';
-        console.log(`
+    const emailService = require('./services/emailService');
+    const emailNote = emailService.isConfigured()
+        ? 'Email: configured'
+        : 'Email: not configured (reset links log to console)';
+    const paypalNote = paypalCheckout.isConfigured()
+        ? `PayPal: ${paypalCheckout.isLiveMode() ? 'LIVE' : 'sandbox'} ready`
+        : 'PayPal: not configured — learners can request a plan or redeem a license key';
+    console.log(`
     ╔══════════════════════════════════════════════════════════════╗
     ║                                                              ║
     ║     TRIBAMS — cybersecurity judgment training                ║
@@ -5019,33 +5047,16 @@ async function startServer() {
     ║     Health: /api/health                                      ║
     ║                                                              ║
     ╚══════════════════════════════════════════════════════════════╝
-        `);
-        if (emailService.isConfigured()) {
-            emailService.ensureReady().catch(() => {});
-        }
-        if (IS_PROD && !paypalCheckout.isConfigured()) {
-            console.warn('PRODUCTION: PayPal credentials missing — learners can still request a plan or redeem a license key; card checkout will not run.');
-        }
-        if (IS_PROD && !emailService.isConfigured()) {
-            console.warn('⚠️ PRODUCTION: EMAIL_USER/EMAIL_PASS missing — password reset emails will not send.');
-        }
-    });
-
-    const shutdown = () => {
-        console.log('\n🛑 Gracefully shutting down...');
-        server.close(async () => {
-            try {
-                await db.close();
-                console.log(`✅ Database disconnected (${db.dialect}).`);
-            } catch (err) {
-                console.error('Error closing database:', err);
-            }
-            process.exit(0);
-        });
-    };
-
-    process.on('SIGINT', shutdown);
-    process.on('SIGTERM', shutdown);
+    `);
+    if (emailService.isConfigured()) {
+        emailService.ensureReady().catch(() => {});
+    }
+    if (IS_PROD && !paypalCheckout.isConfigured()) {
+        console.warn('PRODUCTION: PayPal credentials missing — learners can still request a plan or redeem a license key; card checkout will not run.');
+    }
+    if (IS_PROD && !emailService.isConfigured()) {
+        console.warn('⚠️ PRODUCTION: EMAIL_USER/EMAIL_PASS or RESEND_API_KEY missing — password reset emails will not send.');
+    }
 }
 
 startServer().catch((error) => {
