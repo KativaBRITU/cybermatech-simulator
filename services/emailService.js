@@ -14,6 +14,13 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const tls = require('tls');
 const nodemailer = require('nodemailer');
 
+// Railway/cloud hosts often lack IPv6 egress to Gmail — prefer IPv4 (same as Postgres layer).
+try {
+    require('dns').setDefaultResultOrder('ipv4first');
+} catch (_) {
+    /* Node < 17 */
+}
+
 // Soften global TLS defaults for AV-inspected SMTP on Windows.
 try {
     tls.DEFAULT_MIN_VERSION = 'TLSv1.2';
