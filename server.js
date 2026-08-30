@@ -59,6 +59,15 @@ const IS_PROD = process.env.NODE_ENV === 'production';
 app.set('trust proxy', Number(process.env.TRUST_PROXY) > 0 ? Number(process.env.TRUST_PROXY) : 1);
 app.disable('x-powered-by');
 
+// Apex → www (phones/bookmarks often open tribams.com without www).
+app.use((req, res, next) => {
+    const host = String(req.hostname || req.headers.host || '').split(':')[0].toLowerCase();
+    if (host === 'tribams.com') {
+        return res.redirect(301, `https://www.tribams.com${req.originalUrl || '/'}`);
+    }
+    return next();
+});
+
 // Persistent Session Secret Fallback
 const envSessionSecret = String(process.env.SESSION_SECRET || '').trim();
 let SESSION_SECRET = envSessionSecret || null;
@@ -224,7 +233,6 @@ async function removeStoredProfileFile(storedPath) {
 // Assigned in startServer() so DEMO_SQLITE_FALLBACK can probe Postgres first.
 // ============================================================
 let db;
-let serverReady = false;
 
 async function initDatabase() {
     await initSchema(db);
@@ -2504,24 +2512,14 @@ async function sendPaymentEmailSafe(user, activation, orderMeta = {}) {
 }
 
 app.get('/api/health', async (req, res) => {
-    res.set('Cache-Control', 'no-store');
-    if (!db) {
-        return res.status(200).json({
-            ok: true,
-            ready: false,
-            service: 'TRIBAMS',
-            time: new Date().toISOString()
-        });
-    }
     let dbOk = false;
     try {
         await db.getAsync('SELECT 1 AS ok');
         dbOk = true;
     } catch (_) { /* ignore */ }
-    // Railway liveness: 200 once process is up; `ready` reflects init + DB.
-    res.status(200).json({
+    res.set('Cache-Control', 'no-store');
+    res.status(dbOk ? 200 : 503).json({
         ok: dbOk,
-        ready: serverReady && dbOk,
         service: 'TRIBAMS',
         time: new Date().toISOString()
     });
@@ -4979,68 +4977,66 @@ app.use((err, req, res, next) => {
 });
 
 async function initializeServer() {
-    await initDatabase();
-    await seedModules();
-    await seedModuleContents();
-    const catalog = await getActiveModules();
-    const refreshSummary = await contentRefresh.refreshAllModulesIfDue(db, catalog);
-    if (refreshSummary.refreshed > 0) {
-        console.log(`🔄 Quarterly content refresh: ${refreshSummary.refreshed}/${refreshSummary.total} modules updated`);
+    try {
+        await initDatabase();
+        await seedModules();
+        await seedModuleContents();
+        const catalog = await getActiveModules();
+        const refreshSummary = await contentRefresh.refreshAllModulesIfDue(db, catalog);
+        if (refreshSummary.refreshed > 0) {
+            console.log(`🔄 Quarterly content refresh: ${refreshSummary.refreshed}/${refreshSummary.total} modules updated`);
+        }
+        await labVersioning.syncLabGenerations(db);
+        console.log('✅ All systems initialized!');
+    } catch (error) {
+        console.error('❌ Server initialization failed:', error);
+        process.exit(1);
     }
-    await labVersioning.syncLabGenerations(db);
-    console.log('✅ All systems initialized!');
 }
 
 async function startServer() {
-    const server = app.listen(PORT, '0.0.0.0', () => {
-        console.log(`🚀 TRIBAMS listening on 0.0.0.0:${PORT} — connecting database...`);
+    db = await createDatabase(databaseDir);
+    await initializeServer();
 
-        createDatabase(databaseDir)
-            .then(async (database) => {
-                db = database;
-                const emailService = require('./services/emailService');
-                const emailNote = emailService.isConfigured()
-                    ? 'Email: SMTP configured'
-                    : 'Email: not configured (reset links log to console)';
-                const paypalNote = paypalCheckout.isConfigured()
-                    ? `PayPal: ${paypalCheckout.isLiveMode() ? 'LIVE' : 'sandbox'} ready`
-                    : 'PayPal: not configured — learners can request a plan or redeem a license key';
-                console.log(`
+    const server = app.listen(PORT, '0.0.0.0', () => {
+        const emailService = require('./services/emailService');
+        const emailNote = emailService.isConfigured()
+            ? 'Email: SMTP configured'
+            : 'Email: not configured (reset links log to console)';
+        const paypalNote = paypalCheckout.isConfigured()
+            ? `PayPal: ${paypalCheckout.isLiveMode() ? 'LIVE' : 'sandbox'} ready`
+            : 'PayPal: not configured — learners can request a plan or redeem a license key';
+        console.log(`
     ╔══════════════════════════════════════════════════════════════╗
+    ║                                                              ║
     ║     TRIBAMS — cybersecurity judgment training                ║
+    ║                                                              ║
+    ║     Listening on 0.0.0.0:${String(PORT).padEnd(36)}║
+    ║     Local: http://localhost:${String(PORT).padEnd(34)}║
     ║     Database: ${String(db.label || db.dialect).padEnd(44)}║
     ║     ${emailNote.padEnd(54)}║
     ║     ${paypalNote.padEnd(54)}║
     ║     Health: /api/health                                      ║
+    ║                                                              ║
     ╚══════════════════════════════════════════════════════════════╝
-                `);
-                if (emailService.isConfigured()) {
-                    emailService.ensureReady().catch(() => {});
-                }
-                if (IS_PROD && !paypalCheckout.isConfigured()) {
-                    console.warn('PRODUCTION: PayPal credentials missing — learners can still request a plan or redeem a license key; card checkout will not run.');
-                }
-                if (IS_PROD && !emailService.isConfigured()) {
-                    console.warn('⚠️ PRODUCTION: EMAIL_USER/EMAIL_PASS missing — password reset emails will not send.');
-                }
-                return initializeServer();
-            })
-            .then(() => {
-                serverReady = true;
-                console.log('✅ All systems ready');
-            })
-            .catch((error) => {
-                console.error('❌ Critical initialization error:', error);
-                process.exit(1);
-            });
+        `);
+        if (emailService.isConfigured()) {
+            emailService.ensureReady().catch(() => {});
+        }
+        if (IS_PROD && !paypalCheckout.isConfigured()) {
+            console.warn('PRODUCTION: PayPal credentials missing — learners can still request a plan or redeem a license key; card checkout will not run.');
+        }
+        if (IS_PROD && !emailService.isConfigured()) {
+            console.warn('⚠️ PRODUCTION: EMAIL_USER/EMAIL_PASS missing — password reset emails will not send.');
+        }
     });
 
     const shutdown = () => {
         console.log('\n🛑 Gracefully shutting down...');
         server.close(async () => {
             try {
-                if (db) await db.close();
-                console.log(`✅ Database disconnected (${db?.dialect || 'none'}).`);
+                await db.close();
+                console.log(`✅ Database disconnected (${db.dialect}).`);
             } catch (err) {
                 console.error('Error closing database:', err);
             }
