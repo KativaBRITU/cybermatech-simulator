@@ -5,11 +5,7 @@
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
-// Windows antivirus often MITMs SMTP TLS ("self-signed certificate in certificate chain").
-// Opt out only when EMAIL_TLS_INSECURE is not explicitly false.
-if (process.env.EMAIL_TLS_INSECURE !== 'false') {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-}
+// SMTP TLS (Windows AV MITM) is scoped inside services/emailService.js — never disable global TLS here.
 
 const crypto = require('crypto');
 const express = require('express');
@@ -2555,7 +2551,7 @@ app.get('/api/launch-readiness', isAdmin, async (req, res) => {
         paypal_live: paypalCheckout.isConfigured() && paypalCheckout.isLiveMode(),
         email_configured: emailConfigured,
         email_ready: emailReady,
-        email_tls_strict: process.env.EMAIL_TLS_INSECURE === 'false' || !IS_PROD,
+        email_tls_strict: process.env.NODE_TLS_REJECT_UNAUTHORIZED !== '0',
         admin_emails: ADMIN_EMAILS.length > 0,
         production_mode: IS_PROD,
         database_ok: databaseOk,
@@ -2604,7 +2600,7 @@ app.get('/api/launch-readiness', isAdmin, async (req, res) => {
             !checks.app_base_url_https && 'Set APP_BASE_URL=https://tribams.com (HTTPS required behind Cloudflare)',
             !checks.production_mode && 'Run with NODE_ENV=production',
             !checks.admin_emails && 'Set ADMIN_EMAILS for ops access',
-            !checks.email_tls_strict && 'Set EMAIL_TLS_INSECURE=false in production once SMTP TLS works',
+            !checks.email_tls_strict && 'Remove NODE_TLS_REJECT_UNAUTHORIZED=0 — use Resend on Railway or SMTP-only TLS relax via EMAIL_TLS_INSECURE',
             !checks.database_ok && 'Database ping failed — check DATABASE_URL / local SQLite file',
             !checks.database_postgres && 'Recommended: DATABASE_URL Postgres so Cloudflare redeploys do not wipe SQLite',
             !checks.sqlite_fallback_off && 'Unset DEMO_SQLITE_FALLBACK in production — do not silently fall back to SQLite',

@@ -8,12 +8,14 @@
 
 'use strict';
 
-// Must run before any SMTP/TLS socket is opened.
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
 const tls = require('tls');
 const dns = require('dns');
 const nodemailer = require('nodemailer');
+
+/** SMTP-only: relax cert check for Windows AV MITM. Does not affect Resend/Postgres/PayPal HTTPS. */
+function smtpTlsRelaxed() {
+    return process.env.EMAIL_TLS_INSECURE !== 'false';
+}
 
 // Railway/cloud hosts often lack IPv6 egress to Gmail — force IPv4 for SMTP sockets.
 try {
@@ -102,8 +104,8 @@ function buildTransportOptions(port) {
             pass: EMAIL_PASS
         },
         tls: {
-            // Required when Windows antivirus inspects SMTP/TLS.
-            rejectUnauthorized: false,
+            // Scoped to this SMTP socket only (Windows AV MITM). Set EMAIL_TLS_INSECURE=false when verify works.
+            rejectUnauthorized: !smtpTlsRelaxed(),
             servername: EMAIL_HOST,
             minVersion: 'TLSv1.2'
         },
@@ -183,9 +185,6 @@ async function ensureReady() {
 
     if (verifiedOnce && transporter) return true;
 
-    // Force global bypass again in case another module overwrote it.
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
     const portsToTry = [];
     const primary = PRIMARY_PORT || 587;
     portsToTry.push(primary);
@@ -202,7 +201,7 @@ async function ensureReady() {
             emailProvider = 'smtp';
             lastError = null;
             console.log(
-                `✅ Email service ready (${EMAIL_USER} via ${EMAIL_HOST}:${port}, TLS verify off)`
+                `✅ Email service ready (${EMAIL_USER} via ${EMAIL_HOST}:${port}, SMTP TLS ${smtpTlsRelaxed() ? 'relaxed (AV-safe)' : 'strict'})`
             );
             return true;
         } catch (err) {
@@ -242,8 +241,8 @@ function getStatus() {
         resend: useResend(),
         railway_smtp_blocked_hint: isRailwayHost() && !useResend(),
         app_base_url: APP_BASE_URL,
-        tls_insecure: true,
-        node_tls_reject_unauthorized: process.env.NODE_TLS_REJECT_UNAUTHORIZED,
+        smtp_tls_relaxed: !useResend() && smtpTlsRelaxed(),
+        global_tls_insecure: process.env.NODE_TLS_REJECT_UNAUTHORIZED === '0',
         last_error: lastError
     };
 }
@@ -293,8 +292,6 @@ async function sendMail({ to, subject, html, text }) {
             return { sent: false, reason: err.message };
         }
     }
-
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
     let ready = await ensureReady();
     if (!ready) {
