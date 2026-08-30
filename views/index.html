@@ -995,6 +995,21 @@
             font-size: 0.95rem;
         }
 
+        .blog-card-photo {
+            margin: -0.35rem -0.35rem 0.85rem;
+            border-radius: calc(var(--radius) - 4px);
+            overflow: hidden;
+            border: 1px solid rgba(45, 212, 191, 0.22);
+        }
+
+        .blog-card-photo img {
+            display: block;
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            object-position: center 15%;
+        }
+
         .blog-card .date {
             color: var(--text-muted);
             font-size: 0.78rem;
@@ -1689,9 +1704,13 @@
             </div>
             <div class="blog-grid" id="homeNewsGrid">
                 <div class="blog-card">
-                    <span class="category">🎓 Training</span>
-                    <h4>New module focus: Digital Forensics</h4>
-                    <p>Members can study how investigators reconstruct incidents after a breach.</p>
+                    <figure class="blog-card-photo">
+                        <img src="/brand/founder-portrait.png" alt="Mr. Britu Kativa, Chief Executive Officer, TRIBAMS" loading="lazy">
+                    </figure>
+                    <span class="category">👔 Leadership</span>
+                    <h4>From a Simple Dream to a National Cyber Training Desk</h4>
+                    <p>Chief Executive Officer Mr. Britu Kativa on why TRIBAMS exists, what learners and organisations can expect, and the leadership culture behind Namibia's cyber training desk.</p>
+                    <p style="margin-top:0.65rem;"><a href="/news">Read update →</a></p>
                 </div>
                 <div class="blog-card">
                     <span class="category">🏆 Certification</span>
@@ -1972,6 +1991,7 @@
                 }
                 grid.innerHTML = posts.map((p) => `
                     <div class="blog-card">
+                        ${p.image_url ? `<figure class="blog-card-photo"><img src="${esc(p.image_url)}" alt="${esc(p.title)}" loading="lazy"></figure>` : ''}
                         <span class="category">${esc((p.kind || 'update').toUpperCase())}</span>
                         <h4>${esc(p.title)}</h4>
                         <p>${esc(p.summary || (p.body || '').slice(0, 160))}</p>

@@ -47,6 +47,7 @@ const essayLearning = require('./modules/essayLearning');
 const contentRefresh = require('./modules/contentRefresh');
 const quizSecurity = require('./modules/quizSecurity');
 const moduleDefinitions = require('./modules/moduleDefinitions');
+const { seedFounderNews } = require('./modules/seedFounderNews');
 
 // ============================================================
 // APP INITIALIZATION & CONSTANTS
@@ -4993,6 +4994,7 @@ async function initializeServer() {
             console.log(`🔄 Quarterly content refresh: ${refreshSummary.refreshed}/${refreshSummary.total} modules updated`);
         }
         await labVersioning.syncLabGenerations(db);
+        await seedFounderNews(db);
         console.log('✅ All systems initialized!');
     } catch (error) {
         console.error('❌ Server initialization failed:', error);

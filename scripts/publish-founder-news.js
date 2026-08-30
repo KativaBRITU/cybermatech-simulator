@@ -9,7 +9,7 @@ const { createDatabase } = require('../modules/database');
 const TITLE = 'From a Simple Dream to a National Cyber Training Desk';
 const SUMMARY =
     'Chief Executive Officer Mr. Britu Kativa on why TRIBAMS exists, what learners and organisations can expect, and the leadership culture behind Namibia\'s cyber training desk.';
-const IMAGE = '/uploads/news/britu-kativa-founder-gold.png';
+const IMAGE = '/brand/founder-portrait.png';
 const BODY_PATH = path.join(__dirname, '..', 'content', 'founder-leadership-article.md');
 
 function bodyFromMarkdown(md) {
