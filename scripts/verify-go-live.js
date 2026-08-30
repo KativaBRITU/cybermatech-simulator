@@ -41,6 +41,9 @@ async function main() {
     let warnings = 0;
 
     for (const key of REQUIRED) {
+        if (key === 'EMAIL_USER' || key === 'EMAIL_PASS') {
+            if (String(process.env.RESEND_API_KEY || '').trim()) continue;
+        }
         const val = String(process.env[key] || '').trim();
         if (!val) {
             console.log(`❌ MISSING ${key}`);
@@ -83,9 +86,13 @@ async function main() {
         warnings++;
     }
 
-    if (process.env.PAYPAL_MODE !== 'live') {
-        console.log('⚠️  PAYPAL_MODE is sandbox — OK for soft launch, switch to live for real payments');
-        warnings++;
+    if (process.env.RAILWAY_ENVIRONMENT || process.env.RAILWAY_PROJECT_ID) {
+        if (!String(process.env.RESEND_API_KEY || '').trim()) {
+            console.log('⚠️  Railway blocks Gmail SMTP on Hobby — add RESEND_API_KEY or upgrade to Pro');
+            warnings++;
+        } else {
+            console.log('✅ RESEND_API_KEY set (Railway email path)');
+        }
     }
 
     console.log(`\nDatabase host: ${hostFromUrl(process.env.DATABASE_URL)}`);

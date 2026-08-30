@@ -45,11 +45,22 @@ const EMAIL_FROM =
     `TRIBAMS <${EMAIL_USER || 'noreply@localhost'}>`;
 
 const PRIMARY_PORT = Number(process.env.EMAIL_PORT || 587);
+const RESEND_API_KEY = String(process.env.RESEND_API_KEY || '').trim();
+const RESEND_FROM = String(process.env.RESEND_FROM || '').trim();
 
 let transporter = null;
 let activePort = PRIMARY_PORT;
 let verifiedOnce = false;
 let lastError = null;
+let emailProvider = null; // 'resend' | 'smtp'
+
+function useResend() {
+    return Boolean(RESEND_API_KEY);
+}
+
+function isRailwayHost() {
+    return Boolean(process.env.RAILWAY_ENVIRONMENT || process.env.RAILWAY_PROJECT_ID);
+}
 
 function escapeHtml(str) {
     return String(str || '')
@@ -61,7 +72,7 @@ function escapeHtml(str) {
 }
 
 function isConfigured() {
-    return Boolean(EMAIL_USER && EMAIL_PASS);
+    return Boolean((EMAIL_USER && EMAIL_PASS) || RESEND_API_KEY);
 }
 
 function isCertError(err) {
@@ -126,11 +137,50 @@ async function tryVerify(port) {
     return tx;
 }
 
+async function sendViaResend({ to, subject, html, text }) {
+    const from = RESEND_FROM || EMAIL_FROM;
+    const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${RESEND_API_KEY}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            from,
+            to: Array.isArray(to) ? to : [to],
+            subject,
+            html,
+            text: text || undefined
+        })
+    });
+    const body = await res.text();
+    if (!res.ok) {
+        throw new Error(`Resend HTTP ${res.status}: ${body.slice(0, 300)}`);
+    }
+    return { sent: true, provider: 'resend' };
+}
+
 async function ensureReady() {
-    if (!isConfigured()) {
-        lastError = 'EMAIL_USER or EMAIL_PASS missing in .env';
+    if (!isConfigured() && !useResend()) {
+        lastError = 'EMAIL_USER/EMAIL_PASS or RESEND_API_KEY missing';
         return false;
     }
+
+    if (useResend()) {
+        emailProvider = 'resend';
+        verifiedOnce = true;
+        lastError = null;
+        console.log(`✅ Email service ready (Resend API → ${RESEND_FROM || EMAIL_FROM})`);
+        return true;
+    }
+
+    if (isRailwayHost()) {
+        console.warn(
+            '⚠️ Railway Hobby/Trial blocks Gmail SMTP (ports 587/465). ' +
+                'Set RESEND_API_KEY on Railway (free at resend.com) or upgrade to Railway Pro and redeploy.'
+        );
+    }
+
     if (verifiedOnce && transporter) return true;
 
     // Force global bypass again in case another module overwrote it.
@@ -149,6 +199,7 @@ async function ensureReady() {
             transporter = tx;
             activePort = port;
             verifiedOnce = true;
+            emailProvider = 'smtp';
             lastError = null;
             console.log(
                 `✅ Email service ready (${EMAIL_USER} via ${EMAIL_HOST}:${port}, TLS verify off)`
@@ -172,6 +223,7 @@ async function ensureReady() {
     // Verify can fail (timeout / AV) while sendMail still works — keep a transporter ready to try.
     transporter = createTransporter(primary);
     activePort = primary;
+    emailProvider = 'smtp';
     verifiedOnce = false;
     lastError = lastErr ? lastErr.message : 'SMTP verify failed';
     console.warn('⚠️ Email verify failed; will still attempt send on demand:', lastError);
@@ -180,12 +232,15 @@ async function ensureReady() {
 
 function getStatus() {
     return {
-        configured: isConfigured(),
+        configured: isConfigured() || useResend(),
         ready: verifiedOnce,
+        provider: emailProvider || (useResend() ? 'resend' : isConfigured() ? 'smtp' : null),
         user: EMAIL_USER || null,
         host: EMAIL_HOST,
         port: activePort,
-        from: EMAIL_FROM,
+        from: RESEND_FROM || EMAIL_FROM,
+        resend: useResend(),
+        railway_smtp_blocked_hint: isRailwayHost() && !useResend(),
         app_base_url: APP_BASE_URL,
         tls_insecure: true,
         node_tls_reject_unauthorized: process.env.NODE_TLS_REJECT_UNAUTHORIZED,
@@ -226,6 +281,19 @@ function ctaButton(href, label) {
 }
 
 async function sendMail({ to, subject, html, text }) {
+    if (useResend()) {
+        try {
+            await ensureReady();
+            const result = await sendViaResend({ to, subject, html, text });
+            console.log(`📧 Email sent (Resend) → ${to} (${subject})`);
+            return result;
+        } catch (err) {
+            lastError = err.message;
+            console.error(`❌ Resend email failed → ${to}:`, err.message);
+            return { sent: false, reason: err.message };
+        }
+    }
+
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
     let ready = await ensureReady();
