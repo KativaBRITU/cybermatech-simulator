@@ -13,5 +13,6 @@ public/uploads/profiles/*
 docs
 *.md
 !README.md
+!content/**/*.md
 canvases
 agent-transcripts
