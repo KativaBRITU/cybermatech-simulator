@@ -12,13 +12,18 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const tls = require('tls');
+const dns = require('dns');
 const nodemailer = require('nodemailer');
 
-// Railway/cloud hosts often lack IPv6 egress to Gmail — prefer IPv4 (same as Postgres layer).
+// Railway/cloud hosts often lack IPv6 egress to Gmail — force IPv4 for SMTP sockets.
 try {
-    require('dns').setDefaultResultOrder('ipv4first');
+    dns.setDefaultResultOrder('ipv4first');
 } catch (_) {
     /* Node < 17 */
+}
+
+function smtpLookup(hostname, _options, callback) {
+    dns.lookup(hostname, { family: 4, all: false }, callback);
 }
 
 // Soften global TLS defaults for AV-inspected SMTP on Windows.
@@ -80,6 +85,7 @@ function buildTransportOptions(port) {
         secure: use465,
         requireTLS: !use465,
         ignoreTLS: false,
+        lookup: smtpLookup,
         auth: {
             user: EMAIL_USER,
             pass: EMAIL_PASS
@@ -90,9 +96,9 @@ function buildTransportOptions(port) {
             servername: EMAIL_HOST,
             minVersion: 'TLSv1.2'
         },
-        connectionTimeout: 12000,
-        greetingTimeout: 12000,
-        socketTimeout: 15000,
+        connectionTimeout: 20000,
+        greetingTimeout: 20000,
+        socketTimeout: 25000,
         logger: false,
         debug: false
     };
