@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>News &amp; updates – TRIBAMS</title>
+    <meta name="description" content="TRIBAMS training news, leadership updates, and community announcements from Windhoek.">
+    <link rel="icon" href="/brand/tribams-mark.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tribams-studio.css">
+    <link rel="stylesheet" href="/css/tribams-brand.css">
+    <link rel="stylesheet" href="/css/news-page.css">
+</head>
+<body class="tribams-studio-body">
+    <header class="tribams-studio-header">
+        <div class="container tribams-studio-nav">
+            <a class="logo tribams-brand" href="/">
+                <img src="/brand/tribams-mark.svg" alt="" class="tribams-brand-mark" width="32" height="32">
+                <span class="tribams-brand-word">TRIBAMS</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/news">News</a></li>
+                <li><a href="/payment">Pricing</a></li>
+                <li><a href="/teams">For teams</a></li>
+                <li><a href="/login">Sign in</a></li>
+            </ul>
+        </div>
+    </header>
+    <main class="container">
+        <div class="page-intro">
+            <h1>News &amp; training updates</h1>
+            <p class="lede">Leadership notes, training updates, and community announcements from the TRIBAMS desk.</p>
+        </div>
+        <div id="feed"><p class="empty">Loading…</p></div>
+        <footer class="tribams-studio-footer">© 2026 TRIBAMS · Windhoek</footer>
+    </main>
+    <script src="/js/tribams-brand.js" defer></script>
+    <script>
+        function esc(s) {
+            return String(s || '').replace(/[&<>"']/g, (c) => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+        }
+        function when(v) {
+            if (!v) return '';
+            const d = new Date(String(v).replace(' ', 'T'));
+            return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString(undefined, {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+        }
+        function formatPostBody(text) {
+            if (!text) return '';
+            const blocks = String(text).trim().split(/\n\n+/);
+            return blocks.map((block) => {
+                const t = block.trim();
+                if (!t) return '';
+                const oneLine = t.indexOf('\n') === -1;
+                const looksLikeHeading = oneLine && t.length < 90 && !/[.!?]$/.test(t);
+                if (looksLikeHeading) {
+                    return `<h3>${esc(t)}</h3>`;
+                }
+                return `<p>${esc(t).replace(/\n/g, '<br>')}</p>`;
+            }).join('');
+        }
+        fetch('/api/news').then((r) => r.json()).then((data) => {
+            const box = document.getElementById('feed');
+            const posts = (data && data.posts) || [];
+            if (!posts.length) {
+                box.innerHTML = '<p class="empty">No public posts yet. Check back soon for TRIBAMS updates.</p>';
+                return;
+            }
+            box.innerHTML = posts.map((p) => `
+                <article class="post-card${p.pinned ? ' pinned' : ''}" id="post-${esc(p.id)}">
+                    <div class="post-kind">${esc(p.kind)}${p.pinned ? ' · pinned' : ''}</div>
+                    <h2>${esc(p.title)}</h2>
+                    <div class="post-meta">${esc(p.author || 'TRIBAMS')} · ${esc(when(p.created_at))}</div>
+                    ${p.image_url ? `<figure class="post-figure"><img src="${esc(p.image_url)}" alt="${esc(p.title)}"></figure>` : ''}
+                    ${p.summary ? `<p class="post-summary">${esc(p.summary)}</p>` : ''}
+                    ${p.body ? `<div class="post-body">${formatPostBody(p.body)}</div>` : ''}
+                </article>
+            `).join('');
+        }).catch(() => {
+            document.getElementById('feed').innerHTML = '<p class="empty">Could not load news.</p>';
+        });
+    </script>
+</body>
+</html>

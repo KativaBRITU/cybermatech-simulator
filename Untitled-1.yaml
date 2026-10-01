@@ -1,0 +1,9 @@
+@'
+tunnel: a8d798d3-b2ad-48ef-b820-9769bda11e8e
+credentials-file: C:\Users\CASH CONVERTERS\.cloudflared\a8d798d3-b2ad-48ef-b820-9769bda11e8e.json
+
+ingress:
+  - hostname: www.tribams.com
+    service: http://localhost:3080
+  - service: http_status:404
+'@ | Set-Content -Path "C:\Users\CASH CONVERTERS\.cloudflared\config.yml" -Encoding UTF8

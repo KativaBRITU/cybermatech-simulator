@@ -1,0 +1,6 @@
+# Anonymous quick tunnel for demos. Does not use the named tribams tunnel.
+# Default ~/.cloudflared/config.yml was sending unknown hosts to HTTP 404.
+protocol: http2
+ha-connections: 1
+ingress:
+  - service: http://127.0.0.1:3080

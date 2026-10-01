@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PREVIEW — Founder leadership post · TRIBAMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'IBM Plex Sans', system-ui, sans-serif; background: #0f1419; color: #e8eefc; line-height: 1.7; }
+        .banner { background: #7c2d12; color: #ffedd5; text-align: center; padding: .85rem 1rem; font-weight: 600; font-size: .9rem; border-bottom: 2px solid #fb923c; }
+        .container { max-width: 980px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+        h1 { font-family: Syne, sans-serif; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: .5rem; color: #5eead4; }
+        .meta { color: #8899bb; font-size: .88rem; margin-bottom: 1.5rem; }
+        .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0 2rem; }
+        @media (max-width: 720px) { .compare { grid-template-columns: 1fr; } }
+        figure { background: rgba(255,255,255,.04); border: 1px solid rgba(94,234,212,.15); border-radius: 14px; padding: .75rem; }
+        figure img { width: 100%; border-radius: 10px; display: block; }
+        figcaption { font-size: .78rem; color: #94a3b8; margin-top: .55rem; text-align: center; }
+        .summary { background: rgba(45,212,191,.08); border-left: 4px solid #2dd4bf; padding: 1rem 1.1rem; margin-bottom: 1.75rem; color: #c5d0e8; font-size: 1.02rem; }
+        .article { white-space: pre-wrap; color: #c5d0e8; font-size: .98rem; }
+        .article h2 { font-family: Syne, sans-serif; color: #5eead4; font-size: 1.15rem; margin: 1.75rem 0 .65rem; white-space: normal; }
+        .actions { margin-top: 2rem; padding: 1rem; background: rgba(255,255,255,.03); border-radius: 12px; border: 1px dashed rgba(148,163,184,.35); color: #94a3b8; font-size: .9rem; }
+        .kind { display: inline-block; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: #2dd4bf; margin-bottom: .35rem; }
+    </style>
+</head>
+<body>
+    <div class="banner">⚠ PREVIEW ONLY — not published on /news yet. Review image + copy, then tell Katva to publish.</div>
+    <main class="container">
+        <div class="kind">update · pinned recommended</div>
+        <h1>From a Simple Dream to a National Cyber Training Desk</h1>
+        <p class="meta">Mr. Britu Kativa, Chief Executive Officer · TRIBAMS · Windhoek · ~2,500 words</p>
+
+        <div class="compare">
+            <figure>
+                <img src="/uploads/news/news_1787830186577.jpg" alt="Original test photo">
+                <figcaption>Original (test upload — mall background)</figcaption>
+            </figure>
+            <figure>
+                <img src="/uploads/news/britu-kativa-founder-polished-preview.png" alt="Polished founder portrait">
+                <figcaption>Proposed — background cleared, studio polish, TRIBAMS brand</figcaption>
+            </figure>
+        </div>
+
+        <p class="summary">TRIBAMS marks a new chapter in accessible cyber training for Namibia and the region. In this message, Chief Executive Officer Mr. Britu Kativa reflects on leadership earned through work, the platform’s mission to build real defensive capability, and our commitment to learners, teams, and institutions who depend on credible training — not fear, not trivia, but judgment under pressure.</p>
+
+        <div class="article" id="article"></div>
+
+        <div class="actions">
+            <strong>When you approve:</strong> this post will replace the test “leadership / congratulations” entry on <a href="/news" style="color:#2dd4bf">/news</a> with the polished image, professional title, summary, and full body above.
+        </div>
+    </main>
+    <script>
+        fetch('/content/founder-leadership-article.md')
+            .then((r) => r.text())
+            .then((md) => {
+                let out = md
+                    .replace(/^# .+\n/m, '')
+                    .replace(/^\*\*(?:Mr\.\s+)?Britu Kativa[^\n]*\n/m, '')
+                    .replace(/^---\n/gm, '')
+                    .replace(/^## (.+)$/gm, '</p><h2>$1</h2><p>')
+                    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n\n/g, '</p><p>')
+                    .replace(/^<\/p>/, '');
+                if (!out.startsWith('<p>')) out = '<p>' + out;
+                if (!out.endsWith('</p>')) out += '</p>';
+                document.getElementById('article').innerHTML = out;
+            })
+            .catch(() => {
+                document.getElementById('article').textContent = 'Could not load article markdown. Open content/founder-leadership-article.md directly.';
+            });
+    </script>
+</body>
+</html>

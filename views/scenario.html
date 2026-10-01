@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Range – Daily Scenarios | TRIBAMS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE
+               ============================================================ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255,255,255,0.02);
+            --bg-card-hover: rgba(255,255,255,0.04);
+            --border-color: rgba(0,255,136,0.1);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-orange: #f59e0b;
+            --neon-red: #ef4444;
+            --neon-purple: #a855f7;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255,255,255,0.04);
+            --glass-border: rgba(255,255,255,0.06);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+            --font: 'Inter', 'Segoe UI', sans-serif;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--neon-green); border-radius: 4px; }
+        a { color: var(--neon-green); text-decoration: none; transition: var(--transition); }
+        a:hover { color: var(--neon-cyan); }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+        /* ============================================================
+               HEADER & NAVIGATION
+               ============================================================ */
+        header {
+            background: rgba(10,14,39,0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+        header.scrolled { background: rgba(10,14,39,0.98); }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo svg { width: 32px; height: 32px; stroke: var(--neon-green); fill: none; -webkit-text-fill-color: initial; }
+        .logo:hover svg { stroke: var(--neon-cyan); }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.3rem 0;
+            transition: var(--transition);
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a.active { color: var(--neon-green); }
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .menu-toggle span { width: 26px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: var(--transition); }
+        .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+        /* ============================================================
+               PAGE HEADER
+               ============================================================ */
+        .page-header {
+            padding: 2rem 0 1.5rem;
+            text-align: center;
+        }
+        .page-header h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 900;
+        }
+        .page-header h1 .highlight {
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .page-header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 560px;
+            margin: 0.3rem auto 0;
+        }
+
+        /* ============================================================
+               STREAK BANNER
+               ============================================================ */
+        .streak-banner {
+            background: linear-gradient(135deg, rgba(0,255,136,0.04), rgba(0,136,255,0.02));
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+        .streak-banner:hover { border-color: var(--neon-green); }
+        .streak-banner .streak-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .streak-banner .streak-info .streak-item { text-align: center; }
+        .streak-banner .streak-info .streak-item .number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--neon-green);
+            display: block;
+            line-height: 1.2;
+        }
+        .streak-banner .streak-info .streak-item .number.fire { color: var(--neon-orange); animation: firePulse 1.5s infinite; }
+        @keyframes firePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        .streak-banner .streak-info .streak-item .label {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .streak-banner .streak-progress { flex: 1; min-width: 150px; }
+        .streak-banner .streak-progress .progress-track {
+            width: 100%;
+            height: 4px;
+            background: var(--glass-bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .streak-banner .streak-progress .progress-track .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-green), #ffd700);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+        .streak-banner .streak-progress .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+        .streak-banner .streak-action .btn {
+            padding: 0.4rem 1.2rem;
+            font-size: 0.8rem;
+        }
+
+        /* ============================================================
+               MODULE SELECTOR
+               ============================================================ */
+        .module-selector {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .module-selector .selector-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            margin-right: 0.3rem;
+        }
+        .module-selector .module-btn {
+            padding: 0.3rem 1rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .module-selector .module-btn:hover { border-color: var(--neon-green); color: var(--text-primary); }
+        .module-selector .module-btn.active {
+            background: rgba(0,255,136,0.08);
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+        }
+        .module-selector .module-btn .icon { font-size: 0.9rem; }
+
+        /* ============================================================
+               SCENARIO CARD
+               ============================================================ */
+        .scenario-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            transition: var(--transition);
+            animation: fadeInUp 0.4s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .scenario-card:hover { border-color: var(--border-color-hover); }
+        .scenario-card .scenario-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .scenario-card .scenario-meta .day-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .scenario-card .scenario-meta .day-badge .day-number {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--neon-green);
+        }
+        .scenario-card .scenario-meta .day-badge .day-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .scenario-card .scenario-meta .category-badge {
+            padding: 0.15rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            background: rgba(0,136,255,0.08);
+            color: var(--neon-blue);
+            border: 1px solid rgba(0,136,255,0.1);
+        }
+        .scenario-card .scenario-meta .difficulty-badge {
+            padding: 0.15rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+        .scenario-card .scenario-meta .difficulty-badge.easy {
+            background: rgba(0,255,136,0.08);
+            color: var(--neon-green);
+            border: 1px solid rgba(0,255,136,0.1);
+        }
+        .scenario-card .scenario-meta .difficulty-badge.medium {
+            background: rgba(245,158,11,0.08);
+            color: var(--neon-orange);
+            border: 1px solid rgba(245,158,11,0.1);
+        }
+        .scenario-card .scenario-meta .difficulty-badge.hard {
+            background: rgba(239,68,68,0.08);
+            color: var(--neon-red);
+            border: 1px solid rgba(239,68,68,0.1);
+        }
+        .scenario-card .scenario-meta .difficulty-badge.expert {
+            background: rgba(168,85,247,0.08);
+            color: var(--neon-purple);
+            border: 1px solid rgba(168,85,247,0.1);
+        }
+        .scenario-card .scenario-module {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .scenario-card .scenario-module .module-icon { font-size: 1.8rem; }
+        .scenario-card .scenario-module .module-name { font-weight: 600; font-size: 1.1rem; }
+        .scenario-card .scenario-question {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+        }
+        .scenario-card .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+        .scenario-card .option {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.7rem 1rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .scenario-card .option:hover {
+            border-color: var(--neon-green);
+            background: rgba(0,255,136,0.03);
+        }
+        .scenario-card .option .letter {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+        .scenario-card .option.selected {
+            border-color: var(--neon-green);
+            background: rgba(0,255,136,0.06);
+        }
+        .scenario-card .option.selected .letter {
+            background: var(--neon-green);
+            color: var(--bg-primary);
+        }
+        .scenario-card .option.correct-answer {
+            border-color: var(--neon-green);
+            background: rgba(0,255,136,0.08);
+        }
+        .scenario-card .option.correct-answer .letter {
+            background: var(--neon-green);
+            color: var(--bg-primary);
+        }
+        .scenario-card .option.wrong-answer {
+            border-color: var(--neon-red);
+            background: rgba(239,68,68,0.08);
+        }
+        .scenario-card .option.wrong-answer .letter {
+            background: var(--neon-red);
+            color: #fff;
+        }
+        .scenario-card .option.disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+        .scenario-card .option.disabled:hover {
+            border-color: var(--glass-border);
+            background: var(--glass-bg);
+        }
+        .scenario-card .feedback-box {
+            padding: 1rem 1.2rem;
+            border-radius: var(--radius-sm);
+            margin: 1rem 0;
+            animation: fadeInUp 0.3s ease;
+        }
+        .scenario-card .feedback-box.feedback-correct {
+            background: rgba(0,255,136,0.06);
+            border-left: 4px solid var(--neon-green);
+        }
+        .scenario-card .feedback-box.feedback-incorrect {
+            background: rgba(239,68,68,0.06);
+            border-left: 4px solid var(--neon-red);
+        }
+        .scenario-card .feedback-box .fb-title {
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+        .scenario-card .feedback-box .fb-title .fb-icon { margin-right: 0.3rem; }
+        .scenario-card .feedback-box .fb-explanation {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .scenario-card .feedback-box .fb-explanation strong { color: var(--text-primary); }
+        .scenario-card .action-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .scenario-card .action-row .btn {
+            padding: 0.6rem 1.8rem;
+            font-size: 0.9rem;
+        }
+        .scenario-card .action-row .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .scenario-card .completed-badge {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0,255,136,0.04);
+            border: 1px solid rgba(0,255,136,0.1);
+            border-radius: var(--radius-sm);
+        }
+        .scenario-card .completed-badge .icon { font-size: 2.5rem; margin-bottom: 0.3rem; }
+        .scenario-card .completed-badge .title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--neon-green);
+        }
+        .scenario-card .completed-badge .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ============================================================
+               TOAST
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlideDown 0.4s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+        .toast.success { background: linear-gradient(135deg, var(--neon-green), #00cc66); color: var(--bg-primary); }
+        .toast.error { background: linear-gradient(135deg, #ff4444, #cc0000); color: #fff; }
+        .toast.info { background: linear-gradient(135deg, var(--neon-blue), #0066cc); color: #fff; }
+        .toast.warning { background: linear-gradient(135deg, var(--neon-orange), #d97706); color: #fff; }
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+        .toast .toast-close:hover { opacity: 1; }
+        @keyframes toastSlideDown {
+            from { opacity: 0; transform: translateX(-50%) translateY(-20px) scale(0.9); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+        }
+
+        /* ============================================================
+               RESPONSIVE
+               ============================================================ */
+        @media (max-width: 1024px) {
+            .module-selector { gap: 0.4rem; }
+            .module-selector .module-btn { font-size: 0.7rem; padding: 0.2rem 0.8rem; }
+        }
+        @media (max-width: 768px) {
+            .container { padding: 0 1.2rem; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                position: absolute;
+                top: 60px;
+                right: 1rem;
+                min-width: 220px;
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-sm);
+                padding: 1.2rem;
+                gap: 1rem;
+                box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            }
+            .nav-links.show { display: flex; }
+            .menu-toggle { display: flex; }
+            .streak-banner {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1rem;
+            }
+            .streak-banner .streak-info { justify-content: center; }
+            .streak-banner .streak-action { text-align: center; }
+            .module-selector {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                -webkit-overflow-scrolling: touch;
+            }
+            .module-selector .module-btn { flex-shrink: 0; font-size: 0.65rem; padding: 0.2rem 0.6rem; }
+            .module-selector .selector-label { display: none; }
+            .scenario-card { padding: 1.2rem; }
+            .scenario-card .scenario-question { font-size: 1rem; }
+            .scenario-card .option { padding: 0.5rem 0.8rem; font-size: 0.9rem; }
+            .scenario-card .option .letter { width: 26px; height: 26px; font-size: 0.65rem; }
+            .scenario-card .action-row { flex-direction: column; }
+            .scenario-card .action-row .btn { width: 100%; justify-content: center; }
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                max-width: none;
+                width: auto;
+                bottom: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            @keyframes toastSlideDown {
+                from { opacity: 0; transform: translateY(-20px) scale(0.9); }
+                to { opacity: 1; transform: translateY(0) scale(1); }
+            }
+        }
+        @media (max-width: 480px) {
+            .page-header h1 { font-size: 1.6rem; }
+            .streak-banner .streak-info .streak-item .number { font-size: 1.4rem; }
+            .scenario-card { padding: 1rem; }
+            .scenario-card .scenario-meta { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+            .scenario-card .scenario-meta .day-badge .day-number { font-size: 0.8rem; }
+        }
+        @media print {
+            header, .toast, .menu-toggle, .module-selector, .streak-banner .streak-action { display: none !important; }
+            .scenario-card { border: 1px solid #333 !important; box-shadow: none !important; break-inside: avoid; }
+            body { background: #fff; color: #000; }
+            .page-header h1 .highlight { -webkit-text-fill-color: #000; background: none; color: #000; }
+            .streak-banner { border: 1px solid #333 !important; background: none !important; }
+            .streak-banner .streak-info .streak-item .number { color: #000 !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                    TRIBAMS
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/resource-center">Resource Center</a></li>
+                    <li><a href="/lab">Evidence Workbench</a></li>
+                    <li><a href="/scenario" class="active">🎯 Cyber Range</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>🎯 <span class="highlight">Cyber Range</span></h1>
+            <p class="subtitle">Live incident simulations with ticking clocks, executive pressure, and professional decision drills across 95 modules — pair with <a href="/lab" style="color:inherit;text-decoration:underline;">Evidence Workbench</a> artifact labs for transcript proof.</p>
+        </div>
+
+        <!-- Streak Banner -->
+        <div class="streak-banner" id="streakBanner">
+            <div class="streak-info">
+                <div class="streak-item">
+                    <span class="number" id="streakNumber">0</span>
+                    <span class="label">🔥 Day Streak</span>
+                </div>
+                <div class="streak-item">
+                    <span class="number" id="pointsNumber">0</span>
+                    <span class="label">⭐ Points</span>
+                </div>
+                <div class="streak-item">
+                    <span class="number" id="completedCount">0</span>
+                    <span class="label">✅ Completed</span>
+                </div>
+                <div class="streak-progress">
+                    <div class="progress-track">
+                        <div class="progress-fill" id="streakProgressFill" style="width:0%;"></div>
+                    </div>
+                    <div class="progress-label">
+                        <span id="streakProgressLabel">Next: Cyber Ranger in 30 days</span>
+                        <span id="streakProgressPercent">0%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="streak-action">
+                <button class="btn btn-primary" id="refreshBtn" onclick="loadScenario()">🔄 Refresh</button>
+            </div>
+        </div>
+
+        <!-- Module Selector -->
+        <div class="module-selector" id="moduleSelector">
+            <span class="selector-label">Module:</span>
+            <button class="module-btn active" data-module="all" onclick="selectModule('all')">
+                🌐 All
+            </button>
+            <!-- Rendered by JS -->
+        </div>
+
+        <!-- Scenario Card -->
+        <div id="scenarioContainer">
+            <div class="scenario-card" style="text-align:center;padding:3rem 2rem;">
+                <div style="width:50px;height:50px;border:3px solid var(--glass-border);border-top:3px solid var(--neon-green);border-radius:50%;margin:0 auto 1rem;animation:spin 0.8s linear infinite;"></div>
+                <p style="color:var(--text-secondary);">Loading today's scenario...</p>
+            </div>
+        </div>
+
+        <!-- Back to Dashboard -->
+        <div style="text-align:center; padding:1.5rem 0 2rem;">
+            <a href="/dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // Integrity: Matte K must never run on scenario pages
+        (function () {
+            const el = document.getElementById('matteKRoot');
+            if (el) el.remove();
+            document.documentElement.setAttribute('data-matte-blocked', '1');
+        })();
+
+        // ============================================================
+        // MODULES (hydrated from /api/modules — full 95)
+        // ============================================================
+        let MODULES = [
+            { id: 1, name: 'Phishing Detection', icon: '🎣' },
+            { id: 2, name: 'Malware Analysis', icon: '🦠' },
+            { id: 3, name: 'Network Security', icon: '🔒' },
+            { id: 4, name: 'Cloud Security', icon: '☁️' },
+            { id: 5, name: 'Mobile Security', icon: '📱' },
+            { id: 6, name: 'IoT Security', icon: '🏠' },
+            { id: 7, name: 'Social Engineering', icon: '🎭' },
+            { id: 8, name: 'Incident Response', icon: '🚨' },
+            { id: 9, name: 'Security Compliance', icon: '📋' },
+            { id: 10, name: 'Ethical Hacking', icon: '🎓' },
+            { id: 11, name: 'Ransomware Defense', icon: '💰' },
+            { id: 12, name: 'Data Privacy (GDPR)', icon: '🔏' },
+            { id: 13, name: 'Wireless Security', icon: '📡' },
+            { id: 14, name: 'Database Security', icon: '🗄️' },
+            { id: 15, name: 'DevSecOps', icon: '⚙️' },
+            { id: 16, name: 'Digital Forensics', icon: '🔍' },
+            { id: 17, name: 'Threat Intelligence', icon: '🧠' },
+            { id: 18, name: 'Security Operations (SOC)', icon: '🛡️' },
+            { id: 19, name: 'Identity & Access Management', icon: '🪪' },
+            { id: 20, name: 'Cryptography', icon: '🔐' },
+            { id: 21, name: 'Zero Trust Architecture', icon: '🏛️' },
+            { id: 22, name: 'Supply Chain Security', icon: '⛓️' },
+            { id: 23, name: 'API Security', icon: '🔌' },
+            { id: 24, name: 'Container Security', icon: '🐳' },
+            { id: 25, name: 'Kubernetes Security', icon: '☸️' },
+            { id: 26, name: 'Serverless Security', icon: '⚡' },
+            { id: 27, name: 'AI & ML Security', icon: '🤖' },
+            { id: 28, name: 'Quantum Computing Threats', icon: '🧪' },
+            { id: 29, name: 'Blockchain Security', icon: '⛓️' },
+            { id: 30, name: 'OT/ICS Security', icon: '🏭' },
+            { id: 31, name: 'Healthcare Security (HIPAA)', icon: '🏥' },
+            { id: 32, name: 'Financial Security (PCI-DSS)', icon: '💳' },
+            { id: 33, name: 'E-Commerce Security', icon: '🛒' },
+            { id: 34, name: 'Insider Threat Detection', icon: '🕵️' },
+            { id: 35, name: 'Physical Security Integration', icon: '🚪' },
+            { id: 36, name: 'Disaster Recovery & BCP', icon: '🌐' },
+            { id: 37, name: 'Security Awareness Training', icon: '🧑‍🏫' },
+            { id: 38, name: 'Risk Management', icon: '📊' },
+            { id: 39, name: 'Vulnerability Management', icon: '🪲' },
+            { id: 40, name: 'Penetration Testing', icon: '💥' },
+            { id: 41, name: 'Red Team / Blue Team', icon: '🟥🔵' },
+            { id: 42, name: 'Cybersecurity Frameworks', icon: '📘' },
+            { id: 43, name: 'Cloud Forensics', icon: '☁️🔍' },
+            { id: 44, name: 'Mobile Forensics', icon: '📱🔍' },
+            { id: 45, name: 'Cyber Law & Ethics', icon: '⚖️' }
+        ];
+
+        async function hydrateScenarioModules() {
+            try {
+                const res = await fetch('/api/modules', { credentials: 'same-origin' });
+                const data = await res.json();
+                if (data.modules && data.modules.length) {
+                    MODULES = data.modules.map(m => ({
+                        id: m.id,
+                        name: m.name,
+                        icon: m.id > 45 ? '⚔️' : '📘'
+                    }));
+                    totalModules = MODULES.length;
+                }
+            } catch (e) { /* keep fallback */ }
+        }
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let currentModule = 'all';
+        let currentScenario = null;
+        let selectedOption = null;
+        let isAnswered = false;
+        let userStreak = 0;
+        let userPoints = 0;
+        let completedCount = 0;
+        let totalModules = MODULES.length;
+        let scenarioTimeLeft = 60;
+        let scenarioTimer = null;
+
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const scenarioContainer = document.getElementById('scenarioContainer');
+        const moduleSelector = document.getElementById('moduleSelector');
+
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function showToast(message, type = 'success') {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
+
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${icons[type] || 'ℹ️'} ${message}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
+        function getDifficultyLabel(diff) {
+            const map = { foundational: 'Easy', intermediate: 'Medium', advanced: 'Hard', expert: 'Expert', master: 'Master' };
+            return map[diff] || 'Medium';
+        }
+
+        function getDifficultyClass(diff) {
+            const map = { foundational: 'easy', intermediate: 'medium', advanced: 'hard', expert: 'expert', master: 'expert' };
+            return map[diff] || 'medium';
+        }
+
+        function getDayNumber() {
+            const start = new Date('2025-01-01');
+            const now = new Date();
+            const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+            return (diff % 90) + 1;
+        }
+
+        function getCurrentCycle() {
+            const start = new Date('2025-01-01');
+            const now = new Date();
+            const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+            return Math.floor(diff / 90) + 1;
+        }
+
+        // ============================================================
+        // LOAD USER DATA
+        // ============================================================
+        async function loadUserData() {
+            try {
+                const streakRes = await fetch('/api/daily-stats');
+                const streakData = await streakRes.json();
+                if (streakData.success) {
+                    userStreak = streakData.streak || 0;
+                    userPoints = streakData.points || 0;
+                }
+
+                const progressRes = await fetch('/api/progress');
+                const progressData = await progressRes.json();
+                if (progressData.success && progressData.scores) {
+                    // Count completed
+                    completedCount = progressData.scores.filter(s => s.score > 0).length;
+                }
+
+                updateStreakUI();
+            } catch (e) {
+                console.log('Could not load user data');
+            }
+        }
+
+        // ============================================================
+        // RENDER MODULE SELECTOR
+        // ============================================================
+        function renderModuleSelector() {
+            const existing = moduleSelector.querySelectorAll('.module-btn:not([data-module="all"])');
+            existing.forEach(el => el.remove());
+
+            MODULES.slice(0, 10).forEach(mod => {
+                const btn = document.createElement('button');
+                btn.className = `module-btn ${currentModule === mod.id ? 'active' : ''}`;
+                btn.dataset.module = mod.id;
+                btn.innerHTML = `${mod.icon} ${mod.name}`;
+                btn.onclick = () => selectModule(mod.id);
+                moduleSelector.appendChild(btn);
+            });
+        }
+
+        // ============================================================
+        // SELECT MODULE
+        // ============================================================
+        function selectModule(moduleId) {
+            currentModule = moduleId;
+            document.querySelectorAll('.module-btn').forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.dataset.module) === moduleId || (btn.dataset.module === 'all' &&
+                    moduleId === 'all'));
+            });
+            loadScenario();
+        }
+
+        // ============================================================
+        // LOAD SCENARIO
+        // ============================================================
+        async function loadScenario() {
+            const day = getDayNumber();
+            const cycle = getCurrentCycle();
+
+            let moduleId = 1;
+            if (currentModule === 'all') {
+                moduleId = ((day - 1) % totalModules) + 1;
+            } else {
+                moduleId = parseInt(currentModule);
+            }
+
+            const module = MODULES.find(m => m.id === moduleId);
+
+            scenarioContainer.innerHTML = `
+                <div class="scenario-card" style="text-align:center;padding:3rem 2rem;">
+                    <div style="width:50px;height:50px;border:3px solid var(--glass-border);border-top:3px solid var(--neon-green);border-radius:50%;margin:0 auto 1rem;animation:spin 0.8s linear infinite;"></div>
+                    <p style="color:var(--text-secondary);">Loading scenario for ${module ? module.name : 'module'}...</p>
+                </div>
+            `;
+
+            try {
+                const res = await fetch(`/api/scenario/${moduleId}`);
+                const data = await res.json();
+
+                if (data && data.scenario) {
+                    currentScenario = data.scenario;
+                    if (typeof currentScenario.options === 'string') {
+                        currentScenario.options = JSON.parse(currentScenario.options);
+                    }
+                    // Normalize correct field for UI
+                    if (typeof currentScenario.correct !== 'number' && typeof currentScenario.correct_answer === 'number') {
+                        currentScenario.correct = currentScenario.correct_answer;
+                    }
+                    selectedOption = null;
+                    isAnswered = false;
+                    startScenarioTimer(currentScenario.timeLimit || 60);
+                    renderScenario(currentScenario, module, day, cycle);
+                } else {
+                    throw new Error('No scenario returned');
+                }
+            } catch (error) {
+                console.error('Error loading scenario:', error);
+                const fallbackScenario = {
+                    question: `You receive a suspicious email claiming to be from your bank. What is the safest action?`,
+                    options: ['Click the link to verify your account', 'Call the bank using the number on your statement',
+                        'Reply to the email asking for clarification', 'Forward the email to your friends'
+                    ],
+                    correct: 1,
+                    explanation: 'Always verify suspicious requests through a trusted channel.',
+                    module_id: moduleId,
+                    day_number: day,
+                    category: 'Security',
+                    difficulty: 'intermediate',
+                    module_name: module ? module.name : 'Unknown'
+                };
+                currentScenario = fallbackScenario;
+                selectedOption = null;
+                isAnswered = false;
+                renderScenario(fallbackScenario, module, day, cycle);
+            }
+        }
+
+        function startScenarioTimer(seconds) {
+            if (scenarioTimer) clearInterval(scenarioTimer);
+            scenarioTimeLeft = seconds;
+            scenarioTimer = setInterval(() => {
+                if (isAnswered) { clearInterval(scenarioTimer); return; }
+                scenarioTimeLeft--;
+                const el = document.getElementById('scenarioTimer');
+                if (el) {
+                    const m = Math.floor(Math.max(0, scenarioTimeLeft) / 60);
+                    const s = Math.max(0, scenarioTimeLeft) % 60;
+                    el.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
+                    el.style.color = scenarioTimeLeft <= 15 ? '#ff3b5c' : '';
+                }
+                if (scenarioTimeLeft <= 0) {
+                    clearInterval(scenarioTimer);
+                    submitAnswer(true);
+                }
+            }, 1000);
+        }
+
+        // ============================================================
+        // RENDER SCENARIO
+        // ============================================================
+        function renderScenario(scenario, module, day, cycle) {
+            const optionsHtml = (scenario.options || []).map((opt, idx) => {
+                let cls = 'option';
+                if (isAnswered) {
+                    cls += ' disabled';
+                    if (idx === scenario.correct) cls += ' correct-answer';
+                    if (idx === selectedOption && idx !== scenario.correct) cls += ' wrong-answer';
+                    if (idx === selectedOption) cls += ' selected';
+                } else if (selectedOption === idx) {
+                    cls += ' selected';
+                }
+                return `
+                    <div class="${cls}" data-index="${idx}" role="button" tabindex="0">
+                        <div class="letter">${String.fromCharCode(65 + idx)}</div>
+                        <span>${opt}</span>
+                    </div>
+                `;
+            }).join('');
+
+            let feedbackHtml = '';
+            if (isAnswered) {
+                const isCorrect = selectedOption === scenario.correct;
+                feedbackHtml = `
+                    <div class="feedback-box ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}">
+                        <div class="fb-title">
+                            <span class="fb-icon">${isCorrect ? '✅' : '❌'}</span>
+                            ${isCorrect ? 'Sound decision under pressure' : 'Debrief — learn from this miss'}
+                        </div>
+                        <div class="fb-explanation">
+                            ${scenario.explanation || 'Review the concepts related to this scenario.'}
+                            ${!isCorrect && scenario.options[scenario.correct] ? `<br><strong>Preferred action:</strong> ${scenario.options[scenario.correct]}` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            const cues = (scenario.stressCues || []).map(c => `<li>${c}</li>`).join('');
+            const m = Math.floor(Math.max(0, scenarioTimeLeft) / 60);
+            const s = Math.max(0, scenarioTimeLeft) % 60;
+
+            scenarioContainer.innerHTML = `
+                <div class="scenario-card">
+                    <div class="scenario-meta">
+                        <div class="day-badge">
+                            <span class="day-number">Day ${day}</span>
+                            <span class="day-label">| Cycle ${cycle}</span>
+                        </div>
+                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;">
+                            <span class="category-badge">${scenario.category || 'Security'}</span>
+                            <span class="difficulty-badge ${getDifficultyClass(scenario.difficulty)}">${getDifficultyLabel(scenario.difficulty)}</span>
+                            ${scenario.locale_label ? `<span class="category-badge" style="border-color:#14b8a6;color:#5eead4;">🌍 ${scenario.locale_label}</span>` : ''}
+                            ${!isAnswered ? `<span class="category-badge" style="border-color:#ff3b5c;color:#ff3b5c;font-weight:700;">⏱ <span id="scenarioTimer">${m}:${s < 10 ? '0' : ''}${s}</span></span>` : ''}
+                        </div>
+                    </div>
+                    ${scenario.briefing ? `<div style="margin:0.8rem 0;padding:0.8rem 1rem;border-left:3px solid #ff3b5c;background:rgba(255,59,92,0.08);border-radius:0 10px 10px 0;font-size:0.9rem;"><strong style="color:#ff8a9a;">${scenario.briefing}</strong>${cues ? `<ul style="margin:0.5rem 0 0 1rem;color:var(--text-secondary);">${cues}</ul>` : ''}</div>` : ''}
+                    <div class="scenario-module">
+                        <span class="module-icon">${module ? (module.icon || '📘') : '📘'}</span>
+                        <span class="module-name">${scenario.module_name || module?.name || 'Module'}</span>
+                    </div>
+                    <div class="scenario-question">${scenario.question}</div>
+                    <div class="options-list">${optionsHtml}</div>
+                    ${feedbackHtml}
+                    <div class="action-row">
+                        ${!isAnswered ? `<button type="button" class="btn btn-primary" id="submitBtn">Commit Decision</button>` : ''}
+                        ${isAnswered ? `<button type="button" class="btn btn-secondary" id="nextIncidentBtn">🔄 Next Incident</button>` : ''}
+                        ${isAnswered ? `<a href="/dashboard" class="btn btn-secondary">📊 Dashboard</a>` : ''}
+                        ${isAnswered ? `<a href="/skill-assessment" class="btn btn-secondary">🧪 Full Assessment</a>` : ''}
+                    </div>
+                </div>
+            `;
+
+            // Wire buttons after paint (avoids disabled/onclick quirks)
+            const submitBtn = document.getElementById('submitBtn');
+            if (submitBtn) {
+                submitBtn.disabled = selectedOption === null;
+                submitBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    submitAnswer(false);
+                });
+            }
+            const nextBtn = document.getElementById('nextIncidentBtn');
+            if (nextBtn) {
+                nextBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    loadScenario();
+                });
+            }
+
+            updateStreakUI();
+        }
+
+        // ============================================================
+        // SELECT OPTION
+        // ============================================================
+        function selectOption(idx) {
+            if (isAnswered) return;
+            const n = parseInt(idx, 10);
+            if (Number.isNaN(n)) return;
+            selectedOption = n;
+            document.querySelectorAll('#scenarioContainer .option').forEach(el => {
+                el.classList.toggle('selected', parseInt(el.dataset.index, 10) === n);
+            });
+            const submitBtn = document.getElementById('submitBtn');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.removeAttribute('disabled');
+                submitBtn.style.opacity = '1';
+                submitBtn.style.cursor = 'pointer';
+            }
+        }
+
+        // ============================================================
+        // SUBMIT ANSWER
+        // ============================================================
+        async function submitAnswer(timedOut = false) {
+            const isTimeout = timedOut === true;
+            if (isAnswered) return;
+            if (!currentScenario) {
+                showToast('Scenario not loaded yet. Refresh and try again.', 'warning');
+                return;
+            }
+            if (!isTimeout && (selectedOption === null || selectedOption === undefined)) {
+                showToast('Select an option before committing your decision.', 'warning');
+                return;
+            }
+
+            const moduleId = currentScenario.module_id;
+            const day = currentScenario.day_number;
+            if (scenarioTimer) clearInterval(scenarioTimer);
+            isAnswered = true;
+
+            const submitBtn = document.getElementById('submitBtn');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Committing...';
+            }
+
+            try {
+                const res = await fetch(`/api/scenario/${moduleId}/submit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        selectedOption: isTimeout ? -1 : selectedOption,
+                        correctAnswer: currentScenario.correct,
+                        timeRemaining: scenarioTimeLeft
+                    })
+                });
+                const data = await res.json().catch(() => ({ success: false }));
+                if (data.success) {
+                    userStreak = data.streak || userStreak;
+                    userPoints += data.pointsEarned || 0;
+                    if (data.explanation) currentScenario.explanation = data.explanation;
+                    showToast(data.message || (data.correct ? '✅ Correct' : '❌ Incorrect'),
+                        data.correct ? 'success' : 'warning');
+                } else if (data.message === 'Not logged in' || res.status === 401) {
+                    showToast('Session expired — please log in again.', 'warning');
+                    setTimeout(() => { window.location.href = '/login'; }, 1500);
+                } else {
+                    const isCorrect = !isTimeout && selectedOption === currentScenario.correct;
+                    userPoints += isCorrect ? 15 : 3;
+                    showToast(isCorrect ? '✅ Sound decision' : '❌ Review the debrief', isCorrect ? 'success' : 'warning');
+                }
+            } catch (error) {
+                const isCorrect = !isTimeout && selectedOption === currentScenario.correct;
+                userPoints += isCorrect ? 15 : 3;
+                showToast(isTimeout ? '⏱️ Time expired' : (isCorrect ? '✅ Sound decision' : '❌ Review the debrief'),
+                    isCorrect ? 'success' : 'warning');
+            }
+
+            completedCount += 1;
+            renderScenario(currentScenario, MODULES.find(m => m.id === moduleId), day, getCurrentCycle());
+            updateStreakUI();
+        }
+
+        // ============================================================
+        // UPDATE STREAK UI
+        // ============================================================
+        function updateStreakUI() {
+            document.getElementById('streakNumber').textContent = userStreak;
+            document.getElementById('pointsNumber').textContent = userPoints;
+            document.getElementById('completedCount').textContent = completedCount;
+
+            let nextMilestone = 30;
+            let certName = 'Cyber Ranger';
+            if (userStreak >= 30) { nextMilestone = 60;
+                certName = 'Cyber Sentinel'; }
+            if (userStreak >= 60) { nextMilestone = 90;
+                certName = 'Cyber Master'; }
+            if (userStreak >= 90) { nextMilestone = null;
+                certName = '🏆 Cyber Master (Achieved)'; }
+
+            const pct = nextMilestone ? Math.min(100, (userStreak / nextMilestone) * 100) : 100;
+            document.getElementById('streakProgressFill').style.width = pct + '%';
+            document.getElementById('streakProgressPercent').textContent = Math.round(pct) + '%';
+            document.getElementById('streakProgressLabel').textContent = nextMilestone ?
+                `Next: ${certName} in ${nextMilestone - userStreak} days` :
+                `🏆 ${certName} achieved!`;
+        }
+
+        // ============================================================
+        // HEADER SCROLL & MOBILE MENU
+        // ============================================================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('show');
+            this.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('show');
+                document.getElementById('menuToggle').classList.remove('active');
+            });
+        });
+
+        // Event delegation — reliable option clicks even after re-renders
+        scenarioContainer.addEventListener('click', function(e) {
+            const opt = e.target.closest('.option');
+            if (!opt || opt.classList.contains('disabled') || isAnswered) return;
+            if (!scenarioContainer.contains(opt)) return;
+            const idx = parseInt(opt.dataset.index, 10);
+            if (!Number.isNaN(idx)) selectOption(idx);
+        });
+
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key >= '1' && e.key <= '4') {
+                const idx = parseInt(e.key, 10) - 1;
+                selectOption(idx);
+            }
+            if (e.key === 'Enter') {
+                const submitBtn = document.getElementById('submitBtn');
+                if (submitBtn && !submitBtn.disabled) {
+                    submitAnswer(false);
+                }
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
+                if (e.target.tagName !== 'INPUT') {
+                    e.preventDefault();
+                    document.getElementById('refreshBtn')?.click();
+                }
+            }
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        async function init() {
+            try {
+                const res = await fetch('/api/user-info', { credentials: 'same-origin' });
+                const data = await res.json();
+                if (!data.success) {
+                    showToast('Please log in to access the Cyber Range.', 'warning', 5000);
+                    setTimeout(() => { window.location.href = '/login'; }, 3000);
+                    return;
+                }
+            } catch (e) {
+                showToast('Please log in to access the Cyber Range.', 'warning', 5000);
+                setTimeout(() => { window.location.href = '/login'; }, 3000);
+                return;
+            }
+
+            await hydrateScenarioModules();
+            renderModuleSelector();
+            await loadUserData();
+            await loadScenario();
+
+            console.log('🎯 Cyber Range loaded successfully.');
+        }
+
+        window.selectModule = selectModule;
+        window.selectOption = selectOption;
+        window.submitAnswer = submitAnswer;
+        window.loadScenario = loadScenario;
+
+        init();
+    </script>
+
+</body>
+</html>

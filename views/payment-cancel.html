@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Cancelled – TRIBAMS</title>
+    <meta name="description" content="Your TRIBAMS payment was cancelled. No charges have been made. You can try again anytime or continue with the Free plan.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE – 0-200
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --border-color-hover: rgba(0, 255, 136, 0.2);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-orange: #f59e0b;
+            --neon-pink: #ec4899;
+            --neon-red: #ef4444;
+            --neon-gold: #ffd700;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background-image: radial-gradient(circle at 50% 60%, rgba(245, 158, 11, 0.03) 0%, transparent 70%);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            width: 100%;
+        }
+
+        /* ============================================================
+               CANCELLED CARD – 200-550
+               ============================================================ */
+        .cancelled-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 3rem 2rem;
+            box-shadow: var(--shadow-xl), 0 0 60px rgba(245, 158, 11, 0.03);
+            text-align: center;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .cancelled-card .icon {
+            font-size: 4.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cancelled-card .icon .rotate-icon {
+            display: inline-block;
+            animation: rotateIn 0.8s ease both;
+        }
+
+        @keyframes rotateIn {
+            0% {
+                transform: rotate(-180deg) scale(0.5);
+                opacity: 0;
+            }
+            100% {
+                transform: rotate(0deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .cancelled-card h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--neon-orange);
+            margin-bottom: 0.3rem;
+        }
+
+        .cancelled-card .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+
+        .cancelled-card .message {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 440px;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(245, 158, 11, 0.03);
+            border: 1px solid rgba(245, 158, 11, 0.08);
+            border-radius: var(--radius-sm);
+            padding: 1.2rem 1.5rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .info-box .info-title {
+            font-weight: 600;
+            color: var(--neon-orange);
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding: 0;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .info-box ul li {
+            padding: 0.3rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .info-box ul li:last-child {
+            border-bottom: none;
+        }
+
+        .info-box ul li .bullet {
+            color: var(--neon-orange);
+            font-weight: 700;
+        }
+
+        /* Action Buttons */
+        .action-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--glass-bg);
+            border-color: var(--neon-green);
+            color: var(--text-primary);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline-orange {
+            background: transparent;
+            border: 1px solid var(--neon-orange);
+            color: var(--neon-orange);
+        }
+
+        .btn-outline-orange:hover {
+            background: rgba(245, 158, 11, 0.08);
+            transform: translateY(-3px);
+        }
+
+        /* ============================================================
+               TOAST – 550-600
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+        }
+        .toast.info {
+            background: linear-gradient(135deg, var(--neon-blue), #0066cc);
+            color: #fff;
+        }
+        .toast.warning {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes toastSlideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================================
+               RESPONSIVE – 600-680
+               ============================================================ */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .cancelled-card {
+                padding: 2rem 1.2rem;
+            }
+
+            .cancelled-card h1 {
+                font-size: 1.8rem;
+            }
+
+            .cancelled-card .icon {
+                font-size: 3.5rem;
+            }
+
+            .action-row {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .action-row .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                max-width: none;
+                width: auto;
+                bottom: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            @keyframes toastSlideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cancelled-card h1 {
+                font-size: 1.5rem;
+            }
+            .cancelled-card .subtitle {
+                font-size: 0.9rem;
+            }
+            .cancelled-card .message {
+                font-size: 0.85rem;
+            }
+            .info-box ul li {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* ============================================================
+               PRINT STYLES – 680-690
+               ============================================================ */
+        @media print {
+            .cancelled-card {
+                border: 1px solid #333 !important;
+                box-shadow: none !important;
+                background: #fff !important;
+                color: #000 !important;
+            }
+            body {
+                background: #fff !important;
+            }
+            .cancelled-card h1 {
+                color: #000 !important;
+            }
+            .btn {
+                display: none !important;
+            }
+            .info-box {
+                border: 1px solid #333 !important;
+                background: #f5f5f5 !important;
+            }
+            .info-box ul li {
+                color: #333 !important;
+                border-bottom: 1px solid #ddd !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
+    <div class="container">
+
+        <div class="cancelled-card">
+            <!-- Icon -->
+            <div class="icon">
+                <span class="rotate-icon">🔄</span>
+            </div>
+
+            <!-- Title -->
+            <h1>Payment Cancelled</h1>
+            <p class="subtitle">Your transaction was not completed</p>
+
+            <!-- Message -->
+            <p class="message">
+                Don't worry — you haven't been charged. You can try again anytime or continue with the Free plan.
+                You're always welcome back to upgrade when you're ready.
+            </p>
+
+            <!-- Info Box -->
+            <div class="info-box">
+                <div class="info-title">ℹ️ What happens next?</div>
+                <ul>
+                    <li><span class="bullet">•</span> No charges have been made to your account</li>
+                    <li><span class="bullet">•</span> Your Free plan remains active</li>
+                    <li><span class="bullet">•</span> You can try upgrading again anytime</li>
+                    <li><span class="bullet">•</span> Need help? Contact our support team</li>
+                </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-row">
+                <a href="/payment" class="btn btn-primary">🔄 Try Again</a>
+                <a href="/dashboard" class="btn btn-outline-orange">📊 Dashboard</a>
+                <a href="/" class="btn btn-secondary">🏠 Home</a>
+            </div>
+
+            <div style="margin-top:1.5rem; font-size:0.75rem; color:var(--text-muted);">
+                Need help? <a href="/contact" style="color:var(--neon-green);">Contact Support</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // TOAST
+        // ============================================================
+        function showToast(message, type = 'success', duration = 3500) {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
+
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'} ${message}</span>
+                <button class="toast-close" aria-label="Close notification">&times;</button>
+            `;
+            document.body.appendChild(toast);
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => toast.remove());
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        // Show a friendly message after a moment
+        setTimeout(() => {
+            showToast('ℹ️ No charges were made. Your Free plan is still active.', 'info', 4000);
+        }, 1000);
+
+        // ============================================================
+        // ANALYTICS (optional - track cancellation)
+        // ============================================================
+        try {
+            // You can send a tracking event if you have analytics
+            console.log('Payment cancelled by user.');
+        } catch (e) {
+            // ignore
+        }
+
+        console.log('🔄 Payment cancellation page loaded.');
+    </script>
+
+</body>
+</html>

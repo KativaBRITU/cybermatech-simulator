@@ -1,0 +1,22 @@
+# Local / VPS PostgreSQL for TRIBAMS
+# Usage:
+#   docker compose -f docker-compose.postgres.yml up -d
+# Then set in .env:
+#   DATABASE_URL=postgres://tribams:tribams_secret@127.0.0.1:5432/tribams
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tribams-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tribams
+      POSTGRES_PASSWORD: tribams_secret
+      POSTGRES_DB: tribams
+    ports:
+      - "5432:5432"
+    volumes:
+      - tribams_pg_data:/var/lib/postgresql/data
+
+volumes:
+  tribams_pg_data:

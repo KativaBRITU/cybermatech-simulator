@@ -1,0 +1,25 @@
+# Named Cloudflare Tunnel for tribams.com → local Node origin on :3080
+# Run: .\cf-run.ps1
+
+tunnel: tribams
+credentials-file: C:\Users\CASH CONVERTERS\.cloudflared\a8d798d3-b2ad-48ef-b820-9769bda11e8e.json
+
+# Force TCP/HTTP2 — QUIC/UDP is unstable on this network.
+protocol: http2
+# One connector avoids "already connected to this server" churn on flaky WiFi.
+ha-connections: 1
+
+ingress:
+  - hostname: tribams.com
+    service: http://127.0.0.1:3080
+    originRequest:
+      connectTimeout: 60s
+      keepAliveTimeout: 90s
+      tcpKeepAlive: 30s
+  - hostname: www.tribams.com
+    service: http://127.0.0.1:3080
+    originRequest:
+      connectTimeout: 60s
+      keepAliveTimeout: 90s
+      tcpKeepAlive: 30s
+  - service: http_status:404

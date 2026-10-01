@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Builder – Tribams Admin</title>
+    <meta name="description" content="Create custom training labs for the TRIBAMS platform. Build modules with custom questions, icons, and descriptions without coding.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE – 0-200
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --border-color-hover: rgba(0, 255, 136, 0.2);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-orange: #f59e0b;
+            --neon-pink: #ec4899;
+            --neon-red: #ef4444;
+            --neon-gold: #ffd700;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ============================================================
+               HEADER & NAVIGATION – 200-400
+               ============================================================ */
+        header {
+            background: rgba(10, 14, 39, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(10, 14, 39, 0.98);
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--neon-green);
+            fill: none;
+            -webkit-text-fill-color: initial;
+            flex-shrink: 0;
+        }
+
+        .logo:hover svg {
+            stroke: var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.3rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active {
+            color: var(--neon-green);
+        }
+
+        .btn-nav {
+            padding: 0.4rem 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary) !important;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            -webkit-text-fill-color: initial;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+            color: var(--bg-primary) !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .menu-toggle span {
+            width: 26px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ============================================================
+               PAGE HEADER – 400-550
+               ============================================================ */
+        .page-header {
+            padding: 2rem 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-header .title-group h1 {
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            font-weight: 900;
+        }
+
+        .page-header .title-group h1 .highlight {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header .title-group p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .page-header .header-actions {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--glass-bg);
+            border-color: var(--neon-green);
+            color: var(--text-primary);
+            transform: translateY(-3px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--neon-red), #cc0000);
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-small {
+            padding: 0.3rem 1rem;
+            font-size: 0.75rem;
+        }
+
+        .btn .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .btn.loading .spinner {
+            display: inline-block;
+        }
+        .btn.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ============================================================
+               CREATE FORM – 550-850
+               ============================================================ */
+        .form-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+            animation: fadeInUp 0.4s ease;
+            transition: var(--transition);
+        }
+
+        .form-card.visible {
+            display: block;
+        }
+
+        .form-card:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-card .form-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-card .form-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .form-group label .required {
+            color: var(--neon-red);
+            margin-left: 0.2rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: var(--font);
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.05);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-group .error-message {
+            color: var(--neon-red);
+            font-size: 0.75rem;
+            margin-top: 0.2rem;
+            display: none;
+        }
+
+        .form-group .error-message.show {
+            display: block;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Question Blocks */
+        .question-block {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .question-block:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        .question-block .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .question-block .q-header .q-number {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .question-block .q-header .btn-remove {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            padding: 0.1rem 0.3rem;
+        }
+
+        .question-block .q-header .btn-remove:hover {
+            color: var(--neon-red);
+        }
+
+        .question-block .q-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.6rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .question-block .q-row.options-row {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .question-block .q-row .q-input {
+            padding: 0.5rem 0.8rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-family: var(--font);
+            transition: var(--transition);
+        }
+
+        .question-block .q-row .q-input:focus {
+            outline: none;
+            border-color: var(--neon-green);
+        }
+
+        .question-block .q-row .q-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .question-block .q-row .q-select {
+            padding: 0.5rem 0.8rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-family: var(--font);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .question-block .q-row .q-select:focus {
+            outline: none;
+            border-color: var(--neon-green);
+        }
+
+        .btn-add-question {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px dashed var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-add-question:hover {
+            border-color: var(--neon-green);
+            color: var(--text-primary);
+            background: rgba(0, 255, 136, 0.02);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        /* ============================================================
+               LABS LIST – 850-1050
+               ============================================================ */
+        .labs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .labs-header .labs-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .labs-header .labs-count {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .labs-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .lab-item {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .lab-item:hover {
+            border-color: var(--border-color-hover);
+            background: var(--bg-card-hover);
+        }
+
+        .lab-item .lab-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .lab-item .lab-info .lab-icon {
+            font-size: 1.5rem;
+        }
+
+        .lab-item .lab-info .lab-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .lab-item .lab-info .lab-meta {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+        }
+
+        .lab-item .lab-info .lab-meta .tag {
+            background: var(--glass-bg);
+            padding: 0.05rem 0.5rem;
+            border-radius: 20px;
+        }
+
+        .lab-item .lab-actions {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .lab-item .lab-actions .btn-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .lab-item .lab-actions .btn-icon:hover {
+            border-color: var(--neon-green);
+            color: var(--text-primary);
+            background: var(--glass-bg);
+        }
+
+        .lab-item .lab-actions .btn-icon.danger:hover {
+            border-color: var(--neon-red);
+            color: var(--neon-red);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state .icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.2rem;
+        }
+
+        .empty-state p {
+            font-size: 0.85rem;
+        }
+
+        /* ============================================================
+               TOAST – 1050-1110
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+        }
+        .toast.info {
+            background: linear-gradient(135deg, var(--neon-blue), #0066cc);
+            color: #fff;
+        }
+        .toast.warning {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes toastSlideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================================
+               RESPONSIVE – 1110-1200
+               ============================================================ */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                position: absolute;
+                top: 60px;
+                right: 1rem;
+                min-width: 220px;
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-sm);
+                padding: 1.2rem;
+                gap: 1rem;
+                box-shadow: var(--shadow-xl);
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .question-block .q-row.options-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-card {
+                padding: 1.2rem;
+            }
+
+            .lab-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .lab-item .lab-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+            .form-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                max-width: none;
+                width: auto;
+                bottom: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            @keyframes toastSlideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header .title-group h1 {
+                font-size: 1.4rem;
+            }
+            .lab-item .lab-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .lab-item .lab-info .lab-meta {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* ============================================================
+               PRINT STYLES – 1200-1210
+               ============================================================ */
+        @media print {
+            header,
+            .toast,
+            .menu-toggle,
+            .form-actions,
+            .lab-actions {
+                display: none !important;
+            }
+            .form-card {
+                border: 1px solid #333 !important;
+            }
+            .lab-item {
+                border: 1px solid #333 !important;
+            }
+            body {
+                background: #fff;
+                color: #000;
+            }
+            .page-header .title-group h1 .highlight {
+                -webkit-text-fill-color: #000;
+                background: none;
+                color: #000;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                    TRIBAMS
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/admin">👑 Admin</a></li>
+                    <li><a href="/admin/labs" class="active">🧪 Lab Builder</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="title-group">
+                <h1>🧪 <span class="highlight">Lab Builder</span></h1>
+                <p>Create custom training modules without coding. Add questions, set icons, and publish instantly.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" id="showCreateBtn">➕ New Lab</button>
+                <button class="btn btn-secondary" onclick="location.reload()">🔄 Refresh</button>
+            </div>
+        </div>
+
+        <!-- ============================================================
+        CREATE FORM
+        ============================================================ -->
+        <div class="form-card" id="createForm">
+            <div class="form-title">📝 Create New Custom Lab</div>
+            <div class="form-subtitle">Fill in the details below to create a new training module. Users will see this in the Resource Center.</div>
+
+            <div class="form-group">
+                <label>Module Name <span class="required">*</span></label>
+                <input type="text" id="moduleName" placeholder="e.g., 'Advanced Cloud Security'" maxlength="100">
+                <div class="error-message" id="nameError">Please enter a module name.</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Icon (emoji or short text)</label>
+                    <input type="text" id="moduleIcon" placeholder="e.g., ☁️ or 🔒" maxlength="10">
+                </div>
+                <div class="form-group">
+                    <label>Difficulty</label>
+                    <select id="moduleDifficulty">
+                        <option value="beginner">🟢 Beginner</option>
+                        <option value="intermediate" selected>🟡 Intermediate</option>
+                        <option value="advanced">🔴 Advanced</option>
+                        <option value="expert">🟣 Expert</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Description <span class="required">*</span></label>
+                <textarea id="moduleDescription" placeholder="Brief description of this module..."></textarea>
+                <div class="error-message" id="descError">Please enter a description.</div>
+            </div>
+
+            <div style="margin-bottom:0.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+                <label style="font-weight:600;font-size:0.9rem;color:var(--text-secondary);">Questions <span class="required">*</span> (minimum 3)</label>
+                <span style="font-size:0.7rem;color:var(--text-muted);" id="questionCount">1 questions</span>
+            </div>
+
+            <div id="questionsContainer">
+                <div class="question-block" data-index="0">
+                    <div class="q-header">
+                        <span class="q-number">Question 1</span>
+                        <button class="btn-remove" onclick="removeQuestion(this)" style="display:none;">✕</button>
+                    </div>
+                    <div class="q-row">
+                        <input class="q-text" placeholder="Enter your question..." value="">
+                    </div>
+                    <div class="q-row options-row">
+                        <input class="q-opt" placeholder="Option A" value="">
+                        <input class="q-opt" placeholder="Option B" value="">
+                        <input class="q-opt" placeholder="Option C" value="">
+                        <input class="q-opt" placeholder="Option D" value="">
+                    </div>
+                    <div class="q-row" style="grid-template-columns: 1fr 2fr;">
+                        <select class="q-correct">
+                            <option value="0">Correct: A</option>
+                            <option value="1">Correct: B</option>
+                            <option value="2">Correct: C</option>
+                            <option value="3">Correct: D</option>
+                        </select>
+                        <input class="q-explanation" placeholder="Explanation (optional)" value="">
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-add-question" onclick="addQuestion()">+ Add Question</button>
+
+            <div class="form-actions">
+                <button class="btn btn-primary" id="saveLabBtn">💾 Save Lab</button>
+                <button class="btn btn-secondary" id="cancelFormBtn">Cancel</button>
+            </div>
+        </div>
+
+        <!-- ============================================================
+        LABS LIST
+        ============================================================ -->
+        <div class="labs-header">
+            <span class="labs-title">📚 Existing Custom Labs</span>
+            <span class="labs-count" id="labCount">0 labs</span>
+        </div>
+
+        <div class="labs-grid" id="labsContainer">
+            <div class="empty-state">
+                <div class="icon">🧪</div>
+                <h4>No labs created yet</h4>
+                <p>Click "New Lab" to create your first custom training module.</p>
+            </div>
+        </div>
+
+        <!-- Back to Admin -->
+        <div style="text-align:center; padding:1.5rem 0 2rem;">
+            <a href="/admin" class="btn btn-secondary">← Back to Admin Dashboard</a>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function showToast(message, type = 'success', duration = 3500) {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
+
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'} ${message}</span>
+                <button class="toast-close" aria-label="Close notification">&times;</button>
+            `;
+            document.body.appendChild(toast);
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => toast.remove());
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        function updateQuestionCount() {
+            const count = document.querySelectorAll('.question-block').length;
+            document.getElementById('questionCount').textContent = count + ' questions';
+        }
+
+        // ============================================================
+        // ADD / REMOVE QUESTIONS
+        // ============================================================
+        function addQuestion() {
+            const container = document.getElementById('questionsContainer');
+            const blocks = container.querySelectorAll('.question-block');
+            const index = blocks.length;
+
+            const template = blocks[0].cloneNode(true);
+            template.dataset.index = index;
+
+            // Clear inputs
+            template.querySelector('.q-text').value = '';
+            template.querySelectorAll('.q-opt').forEach(el => el.value = '');
+            template.querySelector('.q-correct').selectedIndex = 0;
+            template.querySelector('.q-explanation').value = '';
+
+            // Update label
+            template.querySelector('.q-number').textContent = 'Question ' + (index + 1);
+
+            // Show remove button for all except first
+            const removeBtn = template.querySelector('.btn-remove');
+            removeBtn.style.display = 'inline-block';
+
+            container.appendChild(template);
+            updateQuestionCount();
+            updateRemoveButtons();
+        }
+
+        function removeQuestion(btn) {
+            const block = btn.closest('.question-block');
+            const container = document.getElementById('questionsContainer');
+            const blocks = container.querySelectorAll('.question-block');
+
+            if (blocks.length <= 1) {
+                showToast('You need at least 1 question.', 'warning');
+                return;
+            }
+
+            block.remove();
+            // Renumber remaining questions
+            container.querySelectorAll('.question-block').forEach((el, idx) => {
+                el.dataset.index = idx;
+                el.querySelector('.q-number').textContent = 'Question ' + (idx + 1);
+            });
+            updateQuestionCount();
+            updateRemoveButtons();
+        }
+
+        function updateRemoveButtons() {
+            const container = document.getElementById('questionsContainer');
+            const blocks = container.querySelectorAll('.question-block');
+            const removeBtns = container.querySelectorAll('.btn-remove');
+
+            if (blocks.length <= 1) {
+                removeBtns.forEach(btn => btn.style.display = 'none');
+            } else {
+                removeBtns.forEach(btn => btn.style.display = 'inline-block');
+            }
+        }
+
+        // ============================================================
+        // SHOW / HIDE FORM
+        // ============================================================
+        document.getElementById('showCreateBtn').addEventListener('click', function() {
+            const form = document.getElementById('createForm');
+            form.classList.toggle('visible');
+            if (form.classList.contains('visible')) {
+                this.textContent = '✕ Close';
+                this.classList.add('btn-secondary');
+                this.classList.remove('btn-primary');
+            } else {
+                this.textContent = '➕ New Lab';
+                this.classList.add('btn-primary');
+                this.classList.remove('btn-secondary');
+                resetForm();
+            }
+        });
+
+        document.getElementById('cancelFormBtn').addEventListener('click', function() {
+            document.getElementById('createForm').classList.remove('visible');
+            document.getElementById('showCreateBtn').textContent = '➕ New Lab';
+            document.getElementById('showCreateBtn').classList.add('btn-primary');
+            document.getElementById('showCreateBtn').classList.remove('btn-secondary');
+            resetForm();
+        });
+
+        // ============================================================
+        // RESET FORM
+        // ============================================================
+        function resetForm() {
+            document.getElementById('moduleName').value = '';
+            document.getElementById('moduleIcon').value = '';
+            document.getElementById('moduleDifficulty').value = 'intermediate';
+            document.getElementById('moduleDescription').value = '';
+
+            const container = document.getElementById('questionsContainer');
+            const blocks = container.querySelectorAll('.question-block');
+            while (blocks.length > 1) {
+                blocks[blocks.length - 1].remove();
+            }
+
+            const firstBlock = container.querySelector('.question-block');
+            firstBlock.querySelector('.q-text').value = '';
+            firstBlock.querySelectorAll('.q-opt').forEach(el => el.value = '');
+            firstBlock.querySelector('.q-correct').selectedIndex = 0;
+            firstBlock.querySelector('.q-explanation').value = '';
+            firstBlock.querySelector('.btn-remove').style.display = 'none';
+
+            updateQuestionCount();
+            updateRemoveButtons();
+
+            // Clear errors
+            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+            document.querySelectorAll('.form-group input, .form-group textarea').forEach(el => el.classList.remove('error'));
+        }
+
+        // ============================================================
+        // SAVE LAB
+        // ============================================================
+        document.getElementById('saveLabBtn').addEventListener('click', async function() {
+            const name = document.getElementById('moduleName').value.trim();
+            const icon = document.getElementById('moduleIcon').value.trim() || '📚';
+            const description = document.getElementById('moduleDescription').value.trim();
+            const difficulty = document.getElementById('moduleDifficulty').value;
+
+            let isValid = true;
+
+            if (!name) {
+                document.getElementById('nameError').classList.add('show');
+                document.getElementById('moduleName').classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('nameError').classList.remove('show');
+                document.getElementById('moduleName').classList.remove('error');
+            }
+
+            if (!description) {
+                document.getElementById('descError').classList.add('show');
+                document.getElementById('moduleDescription').classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('descError').classList.remove('show');
+                document.getElementById('moduleDescription').classList.remove('error');
+            }
+
+            if (!isValid) {
+                showToast('Please fix the errors above.', 'error');
+                return;
+            }
+
+            const blocks = document.querySelectorAll('.question-block');
+            const questions = [];
+
+            blocks.forEach((block, idx) => {
+                const text = block.querySelector('.q-text').value.trim();
+                const options = block.querySelectorAll('.q-opt');
+                const correct = parseInt(block.querySelector('.q-correct').value);
+                const explanation = block.querySelector('.q-explanation').value.trim();
+
+                if (text) {
+                    const opts = [];
+                    options.forEach(opt => {
+                        const val = opt.value.trim();
+                        opts.push(val || 'Option ' + String.fromCharCode(65 + opts.length));
+                    });
+                    if (opts.length === 4) {
+                        questions.push({
+                            question: text,
+                            options: opts,
+                            correct: correct,
+                            explanation: explanation
+                        });
+                    }
+                }
+            });
+
+            if (questions.length < 3) {
+                showToast('Please add at least 3 questions.', 'error');
+                return;
+            }
+
+            this.classList.add('loading');
+            this.disabled = true;
+
+            try {
+                const res = await fetch('/api/admin/labs/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        module_name: name,
+                        icon: icon,
+                        description: description,
+                        difficulty: difficulty,
+                        questions: questions
+                    })
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('✅ Lab created successfully!', 'success');
+                    document.getElementById('createForm').classList.remove('visible');
+                    document.getElementById('showCreateBtn').textContent = '➕ New Lab';
+                    document.getElementById('showCreateBtn').classList.add('btn-primary');
+                    document.getElementById('showCreateBtn').classList.remove('btn-secondary');
+                    resetForm();
+                    loadLabs();
+                } else {
+                    showToast('Error: ' + (data.message || 'Unknown error'), 'error');
+                }
+            } catch (error) {
+                console.error('Error saving lab:', error);
+                showToast('Network error. Please try again.', 'error');
+            }
+
+            this.classList.remove('loading');
+            this.disabled = false;
+        });
+
+        // ============================================================
+        // LOAD LABS
+        // ============================================================
+        async function loadLabs() {
+            try {
+                const res = await fetch('/api/admin/labs');
+                const data = await res.json();
+                const container = document.getElementById('labsContainer');
+
+                if (data.success && data.labs && data.labs.length > 0) {
+                    document.getElementById('labCount').textContent = data.labs.length + ' labs';
+                    container.innerHTML = '';
+
+                    data.labs.forEach(lab => {
+                        const questions = JSON.parse(lab.questions || '[]');
+                        const div = document.createElement('div');
+                        div.className = 'lab-item';
+                        div.innerHTML = `
+                            <div class="lab-info">
+                                <span class="lab-icon">${lab.icon || '📚'}</span>
+                                <span class="lab-name">${lab.module_name}</span>
+                                <div class="lab-meta">
+                                    <span class="tag">${questions.length} questions</span>
+                                    <span class="tag">${lab.difficulty || 'intermediate'}</span>
+                                    <span class="tag">${new Date(lab.created_at).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                            <div class="lab-actions">
+                                <a href="/custom-training/${lab.id}" target="_blank" class="btn-icon" title="View Lab">👁️</a>
+                                <button class="btn-icon danger" onclick="deleteLab(${lab.id})" title="Delete Lab">🗑️</button>
+                            </div>
+                        `;
+                        container.appendChild(div);
+                    });
+                } else {
+                    document.getElementById('labCount').textContent = '0 labs';
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">🧪</div>
+                            <h4>No labs created yet</h4>
+                            <p>Click "New Lab" to create your first custom training module.</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading labs:', error);
+                document.getElementById('labsContainer').innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">⚠️</div>
+                        <h4>Error loading labs</h4>
+                        <p>Please refresh the page and try again.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================================
+        // DELETE LAB
+        // ============================================================
+        async function deleteLab(id) {
+            if (!confirm('Delete this lab permanently? This cannot be undone.')) return;
+
+            try {
+                const res = await fetch(`/api/admin/labs/${id}`, { method: 'DELETE' });
+                const data = await res.json();
+
+                if (data.success) {
+                    showToast('✅ Lab deleted successfully', 'success');
+                    loadLabs();
+                } else {
+                    showToast('Error: ' + (data.message || 'Could not delete'), 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting lab:', error);
+                showToast('Network error. Please try again.', 'error');
+            }
+        }
+
+        // ============================================================
+        // HEADER SCROLL & MOBILE MENU
+        // ============================================================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('show');
+            this.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('show');
+                document.getElementById('menuToggle').classList.remove('active');
+            });
+        });
+
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+                e.preventDefault();
+                document.getElementById('showCreateBtn').click();
+            }
+            if (e.key === 'Escape' && document.getElementById('createForm').classList.contains('visible')) {
+                document.getElementById('cancelFormBtn').click();
+            }
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        loadLabs();
+        updateQuestionCount();
+        updateRemoveButtons();
+
+        console.log('🧪 Lab Builder loaded.');
+    </script>
+
+</body>
+</html>

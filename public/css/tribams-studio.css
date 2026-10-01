@@ -1,0 +1,106 @@
+/* Shared TRIBAMS studio surface — index + news */
+
+:root {
+    --studio-bg: #0b1220;
+    --studio-bg-soft: #111827;
+    --studio-panel: rgba(255, 255, 255, 0.04);
+    --studio-border: rgba(212, 175, 55, 0.22);
+    --studio-text: #eef2f8;
+    --studio-muted: #b8c4dc;
+    --gold-light: #f5e6b8;
+    --gold-mid: #d4af37;
+    --gold-deep: #b8860b;
+    /* Warm amber accent — visible, not blue/green */
+    --accent-glow: #f0b429;
+    --accent-glow-soft: #f5d08a;
+    --accent-glow-shadow: 0 0 14px rgba(240, 180, 41, 0.45);
+}
+
+.tribams-studio-body {
+    background: var(--studio-bg);
+    color: var(--studio-text);
+    min-height: 100vh;
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+.tribams-studio-body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background: linear-gradient(180deg, #070b12 0%, #0b1220 48%, #111827 100%);
+}
+
+.tribams-studio-body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image:
+        linear-gradient(rgba(212, 175, 55, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 175, 55, 0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+}
+
+.tribams-studio-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(11, 18, 32, 0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--studio-border);
+    padding: 0.85rem 0;
+}
+
+.tribams-studio-header a.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.tribams-studio-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.tribams-studio-nav .nav-links {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+    margin: 0;
+    padding: 0;
+}
+
+.tribams-studio-nav .nav-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+}
+
+.tribams-studio-nav .nav-links a:hover {
+    color: var(--accent-glow-soft);
+}
+
+.tribams-accent {
+    color: var(--accent-glow);
+    text-shadow: var(--accent-glow-shadow);
+}
+
+.tribams-studio-footer {
+    margin: 3rem 0 2rem;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    border-top: 1px solid var(--studio-border);
+    padding-top: 1.5rem;
+}

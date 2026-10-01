@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies – TRIBAMS</title>
+    <meta name="description" content="Honest cookie notice for TRIBAMS: session cookie tribams.sid, no analytics or ads cookies, Namibia-rooted product for global learners.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --neon-green: #00ff88;
+            --neon-cyan: #00ccff;
+            --neon-orange: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --radius: 16px;
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+        a { color: var(--neon-green); text-decoration: none; }
+        a:hover { color: var(--neon-cyan); }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
+        header {
+            background: rgba(10, 14, 39, 0.92);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; z-index: 1000;
+            padding: 0.8rem 0;
+        }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo {
+            display: flex; align-items: center; gap: 0.6rem;
+            font-weight: 800; font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .logo svg { width: 32px; height: 32px; stroke: var(--neon-green); fill: none; -webkit-text-fill-color: initial; }
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; align-items: center; }
+        .nav-links a { color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; }
+        .nav-links a.active { color: var(--neon-green); }
+        .page-header { padding: 2rem 0 1.5rem; }
+        .page-header h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900; }
+        .page-header h1 .highlight {
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .subtitle { color: var(--text-secondary); margin-top: 0.4rem; }
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.25rem;
+        }
+        .card h2 { font-size: 1.15rem; margin-bottom: 0.7rem; }
+        .card p, .card li { color: var(--text-light); font-size: 0.95rem; }
+        .card ul { padding-left: 1.4rem; margin: 0.5rem 0; }
+        .card li { margin-bottom: 0.35rem; }
+        .note {
+            border-left: 3px solid var(--neon-orange);
+            background: rgba(245, 158, 11, 0.06);
+            padding: 0.8rem 1.1rem;
+            border-radius: 0 10px 10px 0;
+            margin: 1rem 0;
+            color: var(--text-light);
+            font-size: 0.92rem;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 0.6rem; }
+        th, td { text-align: left; padding: 0.55rem 0.4rem; border-bottom: 1px solid var(--glass-border); color: var(--text-light); }
+        th { color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; }
+        .legal-footer {
+            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+            padding: 1.5rem 0 2.5rem; border-top: 1px solid var(--glass-border); margin-top: 1rem;
+        }
+        .legal-footer a { font-size: 0.85rem; color: var(--text-secondary); }
+        .legal-footer a.active { color: var(--neon-green); }
+        .copyright { font-size: 0.8rem; color: var(--text-muted); }
+        .menu-toggle { display: none; background: none; border: none; cursor: pointer; }
+        .menu-toggle span { display: block; width: 26px; height: 2px; background: #fff; margin: 5px 0; }
+        @media (max-width: 768px) {
+            .container { padding: 0 1.2rem; }
+            .nav-links {
+                display: none; flex-direction: column; position: absolute; top: 60px; right: 1rem;
+                background: var(--bg-secondary); padding: 1rem; border-radius: 10px; min-width: 200px;
+                border: 1px solid var(--glass-border);
+            }
+            .nav-links.show { display: flex; }
+            .menu-toggle { display: block; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/><path d="M12 16h.01"/>
+                    </svg>
+                    TRIBAMS
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/payment">Pricing</a></li>
+                    <li><a href="/privacy">Privacy</a></li>
+                    <li><a href="/cookies" class="active">Cookies</a></li>
+                    <li><a href="/terms">Terms</a></li>
+                    <li><a href="/login">Sign In</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.4rem;"><a href="/">Home</a> / Cookies</p>
+            <h1>Cookies</h1>
+            <p class="subtitle">TRIBAMS uses an essential session cookie to keep you signed in. We do not set advertising or analytics cookies.</p>
+        </div>
+
+        <div class="card">
+            <h2>What we set</h2>
+            <table>
+                <thead>
+                    <tr><th>Name</th><th>What it is</th><th>Can you refuse it?</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>tribams.sid</code></td>
+                        <td>HttpOnly session cookie (express-session). SameSite=lax, Secure on HTTPS, 24h. Keeps you signed in, including PayPal return.</td>
+                        <td>Only by not signing in, or clearing cookies (which signs you out).</td>
+                    </tr>
+                    <tr>
+                        <td>localStorage <code>tribams_currency</code> / <code>tribams_nad_per_usd</code></td>
+                        <td>Payment page display: USD list vs Namibia N$ reference. Stays in your browser.</td>
+                        <td>Yes — clear site data. Checkout remains USD.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>What we do not set</h2>
+            <ul>
+                <li>No Google Analytics, Meta Pixel, Hotjar, or similar marketing cookies.</li>
+                <li>No “accept all” banner, because those cookies are not used.</li>
+                <li>We do not sell personal data collected via cookies.</li>
+            </ul>
+            <div class="note">
+                Many pages load the Inter typeface from Google Fonts (fonts.googleapis.com). That is a third-party font request, not a TRIBAMS ad cookie. Browser extensions can block it; the layout still works with system fonts.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Governing law</h2>
+            <p>TRIBAMS is established in Windhoek, Namibia. Session cookies are required to operate a logged-in education service. EEA and UK users have the additional rights described in the <a href="/privacy">Privacy Policy</a>.</p>
+        </div>
+
+        <div class="legal-footer">
+            <div>
+                <a href="/">Home</a> ·
+                <a href="/privacy">Privacy</a> ·
+                <a href="/cookies" class="active">Cookies</a> ·
+                <a href="/terms">Terms</a> ·
+                <a href="/contact">Contact</a>
+            </div>
+            <div class="copyright">© 2026 TRIBAMS · Windhoek, Namibia</div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('menuToggle').addEventListener('click', function () {
+            document.getElementById('navLinks').classList.toggle('show');
+        });
+    </script>
+</body>
+</html>

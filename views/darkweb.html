@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Web Monitoring – TRIBAMS</title>
+    <meta name="description" content="Check if your email has been exposed in data breaches. TRIBAMS Dark Web Monitoring scans the dark web for your personal information.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE – 0-200
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --border-color-hover: rgba(0, 255, 136, 0.2);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-orange: #f59e0b;
+            --neon-pink: #ec4899;
+            --neon-red: #ef4444;
+            --neon-gold: #ffd700;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ============================================================
+               HEADER & NAVIGATION – 200-400
+               ============================================================ */
+        header {
+            background: rgba(10, 14, 39, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(10, 14, 39, 0.98);
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--neon-green);
+            fill: none;
+            -webkit-text-fill-color: initial;
+            flex-shrink: 0;
+        }
+
+        .logo:hover svg {
+            stroke: var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.3rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active {
+            color: var(--neon-green);
+        }
+
+        .btn-nav {
+            padding: 0.4rem 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary) !important;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            -webkit-text-fill-color: initial;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+            color: var(--bg-primary) !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .menu-toggle span {
+            width: 26px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ============================================================
+               PAGE HEADER – 400-550
+               ============================================================ */
+        .page-header {
+            padding: 2rem 0 1.5rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 900;
+        }
+
+        .page-header h1 .highlight {
+            background: linear-gradient(135deg, var(--neon-red), var(--neon-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 560px;
+            margin: 0.3rem auto 0;
+        }
+
+        /* ============================================================
+               SCAN CARD – 550-850
+               ============================================================ */
+        .scan-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .scan-card:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        .scan-card .scan-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .scan-card .scan-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .scan-card .input-group {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .scan-card .input-group .input-wrapper {
+            flex: 1;
+            position: relative;
+            min-width: 200px;
+        }
+
+        .scan-card .input-group .input-wrapper .icon-left {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .scan-card .input-group .input-wrapper .icon-left svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        .scan-card .input-group .input-wrapper input {
+            width: 100%;
+            padding: 0.7rem 1rem 0.7rem 2.8rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: var(--font);
+            transition: var(--transition);
+        }
+
+        .scan-card .input-group .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.05);
+        }
+
+        .scan-card .input-group .input-wrapper input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .scan-card .input-group .btn-scan {
+            padding: 0.7rem 2rem;
+            background: linear-gradient(135deg, var(--neon-red), #cc0000);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .scan-card .input-group .btn-scan:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.25);
+        }
+
+        .scan-card .input-group .btn-scan:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .scan-card .input-group .btn-scan .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .scan-card .input-group .btn-scan.loading .spinner {
+            display: inline-block;
+        }
+        .scan-card .input-group .btn-scan.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .scan-card .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .scan-card .security-badge svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        /* ============================================================
+               RESULT – 850-1100
+               ============================================================ */
+        #resultContainer {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-card {
+            border-radius: var(--radius);
+            padding: 1.5rem 2rem;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .result-card.clean {
+            border-color: rgba(0, 255, 136, 0.25);
+            background: rgba(0, 255, 136, 0.02);
+        }
+
+        .result-card.compromised {
+            border-color: rgba(239, 68, 68, 0.25);
+            background: rgba(239, 68, 68, 0.02);
+        }
+
+        .result-card .result-icon {
+            text-align: center;
+            font-size: 3.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .result-card .result-title {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .result-card .result-title.clean-title {
+            color: var(--neon-green);
+        }
+        .result-card .result-title.compromised-title {
+            color: var(--neon-red);
+        }
+
+        .result-card .result-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-card .breach-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .result-card .breach-list .breach-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 1rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+
+        .result-card .breach-list .breach-item .breach-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .result-card .breach-list .breach-item .breach-detail {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .result-card .breach-list .breach-item .breach-date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .result-card .recommendation-box {
+            background: rgba(239, 68, 68, 0.04);
+            border-left: 3px solid var(--neon-red);
+            padding: 0.8rem 1rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 1rem 0;
+        }
+
+        .result-card .recommendation-box .rec-title {
+            font-weight: 600;
+            color: var(--neon-red);
+            font-size: 0.85rem;
+        }
+
+        .result-card .recommendation-box .rec-text {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .result-card .result-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            padding-top: 0.8rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .result-card .result-meta .scan-date {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* ============================================================
+               HISTORY – 1100-1250
+               ============================================================ */
+        .history-section {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .history-section .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .history-section .history-header .history-title {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .history-section .history-header .history-count {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .history-section .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .history-section .history-list .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+
+        .history-section .history-list .history-item:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        .history-section .history-list .history-item .history-email {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .history-section .history-list .history-item .history-status {
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+        }
+
+        .history-section .history-list .history-item .history-status.clean {
+            background: rgba(0, 255, 136, 0.08);
+            color: var(--neon-green);
+        }
+
+        .history-section .history-list .history-item .history-status.compromised {
+            background: rgba(239, 68, 68, 0.08);
+            color: var(--neon-red);
+        }
+
+        .history-section .history-list .history-item .history-date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .history-empty {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-secondary);
+        }
+
+        .history-empty .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .history-empty p {
+            font-size: 0.9rem;
+        }
+
+        /* ============================================================
+               TOAST – 1250-1310
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+        }
+        .toast.info {
+            background: linear-gradient(135deg, var(--neon-blue), #0066cc);
+            color: #fff;
+        }
+        .toast.warning {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes toastSlideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================================
+               RESPONSIVE – 1310-1400
+               ============================================================ */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                position: absolute;
+                top: 60px;
+                right: 1rem;
+                min-width: 220px;
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-sm);
+                padding: 1.2rem;
+                gap: 1rem;
+                box-shadow: var(--shadow-xl);
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+
+            .scan-card {
+                padding: 1.5rem;
+            }
+
+            .scan-card .input-group {
+                flex-direction: column;
+            }
+
+            .scan-card .input-group .input-wrapper {
+                min-width: 0;
+            }
+
+            .scan-card .input-group .btn-scan {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .result-card {
+                padding: 1.2rem;
+            }
+
+            .result-card .breach-list .breach-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .history-section .history-list .history-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                max-width: none;
+                width: auto;
+                bottom: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            @keyframes toastSlideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .scan-card {
+                padding: 1rem;
+            }
+
+            .result-card .result-icon {
+                font-size: 2.5rem;
+            }
+            .result-card .result-title {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* ============================================================
+               PRINT STYLES – 1400-1410
+               ============================================================ */
+        @media print {
+            header,
+            .toast,
+            .menu-toggle,
+            .btn-scan {
+                display: none !important;
+            }
+            .scan-card {
+                border: 1px solid #333 !important;
+                box-shadow: none !important;
+            }
+            .result-card {
+                border: 1px solid #333 !important;
+            }
+            body {
+                background: #fff;
+                color: #000;
+            }
+            .page-header h1 .highlight {
+                -webkit-text-fill-color: #000;
+                background: none;
+                color: #000;
+            }
+            .history-section .history-list .history-item {
+                border: 1px solid #ddd !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                    TRIBAMS
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/resource-center">Resource Center</a></li>
+                    <li><a href="/darkweb" class="active">🕵️ Dark Web</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>🕵️ <span class="highlight">Dark Web Monitoring</span></h1>
+            <p class="subtitle">Check if your email has been exposed in data breaches. Our AI scans the dark web for your personal information.</p>
+        </div>
+
+        <!-- Scan Card -->
+        <div class="scan-card">
+            <div class="scan-title">🔍 Enter Email to Scan</div>
+            <div class="scan-desc">Training simulation: results are educational demos, not a live breach-intelligence feed. Use them to practice response habits — not as a real dark-web monitoring service.</div>
+
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <span class="icon-left">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
+                        </svg>
+                    </span>
+                    <input type="email" id="emailInput" placeholder="you@example.com" autocomplete="email">
+                </div>
+                <button class="btn-scan" id="scanBtn">
+                    <span class="btn-text">🕵️ Scan Dark Web</span>
+                    <span class="spinner"></span>
+                </button>
+            </div>
+
+            <div class="security-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="M12 8v4"/>
+                    <path d="M12 16h.01"/>
+                </svg>
+                <span>Your email is encrypted and never stored</span>
+            </div>
+        </div>
+
+        <!-- Result Container -->
+        <div id="resultContainer"></div>
+
+        <!-- History Section -->
+        <div class="history-section">
+            <div class="history-header">
+                <span class="history-title">📋 Scan History</span>
+                <span class="history-count" id="historyCount">0 scans</span>
+            </div>
+            <div class="history-list" id="historyList">
+                <div class="history-empty">
+                    <div class="icon">🔍</div>
+                    <p>No scans yet. Run your first dark web scan above.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Dashboard -->
+        <div style="text-align:center; padding:1.5rem 0 2rem;">
+            <a href="/dashboard" class="btn btn-secondary" style="padding:0.5rem 1.5rem;">← Back to Dashboard</a>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const emailInput = document.getElementById('emailInput');
+        const scanBtn = document.getElementById('scanBtn');
+        const resultContainer = document.getElementById('resultContainer');
+        const historyList = document.getElementById('historyList');
+        const historyCount = document.getElementById('historyCount');
+
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function showToast(message, type = 'success', duration = 3500) {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
+
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'} ${message}</span>
+                <button class="toast-close" aria-label="Close notification">&times;</button>
+            `;
+            document.body.appendChild(toast);
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => toast.remove());
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return 'N/A';
+            try {
+                const d = new Date(dateStr);
+                return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            } catch (e) {
+                return dateStr;
+            }
+        }
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        // ============================================================
+        // PERFORM SCAN
+        // ============================================================
+        async function performScan() {
+            const email = emailInput.value.trim();
+
+            if (!validateEmail(email)) {
+                showToast('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            // Show loading
+            scanBtn.classList.add('loading');
+            scanBtn.disabled = true;
+            resultContainer.innerHTML = `
+                <div class="result-card" style="text-align:center;padding:2rem;">
+                    <div style="width:40px;height:40px;border:3px solid var(--glass-border);border-top:3px solid var(--neon-green);border-radius:50%;margin:0 auto 1rem;animation:spin 0.8s linear infinite;"></div>
+                    <p style="color:var(--text-secondary);">Scanning the dark web for ${email}...</p>
+                </div>
+            `;
+
+            try {
+                const res = await fetch('/api/darkweb/scan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    renderResult(data);
+                    loadHistory();
+                    showToast(data.compromised ? '⚠️ Email found in data breaches!' : '✅ Email not found in any breaches.', data
+                        .compromised ? 'error' : 'success');
+                } else {
+                    showToast('Error: ' + (data.message || 'Scan failed'), 'error');
+                    resultContainer.innerHTML = `
+                        <div class="result-card" style="text-align:center;padding:2rem;border-color:rgba(239,68,68,0.2);">
+                            <div style="font-size:2.5rem;margin-bottom:0.3rem;">❌</div>
+                            <h3 style="color:var(--neon-red);">Scan Failed</h3>
+                            <p style="color:var(--text-secondary);">${data.message || 'Please try again.'}</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Scan error:', error);
+                showToast('Network error. Please try again.', 'error');
+                resultContainer.innerHTML = `
+                    <div class="result-card" style="text-align:center;padding:2rem;border-color:rgba(239,68,68,0.2);">
+                        <div style="font-size:2.5rem;margin-bottom:0.3rem;">🔌</div>
+                        <h3 style="color:var(--neon-red);">Connection Error</h3>
+                        <p style="color:var(--text-secondary);">Could not connect to the dark web scanner. Please check your internet connection.</p>
+                    </div>
+                `;
+            }
+
+            scanBtn.classList.remove('loading');
+            scanBtn.disabled = false;
+        }
+
+        // ============================================================
+        // RENDER RESULT
+        // ============================================================
+        function renderResult(data) {
+            const compromised = data.compromised;
+            const breaches = data.breaches || [];
+
+            let breachesHtml = '';
+            if (breaches.length > 0) {
+                breachesHtml = `
+                    <div class="breach-list">
+                        ${breaches.map(b => `
+                            <div class="breach-item">
+                                <span class="breach-name">${b.name || 'Unknown Breach'}</span>
+                                <span class="breach-detail">${b.data || 'Email, Password'}</span>
+                                <span class="breach-date">${b.date || '—'}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            const recommendations = compromised ?
+                `🔑 Change your passwords immediately for all accounts using this email. Enable Multi-Factor Authentication (MFA) wherever possible. Monitor your accounts for suspicious activity.` :
+                `✅ Your email appears to be secure. Continue using strong, unique passwords and enable MFA for added protection. Stay vigilant against phishing attempts.`;
+
+            resultContainer.innerHTML = `
+                <div class="result-card ${compromised ? 'compromised' : 'clean'}">
+                    <div class="result-icon">${compromised ? '⚠️' : '✅'}</div>
+                    <div class="result-title ${compromised ? 'compromised-title' : 'clean-title'}">
+                        ${compromised ? 'Email Compromised!' : 'Email Not Found'}
+                    </div>
+                    <div class="result-subtitle">
+                        ${compromised ? `Your email was found in ${breaches.length} data breach(es).` : 'Good news! Your email was not found in any known data breaches.'}
+                    </div>
+                    ${breachesHtml}
+                    <div class="recommendation-box">
+                        <div class="rec-title">${compromised ? '🚨 Recommended Actions' : '🛡️ Stay Secure'}</div>
+                        <div class="rec-text">${recommendations}</div>
+                    </div>
+                    <div class="result-meta">
+                        <span class="scan-date">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            Scanned: ${formatDate(data.scanDate)}
+                        </span>
+                        <span>${compromised ? '⚠️ Take action immediately' : '✅ No action needed'}</span>
+                    </div>
+                </div>
+            `;
+
+            // Scroll to result
+            resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ============================================================
+        // LOAD HISTORY
+        // ============================================================
+        async function loadHistory() {
+            try {
+                const res = await fetch('/api/darkweb/history');
+                const data = await res.json();
+
+                if (data.success && data.history && data.history.length > 0) {
+                    historyCount.textContent = data.history.length + ' scans';
+                    historyList.innerHTML = '';
+                    data.history.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'history-item';
+                        const statusClass = item.compromised ? 'compromised' : 'clean';
+                        const statusText = item.compromised ? '⚠️ Compromised' : '✅ Clean';
+                        div.innerHTML = `
+                            <span class="history-email">${item.email}</span>
+                            <span class="history-status ${statusClass}">${statusText}</span>
+                            <span class="history-date">${formatDate(item.scan_date)}</span>
+                        `;
+                        historyList.appendChild(div);
+                    });
+                } else {
+                    historyCount.textContent = '0 scans';
+                    historyList.innerHTML = `
+                        <div class="history-empty">
+                            <div class="icon">🔍</div>
+                            <p>No scans yet. Run your first dark web scan above.</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading history:', error);
+            }
+        }
+
+        // ============================================================
+        // HEADER SCROLL & MOBILE MENU
+        // ============================================================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('show');
+            this.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('show');
+                document.getElementById('menuToggle').classList.remove('active');
+            });
+        });
+
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+K or Cmd+K to focus email input
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                emailInput.focus();
+                emailInput.select();
+            }
+            // Enter to scan
+            if (e.key === 'Enter' && document.activeElement === emailInput) {
+                e.preventDefault();
+                scanBtn.click();
+            }
+            // Escape to clear
+            if (e.key === 'Escape' && document.activeElement === emailInput) {
+                emailInput.blur();
+            }
+        });
+
+        // ============================================================
+        // EVENT LISTENERS
+        // ============================================================
+        scanBtn.addEventListener('click', performScan);
+
+        emailInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                scanBtn.click();
+            }
+        });
+
+        // ============================================================
+        // AUTO-REFRESH HISTORY
+        // ============================================================
+        let refreshInterval;
+
+        function startAutoRefresh() {
+            if (refreshInterval) clearInterval(refreshInterval);
+            refreshInterval = setInterval(() => {
+                loadHistory();
+            }, 60000);
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        async function init() {
+            // Check login
+            try {
+                const res = await fetch('/api/user-info');
+                const data = await res.json();
+                if (!data.success) {
+                    showToast('Please log in to access Dark Web Monitoring.', 'warning', 5000);
+                    setTimeout(() => { window.location.href = '/login'; }, 3000);
+                    return;
+                }
+            } catch (e) {
+                showToast('Please log in to access Dark Web Monitoring.', 'warning', 5000);
+                setTimeout(() => { window.location.href = '/login'; }, 3000);
+                return;
+            }
+
+            await loadHistory();
+            startAutoRefresh();
+
+            console.log('🕵️ Dark Web Monitoring loaded.');
+        }
+
+        init();
+    </script>
+
+</body>
+</html>

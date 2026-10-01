@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard – TRIBAMS</title>
+    <meta name="description" content="See the top performers on TRIBAMS. Compete with other learners and climb the ranks by completing training modules with high scores.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE – 0-200
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --border-color-hover: rgba(0, 255, 136, 0.2);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-orange: #f59e0b;
+            --neon-pink: #ec4899;
+            --neon-red: #ef4444;
+            --neon-gold: #ffd700;
+            --neon-silver: #c0c0c0;
+            --neon-bronze: #cd7f32;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ============================================================
+               HEADER & NAVIGATION – 200-400
+               ============================================================ */
+        header {
+            background: rgba(10, 14, 39, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(10, 14, 39, 0.98);
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--neon-green);
+            fill: none;
+            -webkit-text-fill-color: initial;
+            flex-shrink: 0;
+        }
+
+        .logo:hover svg {
+            stroke: var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.3rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active {
+            color: var(--neon-green);
+        }
+
+        .btn-nav {
+            padding: 0.4rem 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary) !important;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            -webkit-text-fill-color: initial;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+            color: var(--bg-primary) !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .menu-toggle span {
+            width: 26px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ============================================================
+               PAGE HEADER – 400-550
+               ============================================================ */
+        .page-header {
+            padding: 1.5rem 0 1rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+        }
+
+        .page-header h1 .highlight {
+            background: linear-gradient(135deg, var(--neon-gold), var(--neon-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 560px;
+            margin: 0.3rem auto 0;
+        }
+
+        /* ============================================================
+               USER RANK CARD – 550-700
+               ============================================================ */
+        .user-rank-card {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.04), rgba(0, 136, 255, 0.02));
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .user-rank-card:hover {
+            border-color: var(--neon-green);
+        }
+
+        .user-rank-card .left {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .user-rank-card .left .rank-badge {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--neon-gold);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .user-rank-card .left .rank-badge .rank-number {
+            display: block;
+            font-size: 1.4rem;
+        }
+
+        .user-rank-card .left .rank-badge .rank-label {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .user-rank-card .left .user-info .name {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .user-rank-card .left .user-info .detail {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .user-rank-card .left .user-info .detail .highlight-text {
+            color: var(--neon-green);
+            font-weight: 600;
+        }
+
+        .user-rank-card .right .score {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--neon-green);
+        }
+
+        .user-rank-card .right .score .sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* ============================================================
+               FILTERS – 700-850
+               ============================================================ */
+        .filter-section {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .filter-section .filter-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            margin-right: 0.3rem;
+        }
+
+        .filter-section .filter-btn {
+            padding: 0.3rem 1.2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            white-space: nowrap;
+        }
+
+        .filter-section .filter-btn:hover {
+            border-color: var(--neon-green);
+            color: var(--text-primary);
+        }
+
+        .filter-section .filter-btn.active {
+            background: rgba(0, 255, 136, 0.08);
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .filter-section .filter-btn .badge {
+            font-size: 0.55rem;
+            background: var(--glass-bg);
+            padding: 0.05rem 0.4rem;
+            border-radius: 20px;
+            color: var(--text-muted);
+            margin-left: 0.2rem;
+        }
+
+        .filter-section .filter-btn.active .badge {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--neon-green);
+        }
+
+        .filter-section .results-info {
+            margin-left: auto;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* ============================================================
+               LEADERBOARD TABLE – 850-1100
+               ============================================================ */
+        .leaderboard-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .leaderboard-card:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .leaderboard-table thead {
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .leaderboard-table thead th {
+            padding: 0.8rem 1rem;
+            text-align: left;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        .leaderboard-table tbody tr {
+            border-bottom: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .leaderboard-table tbody tr:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .leaderboard-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .leaderboard-table tbody td {
+            padding: 0.7rem 1rem;
+            vertical-align: middle;
+        }
+
+        .leaderboard-table .rank-cell {
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: center;
+            width: 60px;
+        }
+
+        .leaderboard-table .rank-cell .medal {
+            font-size: 1.2rem;
+        }
+
+        .leaderboard-table .rank-cell.gold {
+            color: var(--neon-gold);
+        }
+        .leaderboard-table .rank-cell.silver {
+            color: var(--neon-silver);
+        }
+        .leaderboard-table .rank-cell.bronze {
+            color: var(--neon-bronze);
+        }
+
+        .leaderboard-table .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .leaderboard-table .user-cell .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .leaderboard-table .user-cell .avatar.gold {
+            border-color: var(--neon-gold);
+            background: rgba(255, 215, 0, 0.08);
+            color: var(--neon-gold);
+        }
+
+        .leaderboard-table .user-cell .avatar.silver {
+            border-color: var(--neon-silver);
+            background: rgba(192, 192, 192, 0.08);
+            color: var(--neon-silver);
+        }
+
+        .leaderboard-table .user-cell .avatar.bronze {
+            border-color: var(--neon-bronze);
+            background: rgba(205, 127, 50, 0.08);
+            color: var(--neon-bronze);
+        }
+
+        .leaderboard-table .user-cell .username {
+            font-weight: 500;
+        }
+
+        .leaderboard-table .user-cell .username .you-badge {
+            font-size: 0.55rem;
+            background: rgba(0, 255, 136, 0.12);
+            color: var(--neon-green);
+            padding: 0.05rem 0.5rem;
+            border-radius: 20px;
+            margin-left: 0.5rem;
+            font-weight: 600;
+        }
+
+        .leaderboard-table .module-cell {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .leaderboard-table .score-cell {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .leaderboard-table .score-cell .score-value {
+            font-weight: 700;
+            color: var(--neon-green);
+            min-width: 50px;
+            text-align: right;
+        }
+
+        .leaderboard-table .score-cell .score-bar-container {
+            width: 100px;
+            height: 6px;
+            background: var(--glass-bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .leaderboard-table .score-cell .score-bar-container .score-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .leaderboard-table .score-cell .score-bar-container .score-bar.gold {
+            background: linear-gradient(90deg, var(--neon-gold), #f0a500);
+        }
+        .leaderboard-table .score-cell .score-bar-container .score-bar.silver {
+            background: linear-gradient(90deg, var(--neon-silver), #a0a0a0);
+        }
+        .leaderboard-table .score-cell .score-bar-container .score-bar.bronze {
+            background: linear-gradient(90deg, var(--neon-bronze), #b87333);
+        }
+
+        .leaderboard-table .badge-cell {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+               PAGINATION – 1100-1180
+               ============================================================ */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1.5rem 0 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .pagination .page-btn {
+            padding: 0.3rem 0.8rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            min-width: 36px;
+            text-align: center;
+        }
+
+        .pagination .page-btn:hover {
+            border-color: var(--neon-green);
+            color: var(--text-primary);
+        }
+
+        .pagination .page-btn.active {
+            background: rgba(0, 255, 136, 0.08);
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .pagination .page-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* ============================================================
+               EMPTY STATE – 1180-1240
+               ============================================================ */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .empty-state .btn {
+            margin-top: 1.5rem;
+        }
+
+        /* ============================================================
+               TOAST – 1240-1300
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+        }
+        .toast.info {
+            background: linear-gradient(135deg, var(--neon-blue), #0066cc);
+            color: #fff;
+        }
+        .toast.warning {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes toastSlideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================================
+               RESPONSIVE – 1300-1500
+               ============================================================ */
+        @media (max-width: 1024px) {
+            .user-rank-card {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.2rem;
+            }
+
+            .user-rank-card .right {
+                width: 100%;
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                position: absolute;
+                top: 60px;
+                right: 1rem;
+                min-width: 220px;
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-sm);
+                padding: 1.2rem;
+                gap: 1rem;
+                box-shadow: var(--shadow-xl);
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+
+            .filter-section {
+                gap: 0.4rem;
+            }
+            .filter-section .filter-btn {
+                font-size: 0.7rem;
+                padding: 0.2rem 0.8rem;
+            }
+            .filter-section .results-info {
+                margin-left: 0;
+                width: 100%;
+                text-align: center;
+                padding-top: 0.3rem;
+            }
+
+            .user-rank-card .left {
+                flex-wrap: wrap;
+            }
+
+            .leaderboard-table {
+                font-size: 0.8rem;
+            }
+            .leaderboard-table thead th {
+                padding: 0.5rem 0.6rem;
+                font-size: 0.65rem;
+            }
+            .leaderboard-table tbody td {
+                padding: 0.5rem 0.6rem;
+            }
+
+            .leaderboard-table .score-cell .score-bar-container {
+                width: 60px;
+            }
+
+            .leaderboard-table .user-cell .avatar {
+                width: 28px;
+                height: 28px;
+                font-size: 0.6rem;
+            }
+
+            .leaderboard-table .user-cell .username .you-badge {
+                display: none;
+            }
+
+            .pagination .page-btn {
+                padding: 0.2rem 0.6rem;
+                font-size: 0.7rem;
+                min-width: 30px;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                max-width: none;
+                width: auto;
+                bottom: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            @keyframes toastSlideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .user-rank-card .left .rank-badge {
+                font-size: 1.5rem;
+                min-width: 40px;
+            }
+
+            .user-rank-card .left .rank-badge .rank-number {
+                font-size: 1rem;
+            }
+
+            .user-rank-card .right .score {
+                font-size: 1.2rem;
+            }
+
+            .leaderboard-table .module-cell {
+                display: none;
+            }
+
+            .leaderboard-table .score-cell .score-bar-container {
+                width: 40px;
+            }
+
+            .filter-section .filter-btn .badge {
+                display: none;
+            }
+        }
+
+        /* ============================================================
+               PRINT STYLES – 1500-1520
+               ============================================================ */
+        @media print {
+            header,
+            .toast,
+            .menu-toggle,
+            .filter-section,
+            .pagination {
+                display: none !important;
+            }
+            .leaderboard-card {
+                border: 1px solid #333 !important;
+                box-shadow: none !important;
+            }
+            .user-rank-card {
+                border: 1px solid #333 !important;
+                background: none !important;
+            }
+            body {
+                background: #fff;
+                color: #000;
+            }
+            .user-rank-card .left .rank-badge {
+                color: #000 !important;
+            }
+            .user-rank-card .right .score {
+                color: #000 !important;
+            }
+            .leaderboard-table .score-cell .score-value {
+                color: #000 !important;
+            }
+            .leaderboard-table .rank-cell.gold {
+                color: #000 !important;
+            }
+            .leaderboard-table .rank-cell.silver {
+                color: #000 !important;
+            }
+            .leaderboard-table .rank-cell.bronze {
+                color: #000 !important;
+            }
+            .page-header h1 .highlight {
+                -webkit-text-fill-color: #000;
+                background: none;
+                color: #000;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                    TRIBAMS
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/resource-center">Resource Center</a></li>
+                    <li><a href="/leaderboard" class="active">Leaderboard</a></li>
+                    <li><a href="/badges">Badges</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>🏆 <span class="highlight">Leaderboard</span></h1>
+            <p class="subtitle">See where you rank among the best cybersecurity learners. Climb the ranks by completing modules with high scores.</p>
+        </div>
+
+        <!-- User Rank Card -->
+        <div class="user-rank-card" id="userRankCard">
+            <div class="left">
+                <div class="rank-badge" id="userRankBadge">
+                    <span class="rank-number">—</span>
+                    <span class="rank-label">Rank</span>
+                </div>
+                <div class="user-info">
+                    <div class="name" id="userRankName">Loading...</div>
+                    <div class="detail" id="userRankDetail">Best Score: <span class="highlight-text" id="userBestScore">—</span></div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="score" id="userRankScore">— <span class="sub">pts</span></div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-section" id="filterSection">
+            <span class="filter-label">Filter:</span>
+            <button class="filter-btn active" data-filter="all">All <span class="badge" id="allCount">0</span></button>
+            <button class="filter-btn" data-filter="phishing">🎣 Phishing <span class="badge" id="phishingCount">0</span></button>
+            <button class="filter-btn" data-filter="malware">🦠 Malware <span class="badge" id="malwareCount">0</span></button>
+            <button class="filter-btn" data-filter="network">🔒 Network <span class="badge" id="networkCount">0</span></button>
+            <button class="filter-btn" data-filter="cloud">☁️ Cloud <span class="badge" id="cloudCount">0</span></button>
+            <button class="filter-btn" data-filter="forensics">🔍 Forensics <span class="badge" id="forensicsCount">0</span></button>
+            <button class="filter-btn" data-filter="governance">📋 Governance <span class="badge" id="governanceCount">0</span></button>
+            <span class="results-info" id="resultsInfo">Showing <strong id="visibleCount">0</strong> of <strong id="totalCount">0</strong> entries</span>
+        </div>
+
+        <!-- Leaderboard Table -->
+        <div class="leaderboard-card">
+            <div class="table-container">
+                <table class="leaderboard-table" id="leaderboardTable">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;width:60px;">Rank</th>
+                            <th>User</th>
+                            <th class="module-cell">Module</th>
+                            <th style="text-align:right;">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                        <!-- Rendered by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+
+        <!-- Back to Dashboard -->
+        <div style="text-align:center; padding:2rem 0;">
+            <a href="/dashboard" class="btn btn-secondary" style="padding:0.5rem 1.5rem;">← Back to Dashboard</a>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function showToast(message, type = 'success', duration = 3500) {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
+
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'} ${message}</span>
+                <button class="toast-close" aria-label="Close notification">&times;</button>
+            `;
+            document.body.appendChild(toast);
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => toast.remove());
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        function getInitials(name) {
+            return name ? name.charAt(0).toUpperCase() : '?';
+        }
+
+        function getRankClass(rank) {
+            if (rank === 1) return 'gold';
+            if (rank === 2) return 'silver';
+            if (rank === 3) return 'bronze';
+            return '';
+        }
+
+        function getMedal(rank) {
+            if (rank === 1) return '🥇';
+            if (rank === 2) return '🥈';
+            if (rank === 3) return '🥉';
+            return '#';
+        }
+
+        function getScoreColor(score) {
+            if (score >= 90) return 'gold';
+            if (score >= 70) return '';
+            return '';
+        }
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let allEntries = [];
+        let filteredEntries = [];
+        let currentFilter = 'all';
+        let currentPage = 1;
+        const itemsPerPage = 20;
+        let currentUsername = '';
+        let userEntry = null;
+
+        // Module name mapping for filtering
+        const moduleMap = {
+            'phishing': 'Phishing Detection',
+            'malware': 'Malware Analysis',
+            'network': 'Network Security',
+            'cloud': 'Cloud Security',
+            'forensics': 'Digital Forensics',
+            'governance': 'Security Compliance'
+        };
+
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const tbody = document.getElementById('leaderboardBody');
+        const pagination = document.getElementById('pagination');
+        const resultsInfo = document.getElementById('resultsInfo');
+        const visibleCount = document.getElementById('visibleCount');
+        const totalCount = document.getElementById('totalCount');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        const userRankBadge = document.getElementById('userRankBadge');
+        const userRankName = document.getElementById('userRankName');
+        const userBestScore = document.getElementById('userBestScore');
+        const userRankScore = document.getElementById('userRankScore');
+
+        // ============================================================
+        // LOAD USER INFO
+        // ============================================================
+        async function loadUserInfo() {
+            try {
+                const res = await fetch('/api/user-info');
+                const data = await res.json();
+                if (data.success) {
+                    currentUsername = data.username || '';
+                }
+            } catch (e) {
+                console.log('Could not load user info');
+            }
+        }
+
+        // ============================================================
+        // LOAD LEADERBOARD
+        // ============================================================
+        async function loadLeaderboard() {
+            try {
+                const res = await fetch('/api/leaderboard');
+                const data = await res.json();
+                if (data.success && data.leaderboard) {
+                    allEntries = data.leaderboard || [];
+                    // Find user's entry
+                    if (currentUsername) {
+                        userEntry = allEntries.find(e => e.username === currentUsername);
+                    }
+                    updateFilters();
+                    renderLeaderboard();
+                    renderUserRank();
+                } else {
+                    allEntries = [];
+                    renderLeaderboard();
+                }
+            } catch (e) {
+                console.log('Could not load leaderboard');
+                allEntries = [];
+                renderLeaderboard();
+            }
+        }
+
+        // ============================================================
+        // UPDATE FILTER COUNTS
+        // ============================================================
+        function updateFilters() {
+            const counts = { all: allEntries.length };
+            const filterMap = {
+                'phishing': [],
+                'malware': [],
+                'network': [],
+                'cloud': [],
+                'forensics': [],
+                'governance': []
+            };
+
+            allEntries.forEach(entry => {
+                const module = entry.module_name || '';
+                let matched = false;
+                for (const [key, modules] of Object.entries(moduleMap)) {
+                    if (module.toLowerCase().includes(key.toLowerCase()) ||
+                        module.toLowerCase().includes(modules.toLowerCase().split(' ')[0].toLowerCase())) {
+                        filterMap[key].push(entry);
+                        matched = true;
+                        break;
+                    }
+                }
+                // If no match, put in 'all'
+                if (!matched) {
+                    // counts.all already includes all
+                }
+            });
+
+            // Update counts in UI
+            document.getElementById('allCount').textContent = counts.all;
+            document.getElementById('phishingCount').textContent = filterMap.phishing.length;
+            document.getElementById('malwareCount').textContent = filterMap.malware.length;
+            document.getElementById('networkCount').textContent = filterMap.network.length;
+            document.getElementById('cloudCount').textContent = filterMap.cloud.length;
+            document.getElementById('forensicsCount').textContent = filterMap.forensics.length;
+            document.getElementById('governanceCount').textContent = filterMap.governance.length;
+
+            // Store filtered data
+            window._filterMap = filterMap;
+        }
+
+        // ============================================================
+        // FILTER LEADERBOARD
+        // ============================================================
+        function getFilteredEntries() {
+            if (currentFilter === 'all') {
+                return allEntries;
+            }
+            const filterMap = window._filterMap || {};
+            return filterMap[currentFilter] || [];
+        }
+
+        // ============================================================
+        // RENDER LEADERBOARD
+        // ============================================================
+        function renderLeaderboard() {
+            filteredEntries = getFilteredEntries();
+            const total = filteredEntries.length;
+            const totalPages = Math.ceil(total / itemsPerPage);
+            if (currentPage > totalPages) currentPage = Math.max(1, totalPages);
+
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = Math.min(start + itemsPerPage, total);
+            const pageItems = filteredEntries.slice(start, end);
+
+            // Update results info
+            visibleCount.textContent = total;
+            totalCount.textContent = allEntries.length;
+
+            if (total === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4">
+                            <div class="empty-state">
+                                <div class="icon">🏆</div>
+                                <h3>No entries yet</h3>
+                                <p>Complete a training module with a high score to appear on the leaderboard!</p>
+                                <a href="/resource-center" class="btn btn-primary" style="padding:0.5rem 1.5rem;">Start Learning →</a>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                pagination.innerHTML = '';
+                return;
+            }
+
+            // Render rows
+            tbody.innerHTML = '';
+            pageItems.forEach((entry, index) => {
+                const rank = start + index + 1;
+                const rankClass = getRankClass(rank);
+                const medal = getMedal(rank);
+                const isYou = entry.username === currentUsername;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="rank-cell ${rankClass}" style="text-align:center;">
+                        ${medal !== '#' ? `<span class="medal">${medal}</span>` : rank}
+                    </td>
+                    <td>
+                        <div class="user-cell">
+                            <div class="avatar ${rankClass}">${getInitials(entry.username)}</div>
+                            <span class="username">
+                                ${entry.username || 'Anonymous'}
+                                ${isYou ? '<span class="you-badge">You</span>' : ''}
+                            </span>
+                        </div>
+                    </td>
+                    <td class="module-cell">${entry.module_name || 'All Modules'}</td>
+                    <td style="text-align:right;">
+                        <div class="score-cell" style="justify-content:flex-end;">
+                            <span class="score-value">${entry.best_score || 0}%</span>
+                            <div class="score-bar-container">
+                                <div class="score-bar ${getScoreColor(entry.best_score)}" style="width:${Math.min(entry.best_score || 0, 100)}%;"></div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Render pagination
+            renderPagination(totalPages);
+        }
+
+        // ============================================================
+        // RENDER PAGINATION
+        // ============================================================
+        function renderPagination(totalPages) {
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            // Previous
+            html += `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>‹</button>`;
+
+            // Page numbers
+            const maxVisible = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+            if (endPage - startPage < maxVisible - 1) {
+                startPage = Math.max(1, endPage - maxVisible + 1);
+            }
+
+            if (startPage > 1) {
+                html += `<button class="page-btn" onclick="goToPage(1)">1</button>`;
+                if (startPage > 2) html += `<span class="page-btn" style="cursor:default;">…</span>`;
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) html += `<span class="page-btn" style="cursor:default;">…</span>`;
+                html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+            }
+
+            // Next
+            html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>›</button>`;
+
+            pagination.innerHTML = html;
+        }
+
+        // ============================================================
+        // PAGINATION NAVIGATION
+        // ============================================================
+        function goToPage(page) {
+            const total = filteredEntries.length;
+            const totalPages = Math.ceil(total / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderLeaderboard();
+            // Scroll to table
+            document.querySelector('.leaderboard-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ============================================================
+        // RENDER USER RANK
+        // ============================================================
+        function renderUserRank() {
+            if (!userEntry) {
+                userRankBadge.innerHTML = `<span class="rank-number">—</span><span class="rank-label">Rank</span>`;
+                userRankName.textContent = currentUsername || 'You';
+                userBestScore.textContent = 'No scores yet';
+                userRankScore.textContent = '—';
+                return;
+            }
+
+            // Find rank
+            const sorted = [...allEntries].sort((a, b) => (b.best_score || 0) - (a.best_score || 0));
+            const rank = sorted.findIndex(e => e.username === currentUsername) + 1;
+
+            userRankBadge.innerHTML = `
+                <span class="rank-number">#${rank}</span>
+                <span class="rank-label">Rank</span>
+            `;
+
+            userRankName.textContent = currentUsername || 'You';
+            userBestScore.textContent = userEntry.best_score + '%';
+
+            const medal = getMedal(rank);
+            userRankScore.textContent = `${medal !== '#' ? medal + ' ' : ''}${userEntry.best_score || 0}%`;
+        }
+
+        // ============================================================
+        // FILTER HANDLING
+        // ============================================================
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                currentPage = 1;
+                renderLeaderboard();
+            });
+        });
+
+        // ============================================================
+        // HEADER SCROLL & MOBILE MENU
+        // ============================================================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('show');
+            this.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('show');
+                document.getElementById('menuToggle').classList.remove('active');
+            });
+        });
+
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'r' || e.key === 'R') {
+                if (!e.ctrlKey && !e.metaKey) {
+                    loadLeaderboard();
+                    showToast('🔄 Refreshed leaderboard', 'info');
+                }
+            }
+        });
+
+        // ============================================================
+        // AUTO-REFRESH
+        // ============================================================
+        let refreshInterval;
+
+        function startAutoRefresh() {
+            if (refreshInterval) clearInterval(refreshInterval);
+            refreshInterval = setInterval(() => {
+                loadLeaderboard();
+            }, 120000); // every 2 minutes
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        async function init() {
+            // Check login status
+            try {
+                const res = await fetch('/api/user-info');
+                const data = await res.json();
+                if (!data.success) {
+                    showToast('Please log in to view the leaderboard.', 'warning', 5000);
+                    setTimeout(() => { window.location.href = '/login'; }, 3000);
+                    return;
+                }
+            } catch (e) {
+                showToast('Please log in to view the leaderboard.', 'warning', 5000);
+                setTimeout(() => { window.location.href = '/login'; }, 3000);
+                return;
+            }
+
+            await loadUserInfo();
+            await loadLeaderboard();
+            startAutoRefresh();
+
+            console.log('🏆 Leaderboard loaded successfully.');
+        }
+
+        // Expose for inline onclick
+        window.goToPage = goToPage;
+
+        init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful – TRIBAMS</title>
+    <meta name="description" content="Your TRIBAMS Pro subscription payment was successful. Welcome to Pro! Enjoy unlimited access to all 95 modules and premium features.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE – 0-200
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --border-color-hover: rgba(0, 255, 136, 0.2);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-orange: #f59e0b;
+            --neon-pink: #ec4899;
+            --neon-red: #ef4444;
+            --neon-gold: #ffd700;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background-image: radial-gradient(circle at 50% 40%, rgba(0, 255, 136, 0.03) 0%, transparent 70%);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            width: 100%;
+        }
+
+        /* ============================================================
+               SUCCESS CARD – 200-550
+               ============================================================ */
+        .success-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 255, 136, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 3rem 2rem;
+            box-shadow: var(--shadow-xl), 0 0 60px rgba(0, 255, 136, 0.05);
+            text-align: center;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .success-card .icon {
+            font-size: 4.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-card .icon .check-circle {
+            display: inline-block;
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-card h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--neon-green);
+            margin-bottom: 0.3rem;
+        }
+
+        .success-card .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .success-card .message {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 440px;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* Features list */
+        .features-list {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 1.2rem 1.5rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .features-list .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .features-list .feature-item:last-child {
+            border-bottom: none;
+        }
+
+        .features-list .feature-item .check {
+            color: var(--neon-green);
+            font-weight: 700;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+
+        .features-list .feature-item .feature-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .features-list .feature-item .highlight-text {
+            color: var(--neon-green);
+            font-weight: 600;
+        }
+
+        /* Order details */
+        .order-details {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .order-details .label {
+            color: var(--text-muted);
+        }
+        .order-details .value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .order-details .value.green {
+            color: var(--neon-green);
+        }
+
+        /* Action Buttons */
+        .action-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--glass-bg);
+            border-color: var(--neon-green);
+            color: var(--text-primary);
+            transform: translateY(-3px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--neon-gold), var(--neon-orange));
+            color: var(--bg-primary);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Confetti animation */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* ============================================================
+               TOAST – 550-600
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+        }
+        .toast.info {
+            background: linear-gradient(135deg, var(--neon-blue), #0066cc);
+            color: #fff;
+        }
+        .toast.warning {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes toastSlideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================================
+               RESPONSIVE – 600-680
+               ============================================================ */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .success-card {
+                padding: 2rem 1.2rem;
+            }
+
+            .success-card h1 {
+                font-size: 1.8rem;
+            }
+
+            .success-card .icon {
+                font-size: 3.5rem;
+            }
+
+            .order-details {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .action-row {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .action-row .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                max-width: none;
+                width: auto;
+                bottom: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            @keyframes toastSlideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .success-card h1 {
+                font-size: 1.5rem;
+            }
+            .success-card .subtitle {
+                font-size: 0.9rem;
+            }
+            .success-card .message {
+                font-size: 0.85rem;
+            }
+            .features-list .feature-item {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* ============================================================
+               PRINT STYLES – 680-690
+               ============================================================ */
+        @media print {
+            .confetti-container {
+                display: none !important;
+            }
+            .success-card {
+                border: 1px solid #333 !important;
+                box-shadow: none !important;
+                background: #fff !important;
+                color: #000 !important;
+            }
+            body {
+                background: #fff !important;
+            }
+            .success-card h1 {
+                color: #000 !important;
+            }
+            .btn {
+                display: none !important;
+            }
+            .features-list {
+                border: 1px solid #333 !important;
+            }
+            .features-list .feature-item {
+                border-bottom: 1px solid #ddd !important;
+                color: #333 !important;
+            }
+            .features-list .feature-item .check {
+                color: #000 !important;
+            }
+            .order-details {
+                border: 1px solid #333 !important;
+                background: #f5f5f5 !important;
+            }
+            .order-details .value {
+                color: #000 !important;
+            }
+            .order-details .value.green {
+                color: #000 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    CONFETTI CONTAINER
+    ============================================================ -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
+    <div class="container">
+
+        <div class="success-card">
+            <!-- Icon -->
+            <div class="icon">
+                <span class="check-circle">🎉</span>
+            </div>
+
+            <!-- Title -->
+            <h1>Payment Successful!</h1>
+            <p class="subtitle">Welcome to TRIBAMS Pro 🚀</p>
+
+            <!-- Message -->
+            <p class="message">
+                Your payment was processed successfully. You now have unlimited access to all 95 training modules,
+                unlimited certificates, AI-powered learning, and premium features.
+            </p>
+
+            <!-- Order Details -->
+            <div class="order-details" id="orderDetails">
+                <span><span class="label">Plan:</span> <span class="value green" id="planDisplay">Pro Monthly</span></span>
+                <span><span class="label">Status:</span> <span class="value green">✅ Active</span></span>
+                <span><span class="label">Valid Until:</span> <span class="value" id="validUntil">—</span></span>
+            </div>
+
+            <!-- Features List -->
+            <div class="features-list">
+                <div class="feature-item">
+                    <span class="check">✓</span>
+                    <span class="feature-icon">📚</span>
+                    <span>All <span class="highlight-text">95 Training Modules</span></span>
+                </div>
+                <div class="feature-item">
+                    <span class="check">✓</span>
+                    <span class="feature-icon">🎓</span>
+                    <span>Unlimited <span class="highlight-text">Certificates</span></span>
+                </div>
+                <div class="feature-item">
+                    <span class="check">✓</span>
+                    <span class="feature-icon">🧠</span>
+                    <span><span class="highlight-text">AI-Powered</span> Learning</span>
+                </div>
+                <div class="feature-item">
+                    <span class="check">✓</span>
+                    <span class="feature-icon">🔒</span>
+                    <span>Certificate <span class="highlight-text">Verification</span></span>
+                </div>
+                <div class="feature-item">
+                    <span class="check">✓</span>
+                    <span class="feature-icon">🕵️</span>
+                    <span><span class="highlight-text">Dark Web</span> Monitoring</span>
+                </div>
+                <div class="feature-item">
+                    <span class="check">✓</span>
+                    <span class="feature-icon">⭐</span>
+                    <span><span class="highlight-text">Premium</span> Resources</span>
+                </div>
+                <div class="feature-item">
+                    <span class="check">✓</span>
+                    <span class="feature-icon">💬</span>
+                    <span><span class="highlight-text">Priority</span> Support</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-row">
+                <a href="/dashboard" class="btn btn-primary">🚀 Go to Dashboard</a>
+                <a href="/resource-center" class="btn btn-success">📚 Start Training</a>
+                <a href="/" class="btn btn-secondary">🏠 Home</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // CONFETTI
+        // ============================================================
+        (function launchConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#00ff88', '#00ccff', '#ffd700', '#ff6b6b', '#a855f7', '#f59e0b', '#ec4899', '#00ffcc'];
+            const shapes = ['■', '●', '▲', '★', '◆', '✦'];
+
+            for (let i = 0; i < 80; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.fontSize = (Math.random() * 12 + 6) + 'px';
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confetti.style.animationDelay = (Math.random() * 2) + 's';
+                confetti.style.opacity = Math.random() * 0.8 + 0.2;
+                container.appendChild(confetti);
+            }
+
+            // Remove confetti after 5 seconds
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        })();
+
+        // ============================================================
+        // ORDER DETAILS (simulated from URL or local storage)
+        // ============================================================
+        (function loadOrderDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const plan = params.get('plan') || 'Pro Monthly';
+            const validUntil = new Date();
+            validUntil.setMonth(validUntil.getMonth() + 1);
+
+            document.getElementById('planDisplay').textContent = plan;
+            document.getElementById('validUntil').textContent = validUntil.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Check if we have data from PayPal capture
+            try {
+                const orderData = localStorage.getItem('lastOrder');
+                if (orderData) {
+                    const data = JSON.parse(orderData);
+                    if (data.plan) document.getElementById('planDisplay').textContent = data.plan;
+                    if (data.validUntil) document.getElementById('validUntil').textContent = data.validUntil;
+                    localStorage.removeItem('lastOrder');
+                }
+            } catch (e) {
+                // ignore
+            }
+        })();
+
+        // ============================================================
+        // TOAST (optional)
+        // ============================================================
+        function showToast(message, type = 'success', duration = 3500) {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
+
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'} ${message}</span>
+                <button class="toast-close" aria-label="Close notification">&times;</button>
+            `;
+            document.body.appendChild(toast);
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => toast.remove());
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        // Show a welcome toast after a moment
+        setTimeout(() => {
+            showToast('🎉 Welcome to TRIBAMS Pro!', 'success', 4000);
+        }, 1000);
+
+        console.log('✅ Payment success page loaded.');
+    </script>
+
+</body>
+</html>

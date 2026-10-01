@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievement Badges – Tribams</title>
+    <meta name="description" content="Earn achievement badges on TRIBAMS by completing training modules, achieving high scores, and maintaining daily streaks. Track your progress and unlock new badges.">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+               RESET & BASE – 0-200
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(0, 255, 136, 0.1);
+            --border-color-hover: rgba(0, 255, 136, 0.2);
+            --neon-green: #00ff88;
+            --neon-blue: #0088ff;
+            --neon-cyan: #00ccff;
+            --neon-purple: #a855f7;
+            --neon-orange: #f59e0b;
+            --neon-pink: #ec4899;
+            --neon-red: #ef4444;
+            --neon-gold: #ffd700;
+            --neon-silver: #c0c0c0;
+            --neon-bronze: #cd7f32;
+            --text-primary: #ffffff;
+            --text-secondary: #8899bb;
+            --text-muted: #555;
+            --text-light: #aabbdd;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ============================================================
+               HEADER & NAVIGATION – 200-400
+               ============================================================ */
+        header {
+            background: rgba(10, 14, 39, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(10, 14, 39, 0.98);
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--neon-green);
+            fill: none;
+            -webkit-text-fill-color: initial;
+            flex-shrink: 0;
+        }
+
+        .logo:hover svg {
+            stroke: var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.3rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active {
+            color: var(--neon-green);
+        }
+
+        .btn-nav {
+            padding: 0.4rem 1.4rem;
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary) !important;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            -webkit-text-fill-color: initial;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+            color: var(--bg-primary) !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .menu-toggle span {
+            width: 26px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ============================================================
+               PAGE HEADER – 400-550
+               ============================================================ */
+        .page-header {
+            padding: 2rem 0 1.5rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 900;
+        }
+
+        .page-header h1 .highlight {
+            background: linear-gradient(135deg, var(--neon-gold), var(--neon-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 560px;
+            margin: 0.3rem auto 0;
+        }
+
+        /* ============================================================
+               STATS BAR – 550-700
+               ============================================================ */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .stats-bar:hover {
+            border-color: var(--border-color-hover);
+        }
+
+        .stats-bar .stat {
+            text-align: center;
+        }
+
+        .stats-bar .stat .number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--neon-green);
+            display: block;
+            line-height: 1.2;
+        }
+
+        .stats-bar .stat .label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stats-bar .stat .number.gold {
+            color: var(--neon-gold);
+        }
+        .stats-bar .stat .number.silver {
+            color: var(--neon-silver);
+        }
+        .stats-bar .stat .number.bronze {
+            color: var(--neon-bronze);
+        }
+        .stats-bar .stat .number.cyan {
+            color: var(--neon-cyan);
+        }
+
+        /* ============================================================
+               BADGE GRID – 700-1050
+               ============================================================ */
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0 2rem;
+        }
+
+        .badge-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1.5rem 1.2rem;
+            text-align: center;
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .badge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .badge-card.earned::before {
+            opacity: 1;
+        }
+
+        .badge-card.earned {
+            border-color: rgba(0, 255, 136, 0.2);
+            background: rgba(0, 255, 136, 0.02);
+        }
+
+        .badge-card.earned:hover {
+            border-color: var(--neon-green);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .badge-card.locked {
+            opacity: 0.7;
+            filter: grayscale(0.3);
+        }
+
+        .badge-card.locked:hover {
+            opacity: 0.9;
+            border-color: var(--glass-border);
+            transform: translateY(-2px);
+        }
+
+        .badge-card .badge-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            margin-bottom: 0.8rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .badge-card .badge-icon .icon-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .badge-card.earned .badge-icon .icon-bg {
+            border-color: var(--neon-green);
+            background: rgba(0, 255, 136, 0.05);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+        }
+
+        .badge-card .badge-icon .icon-emoji {
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge-card.earned .badge-icon .icon-emoji {
+            animation: badgeFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes badgeFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        .badge-card .badge-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .badge-card .badge-description {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            flex: 1;
+            margin-bottom: 0.8rem;
+        }
+
+        .badge-card .badge-progress {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge-card .badge-progress .progress-track {
+            width: 100%;
+            height: 4px;
+            background: var(--glass-bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .badge-card .badge-progress .progress-track .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .badge-card .badge-progress .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .badge-card .badge-status {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            margin-top: 0.3rem;
+        }
+
+        .badge-card .badge-status.earned {
+            background: rgba(0, 255, 136, 0.12);
+            color: var(--neon-green);
+        }
+
+        .badge-card .badge-status.locked {
+            background: var(--glass-bg);
+            color: var(--text-muted);
+        }
+
+        .badge-card .badge-status.locked .lock-icon {
+            margin-right: 0.3rem;
+        }
+
+        .badge-card .badge-rarity {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 0.55rem;
+            padding: 0.1rem 0.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-card .badge-rarity.common {
+            background: rgba(0, 255, 136, 0.08);
+            color: var(--neon-green);
+        }
+        .badge-card .badge-rarity.rare {
+            background: rgba(0, 136, 255, 0.08);
+            color: var(--neon-blue);
+        }
+        .badge-card .badge-rarity.epic {
+            background: rgba(168, 85, 247, 0.08);
+            color: var(--neon-purple);
+        }
+        .badge-card .badge-rarity.legendary {
+            background: rgba(255, 215, 0, 0.08);
+            color: var(--neon-gold);
+        }
+
+        /* ============================================================
+               EMPTY STATE – 1050-1100
+               ============================================================ */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            grid-column: 1 / -1;
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .empty-state .btn {
+            margin-top: 1.5rem;
+        }
+
+        /* ============================================================
+               TOAST – 1100-1160
+               ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: toastSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 440px;
+            font-family: var(--font);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--neon-green), #00cc66);
+            color: var(--bg-primary);
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: #fff;
+        }
+        .toast.info {
+            background: linear-gradient(135deg, var(--neon-blue), #0066cc);
+            color: #fff;
+        }
+        .toast.warning {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff;
+        }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 0 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .toast .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes toastSlideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================================
+               RESPONSIVE – 1160-1280
+               ============================================================ */
+        @media (max-width: 1024px) {
+            .badges-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                position: absolute;
+                top: 60px;
+                right: 1rem;
+                min-width: 220px;
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-sm);
+                padding: 1.2rem;
+                gap: 1rem;
+                box-shadow: var(--shadow-xl);
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+
+            .stats-bar {
+                gap: 1.5rem;
+                padding: 0.8rem 1rem;
+            }
+
+            .stats-bar .stat .number {
+                font-size: 1.4rem;
+            }
+
+            .badges-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+
+            .badge-card {
+                padding: 1rem 0.8rem;
+            }
+
+            .badge-card .badge-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+
+            .badge-card .badge-name {
+                font-size: 0.85rem;
+            }
+
+            .badge-card .badge-description {
+                font-size: 0.65rem;
+            }
+
+            .badge-card .badge-rarity {
+                font-size: 0.45rem;
+                padding: 0.05rem 0.4rem;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                max-width: none;
+                width: auto;
+                bottom: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            @keyframes toastSlideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .badges-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.6rem;
+            }
+
+            .badge-card {
+                padding: 0.8rem 0.5rem;
+            }
+
+            .badge-card .badge-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 1.6rem;
+                margin-bottom: 0.4rem;
+            }
+
+            .badge-card .badge-name {
+                font-size: 0.75rem;
+            }
+
+            .badge-card .badge-description {
+                display: none;
+            }
+
+            .badge-card .badge-progress .progress-label {
+                font-size: 0.45rem;
+            }
+
+            .badge-card .badge-status {
+                font-size: 0.5rem;
+                padding: 0.1rem 0.5rem;
+            }
+
+            .badge-card .badge-rarity {
+                display: none;
+            }
+
+            .stats-bar .stat .number {
+                font-size: 1.2rem;
+            }
+            .stats-bar .stat .label {
+                font-size: 0.55rem;
+            }
+        }
+
+        /* ============================================================
+               PRINT STYLES – 1280-1290
+               ============================================================ */
+        @media print {
+            header,
+            .toast,
+            .menu-toggle {
+                display: none !important;
+            }
+            .badge-card {
+                break-inside: avoid;
+                border: 1px solid #333 !important;
+                box-shadow: none !important;
+            }
+            .badge-card.earned {
+                background: #f5f5f5 !important;
+            }
+            .badge-card.locked {
+                opacity: 0.5 !important;
+                filter: grayscale(1) !important;
+            }
+            body {
+                background: #fff;
+                color: #000;
+            }
+            .page-header h1 .highlight {
+                -webkit-text-fill-color: #000;
+                background: none;
+                color: #000;
+            }
+            .stats-bar {
+                border: 1px solid #333 !important;
+            }
+            .stats-bar .stat .number {
+                color: #000 !important;
+            }
+            .badge-card .badge-status.earned {
+                background: #ddd !important;
+                color: #000 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                    TRIBAMS
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/resource-center">Resource Center</a></li>
+                    <li><a href="/lab">Evidence Workbench</a></li>
+                    <li><a href="/leaderboard">Leaderboard</a></li>
+                    <li><a href="/badges" class="active">Badges</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>🎖️ <span class="highlight">Achievement Badges</span></h1>
+            <p class="subtitle">Earn badges by completing modules, achieving high scores, and maintaining daily streaks. Show off your cybersecurity skills!</p>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar" id="statsBar">
+            <div class="stat">
+                <span class="number" id="totalEarned">0</span>
+                <span class="label">Badges Earned</span>
+            </div>
+            <div class="stat">
+                <span class="number gold" id="goldBadges">0</span>
+                <span class="label">🌟 Legendary</span>
+            </div>
+            <div class="stat">
+                <span class="number silver" id="silverBadges">0</span>
+                <span class="label">⭐ Epic</span>
+            </div>
+            <div class="stat">
+                <span class="number bronze" id="bronzeBadges">0</span>
+                <span class="label">🔶 Rare</span>
+            </div>
+            <div class="stat">
+                <span class="number cyan" id="totalBadges">0</span>
+                <span class="label">Total Available</span>
+            </div>
+        </div>
+
+        <!-- Badges Grid -->
+        <div class="badges-grid" id="badgesGrid">
+            <!-- Rendered by JavaScript -->
+        </div>
+
+        <!-- Back to Dashboard -->
+        <div style="text-align:center; padding:1rem 0 2rem;">
+            <a href="/dashboard" class="btn btn-secondary" style="padding:0.5rem 1.5rem;">← Back to Dashboard</a>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // BADGE DEFINITIONS – Full set with SVG icons
+        // ============================================================
+        const BADGE_DEFINITIONS = [{
+            id: 'first_module',
+            name: 'First Step',
+            icon: '🌱',
+            description: 'Complete your first training module',
+            rarity: 'common',
+            requirement: (progress) => progress.totalModules >= 1,
+            progress: (progress) => Math.min(progress.totalModules / 1 * 100, 100)
+        }, {
+            id: 'module_5',
+            name: 'Dedicated Learner',
+            icon: '📚',
+            description: 'Complete 5 training modules',
+            rarity: 'common',
+            requirement: (progress) => progress.totalModules >= 5,
+            progress: (progress) => Math.min(progress.totalModules / 5 * 100, 100)
+        }, {
+            id: 'module_10',
+            name: 'Cyber Scholar',
+            icon: '🎓',
+            description: 'Complete 10 training modules',
+            rarity: 'rare',
+            requirement: (progress) => progress.totalModules >= 10,
+            progress: (progress) => Math.min(progress.totalModules / 10 * 100, 100)
+        }, {
+            id: 'module_20',
+            name: 'Security Advocate',
+            icon: '🛡️',
+            description: 'Complete 20 training modules',
+            rarity: 'rare',
+            requirement: (progress) => progress.totalModules >= 20,
+            progress: (progress) => Math.min(progress.totalModules / 20 * 100, 100)
+        }, {
+            id: 'module_30',
+            name: 'Cyber Guardian',
+            icon: '⚔️',
+            description: 'Complete 30 training modules',
+            rarity: 'epic',
+            requirement: (progress) => progress.totalModules >= 30,
+            progress: (progress) => Math.min(progress.totalModules / 30 * 100, 100)
+        }, {
+            id: 'module_95',
+            name: 'Cyber Master',
+            icon: '👑',
+            description: 'Complete all 95 training modules',
+            rarity: 'legendary',
+            requirement: (progress) => progress.totalModules >= 95,
+            progress: (progress) => Math.min(progress.totalModules / 95 * 100, 100)
+        }, {
+            id: 'perfect_score',
+            name: 'Perfect Score',
+            icon: '💯',
+            description: 'Achieve 100% on any module',
+            rarity: 'epic',
+            requirement: (progress) => progress.highestScore >= 100,
+            progress: (progress) => Math.min(progress.highestScore / 100 * 100, 100)
+        }, {
+            id: 'score_90',
+            name: 'Top Performer',
+            icon: '⭐',
+            description: 'Score 90% or higher on any module',
+            rarity: 'rare',
+            requirement: (progress) => progress.highestScore >= 90,
+            progress: (progress) => Math.min(progress.highestScore / 90 * 100, 100)
+        }, {
+            id: 'score_80',
+            name: 'Strong Foundation',
+            icon: '🏅',
+            description: 'Score 80% or higher on any module',
+            rarity: 'common',
+            requirement: (progress) => progress.highestScore >= 80,
+            progress: (progress) => Math.min(progress.highestScore / 80 * 100, 100)
+        }, {
+            id: 'phishing_master',
+            name: 'Phishing Defender',
+            icon: '🎣',
+            description: 'Complete Phishing Detection with 80%+ score',
+            rarity: 'rare',
+            requirement: (progress) => (progress.moduleScores?.phishing || 0) >= 80,
+            progress: (progress) => Math.min((progress.moduleScores?.phishing || 0) / 80 * 100, 100)
+        }, {
+            id: 'malware_master',
+            name: 'Malware Hunter',
+            icon: '🦠',
+            description: 'Complete Malware Analysis with 80%+ score',
+            rarity: 'rare',
+            requirement: (progress) => (progress.moduleScores?.malware || 0) >= 80,
+            progress: (progress) => Math.min((progress.moduleScores?.malware || 0) / 80 * 100, 100)
+        }, {
+            id: 'network_master',
+            name: 'Network Guardian',
+            icon: '🔒',
+            description: 'Complete Network Security with 80%+ score',
+            rarity: 'rare',
+            requirement: (progress) => (progress.moduleScores?.network || 0) >= 80,
+            progress: (progress) => Math.min((progress.moduleScores?.network || 0) / 80 * 100, 100)
+        }, {
+            id: 'cloud_master',
+            name: 'Cloud Protector',
+            icon: '☁️',
+            description: 'Complete Cloud Security with 80%+ score',
+            rarity: 'rare',
+            requirement: (progress) => (progress.moduleScores?.cloud || 0) >= 80,
+            progress: (progress) => Math.min((progress.moduleScores?.cloud || 0) / 80 * 100, 100)
+        }, {
+            id: 'mobile_master',
+            name: 'Mobile Security Expert',
+            icon: '📱',
+            description: 'Complete Mobile Security with 80%+ score',
+            rarity: 'rare',
+            requirement: (progress) => (progress.moduleScores?.mobile || 0) >= 80,
+            progress: (progress) => Math.min((progress.moduleScores?.mobile || 0) / 80 * 100, 100)
+        }, {
+            id: 'ethical_master',
+            name: 'Ethical Hacker',
+            icon: '🎓',
+            description: 'Complete Ethical Hacking with 80%+ score',
+            rarity: 'epic',
+            requirement: (progress) => (progress.moduleScores?.ethical || 0) >= 80,
+            progress: (progress) => Math.min((progress.moduleScores?.ethical || 0) / 80 * 100, 100)
+        }, {
+            id: 'incident_master',
+            name: 'Incident Responder',
+            icon: '🚨',
+            description: 'Complete Incident Response with 80%+ score',
+            rarity: 'epic',
+            requirement: (progress) => (progress.moduleScores?.incident || 0) >= 80,
+            progress: (progress) => Math.min((progress.moduleScores?.incident || 0) / 80 * 100, 100)
+        }, {
+            id: 'forensics_master',
+            name: 'Digital Forensics Expert',
+            icon: '🔍',
+            description: 'Complete Digital Forensics with 80%+ score',
+            rarity: 'epic',
+            requirement: (progress) => (progress.moduleScores?.forensics || 0) >= 80,
+            progress: (progress) => Math.min((progress.moduleScores?.forensics || 0) / 80 * 100, 100)
+        }, {
+            id: 'streak_7',
+            name: 'On Fire 🔥',
+            icon: '🔥',
+            description: 'Complete modules on 7 consecutive days',
+            rarity: 'rare',
+            requirement: (progress) => progress.streak >= 7,
+            progress: (progress) => Math.min(progress.streak / 7 * 100, 100)
+        }, {
+            id: 'streak_14',
+            name: 'Unstoppable',
+            icon: '⚡',
+            description: 'Complete modules on 14 consecutive days',
+            rarity: 'epic',
+            requirement: (progress) => progress.streak >= 14,
+            progress: (progress) => Math.min(progress.streak / 14 * 100, 100)
+        }, {
+            id: 'streak_30',
+            name: 'Cyber Ranger',
+            icon: '🏹',
+            description: 'Complete modules on 30 consecutive days',
+            rarity: 'legendary',
+            requirement: (progress) => progress.streak >= 30,
+            progress: (progress) => Math.min(progress.streak / 30 * 100, 100)
+        }, {
+            id: 'all_categories',
+            name: 'Well-Rounded Guardian',
+            icon: '🌐',
+            description: 'Score 70%+ in all 7 categories',
+            rarity: 'legendary',
+            requirement: (progress) => {
+                const cats = ['phishing', 'malware', 'network', 'cloud', 'forensics', 'social', 'governance'];
+                return cats.every(c => (progress.moduleScores?.[c] || 0) >= 70);
+            },
+            progress: (progress) => {
+                const cats = ['phishing', 'malware', 'network', 'cloud', 'forensics', 'social', 'governance'];
+                const met = cats.filter(c => (progress.moduleScores?.[c] || 0) >= 70).length;
+                return Math.min(met / cats.length * 100, 100);
+            }
+        }, {
+            id: 'speed_demon',
+            name: 'Speed Demon',
+            icon: '🏃',
+            description: 'Score 90%+ with 50% time remaining on a quiz',
+            rarity: 'epic',
+            requirement: (progress) => progress.speedBonus >= 1,
+            progress: (progress) => Math.min(progress.speedBonus * 100, 100)
+        }, {
+            id: 'daily_scenario',
+            name: 'Daily Warrior',
+            icon: '⚔️',
+            description: 'Complete 10 daily scenarios',
+            rarity: 'common',
+            requirement: (progress) => progress.dailyScenarios >= 10,
+            progress: (progress) => Math.min(progress.dailyScenarios / 10 * 100, 100)
+        }, {
+            id: 'daily_50',
+            name: 'Scenario Master',
+            icon: '🏆',
+            description: 'Complete 50 daily scenarios',
+            rarity: 'epic',
+            requirement: (progress) => progress.dailyScenarios >= 50,
+            progress: (progress) => Math.min(progress.dailyScenarios / 50 * 100, 100)
+        }, {
+            id: 'zero_trust',
+            name: 'Zero Trust Advocate',
+            icon: '🏛️',
+            description: 'Complete Zero Trust Architecture with 80%+ score',
+            rarity: 'epic',
+            requirement: (progress) => (progress.moduleScores?.zero_trust || 0) >= 80,
+            progress: (progress) => Math.min((progress.moduleScores?.zero_trust || 0) / 80 * 100, 100)
+        }, {
+            id: 'api_security',
+            name: 'API Guardian',
+            icon: '🔌',
+            description: 'Complete API Security with 80%+ score',
+            rarity: 'rare',
+            requirement: (progress) => (progress.moduleScores?.api || 0) >= 80,
+            progress: (progress) => Math.min((progress.moduleScores?.api || 0) / 80 * 100, 100)
+        }, {
+            id: 'cloud_forensics',
+            name: 'Cloud Forensics Expert',
+            icon: '☁️🔍',
+            description: 'Complete Cloud Forensics with 80%+ score',
+            rarity: 'epic',
+            requirement: (progress) => (progress.moduleScores?.cloud_forensics || 0) >= 80,
+            progress: (progress) => Math.min((progress.moduleScores?.cloud_forensics || 0) / 80 * 100, 100)
+        }, {
+            id: 'devsecops',
+            name: 'DevSecOps Champion',
+            icon: '⚙️',
+            description: 'Complete DevSecOps with 80%+ score',
+            rarity: 'epic',
+            requirement: (progress) => (progress.moduleScores?.devsecops || 0) >= 80,
+            progress: (progress) => Math.min((progress.moduleScores?.devsecops || 0) / 80 * 100, 100)
+        }, {
+            id: 'social_engineering',
+            name: 'Social Engineer Stopper',
+            icon: '🎭',
+            description: 'Complete Social Engineering with 80%+ score',
+            rarity: 'rare',
+            requirement: (progress) => (progress.moduleScores?.social || 0) >= 80,
+            progress: (progress) => Math.min((progress.moduleScores?.social || 0) / 80 * 100, 100)
+        }, {
+            id: 'ransomware',
+            name: 'Ransomware Defender',
+            icon: '💰',
+            description: 'Complete Ransomware Defense with 80%+ score',
+            rarity: 'epic',
+            requirement: (progress) => (progress.moduleScores?.ransomware || 0) >= 80,
+            progress: (progress) => Math.min((progress.moduleScores?.ransomware || 0) / 80 * 100, 100)
+        }];
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let userProgress = {
+            totalModules: 0,
+            highestScore: 0,
+            moduleScores: {},
+            streak: 0,
+            speedBonus: 0,
+            dailyScenarios: 0
+        };
+        let earnedBadges = [];
+        let earnedBadgeIds = new Set();
+
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const badgesGrid = document.getElementById('badgesGrid');
+        const totalEarned = document.getElementById('totalEarned');
+        const goldBadges = document.getElementById('goldBadges');
+        const silverBadges = document.getElementById('silverBadges');
+        const bronzeBadges = document.getElementById('bronzeBadges');
+        const totalBadges = document.getElementById('totalBadges');
+
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function showToast(message, type = 'success', duration = 3500) {
+            const existing = document.querySelectorAll('.toast');
+            existing.forEach(t => t.remove());
+
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'} ${message}</span>
+                <button class="toast-close" aria-label="Close notification">&times;</button>
+            `;
+            document.body.appendChild(toast);
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => toast.remove());
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(-20px) scale(0.9)';
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        function getRarityLabel(rarity) {
+            const map = {
+                common: 'Common',
+                rare: 'Rare',
+                epic: 'Epic',
+                legendary: 'Legendary'
+            };
+            return map[rarity] || rarity;
+        }
+
+        function getRarityClass(rarity) {
+            return rarity;
+        }
+
+        // ============================================================
+        // LOAD USER DATA
+        // ============================================================
+        async function loadUserInfo() {
+            try {
+                const res = await fetch('/api/user-info');
+                const data = await res.json();
+                if (!data.success) {
+                    showToast('Please log in to view your badges.', 'warning', 5000);
+                    setTimeout(() => { window.location.href = '/login'; }, 3000);
+                    return false;
+                }
+                return true;
+            } catch (e) {
+                showToast('Please log in to view your badges.', 'warning', 5000);
+                setTimeout(() => { window.location.href = '/login'; }, 3000);
+                return false;
+            }
+        }
+
+        // ============================================================
+        // LOAD PROGRESS
+        // ============================================================
+        async function loadProgress() {
+            try {
+                const res = await fetch('/api/progress');
+                const data = await res.json();
+                if (data.success && data.scores) {
+                    const scores = data.scores;
+                    let totalModules = 0;
+                    let highestScore = 0;
+                    const moduleScores = {};
+                    let dailyScenarios = 0;
+
+                    scores.forEach(s => {
+                        if (s.score > 0) totalModules++;
+                        if (s.score > highestScore) highestScore = s.score;
+                        // Map module names to keys
+                        const key = s.module_name.toLowerCase().replace(/\s/g, '_').replace(/\(/g, '').replace(/\)/g, '');
+                        moduleScores[key] = s.score;
+                        if (s.module_name === 'Daily Scenario' || s.module_name.includes('Daily')) {
+                            dailyScenarios++;
+                        }
+                    });
+
+                    userProgress.totalModules = totalModules;
+                    userProgress.highestScore = highestScore;
+                    userProgress.moduleScores = moduleScores;
+                    userProgress.dailyScenarios = dailyScenarios;
+
+                    // Load streak
+                    const streakRes = await fetch('/api/daily-stats');
+                    const streakData = await streakRes.json();
+                    if (streakData.success) {
+                        userProgress.streak = streakData.streak || 0;
+                    }
+
+                    // Load badges
+                    await loadEarnedBadges();
+
+                    return true;
+                }
+                return false;
+            } catch (e) {
+                console.log('Could not load progress');
+                return false;
+            }
+        }
+
+        // ============================================================
+        // LOAD EARNED BADGES
+        // ============================================================
+        async function loadEarnedBadges() {
+            try {
+                const res = await fetch('/api/badges');
+                const data = await res.json();
+                if (data.success && data.badges) {
+                    earnedBadges = data.badges;
+                    earnedBadgeIds = new Set(earnedBadges.map(b => b.badge_name.toLowerCase().replace(/\s/g, '_')));
+                } else {
+                    earnedBadges = [];
+                    earnedBadgeIds = new Set();
+                }
+            } catch (e) {
+                console.log('Could not load badges');
+                earnedBadges = [];
+                earnedBadgeIds = new Set();
+            }
+        }
+
+        // ============================================================
+        // RENDER BADGES
+        // ============================================================
+        function renderBadges() {
+            let earnedCount = 0;
+            let goldCount = 0;
+            let silverCount = 0;
+            let bronzeCount = 0;
+
+            badgesGrid.innerHTML = '';
+
+            BADGE_DEFINITIONS.forEach(badge => {
+                const isEarned = earnedBadgeIds.has(badge.id);
+                const progress = badge.progress(userProgress);
+                const meetsRequirement = badge.requirement(userProgress);
+
+                // Track stats
+                if (isEarned) {
+                    earnedCount++;
+                    if (badge.rarity === 'legendary') goldCount++;
+                    else if (badge.rarity === 'epic') silverCount++;
+                    else bronzeCount++;
+                }
+
+                const card = document.createElement('div');
+                card.className = `badge-card ${isEarned ? 'earned' : 'locked'}`;
+
+                const statusClass = isEarned ? 'earned' : 'locked';
+                const statusText = isEarned ? '✅ Earned' : '🔒 Locked';
+
+                card.innerHTML = `
+                    <span class="badge-rarity ${getRarityClass(badge.rarity)}">${getRarityLabel(badge.rarity)}</span>
+                    <div class="badge-icon">
+                        <span class="icon-bg"></span>
+                        <span class="icon-emoji">${badge.icon}</span>
+                    </div>
+                    <div class="badge-name">${badge.name}</div>
+                    <div class="badge-description">${badge.description}</div>
+                    <div class="badge-progress">
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width:${Math.min(progress, 100)}%;"></div>
+                        </div>
+                        <div class="progress-label">
+                            <span>${isEarned ? '✓ Complete' : `${Math.round(Math.min(progress, 100))}%`}</span>
+                            <span>${isEarned ? '🎉' : ''}</span>
+                        </div>
+                    </div>
+                    <span class="badge-status ${statusClass}">
+                        ${statusClass === 'locked' ? `<span class="lock-icon">🔒</span>` : ''}
+                        ${statusText}
+                    </span>
+                `;
+
+                badgesGrid.appendChild(card);
+            });
+
+            // Update stats
+            totalEarned.textContent = earnedCount;
+            goldBadges.textContent = goldCount;
+            silverBadges.textContent = silverCount;
+            bronzeBadges.textContent = bronzeCount;
+            totalBadges.textContent = BADGE_DEFINITIONS.length;
+
+            // Show toast for new badge if just earned
+            const prevEarned = parseInt(localStorage.getItem('prevBadgeCount') || '0');
+            if (earnedCount > prevEarned) {
+                const newBadge = earnedCount - prevEarned;
+                showToast(`🎉 You earned ${newBadge} new badge${newBadge > 1 ? 's' : ''}!`, 'success', 4000);
+            }
+            localStorage.setItem('prevBadgeCount', String(earnedCount));
+        }
+
+        // ============================================================
+        // HEADER SCROLL & MOBILE MENU
+        // ============================================================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('show');
+            this.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('show');
+                document.getElementById('menuToggle').classList.remove('active');
+            });
+        });
+
+        // ============================================================
+        // AUTO-REFRESH
+        // ============================================================
+        let refreshInterval;
+
+        function startAutoRefresh() {
+            if (refreshInterval) clearInterval(refreshInterval);
+            refreshInterval = setInterval(() => {
+                loadEarnedBadges().then(() => renderBadges());
+            }, 60000);
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        async function init() {
+            const loggedIn = await loadUserInfo();
+            if (!loggedIn) return;
+
+            await loadProgress();
+            renderBadges();
+            startAutoRefresh();
+
+            console.log('🎖️ Badges page loaded successfully.');
+        }
+
+        init();
+    </script>
+
+</body>
+</html>

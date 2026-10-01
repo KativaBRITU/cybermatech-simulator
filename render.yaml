@@ -1,0 +1,29 @@
+# Phase 1 origin — Render Blueprint
+# Connect this repo in Render after you decide to push, or recreate the service in the dashboard.
+# Do not set DEMO_SQLITE_FALLBACK here.
+
+services:
+  - type: web
+    name: tribams
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: APP_BASE_URL
+        value: https://tribams.com
+      - key: TRUST_PROXY
+        value: "1"
+      - key: DB_CLIENT
+        value: postgres
+      - key: PGSSL
+        value: "true"
+      - key: SESSION_SECRET
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: PGSSL_SERVERNAME
+        sync: false
+      - key: ADMIN_EMAILS
+        sync: false
