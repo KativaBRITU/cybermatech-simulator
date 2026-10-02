@@ -2543,7 +2543,19 @@ app.use((req, res, next) => {
     }));
     next();
 });
-
+// === DIAGNOSTIC — echoes request headers back in the response ===
+app.get('/__diag', (req, res) => {
+    res.json({
+        ok: true,
+        host: req.headers.host,
+        cfRay: req.headers['cf-ray'] || null,
+        cfConnectingIp: req.headers['cf-connecting-ip'] || null,
+        xOriginSecret: req.headers['x-origin-secret'] || null,
+        userAgent: (req.headers['user-agent'] || '').slice(0, 60),
+        remoteAddr: req.socket.remoteAddress,
+        xForwardedFor: req.headers['x-forwarded-for'] || null
+    });
+});
 app.get('/api/launch-readiness', isAdmin, async (req, res) => {
     const emailService = require('./services/emailService');
     const emailConfigured = emailService.isConfigured();
