@@ -2529,46 +2529,23 @@ app.get('/api/health', async (req, res) => {
         time: new Date().toISOString()
     });
 });
-// CLOUDFLARE IP VALIDATION (Origin Lockdown)
 // ============================================================
-// Reject requests that bypass Cloudflare WAF by hitting origin directly.
-// Only enforced in production. Allows localhost for healthchecks.
-
+// ORIGIN LOCKDOWN — require Cloudflare secret header
+// ============================================================
 app.use((req, res, next) => {
-    if (!IS_PROD) {
-        return next();
-    }
+    if (!IS_PROD) return next();
 
-    // Get real client IP (Railway/proxy aware)
-    const forwarded = req.headers['x-forwarded-for'];
-    const clientIp = forwarded
-        ? forwarded.split(',')[0].trim()
-        : (req.socket.remoteAddress || 'unknown');
+    const secret = req.headers['x-origin-secret'];
+    const expected = '21216c2d46de74824bec89b402b494f9286eaf394e929b32ee4e8d6c5070db67';
 
-    const hasCloudflareHeader = req.headers['cf-connecting-ip'];
-
-    // Allow true localhost ONLY (healthchecks from Railway internal)
-    // Healthchecks come from the container itself, so cf-connecting-ip is missing
-    // but the request also has no x-forwarded-for
-    const isInternalHealthcheck =
-        !forwarded &&
-        (clientIp === '127.0.0.1' || clientIp === '::1' || clientIp === '::ffff:127.0.0.1');
-
-    if (isInternalHealthcheck) {
-        return next();
-    }
-
-    // Reject if no Cloudflare header (direct origin access)
-    if (!hasCloudflareHeader) {
-        console.warn(`🚨 ORIGIN BYPASS ATTEMPT: ${req.method} ${req.path} from ${clientIp}`);
-        return res.status(403).json({
-            error: 'Access denied',
-            message: 'Requests must come through Cloudflare proxy'
-        });
+    if (secret !== expected) {
+        console.warn(`🚨 BLOCKED: ${req.method} ${req.path}`);
+        return res.status(403).json({ error: 'Access denied' });
     }
 
     next();
 });
+
 app.get('/api/launch-readiness', isAdmin, async (req, res) => {
     const emailService = require('./services/emailService');
     const emailConfigured = emailService.isConfigured();
