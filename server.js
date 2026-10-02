@@ -2510,6 +2510,7 @@ async function sendPaymentEmailSafe(user, activation, orderMeta = {}) {
     }
 }
 
+
 app.get('/api/health', async (req, res) => {
     let dbOk = false;
     if (db) {
@@ -2528,7 +2529,46 @@ app.get('/api/health', async (req, res) => {
         time: new Date().toISOString()
     });
 });
+// CLOUDFLARE IP VALIDATION (Origin Lockdown)
+// ============================================================
+// Reject requests that bypass Cloudflare WAF by hitting origin directly.
+// Only enforced in production. Allows localhost for healthchecks.
 
+app.use((req, res, next) => {
+    if (!IS_PROD) {
+        return next();
+    }
+
+    // Get real client IP (Railway/proxy aware)
+    const forwarded = req.headers['x-forwarded-for'];
+    const clientIp = forwarded
+        ? forwarded.split(',')[0].trim()
+        : (req.socket.remoteAddress || 'unknown');
+
+    const hasCloudflareHeader = req.headers['cf-connecting-ip'];
+
+    // Allow true localhost ONLY (healthchecks from Railway internal)
+    // Healthchecks come from the container itself, so cf-connecting-ip is missing
+    // but the request also has no x-forwarded-for
+    const isInternalHealthcheck =
+        !forwarded &&
+        (clientIp === '127.0.0.1' || clientIp === '::1' || clientIp === '::ffff:127.0.0.1');
+
+    if (isInternalHealthcheck) {
+        return next();
+    }
+
+    // Reject if no Cloudflare header (direct origin access)
+    if (!hasCloudflareHeader) {
+        console.warn(`🚨 ORIGIN BYPASS ATTEMPT: ${req.method} ${req.path} from ${clientIp}`);
+        return res.status(403).json({
+            error: 'Access denied',
+            message: 'Requests must come through Cloudflare proxy'
+        });
+    }
+
+    next();
+});
 app.get('/api/launch-readiness', isAdmin, async (req, res) => {
     const emailService = require('./services/emailService');
     const emailConfigured = emailService.isConfigured();
@@ -4963,6 +5003,8 @@ app.get('/api/custom-lab/:id', async (req, res) => {
 // ============================================================
 // GLOBAL ERROR & SHUTDOWN HANDLING
 // ============================================================
+
+
 app.use((req, res) => {
     if (wantsJson(req)) {
         return res.status(404).json({ success: false, message: 'Not found' });
@@ -4980,37 +5022,7 @@ app.use((err, req, res, next) => {
     return res.status(500).send('An internal server error occurred.');
 });
 
-// ============================================================
-// CLOUDFLARE IP VALIDATION (Origin Lockdown)
-// ============================================================
-// Reject requests that bypass Cloudflare WAF by hitting origin directly
-// Only enforced in production. Allows localhost for healthchecks.
 
-app.use((req, res, next) => {
-    if (!IS_PROD) {
-        return next(); // Skip validation in development
-    }
-
-    const clientIp = req.ip || req.connection.remoteAddress || 'unknown';
-    const hasCloudflareHeader = req.headers['cf-connecting-ip'];
-
-    // Allow localhost for healthchecks / internal requests
-    if (clientIp === '127.0.0.1' || clientIp === '::1' || clientIp === 'localhost') {
-        return next();
-    }
-
-    // Reject if no Cloudflare header (direct origin access)
-    if (!hasCloudflareHeader) {
-        console.warn(`🚨 ORIGIN BYPASS ATTEMPT: Direct access from ${clientIp} to ${req.method} ${req.path}`);
-        return res.status(403).json({
-            error: 'Access denied',
-            message: 'Requests must come through Cloudflare proxy'
-        });
-    }
-
-    // Request came through Cloudflare — allow it
-    next();
-});
 async function initializeServer() {
     try {
         await initDatabase();
