@@ -2529,20 +2529,18 @@ app.get('/api/health', async (req, res) => {
         time: new Date().toISOString()
     });
 });
-// ============================================================
-// ORIGIN LOCKDOWN — require Cloudflare secret header
-// ============================================================
+// === LOG-ONLY — does not block anything ===
 app.use((req, res, next) => {
-    if (!IS_PROD) return next();
-
-    const secret = req.headers['x-origin-secret'];
-    const expected = '21216c2d46de74824bec89b402b494f9286eaf394e929b32ee4e8d6c5070db67';
-
-    if (secret !== expected) {
-        console.warn(`🚨 BLOCKED: ${req.method} ${req.path}`);
-        return res.status(403).json({ error: 'Access denied' });
-    }
-
+    console.log('[ORIGIN-CHECK]', JSON.stringify({
+        path: req.path,
+        host: req.headers.host,
+        cfRay: req.headers['cf-ray'] || null,
+        cfConnectingIp: req.headers['cf-connecting-ip'] || null,
+        xOriginSecret: req.headers['x-origin-secret'] || null,
+        userAgent: (req.headers['user-agent'] || '').slice(0, 60),
+        remoteAddr: req.socket.remoteAddress,
+        xForwardedFor: req.headers['x-forwarded-for'] || null
+    }));
     next();
 });
 
