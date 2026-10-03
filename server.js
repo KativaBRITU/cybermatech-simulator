@@ -1431,6 +1431,60 @@ app.get('/api/email-status', isAdmin, async (req, res) => {
     }
 });
 
+app.get('/api/health', async (req, res) => {
+    let dbOk = false;
+    if (db) {
+        try {
+            await db.getAsync('SELECT 1 AS ok');
+            dbOk = true;
+        } catch (_) { /* ignore */ }
+    }
+    res.set('Cache-Control', 'no-store');
+    // Railway healthcheck: return 200 while seeding so the container is not killed mid-startup.
+    res.status(200).json({
+        ok: true,
+        ready: serverInitComplete && dbOk,
+        db: dbOk,
+        service: 'TRIBAMS',
+        time: new Date().toISOString()
+    });
+});
+// === DIAGNOSTIC — echoes request headers back in the response ===
+app.get('/__diag', (req, res) => {
+    res.json({
+        ok: true,
+        host: req.headers.host,
+        cfRay: req.headers['cf-ray'] || null,
+        cfConnectingIp: req.headers['cf-connecting-ip'] || null,
+        xOriginSecret: req.headers['x-origin-secret'] || null,
+        userAgent: (req.headers['user-agent'] || '').slice(0, 60),
+        remoteAddr: req.socket.remoteAddress,
+        xForwardedFor: req.headers['x-forwarded-for'] || null
+    });
+});
+// ============================================================
+// ORIGIN LOCKDOWN — require Cloudflare secret header
+// ============================================================
+app.use((req, res, next) => {
+    if (!IS_PROD) return next();
+
+    // Allow Railway internal healthcheck (no x-forwarded-for)
+    const xff = req.headers['x-forwarded-for'];
+    if (!xff) return next();
+
+    // Allow the diagnostic endpoint even without the header (so we can debug)
+    if (req.path === '/__diag') return next();
+
+    const secret = req.headers['x-origin-secret'];
+    const expected = '21216c2d46de74824bec89b402b494f9286eaf394e929b32ee4e8d6c5070db67';
+
+    if (secret !== expected) {
+        console.warn(`🚨 BLOCKED: ${req.method} ${req.path} from ${xff}`);
+        return res.status(403).json({ error: 'Access denied' });
+    }
+
+    next();
+});
 app.get('/api/user-info', async (req, res) => {
     if (!req.session.user) return res.json({ success: false, username: null });
     try {
@@ -2510,61 +2564,6 @@ async function sendPaymentEmailSafe(user, activation, orderMeta = {}) {
     }
 }
 
-
-app.get('/api/health', async (req, res) => {
-    let dbOk = false;
-    if (db) {
-        try {
-            await db.getAsync('SELECT 1 AS ok');
-            dbOk = true;
-        } catch (_) { /* ignore */ }
-    }
-    res.set('Cache-Control', 'no-store');
-    // Railway healthcheck: return 200 while seeding so the container is not killed mid-startup.
-    res.status(200).json({
-        ok: true,
-        ready: serverInitComplete && dbOk,
-        db: dbOk,
-        service: 'TRIBAMS',
-        time: new Date().toISOString()
-    });
-});
-// ============================================================
-// ORIGIN LOCKDOWN — require Cloudflare secret header
-// ============================================================
-app.use((req, res, next) => {
-    if (!IS_PROD) return next();
-
-    // Allow Railway internal healthcheck (no x-forwarded-for)
-    const xff = req.headers['x-forwarded-for'];
-    if (!xff) return next();
-
-    // Allow the diagnostic endpoint even without the header (so we can debug)
-    if (req.path === '/__diag') return next();
-
-    const secret = req.headers['x-origin-secret'];
-    const expected = '21216c2d46de74824bec89b402b494f9286eaf394e929b32ee4e8d6c5070db67';
-
-    if (secret !== expected) {
-        console.warn(`🚨 BLOCKED: ${req.method} ${req.path} from ${xff}`);
-        return res.status(403).json({ error: 'Access denied' });
-    }
-
-    next();
-});
-// === DIAGNOSTIC — echoes request headers back in the response ===
-app.get('/__diag', (req, res) => {
-    res.json({
-        ok: true,
-        host: req.headers.host,
-        cfRay: req.headers['cf-ray'] || null,
-        cfConnectingIp: req.headers['cf-connecting-ip'] || null,
-        xOriginSecret: req.headers['x-origin-secret'] || null,
-        userAgent: (req.headers['user-agent'] || '').slice(0, 60),
-        remoteAddr: req.socket.remoteAddress,
-        xForwardedFor: req.headers['x-forwarded-for'] || null
-    });
-});
 app.get('/api/launch-readiness', isAdmin, async (req, res) => {
     const emailService = require('./services/emailService');
     const emailConfigured = emailService.isConfigured();
