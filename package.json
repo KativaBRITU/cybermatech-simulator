@@ -31,7 +31,7 @@
     "marked": "^18.0.6",
     "memorystore": "^1.6.8",
     "multer": "^2.2.0",
-    "nodemailer": "^9.0.3",
+    "nodemailer": "^10.0.9",
     "openai": "^6.45.0",
     "pdfkit": "^0.19.1",
     "pg": "^8.22.0",
