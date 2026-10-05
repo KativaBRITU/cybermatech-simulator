@@ -20,6 +20,7 @@
     "@paypal/checkout-server-sdk": "^1.0.3",
     "bcrypt": "^6.0.0",
     "compression": "^1.8.1",
+    "connect-pg-simple": "^10.0.0",
     "connect-redis": "^9.0.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",

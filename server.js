@@ -426,25 +426,22 @@ app.use((req, res, next) => {
 
 // Security Step 2 — route-scoped rate limiter
 const rateLimiter = (max, windowMs, bucket) => security.rateLimiter(max, windowMs, bucket);
-
-// Session store — prefer MemoryStore for single-instance containers behind Cloudflare.
-// FileStore needs a persistent volume; set SESSION_STORE=file when the volume exists.
-const sessionStoreMode = String(process.env.SESSION_STORE || 'memory').toLowerCase();
+// Session store — use PostgreSQL when DATABASE_URL is set (production), MemoryStore for local dev
 let sessionStore;
-if (sessionStoreMode === 'file') {
-    sessionStore = new FileStore({
-        path: sessionsDir,
-        ttl: 86400,
-        reapInterval: 3600,
-        retries: 5
+if (process.env.DATABASE_URL) {
+    const pgSession = require('connect-pg-simple')(session);
+    sessionStore = new pgSession({
+        conString: process.env.DATABASE_URL,
+        tableName: 'session',
+        createTableIfMissing: true,
+        pruneSessionInterval: 60 * 15 // prune every 15 min
     });
-    console.log('📦 Session store: FileStore (database/sessions)');
+    console.log('📦 Session store: PostgreSQL (session table)');
 } else {
     const MemoryStore = require('memorystore')(session);
     sessionStore = new MemoryStore({ checkPeriod: 24 * 60 * 60 * 1000 });
-    console.log('📦 Session store: MemoryStore (set SESSION_STORE=file for persistent file sessions)');
+    console.log('📦 Session store: MemoryStore (dev only)');
 }
-
 // Deployment security gate (Step 1)
 if (!SESSION_SECRET || SESSION_SECRET.length < 32) {
     console.warn('⚠️ SESSION_SECRET is weak/short. Use a 64+ char random secret before production deploy.');
@@ -1464,7 +1461,7 @@ app.use((req, res, next) => {
     
 
     const secret = req.headers['x-origin-secret'];
-    const expected = '5e209ef83a19df20dc589ab69aeddf6069f8e9584efa339d88d4340c5435f77f';
+    const expected = '28143fc3e9f8d2b9637b7a1006d6491900c2eec70cf569b0b723e07176dfcb53f2bec7d9bed48bcdb8c610f6480155ca453e977b1ef153f2eb71bfaf289aafbb';
 
     if (secret !== expected) {
         console.warn(`🚨 BLOCKED: ${req.method} ${req.path} from ${xff}`);
