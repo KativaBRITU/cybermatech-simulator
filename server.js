@@ -10,7 +10,6 @@ require('dotenv').config({ path: path.join(__dirname, '.env') });
 const crypto = require('crypto');
 const express = require('express');
 const session = require('express-session');
-const FileStore = require('session-file-store')(session);
 const bcrypt = require('bcrypt');
 const helmet = require('helmet');
 const compression = require('compression');
