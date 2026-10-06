@@ -141,6 +141,14 @@ async function tryVerify(port) {
 
 async function sendViaResend({ to, subject, html, text }) {
     const from = RESEND_FROM || EMAIL_FROM;
+
+    console.log('🔵 RESEND REQUEST:', {
+        hasKey: !!RESEND_API_KEY,
+        keyPrefix: RESEND_API_KEY ? RESEND_API_KEY.slice(0, 8) : null,
+        from,
+        to
+    });
+
     const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
@@ -158,6 +166,7 @@ async function sendViaResend({ to, subject, html, text }) {
     });
     const body = await res.text();
     if (!res.ok) {
+        console.log('🔴 RESEND ERROR:', res.status, body);   // ← ADD THIS TOO
         throw new Error(`Resend HTTP ${res.status}: ${body.slice(0, 300)}`);
     }
     return { sent: true, provider: 'resend' };
