@@ -145,7 +145,8 @@ async function sendViaResend({ to, subject, html, text }) {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${RESEND_API_KEY}`,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'User-Agent': 'TRIBAMS/1.0'
         },
         body: JSON.stringify({
             from,
