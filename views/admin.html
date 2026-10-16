@@ -1219,7 +1219,7 @@
         async function loadActivity() {
             try {
                 const dir = document.getElementById('activityDirection')?.value || 'all';
-                const res = await fetch('/api/admin/activity?direction=' + encodeURIComponent(dir) + '&limit=120');
+                const res = await fetch('/api/admin/activity?direction=' + encodeURIComponent(dir) + '&limit=320');
                 const data = await res.json();
                 if (!data.success) throw new Error(data.message || 'Failed');
                 document.getElementById('inboundCount').textContent = data.summary?.inbound_24h || 0;

@@ -4885,7 +4885,7 @@ app.get('/api/admin/labs', isAdmin, async (req, res) => {
 app.get('/api/admin/activity', isAdmin, async (req, res) => {
     try {
         const direction = (req.query.direction || 'all').toLowerCase();
-        const limit = Math.min(parseInt(req.query.limit) || 100, 300);
+        const limit = Math.min(parseInt(req.query.limit) || 100, 320);
         let rows;
         if (direction === 'inbound' || direction === 'outbound') {
             rows = await db.allAsync(
