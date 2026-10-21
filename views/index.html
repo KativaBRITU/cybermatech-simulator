@@ -1326,6 +1326,86 @@
                 grid-template-columns: 1fr;
             }
         }
+ /* ============================================================
+               NEW IMAGE SECTIONS (HERO & SPLIT LAYOUT)
+               ============================================================ */
+        
+        /* 1. Hero Background Image */
+        .hero {
+            background: linear-gradient(90deg, rgba(11, 18, 32, 0.95) 0%, rgba(11, 18, 32, 0.7) 50%, rgba(11, 18, 32, 0.3) 100%), 
+                        url('/brand/lab-drill.jpg') center/cover no-repeat !important;
+        }
+
+        /* 2. Split Layout for "How it works" */
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .split-image {
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .split-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            min-height: 500px;
+        }
+
+        .features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1.25rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .feature-item:hover {
+            border-color: var(--neon-green);
+            transform: translateX(5px);
+        }
+
+        .feature-item .icon {
+            font-size: 1.5rem;
+        }
+
+        .feature-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            color: #ffffff;
+        }
+
+        .feature-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Responsive for mobile */
+        @media (max-width: 900px) {
+            .split-layout {
+                grid-template-columns: 1fr;
+            }
+            .split-image img {
+                min-height: 300px;
+            }
+        }
 
     </style>
     <link rel="stylesheet" href="/css/index-gold-theme.css">
@@ -1453,40 +1533,57 @@
     </div>
 </div>
    
-    <!-- ============================================================
-    HOW WE OPERATE
+      <!-- ============================================================
+    HOW WE OPERATE (With Image)
     ============================================================ -->
     <section id="how" class="features-section">
         <div class="container">
-            <div class="section-header">
-                <h2>How <span style="color:var(--neon-green);">TRIBAMS works</span></h2>
-                <p>A clear path from your first login to measurable readiness — built for people who want training that feels serious, practical, and worth their time.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <span class="icon">1️⃣</span>
-                    <h3>Create your account</h3>
-                    <p>Register in minutes. Your progress, drills, and certificates stay tied to you — so every step forward counts.</p>
-                    <span class="tag">JOIN</span>
+            <div class="split-layout">
+                
+                <!-- Left side: Image -->
+                <div class="split-image">
+                    <img src="/brand/analyst-desk.jpg" alt="TRIBAMS analyst working on a drill" loading="lazy">
                 </div>
-                <div class="feature-card">
-                    <span class="icon">2️⃣</span>
-                    <h3>Learn with structure</h3>
-                    <p>Follow guided modules across phishing, malware, networks, cloud, social engineering, and incident response — at a pace that respects your level.</p>
-                    <span class="tag">MODULES</span>
+                
+                <!-- Right side: Text and Steps -->
+                <div class="split-content">
+                    <div class="section-header" style="text-align: left; margin-bottom: 2rem;">
+                        <h2>How <span style="color:var(--neon-green);">TRIBAMS works</span></h2>
+                        <p>A clear path from your first login to measurable readiness — built for people who want training that feels serious, practical, and worth their time.</p>
+                    </div>
+                    
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <span class="icon">1️⃣</span>
+                            <div>
+                                <h3>Create your account</h3>
+                                <p>Register in minutes. Your progress, drills, and certificates stay tied to you.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="icon">2️⃣</span>
+                            <div>
+                                <h3>Learn with structure</h3>
+                                <p>Follow guided modules across phishing, malware, networks, cloud, and more.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="icon">3️⃣</span>
+                            <div>
+                                <h3>Practice under pressure</h3>
+                                <p>Work through timed drills that mirror the decisions defenders face.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="icon">4️⃣</span>
+                            <div>
+                                <h3>Earn proof you can share</h3>
+                                <p>Complete the program and TRIBAMS signs off your certificate.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <span class="icon">3️⃣</span>
-                    <h3>Practice under pressure</h3>
-                    <p>Work through timed drills and hands-on exercises that mirror the decisions defenders face when something goes wrong.</p>
-                    <span class="tag">DRILLS</span>
-                </div>
-                <div class="feature-card">
-                    <span class="icon">4️⃣</span>
-                    <h3>Earn proof you can share</h3>
-                    <p>Complete the program (65% of modules at 70%+). TRIBAMS signs off your certificate and sends a secure link so employers can verify originality.</p>
-                    <span class="tag">CERTIFY</span>
-                </div>
+
             </div>
         </div>
     </section>
@@ -1650,6 +1747,19 @@
     ============================================================ -->
     <section class="testimonials">
         <div class="container">
+            <section class="testimonials">
+        <div class="container">
+            
+            <!-- NEW IMAGE BANNER -->
+            <div style="margin-bottom: 3rem; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+                <img src="/brand/team-ops.jpg" alt="TRIBAMS team collaborating" style="width: 100%; height: 350px; object-fit: cover; display: block;" loading="lazy">
+            </div>
+            <!-- END NEW IMAGE BANNER -->
+
+            <div class="section-header">
+                <h2>Why people <span style="color:var(--neon-green);">choose TRIBAMS</span></h2>
+                <p>Clear training, honest communication, and a community that takes readiness seriously.</p>
+            </div>
             <div class="section-header">
                 <h2>Why people <span style="color:var(--neon-green);">choose TRIBAMS</span></h2>
                 <p>Clear training, honest communication, and a community that takes readiness seriously.</p>
