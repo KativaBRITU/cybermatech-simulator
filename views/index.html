@@ -25,7 +25,7 @@
                 .cyber-scroll {
                     width: 100%;
                     overflow: hidden;
-                    background: linear-gradient(90deg, #0a0f18 0%, #111827 50%, #0a0f18 100%);
+                    background: linear-gradient(90deg, #6b7485 0%, #464f61 50%, #b3b6bb 100%);
                     padding: 16px 0;
                     position: relative;
                     border-top: 1px solid rgba(45, 212, 191, 0.35);
@@ -46,12 +46,12 @@
         
                 .cyber-scroll::before {
                     left: 0;
-                    background: linear-gradient(90deg, #0b1220, transparent);
+                    background: linear-gradient(90deg, #52555a, transparent);
                 }
 
                 .cyber-scroll::after {
                     right: 0;
-                    background: linear-gradient(270deg, #0b1220, transparent);
+                    background: linear-gradient(270deg, #686b72, transparent);
                 }
         
                 .cyber-scroll-track {
@@ -141,31 +141,29 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         :root {
-            --bg-primary: #0b1220;
-            --bg-secondary: #111827;
-            --bg-card: rgba(255, 255, 255, 0.04);
-            --border-color: rgba(212, 175, 55, 0.22);
-            --neon-green: #f0b429;
-            --neon-blue: #d4af37;
-            --neon-cyan: #f5d08a;
-            --text-primary: #eef2f8;
-            --text-secondary: #c5d0e8;
-            --text-muted: #a8b4c8;
-            --glass-bg: rgba(11, 18, 32, 0.92);
-            --glass-border: rgba(212, 175, 55, 0.22);
-            --shadow-glow: 0 0 40px rgba(212, 175, 55, 0.12);
+            --bg-primary: #57788f; /* Light Blue background */
+            --bg-secondary: #bae6fd; /* Slightly darker blue for headers */
+            --bg-card: rgba(116, 73, 73, 0.7); /* White-ish cards */
+            --border-color: rgba(2, 132, 199, 0.2); /* Blue borders */
+            --neon-green: #0284c7; /* Using a strong blue as the primary accent */
+            --neon-blue: #0369a1;
+            --neon-cyan: #0ea5e9;
+            --text-primary: #0f172a; /* Dark text for readability */
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --glass-bg: rgba(224, 242, 254, 0.9);
+            --glass-border: rgba(2, 132, 199, 0.2);
+            --shadow-glow: 0 0 40px rgba(2, 132, 199, 0.15);
             --radius: 14px;
             --transition: 0.3s ease;
             --font-display: 'Syne', system-ui, sans-serif;
             --font-body: 'IBM Plex Sans', system-ui, sans-serif;
             --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
             --text-shadow: none;
-            --accent-warm: #d4af37;
-            --surface-warm: #111827;
+            --accent-warm: #0284c7;
+            --surface-warm: #f0f9ff;
         }
-
         html {
             scroll-behavior: smooth;
         }
@@ -180,16 +178,7 @@
             position: relative;
         }
 
-        /* Studio atmosphere */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            pointer-events: none;
-            background: linear-gradient(180deg, #070b12 0%, #0b1220 48%, #111827 100%);
-        }
-
+        background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 48%, #bae6fd 100%);
         body::after {
             content: '';
             position: fixed;
@@ -663,7 +652,7 @@
             padding: 1rem 0 0;
         }
 
-        .feature-card {
+       .feature-card {
             background: linear-gradient(165deg, rgba(61, 37, 24, 0.95), rgba(26, 15, 10, 0.98));
             border: 1px solid rgba(196, 154, 108, 0.25);
             border-radius: var(--radius);
@@ -671,6 +660,11 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+            
+            /* NEW FLEXBOX LAYOUT TO KEEP CARDS UNIFORM */
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Ensures all cards in a row stretch to match the tallest one */
         }
 
         .feature-card::before {
@@ -713,6 +707,17 @@
             box-shadow: var(--shadow-glow);
         }
 
+        .feature-img {
+            width: 100%;
+            height: 160px; /* Fixed height for the image container */
+            object-fit: cover; /* Crops the image to fill the space perfectly */
+            object-position: center;
+            border-radius: 8px;
+            margin-bottom: 1.25rem;
+            border: 1px solid var(--border-color);
+            display: block;
+            flex-shrink: 0; /* Prevents the image from shrinking if the text is long */
+        }
         .feature-card .icon {
             font-size: 2.2rem;
             margin-bottom: 0.55rem;
@@ -742,7 +747,10 @@
             border-radius: 4px;
             letter-spacing: 0.04em;
         }
-
+ .feature-card .tag {
+            margin-top: auto; /* Pushes the tag to the very bottom of the card */
+            align-self: flex-start; /* Keeps the tag from stretching full width */
+        }
         /* ============================================================
                ROBOT / SYSTEMS DECK
                ============================================================ */
@@ -1447,24 +1455,34 @@
     <!-- ============================================================
     HERO SECTION — guest marketing only
     ============================================================ -->
-    <section class="hero hero--studio" id="home">
+   <section class="hero hero--studio" id="home">
         <div class="container hero-layout">
-            <div class="hero-content">
-                <img src="/brand/tribams-logo.svg" alt="TRIBAMS Cyber" class="hero-logo-wide" width="320" height="92">
-                <div class="hero-badge">Windhoek · Namibia · Training that respects your time</div>
-                <h1 class="hero-title">Build cyber skills that hold up when it matters</h1>
-                <p class="hero-description">
-                    Whether you are a student taking your first step, a professional sharpening your judgment, or a team leader building readiness across your organisation — TRIBAMS meets you where you are. We train through structured modules, realistic scenarios, and practice that feels like real decisions under pressure.
-                </p>
-                <p class="hero-description" style="margin-top:0.85rem; font-size:0.98rem;">
-                    Join a growing community of learners across Namibia, the region, and beyond. Create a free account to start training today.
-                </p>
-                <div class="hero-actions">
-                    <a href="/register" class="btn btn-primary">Join the community →</a>
-                    <a href="#how" class="btn btn-secondary">See how it works</a>
-                    <a href="/teams" class="btn btn-outline">For teams &amp; institutions</a>
+            
+            <!-- NEW: Grid wrapper -->
+            <div class="hero-grid">
+                
+                <!-- LEFT SIDE: Text -->
+                <div class="hero-content">
+                    <img src="/brand/tribams-logo.svg" alt="TRIBAMS Cyber" class="hero-logo-wide" width="320" height="92">
+                    <div class="hero-badge">Windhoek · Namibia · Training that respects your time</div>
+                    <h1 class="hero-title">Build cyber skills that hold up when it matters</h1>
+                    <p class="hero-description">
+                        Whether you are a student taking your first step, a professional sharpening your judgment, or a team leader building readiness across your organisation — TRIBAMS meets you where you are. We train through structured modules, realistic scenarios, and practice that feels like real decisions under pressure.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="/register" class="btn btn-primary">Join the community →</a>
+                        <a href="#how" class="btn btn-secondary">See how it works</a>
+                        <a href="/teams" class="btn btn-outline">For teams &amp; institutions</a>
+                    </div>
                 </div>
-           
+
+                <!-- RIGHT SIDE: The Image -->
+                <div class="hero-image">
+                    <!-- Replace this source with the actual image you want to use -->
+                    <img src="/brand/tribams.jfif" alt="TRIBAMS Cybersecurity Training in action" loading="lazy">
+                </div>
+                
+            </div>
         </div>
     </section>
 <div class="cyber-scroll">
@@ -1542,14 +1560,14 @@
                 
                 <!-- Left side: Image -->
                 <div class="split-image">
-                    <img src="/brand/analyst-desk.jpg" alt="TRIBAMS analyst working on a drill" loading="lazy">
+                    <img src="/brand/tribams2.jfif" alt="TRIBAMS analyst working on a drill" loading="lazy">
                 </div>
                 
                 <!-- Right side: Text and Steps -->
                 <div class="split-content">
                     <div class="section-header" style="text-align: left; margin-bottom: 2rem;">
                         <h2>How <span style="color:var(--neon-green);">TRIBAMS works</span></h2>
-                        <p>A clear path from your first login to measurable readiness — built for people who want training that feels serious, practical, and worth their time.</p>
+                        <p>A comprehensive learning journey that takes you from your very first login to a state of proven, mission-ready capability. We understand that cybersecurity is not just about knowing the theory; it is about execution under pressure. That is why our curriculum is built around realistic scenarios, timed drills, and hands-on labs that force you to apply your knowledge in environments that feel like real operational decisions. Whether you are an individual building a career or a team leader ensuring readiness, TRIBAMS provides the structure, the practice, and the verifiable proof you need to stand behind your skills.</p>
                     </div>
                     
                     <div class="features-list">
@@ -1663,7 +1681,7 @@
                 <div class="feature-card">
                     <span class="icon">🌍</span>
                     <h3>Regional &amp; global learners</h3>
-                    <p>Rooted in Windhoek, open to the world. The threats are global; the training should still feel relevant where you live and work.</p>
+                    <p>The threats are global; the training should still feel relevant where you live and work.</p>
                 </div>
             </div>
         </div>
@@ -1671,43 +1689,62 @@
 
     <section id="features" class="features-section">
         <div class="container">
+            
+            <!-- Image Banner at the top -->
+            <div style="margin-bottom: 3rem; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 20px 40px rgba(0,0,0,0.4); position: relative;">
+                <img src="/brand/tribams.jfif" alt="TRIBAMS training in action" style="width: 100%; height: 300px; object-fit: cover; object-position: center 30%; display: block;" loading="lazy">
+                <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(11,18,32,0.9) 0%, transparent 60%);"></div>
+            </div>
+
             <div class="section-header">
                 <h2>Training areas <span style="color:var(--neon-green);">you will cover</span></h2>
                 <p>After you join, you train across the threats defenders face every day — with examples that connect to real roles and real decisions.</p>
             </div>
+            
             <div class="features-grid">
+                <!-- Card 1 -->
                 <div class="feature-card">
-                    <span class="icon">🎣</span>
+                    <img src="/brand/team-ops.jpg" alt="Phishing Detection" class="feature-img">
                     <h3>Phishing Detection</h3>
                     <p>Spot and respond to email and social phishing aimed at people and organisations.</p>
                     <span class="tag">AWARENESS</span>
                 </div>
+                
+                <!-- Card 2 -->
                 <div class="feature-card">
-                    <span class="icon">🦠</span>
+                    <img src="/brand/malware.jpg" alt="Malware Awareness" class="feature-img">
                     <h3>Malware Awareness</h3>
                     <p>Understand ransomware and common malware behaviours with practical case studies.</p>
                     <span class="tag">DEFENCE</span>
                 </div>
+                
+                <!-- Card 3 -->
                 <div class="feature-card">
-                    <span class="icon">🔒</span>
+                    <img src="/brand/tribams.jfif" alt="Network Security" class="feature-img">
                     <h3>Network Security</h3>
                     <p>Learn firewalls, encryption, and zero-trust ideas used in real environments.</p>
                     <span class="tag">NETWORK</span>
                 </div>
+                
+                <!-- Card 4 -->
                 <div class="feature-card">
-                    <span class="icon">☁️</span>
+                    <img src="/brand/tribams2.jfif" alt="Cloud Security" class="feature-img">
                     <h3>Cloud Security</h3>
                     <p>Secure cloud accounts, identities, and shared responsibility models.</p>
                     <span class="tag">CLOUD</span>
                 </div>
+                
+                <!-- Card 5 -->
                 <div class="feature-card">
-                    <span class="icon">🎭</span>
+                    <img src="/brand/tribams.jfif" alt="Social Engineering" class="feature-img">
                     <h3>Social Engineering</h3>
                     <p>Recognise manipulation tactics before they become a breach.</p>
                     <span class="tag">HUMAN RISK</span>
                 </div>
+                
+                <!-- Card 6 -->
                 <div class="feature-card">
-                    <span class="icon">🚨</span>
+                    <img src="/brand/tribams2.jfif" alt="Incident Response" class="feature-img">
                     <h3>Incident Response</h3>
                     <p>Practice calm, structured response when something goes wrong.</p>
                     <span class="tag">RESPONSE</span>
@@ -1752,7 +1789,7 @@
             
             <!-- NEW IMAGE BANNER -->
             <div style="margin-bottom: 3rem; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
-                <img src="/brand/team-ops.jpg" alt="TRIBAMS team collaborating" style="width: 100%; height: 350px; object-fit: cover; display: block;" loading="lazy">
+                <img src="/brand/analyst-desk.jpg" alt="TRIBAMS team collaborating" style="width: 100%; height: 350px; object-fit: cover; display: block;" loading="lazy">
             </div>
             <!-- END NEW IMAGE BANNER -->
 
@@ -1760,10 +1797,7 @@
                 <h2>Why people <span style="color:var(--neon-green);">choose TRIBAMS</span></h2>
                 <p>Clear training, honest communication, and a community that takes readiness seriously.</p>
             </div>
-            <div class="section-header">
-                <h2>Why people <span style="color:var(--neon-green);">choose TRIBAMS</span></h2>
-                <p>Clear training, honest communication, and a community that takes readiness seriously.</p>
-            </div>
+           
             <div class="testimonial-grid">
                 <div class="testimonial-card">
                     <div class="quote">If you are building your career, you deserve training that respects your intelligence — clear modules, honest feedback, and certificates you can stand behind when opportunity knocks.</div>
