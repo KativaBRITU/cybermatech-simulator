@@ -1325,12 +1325,23 @@ app.post('/api/forgot-password', rateLimiter(5, 15 * 60 * 1000, 'forgot-password
             'INSERT INTO password_resets (user_id, token, used, expires_at) VALUES (?, ?, 0, ?)',
             [user.id, tokenHash, expiresAt]
         );
-
-        const emailService = require('./services/emailService');
+     const emailService = require('./services/emailService');
         const resetLink = `${emailService.APP_BASE_URL}/reset-password?token=${rawToken}&email=${encodeURIComponent(user.email)}`;
+
+        // --- ADD THESE 3 DEBUG LOGS ---
+        console.log('🔵 FORGOT PASSWORD ROUTE HIT for:', email);
+        console.log('🔵 RESEND_API_KEY loaded?', !!process.env.RESEND_API_KEY);
+        console.log('🔵 ABOUT TO CALL sendPasswordResetEmail');
+        // ------------------------------
 
         if (emailService.isConfigured()) {
             const result = await emailService.sendPasswordResetEmail(user.email, user.username, resetLink);
+            
+            // --- ADD THIS RESULT LOG ---
+            console.log('🔵 EMAIL SERVICE RESULT:', result); 
+            // --------------------------
+            
+            if (!result.sent) {
             if (!result.sent) {
                 console.warn('Forgot-password email not sent:', result.reason);
                 console.log(`🔑 Password reset link (email failed — use manually): ${resetLink}`);
