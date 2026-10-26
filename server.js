@@ -1325,7 +1325,7 @@ app.post('/api/forgot-password', rateLimiter(5, 15 * 60 * 1000, 'forgot-password
             'INSERT INTO password_resets (user_id, token, used, expires_at) VALUES (?, ?, 0, ?)',
             [user.id, tokenHash, expiresAt]
         );
-     const emailService = require('./services/emailService');
+      const emailService = require('./services/emailService');
         const resetLink = `${emailService.APP_BASE_URL}/reset-password?token=${rawToken}&email=${encodeURIComponent(user.email)}`;
 
         // --- ADD THESE 3 DEBUG LOGS ---
@@ -1341,8 +1341,7 @@ app.post('/api/forgot-password', rateLimiter(5, 15 * 60 * 1000, 'forgot-password
             console.log('🔵 EMAIL SERVICE RESULT:', result); 
             // --------------------------
             
-            if (!result.sent) {
-            if (!result.sent) {
+            if (!result.sent) {                      // <--- ONLY ONE OF THESE
                 console.warn('Forgot-password email not sent:', result.reason);
                 console.log(`🔑 Password reset link (email failed — use manually): ${resetLink}`);
                 // Dev / local only — never expose tokens in production API responses
@@ -1367,13 +1366,6 @@ app.post('/api/forgot-password', rateLimiter(5, 15 * 60 * 1000, 'forgot-password
                 });
             }
         }
-
-        return res.json(generic);
-    } catch (err) {
-        console.error('Forgot password error:', err);
-        return res.json(generic);
-    }
-});
 
 app.post('/api/reset-password', rateLimiter(8, 15 * 60 * 1000, 'reset-password'), async (req, res) => {
     const email = security.normalizeEmail(req.body?.email);
