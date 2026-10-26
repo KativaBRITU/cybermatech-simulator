@@ -165,10 +165,13 @@ async function sendViaResend({ to, subject, html, text }) {
         })
     });
     const body = await res.text();
+     // Log the exact error if Resend rejects it
     if (!res.ok) {
-        console.log('🔴 RESEND ERROR:', res.status, body);   // ← ADD THIS TOO
-        throw new Error(`Resend HTTP ${res.status}: ${body.slice(0, 300)}`);
+        console.error('🔴 RESEND API ERROR:', res.status, body); 
+        throw new Error(`Resend HTTP ${res.status}: ${body}`);
     }
+
+    console.log(`✅ Email sent via Resend → ${to} (${subject})`);
     return { sent: true, provider: 'resend' };
 }
 
@@ -373,6 +376,7 @@ async function sendWelcomeEmail(email, username) {
 }
 
 async function sendPasswordResetEmail(email, username, resetLink) {
+    console.log('🔵 sendPasswordResetEmail CALLED for:', email); 
     const name = escapeHtml(username);
     const link = String(resetLink || '');
     const html = wrapLayout({
