@@ -38,119 +38,20 @@ function shuffleArray(arr, rng = Math.random) {
  * before shuffle. Full rationale stays in the explanation after scoring.
  */
 function normalizeMcqOptions(q) {
-    if (!q || !Array.isArray(q.options) || q.options.length < 2) return q;
-
-    const correct = Number.isInteger(q.correct) ? q.correct : 0;
-    const TARGET_CHARS = 78;
-    const MIN_WORDS = 6;
-
-    const wrongTails = [
-        'without verifying identity first',
-        'while skipping dual control checks',
-        'treating urgency above written policy',
-        'hoping speed alone contains risk'
-    ];
-    const correctTails = [
-        'as immediate professional priority',
-        'before irreversible privilege changes'
-    ];
-    const DANGLING = new Set([
-        'without', 'while', 'treating', 'hoping', 'before', 'as', 'and', 'or',
-        'the', 'a', 'an', 'to', 'of', 'for', 'with', 'by', 'on', 'in', 'at',
-        'under', 'despite'
-    ]);
-
-    function wordsOf(text) {
-        return String(text || '')
-            .replace(/[—–]/g, ' ')
-            .replace(/[\\/]/g, ' ')
-            .replace(/[^\w\s'.-]/g, ' ')
-            .split(/\s+/)
-            .filter(Boolean);
-    }
-
-    function collapseDupes(words) {
-        const out = [];
-        for (const w of words) {
-            if (out.length && out[out.length - 1].toLowerCase() === w.toLowerCase()) continue;
-            out.push(w);
-        }
-        return out;
-    }
-
-    function polish(words) {
-        let w = collapseDupes(words);
-        // Strip dangling starters that truncation used to leave ("… without")
-        while (w.length > 3 && DANGLING.has(String(w[w.length - 1]).toLowerCase())) {
-            w.pop();
-        }
-        return w;
-    }
-
-    function fitToBudget(text, isCorrect, idx) {
-        let words = polish(wordsOf(text));
-        if (words.length > 14) words = words.slice(0, 12);
-
-        let out = words.join(' ');
-        const tails = isCorrect ? correctTails : wrongTails;
-
-        // Append whole tails only — never cut mid-phrase like "... without"
-        let guard = 0;
-        while (out.length < TARGET_CHARS - 2 && guard < 4) {
-            const tail = tails[(idx + guard) % tails.length];
-            const trialWords = polish(wordsOf(`${out} ${tail}`));
-            const trial = trialWords.join(' ');
-            if (trial.length > TARGET_CHARS + 14) break;
-            out = trial;
-            words = trialWords;
-            guard++;
-        }
-
-        if (out.length > TARGET_CHARS) {
-            words = polish(wordsOf(out.slice(0, TARGET_CHARS)));
-            while (words.length > MIN_WORDS && words.join(' ').length > TARGET_CHARS) {
-                words.pop();
-                words = polish(words);
-            }
-            out = words.join(' ');
-        }
-
-        return out.trim();
-    }
-
-    let options = q.options.map((opt, i) => fitToBudget(opt, i === correct, i));
-
-    // Absolute rule: correct must never be the unique longest option
-    for (let round = 0; round < 3; round++) {
-        const lengths = options.map(o => o.length);
-        const cLen = lengths[correct] || 0;
-        const otherLens = lengths.filter((_, i) => i !== correct);
-        const maxOther = Math.max(0, ...otherLens);
-        if (cLen <= maxOther) break;
-
-        let words = polish(wordsOf(options[correct].slice(0, Math.max(40, maxOther - 1))));
-        const trimmed = words.join(' ').trim();
-        if (trimmed.length >= 36) {
-            options[correct] = trimmed;
-        } else {
-            const shortIdx = lengths.findIndex((l, i) => i !== correct && l === Math.min(...otherLens));
-            if (shortIdx >= 0) {
-                options[shortIdx] = fitToBudget(options[shortIdx] + ' under active incident pressure', false, shortIdx);
-            }
-        }
-    }
-
-    // Final sweep: pad any option still much shorter than the median
-    const lens = options.map(o => o.length);
-    const median = [...lens].sort((a, b) => a - b)[Math.floor(lens.length / 2)] || TARGET_CHARS;
-    options = options.map((opt, i) => {
-        if (opt.length >= median - 6) return polish(wordsOf(opt)).join(' ');
-        return fitToBudget(opt + ' in this operating context', i === correct, i);
-    });
-
-    return { ...q, options };
+    // PILOT FIX (2026-11-04): disabled.
+    //
+    // The original implementation padded distractor options with generic tails
+    // to defeat the "longest option wins" tell. That produced grammatically
+    // broken, semantically doubled strings like:
+    //   "Ban WhatsApp company-wide without alternative without verifying identity first"
+    //
+    // It defeated one tell by adding a worse one. The real fix is human-written
+    // distractors during the rewrite (Steps 4-10). See
+    // docs/methodology/generic-content-defect.md.
+    //
+    // This function is retained as a pass-through so all callers keep working.
+    return q;
 }
-
 /** @deprecated name kept for callers — now hard-equalizes length */
 function balanceOptionLengths(q) {
     return normalizeMcqOptions(q);
@@ -1317,7 +1218,7 @@ function synthesizeModuleQuestions(module) {
 function buildQuestionPool(module, rank = 'beginner') {
     const africanContext = require('./africanContext');
     const progressiveContent = require('./progressiveContent');
-    const synthesized = synthesizeModuleQuestions(module);
+    //const synthesized = synthesizeModuleQuestions(module);
     const specific = MODULE_QUESTIONS[module.id] || [];
     const specialOps = getSpecialOpsQuestions(module);
     const tierA = TIER_A_QUESTIONS[module.id] || [];
@@ -1332,17 +1233,6 @@ function buildQuestionPool(module, rank = 'beginner') {
         pool_tier: 'shared_category'
     }));
 
-    const unique = [
-        ...premiumQuiz.map((q) => ({ ...q, pool_tier: 'premium' })),
-        ...progressiveQuiz.map((q) => ({ ...q, pool_tier: 'progressive' })),
-        ...africaQuiz.map((q) => ({ ...q, pool_tier: 'africa' })),
-        ...tierA.map((q) => ({ ...q, pool_tier: 'tier_a' })),
-        ...tierB.map((q) => ({ ...q, pool_tier: 'tier_b' })),
-        ...tierC.map((q) => ({ ...q, pool_tier: 'tier_c' })),
-        ...specialOps.map((q) => ({ ...q, pool_tier: 'special_ops' })),
-        ...specific.map((q) => ({ ...q, pool_tier: 'module_specific' })),
-        ...synthesized.map((q) => ({ ...q, pool_tier: 'synthesized' }))
-    ];
 
     const shared = [...category];
     if (module.category === 'malware') {
@@ -1574,41 +1464,38 @@ function generateModuleQuestions(module, difficulty = 'medium', limit = 10, opti
         }, rng));
         return true;
     }
-
-    for (let i = 0; i < shuffledUnique.length && selected.length < targetUnique; i++) {
-        pushQuestion(shuffledUnique[i]);
-    }
-    for (let i = 0; i < shuffledShared.length && selected.length < effectiveLimit; i++) {
-        pushQuestion(shuffledShared[i]);
-    }
-
-    const fillers = [...padJudgmentQuestions(module)];
-    let guard = 0;
-    while (selected.length < effectiveLimit && guard < fillers.length * 4) {
-        pushQuestion(fillers[guard % fillers.length], 2);
-        guard += 1;
-    }
-
-    let extra = 0;
-    while (selected.length < effectiveLimit && extra < 12) {
-        extra += 1;
-        pushQuestion({
-            question: `[${module.name}] Decision ${selected.length + 1}: a requester uses urgency to bypass a written ${module.name} control. Professional response?`,
-            options: [
-                'Comply immediately so the requester stays calm',
-                'Verify on a known channel and keep the written control',
-                'Share admin credentials so they can finish faster',
-                'Ignore every alert, including confirmed emergencies'
-            ],
-            correct: 1,
-            explanation: 'Urgency is not authorization. Verify identity and keep dual-control gates.',
-            topic: `${module.category}_judgment_${extra}`,
-            time_expected: 30,
-            pool_tier: 'pad'
-        }, 2);
-    }
-
-    const finalQuestions = shuffleArray(selected, rng).map((q, idx) => ({ ...q, id: idx + 1 }));
+// PILOT FIX (2026-11-04): padJudgmentQuestions and the inline "extra filler"
+    // loop disabled. Both produced template questions with identical correct-answer
+    // patterns per module (always "verify + keep control"). See
+    // docs/methodology/generic-content-defect.md.
+    //
+    // Original code:
+    //
+    // const fillers = [...padJudgmentQuestions(module)];
+    // let guard = 0;
+    // while (selected.length < effectiveLimit && guard < fillers.length * 4) {
+    //     pushQuestion(fillers[guard % fillers.length], 2);
+    //     guard += 1;
+    // }
+    //
+    // let extra = 0;
+    // while (selected.length < effectiveLimit && extra < 12) {
+    //     extra += 1;
+    //     pushQuestion({
+    //         question: `[${module.name}] Decision ${selected.length + 1}: a requester uses urgency to bypass a written ${module.name} control. Professional response?`,
+    //         options: [
+    //             'Comply immediately so the requester stays calm',
+    //             'Verify on a known channel and keep the written control',
+    //             'Share admin credentials so they can finish faster',
+    //             'Ignore every alert, including confirmed emergencies'
+    //         ],
+    //         correct: 1,
+    //         explanation: 'Urgency is not authorization. Verify identity and keep dual-control gates.',
+    //         topic: `${module.category}_judgment_${extra}`,
+    //         time_expected: 30,
+    //         pool_tier: 'pad'
+    //     }, 2);
+    // }
     const expectedSum = finalQuestions.reduce((s, q) => s + (q.time_expected || 40), 0);
     const timeLimit = Math.max(180, Math.round(expectedSum * profile.timeFactor));
     const immersion = progressiveContent.immersionForRank(rank, module.name);
