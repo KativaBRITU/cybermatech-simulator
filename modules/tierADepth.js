@@ -3,8 +3,31 @@
  * Merged into assessmentEngine / contentLibrary.
  */
 
-function q(question, options, correct, explanation, topic, time_expected = 40) {
-    return { question, options, correct, explanation, topic, time_expected };
+function q(question, options, correct, explanation, topic, time_expected = 40, meta = {}) {
+    return {
+        question,
+        options,
+        correct,
+        explanation,
+        topic,
+        time_expected,
+        distractor_rationale: meta.distractor_rationale || null,
+        cognitive_level: meta.cognitive_level || null,
+        difficulty: meta.difficulty || null,
+        coverage_tag: meta.coverage_tag || null,
+        rotation_bucket: meta.rotation_bucket || null,
+        last_validated: meta.last_validated || null,
+        retired: meta.retired || false,
+        supersedes: meta.supersedes || null,
+    };
+}
+
+function essay(question, guidelines, rubric = null) {
+    return {
+        question,
+        guidelines,
+        rubric,
+    };
 }
 
 const TIER_A_QUESTIONS = {
@@ -471,114 +494,98 @@ const TIER_A_QUESTIONS = {
 
 const TIER_A_ESSAYS = {
     1: [
-        {
-            question:
-                'Write a 90-second executive brief after an AiTM campaign stole three finance sessions despite OTP MFA. Cover: what happened, immediate containment, why OTP failed, and a 30-day control plan.',
-            guidelines: 'Plain language, no jargon dumps. Name phishing-resistant MFA and session controls. Include dual-control payment freeze.'
-        },
-        {
-            question:
-                'Design a Namibian SME phishing program for WhatsApp + email invoice fraud. Include measurement, coaching (no shame), and escalation to SOC.',
-            guidelines: 'Channel-realistic. Define KPIs (report time, callback adherence) not just completion rates.'
-        }
+        essay(
+            'Write a 90-second executive brief after an AiTM campaign stole three finance sessions despite OTP MFA. Cover: what happened, immediate containment, why OTP failed, and a 30-day control plan.',
+            'Plain language, no jargon dumps. Name phishing-resistant MFA and session controls. Include dual-control payment freeze.'
+        ),
+        essay(
+            'Design a Namibian SME phishing program for WhatsApp + email invoice fraud. Include measurement, coaching (no shame), and escalation to SOC.',
+            'Channel-realistic. Define KPIs (report time, callback adherence) not just completion rates.'
+        )
     ],
     7: [
-        {
-            question:
-                'A deepfake “CFO” voice asks for an urgent wire during month-end. Write the finance playbook step-by-step for the first 10 minutes.',
-            guidelines: 'Challenge phrase, dual control, known-number callback, what not to do under authority pressure.'
-        }
+        essay(
+            'A deepfake “CFO” voice asks for an urgent wire during month-end. Write the finance playbook step-by-step for the first 10 minutes.',
+            'Challenge phrase, dual control, known-number callback, what not to do under authority pressure.'
+        )
     ],
     8: [
-        {
-            question:
-                'You are Incident Commander. Encryption is spreading; Legal wants a public statement in 20 minutes. Write dual-track orders for tech containment and communications.',
-            guidelines: 'Facts only in comms. Named owners. Unsafe actions under panic listed explicitly.'
-        }
+        essay(
+            'You are Incident Commander. Encryption is spreading; Legal wants a public statement in 20 minutes. Write dual-track orders for tech containment and communications.',
+            'Facts only in comms. Named owners. Unsafe actions under panic listed explicitly.'
+        )
     ],
     11: [
-        {
-            question:
-                'Affiliates deleted VSS and began exfil before encrypt. Draft a board recovery narrative: backups, identity tiering, and whether ransom negotiation is an IR decision.',
-            guidelines: 'Separate business/legal payment decisions from technical recovery. Cite restore-test evidence.'
-        }
+        essay(
+            'Affiliates deleted VSS and began exfil before encrypt. Draft a board recovery narrative: backups, identity tiering, and whether ransom negotiation is an IR decision.',
+            'Separate business/legal payment decisions from technical recovery. Cite restore-test evidence.'
+        )
     ],
     18: [
-        {
-            question:
-                'Night shift closed 200 medium alerts without reading due to fatigue. Write a SOC lead remediation plan covering tuning ownership, staffing, and protection of high-fidelity rules.',
-            guidelines: 'Treat fatigue as design failure. Include MTTD/MTTR on purple techniques as success metrics.'
-        }
+        essay(
+            'Night shift closed 200 medium alerts without reading due to fatigue. Write a SOC lead remediation plan covering tuning ownership, staffing, and protection of high-fidelity rules.',
+            'Treat fatigue as design failure. Include MTTD/MTTR on purple techniques as success metrics.'
+        )
     ],
     21: [
-        {
-            question:
-                'Contractors on flat VPN can reach SCADA jump hosts. Propose a Zero Trust migration that keeps the plant running.',
-            guidelines: 'Segmentation, device posture, least privilege, short-lived access. No “trust the VPN” leftovers.'
-        }
+        essay(
+            'Contractors on flat VPN can reach SCADA jump hosts. Propose a Zero Trust migration that keeps the plant running.',
+            'Segmentation, device posture, least privilege, short-lived access. No “trust the VPN” leftovers.'
+        )
     ],
     37: [
-        {
-            question:
-                'Rewrite an annual shame-based awareness program into a monthly micro-drill system for retail staff who live on WhatsApp.',
-            guidelines: 'Psychological safety, channel realism, manager callback norms, measurable behavior change.'
-        }
+        essay(
+            'Rewrite an annual shame-based awareness program into a monthly micro-drill system for retail staff who live on WhatsApp.',
+            'Psychological safety, channel realism, manager callback norms, measurable behavior change.'
+        )
     ],
     46: [
-        {
-            question:
-                'Unauthorized 03:00 full-subnet SYN scan from a marketing laptop. Write the SOC case narrative and 48-hour hunt plan as if ransomware may follow.',
-            guidelines: 'Recon as precursor. Isolation, authorization check, sibling hunt, ticket with owner.'
-        }
+        essay(
+            'Unauthorized 03:00 full-subnet SYN scan from a marketing laptop. Write the SOC case narrative and 48-hour hunt plan as if ransomware may follow.',
+            'Recon as precursor. Isolation, authorization check, sibling hunt, ticket with owner.'
+        )
     ],
     51: [
-        {
-            question:
-                'Explain to a board why Domain Admin on a helpdesk PC is an architectural failure, using Mimikatz-class theft and Pass-the-Hash as the story.',
-            guidelines: 'PAW/tiering language. Avoid tool worship. Tie to business blast radius.'
-        }
+        essay(
+            'Explain to a board why Domain Admin on a helpdesk PC is an architectural failure, using Mimikatz-class theft and Pass-the-Hash as the story.',
+            'PAW/tiering language. Avoid tool worship. Tie to business blast radius.'
+        )
     ],
     52: [
-        {
-            question:
-                'Write a detection engineering brief for malleable HTTP C2 with sleep jitter. What do you hunt, what do you ignore, and how do you purple-test it?',
-            guidelines: 'Beacon cadence, process ancestry, rare destinations. Retest after tuning.'
-        }
+        essay(
+            'Write a detection engineering brief for malleable HTTP C2 with sleep jitter. What do you hunt, what do you ignore, and how do you purple-test it?',
+            'Beacon cadence, process ancestry, rare destinations. Retest after tuning.'
+        )
     ],
     58: [
-        {
-            question:
-                'BloodHound shows Helpdesk GenericAll on a path to Tier-0. Write a risk-committee paper: severity, owners, 30/60/90 remediation, and retest proof.',
-            guidelines: 'Attack paths as backlog. Shortest-path metric. No inventory theater.'
-        }
+        essay(
+            'BloodHound shows Helpdesk GenericAll on a path to Tier-0. Write a risk-committee paper: severity, owners, 30/60/90 remediation, and retest proof.',
+            'Attack paths as backlog. Shortest-path metric. No inventory theater.'
+        )
     ],
     60: [
-        {
-            question:
-                'Teach executives Pass-the-Hash using cloud session-token theft as the analogy. Include the architectural fix and a 10-minute containment checklist.',
-            guidelines: 'Reuse family of techniques. Tiering + short-lived creds. Clear containment steps.'
-        }
+        essay(
+            'Teach executives Pass-the-Hash using cloud session-token theft as the analogy. Include the architectural fix and a 10-minute containment checklist.',
+            'Reuse family of techniques. Tiering + short-lived creds. Clear containment steps.'
+        )
     ],
     70: [
-        {
-            question:
-                'High-entropy DNS every 45s from one host. Write the hunt-to-contain playbook and the durable DNS architecture controls.',
-            guidelines: 'Recursive resolvers, logging, sinkhole, EDR correlation. Avoid “block all DNS.”'
-        }
+        essay(
+            'High-entropy DNS every 45s from one host. Write the hunt-to-contain playbook and the durable DNS architecture controls.',
+            'Recursive resolvers, logging, sinkhole, EDR correlation. Avoid “block all DNS.”'
+        )
     ],
     84: [
-        {
-            question:
-                'Build a one-page ATT&CK heatmap story for leadership: strong phishing coverage, blind credential dumping. Ask for funding with measurable MTTD targets.',
-            guidelines: 'Shared vocabulary. Retestable outcomes. No fear theater.'
-        }
+        essay(
+            'Build a one-page ATT&CK heatmap story for leadership: strong phishing coverage, blind credential dumping. Ask for funding with measurable MTTD targets.',
+            'Shared vocabulary. Retestable outcomes. No fear theater.'
+        )
     ],
     95: [
-        {
-            question:
-                'Purple week results: phishing MTTD 4 minutes; LSASS dump missed. Write the sprint plan and the re-emulation success criteria.',
-            guidelines: 'Fund dangerous blinds. Owners, dates, retest proof. Emulate → remediate → re-emulate.'
-        }
+        essay(
+            'Purple week results: phishing MTTD 4 minutes; LSASS dump missed. Write the sprint plan and the re-emulation success criteria.',
+            'Fund dangerous blinds. Owners, dates, retest proof. Emulate → remediate → re-emulate.'
+        )
     ]
 };
 
@@ -844,9 +851,14 @@ function getTierAEssays(moduleId) {
     return TIER_A_ESSAYS[moduleId] || null;
 }
 
+const MODULE_ROTATION_MIN = 12;
+const MODULE_ROTATION_MIN_BUCKETS = 3;
+
 module.exports = {
     TIER_A_QUESTIONS,
     TIER_A_EXTRAS,
     TIER_A_ESSAYS,
-    getTierAEssays
+    getTierAEssays,
+    MODULE_ROTATION_MIN,
+    MODULE_ROTATION_MIN_BUCKETS,
 };

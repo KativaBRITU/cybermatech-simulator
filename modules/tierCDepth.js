@@ -3,12 +3,31 @@
  * Merged with Tier A/B in assessmentEngine / contentLibrary.
  */
 
-function q(question, options, correct, explanation, topic, time_expected = 40) {
-    return { question, options, correct, explanation, topic, time_expected };
+function q(question, options, correct, explanation, topic, time_expected = 40, meta = {}) {
+    return {
+        question,
+        options,
+        correct,
+        explanation,
+        topic,
+        time_expected,
+        distractor_rationale: meta.distractor_rationale || null,
+        cognitive_level: meta.cognitive_level || null,
+        difficulty: meta.difficulty || null,
+        coverage_tag: meta.coverage_tag || null,
+        rotation_bucket: meta.rotation_bucket || null,
+        last_validated: meta.last_validated || null,
+        retired: meta.retired || false,
+        supersedes: meta.supersedes || null,
+    };
 }
 
-function essay(question, guidelines) {
-    return { question, guidelines };
+function essay(question, guidelines, rubric = null) {
+    return {
+        question,
+        guidelines,
+        rubric,
+    };
 }
 
 const TIER_C_QUESTIONS = {
@@ -182,9 +201,14 @@ function getTierCEssays(moduleId) {
     return TIER_C_ESSAYS[moduleId] || null;
 }
 
+const MODULE_ROTATION_MIN = 12;
+const MODULE_ROTATION_MIN_BUCKETS = 3;
+
 module.exports = {
     TIER_C_QUESTIONS,
     TIER_C_EXTRAS,
     TIER_C_ESSAYS,
-    getTierCEssays
+    getTierCEssays,
+    MODULE_ROTATION_MIN,
+    MODULE_ROTATION_MIN_BUCKETS,
 };
