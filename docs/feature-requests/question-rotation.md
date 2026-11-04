@@ -38,3 +38,13 @@ the module.
 
 See docs/feature-requests/completion-definition.md for the completion
 definition and daily-quiz parameters.
+## Minimum item count — confirmed 2026-11-04
+
+The minimum for any certificate-bearing module is 12 questions (matches the
+rotation requirement). Not 5. The audit heuristic flags modules under 5, but
+the real gate is 12.
+
+Modules that cannot reach 12 questions:
+  - Are marked non-rotation in the coverage matrix
+  - Do not count toward certificates
+  - Are either merged, retired, or extended in Step 10
