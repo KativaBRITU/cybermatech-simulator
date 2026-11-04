@@ -1,0 +1,5130 @@
+{
+  "generatedAt": "2026-11-04T11:35:03.554Z",
+  "minimums": {
+    "minQuestions": 12,
+    "minAnalyzeLevel": 2
+  },
+  "tiers": {
+    "A": {
+      "tierName": "A",
+      "moduleCount": 15,
+      "questionCount": 33,
+      "essayCount": 16,
+      "modules": {
+        "1": {
+          "questionCount": 3,
+          "essayCount": 2,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "1",
+              "topic": "aitm",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "1",
+              "topic": "email_auth",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "1",
+              "topic": "bec",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "1",
+              "issues": [
+                "missing_rubric"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "1",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "7": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "7",
+              "topic": "deepfake",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "7",
+              "topic": "bec",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "7",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "8": {
+          "questionCount": 3,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "8",
+              "topic": "incident_response",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "8",
+              "topic": "severity",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "8",
+              "topic": "forensics",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "8",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "11": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "11",
+              "topic": "ransomware",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "11",
+              "topic": "extortion",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "11",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "18": {
+          "questionCount": 3,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "18",
+              "topic": "soc",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "18",
+              "topic": "lateral",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "18",
+              "topic": "metrics",
+              "issues": [
+                "joke_option_2",
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "18",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "21": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "21",
+              "topic": "zero_trust",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "21",
+              "topic": "ztna",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "21",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "37": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "37",
+              "topic": "awareness",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "37",
+              "topic": "awareness",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "37",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "46": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "46",
+              "topic": "nmap",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "46",
+              "topic": "nmap",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "46",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "51": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "51",
+              "topic": "mimikatz",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "51",
+              "topic": "cred_guard",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "51",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "52": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "52",
+              "topic": "c2",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "52",
+              "topic": "c2",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "52",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "58": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "58",
+              "topic": "bloodhound",
+              "issues": [
+                "joke_option_0",
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "58",
+              "topic": "bloodhound",
+              "issues": [
+                "joke_option_0",
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "58",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "60": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "60",
+              "topic": "pth",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "60",
+              "topic": "tiering",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "60",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "70": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "70",
+              "topic": "dns_tunnel",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "70",
+              "topic": "dns_tunnel",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "70",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "84": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "84",
+              "topic": "attack",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "84",
+              "topic": "attack",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "84",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "95": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "A",
+              "moduleId": "95",
+              "topic": "purple",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "A",
+              "moduleId": "95",
+              "topic": "purple",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "A",
+              "moduleId": "95",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        }
+      }
+    },
+    "B": {
+      "tierName": "B",
+      "moduleCount": 52,
+      "questionCount": 104,
+      "essayCount": 23,
+      "modules": {
+        "2": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "2",
+              "topic": "malware",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "2",
+              "topic": "malware",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "2",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "3": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "3",
+              "topic": "network",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "3",
+              "topic": "network",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "4": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "4",
+              "topic": "cloud",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "4",
+              "topic": "cloud",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "4",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "5": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "5",
+              "topic": "mobile",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "5",
+              "topic": "mobile",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "9": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "9",
+              "topic": "compliance",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "9",
+              "topic": "compliance",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "10": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "10",
+              "topic": "ethics",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "10",
+              "topic": "ethics",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "12": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "12",
+              "topic": "privacy",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "12",
+              "topic": "privacy",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "12",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "14": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "14",
+              "topic": "database",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "14",
+              "topic": "database",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "15": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "15",
+              "topic": "devsecops",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "15",
+              "topic": "devsecops",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "15",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "16": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "16",
+              "topic": "forensics",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "16",
+              "topic": "forensics",
+              "issues": [
+                "joke_option_0",
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "16",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "17": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "17",
+              "topic": "threat_intel",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "17",
+              "topic": "threat_intel",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "19": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "19",
+              "topic": "iam",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "19",
+              "topic": "iam",
+              "issues": [
+                "truncated_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "19",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "20": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "20",
+              "topic": "crypto",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "20",
+              "topic": "crypto",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "22": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "22",
+              "topic": "supply_chain",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "22",
+              "topic": "supply_chain",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "23": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "23",
+              "topic": "api",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "23",
+              "topic": "api",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "23",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "24": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "24",
+              "topic": "container",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "24",
+              "topic": "container",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "25": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "25",
+              "topic": "kubernetes",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "25",
+              "topic": "kubernetes",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "25",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "27": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "27",
+              "topic": "ai_security",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "27",
+              "topic": "ai_security",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "27",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "30": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "30",
+              "topic": "ot",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "30",
+              "topic": "ot",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "30",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "31": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "31",
+              "topic": "hipaa",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "31",
+              "topic": "hipaa",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "32": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "32",
+              "topic": "pci",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "32",
+              "topic": "pci",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "34": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "34",
+              "topic": "insider",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "34",
+              "topic": "insider",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "34",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "36": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "36",
+              "topic": "bcp",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "36",
+              "topic": "bcp",
+              "issues": [
+                "truncated_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "36",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "38": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "38",
+              "topic": "risk",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "38",
+              "topic": "risk",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "39": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "39",
+              "topic": "vuln",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "39",
+              "topic": "vuln",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "39",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "40": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "40",
+              "topic": "pentest",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "40",
+              "topic": "pentest",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "41": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "41",
+              "topic": "redblue",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "41",
+              "topic": "redblue",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "41",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "42": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "42",
+              "topic": "frameworks",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "42",
+              "topic": "frameworks",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "43": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "43",
+              "topic": "cloud_forensics",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "43",
+              "topic": "cloud_forensics",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "45": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "45",
+              "topic": "cyber_law",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "45",
+              "topic": "cyber_law",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "45",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "47": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "47",
+              "topic": "pcap",
+              "issues": [
+                "joke_option_0",
+                "joke_option_2",
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "47",
+              "topic": "pcap",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "48": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "48",
+              "topic": "metasploit",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "48",
+              "topic": "metasploit",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "49": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "49",
+              "topic": "burp",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "49",
+              "topic": "burp",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "49",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "50": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "50",
+              "topic": "sqli",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "50",
+              "topic": "sqli",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "53": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "53",
+              "topic": "c2",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "53",
+              "topic": "c2",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "54": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "54",
+              "topic": "hashcat",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "54",
+              "topic": "hashcat",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "56": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "56",
+              "topic": "hydra",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "56",
+              "topic": "hydra",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "59": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "59",
+              "topic": "kerberos",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "59",
+              "topic": "kerberos",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "59",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "61": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "61",
+              "topic": "lolbins",
+              "issues": [
+                "joke_option_1",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "61",
+              "topic": "lolbins",
+              "issues": [
+                "joke_option_2",
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "61",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "62": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "62",
+              "topic": "powershell",
+              "issues": [
+                "joke_option_0",
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "62",
+              "topic": "powershell",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "65": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "65",
+              "topic": "phishkit",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "65",
+              "topic": "phishkit",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "65",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "68": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "68",
+              "topic": "shodan",
+              "issues": [
+                "joke_option_0",
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "68",
+              "topic": "shodan",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "74": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "74",
+              "topic": "memory",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "74",
+              "topic": "memory",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "75": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "75",
+              "topic": "yara",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "75",
+              "topic": "yara",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "78": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "78",
+              "topic": "webshell",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "78",
+              "topic": "webshell",
+              "issues": [
+                "truncated_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "78",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "79": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "79",
+              "topic": "lateral",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "79",
+              "topic": "lateral",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "80": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "80",
+              "topic": "privesc",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "80",
+              "topic": "privesc",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "81": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "81",
+              "topic": "persist",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "81",
+              "topic": "persist",
+              "issues": [
+                "truncated_option_0",
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "85": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "85",
+              "topic": "emulation",
+              "issues": [
+                "truncated_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "85",
+              "topic": "emulation",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "86": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "86",
+              "topic": "deepfake",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "86",
+              "topic": "deepfake",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "86",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "88": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "88",
+              "topic": "cloud_cred",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "88",
+              "topic": "cloud_cred",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "88",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "90": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "B",
+              "moduleId": "90",
+              "topic": "supply_poison",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "B",
+              "moduleId": "90",
+              "topic": "supply_poison",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "B",
+              "moduleId": "90",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        }
+      }
+    },
+    "C": {
+      "tierName": "C",
+      "moduleCount": 28,
+      "questionCount": 56,
+      "essayCount": 18,
+      "modules": {
+        "6": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "6",
+              "topic": "iot",
+              "issues": [
+                "joke_option_2",
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "6",
+              "topic": "iot",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "6",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "13": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "13",
+              "topic": "wireless",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "13",
+              "topic": "wireless",
+              "issues": [
+                "joke_option_0",
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "13",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "26": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "26",
+              "topic": "serverless",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "26",
+              "topic": "serverless",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "26",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "28": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "28",
+              "topic": "quantum",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "28",
+              "topic": "quantum",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "28",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "29": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "29",
+              "topic": "blockchain",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "29",
+              "topic": "blockchain",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "33": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "33",
+              "topic": "ecommerce",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "33",
+              "topic": "ecommerce",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "33",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "35": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "35",
+              "topic": "physical",
+              "issues": [
+                "joke_option_0",
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "35",
+              "topic": "physical",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "35",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "44": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "44",
+              "topic": "mobile_forensics",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "44",
+              "topic": "mobile_forensics",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "44",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "55": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "55",
+              "topic": "john",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "55",
+              "topic": "john",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "57": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "57",
+              "topic": "wireless_off",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "57",
+              "topic": "wireless_off",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "57",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "63": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "63",
+              "topic": "set",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "63",
+              "topic": "set",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "64": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "64",
+              "topic": "beef",
+              "issues": [
+                "joke_option_0",
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "64",
+              "topic": "beef",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "64",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "66": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "66",
+              "topic": "osint",
+              "issues": [
+                "joke_option_0",
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "66",
+              "topic": "osint",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "67": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "67",
+              "topic": "harvester",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "67",
+              "topic": "harvester",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "69": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "69",
+              "topic": "tor",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "69",
+              "topic": "tor",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "69",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "71": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "71",
+              "topic": "exploitdev",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "71",
+              "topic": "exploitdev",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "72": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "72",
+              "topic": "bof",
+              "issues": [
+                "truncated_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "72",
+              "topic": "bof",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "73": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "73",
+              "topic": "ghidra",
+              "issues": [
+                "joke_option_2",
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "73",
+              "topic": "ghidra",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "76": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "76",
+              "topic": "ransom_tools",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "76",
+              "topic": "ransom_tools",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "76",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "77": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "77",
+              "topic": "iab",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "77",
+              "topic": "iab",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "77",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "82": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "82",
+              "topic": "evasion",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "82",
+              "topic": "evasion",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "82",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "83": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "83",
+              "topic": "exfil",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "83",
+              "topic": "exfil",
+              "issues": [
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "83",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "87": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "87",
+              "topic": "advml",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "87",
+              "topic": "advml",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "89": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "89",
+              "topic": "ctr_escape",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "89",
+              "topic": "ctr_escape",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "89",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "91": {
+          "questionCount": 2,
+          "essayCount": 0,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "91",
+              "topic": "mobile_atk",
+              "issues": [
+                "joke_option_0",
+                "joke_option_2",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "91",
+              "topic": "mobile_atk",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "92": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "92",
+              "topic": "usb",
+              "issues": [
+                "joke_option_3",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "92",
+              "topic": "usb",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "92",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "93": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "93",
+              "topic": "ot_attack",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "93",
+              "topic": "ot_attack",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "93",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        },
+        "94": {
+          "questionCount": 2,
+          "essayCount": 1,
+          "questionIssues": [
+            {
+              "tier": "C",
+              "moduleId": "94",
+              "topic": "attacker_lang",
+              "issues": [
+                "joke_option_0",
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            },
+            {
+              "tier": "C",
+              "moduleId": "94",
+              "topic": "attacker_lang",
+              "issues": [
+                "tone_match_flag",
+                "missing_distractor_rationale",
+                "missing_cognitive_level",
+                "missing_last_validated",
+                "missing_coverage_tag"
+              ]
+            }
+          ],
+          "essayIssues": [
+            {
+              "tier": "C",
+              "moduleId": "94",
+              "issues": [
+                "missing_rubric"
+              ]
+            }
+          ],
+          "analyzeLevelCount": 0,
+          "hasEnoughAnalyzeLevel": false,
+          "hasRubricEssay": false
+        }
+      }
+    }
+  },
+  "summary": {
+    "totalQuestions": 193,
+    "totalEssays": 57,
+    "questionsWithIssues": 193,
+    "essaysWithIssues": 57,
+    "modulesUnderMinimum": [
+      {
+        "tier": "A",
+        "moduleId": "1",
+        "questionCount": 3,
+        "needed": 9
+      },
+      {
+        "tier": "A",
+        "moduleId": "7",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "A",
+        "moduleId": "8",
+        "questionCount": 3,
+        "needed": 9
+      },
+      {
+        "tier": "A",
+        "moduleId": "11",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "A",
+        "moduleId": "18",
+        "questionCount": 3,
+        "needed": 9
+      },
+      {
+        "tier": "A",
+        "moduleId": "21",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "A",
+        "moduleId": "37",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "A",
+        "moduleId": "46",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "A",
+        "moduleId": "51",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "A",
+        "moduleId": "52",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "A",
+        "moduleId": "58",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "A",
+        "moduleId": "60",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "A",
+        "moduleId": "70",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "A",
+        "moduleId": "84",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "A",
+        "moduleId": "95",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "2",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "3",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "4",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "5",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "9",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "10",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "12",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "14",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "15",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "16",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "17",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "19",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "20",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "22",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "23",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "24",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "25",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "27",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "30",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "31",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "32",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "34",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "36",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "38",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "39",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "40",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "41",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "42",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "43",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "45",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "47",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "48",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "49",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "50",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "53",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "54",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "56",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "59",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "61",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "62",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "65",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "68",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "74",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "75",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "78",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "79",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "80",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "81",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "85",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "86",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "88",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "B",
+        "moduleId": "90",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "6",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "13",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "26",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "28",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "29",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "33",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "35",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "44",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "55",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "57",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "63",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "64",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "66",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "67",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "69",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "71",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "72",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "73",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "76",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "77",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "82",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "83",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "87",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "89",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "91",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "92",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "93",
+        "questionCount": 2,
+        "needed": 10
+      },
+      {
+        "tier": "C",
+        "moduleId": "94",
+        "questionCount": 2,
+        "needed": 10
+      }
+    ],
+    "modulesWithoutAnalyzeLevel": [
+      {
+        "tier": "A",
+        "moduleId": "1",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "A",
+        "moduleId": "7",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "A",
+        "moduleId": "8",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "A",
+        "moduleId": "11",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "A",
+        "moduleId": "18",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "A",
+        "moduleId": "21",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "A",
+        "moduleId": "37",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "A",
+        "moduleId": "46",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "A",
+        "moduleId": "51",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "A",
+        "moduleId": "52",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "A",
+        "moduleId": "58",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "A",
+        "moduleId": "60",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "A",
+        "moduleId": "70",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "A",
+        "moduleId": "84",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "A",
+        "moduleId": "95",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "2",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "3",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "4",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "5",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "9",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "10",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "12",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "14",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "15",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "16",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "17",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "19",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "20",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "22",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "23",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "24",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "25",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "27",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "30",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "31",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "32",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "34",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "36",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "38",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "39",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "40",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "41",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "42",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "43",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "45",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "47",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "48",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "49",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "50",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "53",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "54",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "56",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "59",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "61",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "62",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "65",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "68",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "74",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "75",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "78",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "79",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "80",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "81",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "85",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "86",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "88",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "B",
+        "moduleId": "90",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "6",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "13",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "26",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "28",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "29",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "33",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "35",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "44",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "55",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "57",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "63",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "64",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "66",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "67",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "69",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "71",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "72",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "73",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "76",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "77",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "82",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "83",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "87",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "89",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "91",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "92",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "93",
+        "analyzeCount": 0
+      },
+      {
+        "tier": "C",
+        "moduleId": "94",
+        "analyzeCount": 0
+      }
+    ],
+    "modulesWithoutRubricEssays": [
+      {
+        "tier": "A",
+        "moduleId": "1"
+      },
+      {
+        "tier": "A",
+        "moduleId": "7"
+      },
+      {
+        "tier": "A",
+        "moduleId": "8"
+      },
+      {
+        "tier": "A",
+        "moduleId": "11"
+      },
+      {
+        "tier": "A",
+        "moduleId": "18"
+      },
+      {
+        "tier": "A",
+        "moduleId": "21"
+      },
+      {
+        "tier": "A",
+        "moduleId": "37"
+      },
+      {
+        "tier": "A",
+        "moduleId": "46"
+      },
+      {
+        "tier": "A",
+        "moduleId": "51"
+      },
+      {
+        "tier": "A",
+        "moduleId": "52"
+      },
+      {
+        "tier": "A",
+        "moduleId": "58"
+      },
+      {
+        "tier": "A",
+        "moduleId": "60"
+      },
+      {
+        "tier": "A",
+        "moduleId": "70"
+      },
+      {
+        "tier": "A",
+        "moduleId": "84"
+      },
+      {
+        "tier": "A",
+        "moduleId": "95"
+      },
+      {
+        "tier": "B",
+        "moduleId": "2"
+      },
+      {
+        "tier": "B",
+        "moduleId": "4"
+      },
+      {
+        "tier": "B",
+        "moduleId": "12"
+      },
+      {
+        "tier": "B",
+        "moduleId": "15"
+      },
+      {
+        "tier": "B",
+        "moduleId": "16"
+      },
+      {
+        "tier": "B",
+        "moduleId": "19"
+      },
+      {
+        "tier": "B",
+        "moduleId": "23"
+      },
+      {
+        "tier": "B",
+        "moduleId": "25"
+      },
+      {
+        "tier": "B",
+        "moduleId": "27"
+      },
+      {
+        "tier": "B",
+        "moduleId": "30"
+      },
+      {
+        "tier": "B",
+        "moduleId": "34"
+      },
+      {
+        "tier": "B",
+        "moduleId": "36"
+      },
+      {
+        "tier": "B",
+        "moduleId": "39"
+      },
+      {
+        "tier": "B",
+        "moduleId": "41"
+      },
+      {
+        "tier": "B",
+        "moduleId": "45"
+      },
+      {
+        "tier": "B",
+        "moduleId": "49"
+      },
+      {
+        "tier": "B",
+        "moduleId": "59"
+      },
+      {
+        "tier": "B",
+        "moduleId": "61"
+      },
+      {
+        "tier": "B",
+        "moduleId": "65"
+      },
+      {
+        "tier": "B",
+        "moduleId": "78"
+      },
+      {
+        "tier": "B",
+        "moduleId": "86"
+      },
+      {
+        "tier": "B",
+        "moduleId": "88"
+      },
+      {
+        "tier": "B",
+        "moduleId": "90"
+      },
+      {
+        "tier": "C",
+        "moduleId": "6"
+      },
+      {
+        "tier": "C",
+        "moduleId": "13"
+      },
+      {
+        "tier": "C",
+        "moduleId": "26"
+      },
+      {
+        "tier": "C",
+        "moduleId": "28"
+      },
+      {
+        "tier": "C",
+        "moduleId": "33"
+      },
+      {
+        "tier": "C",
+        "moduleId": "35"
+      },
+      {
+        "tier": "C",
+        "moduleId": "44"
+      },
+      {
+        "tier": "C",
+        "moduleId": "57"
+      },
+      {
+        "tier": "C",
+        "moduleId": "64"
+      },
+      {
+        "tier": "C",
+        "moduleId": "69"
+      },
+      {
+        "tier": "C",
+        "moduleId": "76"
+      },
+      {
+        "tier": "C",
+        "moduleId": "77"
+      },
+      {
+        "tier": "C",
+        "moduleId": "82"
+      },
+      {
+        "tier": "C",
+        "moduleId": "83"
+      },
+      {
+        "tier": "C",
+        "moduleId": "89"
+      },
+      {
+        "tier": "C",
+        "moduleId": "92"
+      },
+      {
+        "tier": "C",
+        "moduleId": "93"
+      },
+      {
+        "tier": "C",
+        "moduleId": "94"
+      }
+    ]
+  }
+}
