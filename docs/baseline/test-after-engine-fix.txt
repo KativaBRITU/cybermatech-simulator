@@ -1,0 +1,23 @@
+﻿
+> tribams-simulator@1.0.0 test
+> node scripts/smoke-test.js
+
+
+TRIBAMS smoke tests ÔåÆ http://localhost:3000
+
+  Ô£à GET /api/health
+  Ô£à GET /api/pricing
+  Ô£à GET /api/modules (login required when anon)
+  Ô£à GET /api/subscription-status (anon)
+  Ô£à GET / (marketing)
+  Ô£à GET /payment
+  Ô£à GET /login
+  Ô£à GET /admin rejects anonymous (redirect or 401)
+  Ô£à GET /api/admin/stats rejects anonymous
+  Ô£à GET /api/launch-readiness rejects anonymous
+  Ô£à POST /api/paypal/create-order requires auth
+  Ô£à GET /api/org/plans
+  Ô£à GET /organization requires login redirect
+
+Result: 13 passed, 0 failed
+
