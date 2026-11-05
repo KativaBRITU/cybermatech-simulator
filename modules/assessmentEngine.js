@@ -1214,11 +1214,10 @@ function synthesizeModuleQuestions(module) {
         }
     ];
 }
-
 function buildQuestionPool(module, rank = 'beginner') {
     const africanContext = require('./africanContext');
     const progressiveContent = require('./progressiveContent');
-    //const synthesized = synthesizeModuleQuestions(module);
+
     const specific = MODULE_QUESTIONS[module.id] || [];
     const specialOps = getSpecialOpsQuestions(module);
     const tierA = TIER_A_QUESTIONS[module.id] || [];
@@ -1227,12 +1226,25 @@ function buildQuestionPool(module, rank = 'beginner') {
     const africaQuiz = africanContext.getAfricanQuizQuestions(module.category, module.name);
     const progressiveQuiz = progressiveContent.getProgressiveQuestions(module, rank);
     const premiumQuiz = require('./premiumQuestionBank').getPremiumQuestions(module);
+
+    // PILOT FIX (2026-11-04): synthesized questions disabled.
+    // See docs/methodology/generic-content-defect.md.
+    const unique = [
+        ...premiumQuiz.map((q) => ({ ...q, pool_tier: 'premium' })),
+        ...progressiveQuiz.map((q) => ({ ...q, pool_tier: 'progressive' })),
+        ...africaQuiz.map((q) => ({ ...q, pool_tier: 'africa' })),
+        ...tierA.map((q) => ({ ...q, pool_tier: 'tier_a' })),
+        ...tierB.map((q) => ({ ...q, pool_tier: 'tier_b' })),
+        ...tierC.map((q) => ({ ...q, pool_tier: 'tier_c' })),
+        ...specialOps.map((q) => ({ ...q, pool_tier: 'special_ops' })),
+        ...specific.map((q) => ({ ...q, pool_tier: 'module_specific' }))
+    ];
+
     const category = getCategoryQuestions(module.category).map(q => ({
         ...q,
         question: q.question.startsWith('[') ? q.question : `[${module.name}] ${q.question}`,
         pool_tier: 'shared_category'
     }));
-
 
     const shared = [...category];
     if (module.category === 'malware') {
@@ -1252,7 +1264,6 @@ function buildQuestionPool(module, rank = 'beginner') {
 
     return { unique, shared, all: unique.concat(shared) };
 }
-
 /** Extra unique judgment items so drills can reach 10 / 16 / 20 without exploit walkthroughs. */
 function padJudgmentQuestions(module) {
     const name = module.name || 'this module';
@@ -1432,6 +1443,7 @@ function generateModuleQuestions(module, difficulty = 'medium', limit = 10, opti
         : Math.random;
 
     const { unique, shared } = buildQuestionPool(module, rank);
+
     const shuffledUnique = shuffleArray(unique, rng);
     const shuffledShared = shuffleArray(shared, rng);
     const maxShared = Math.max(1, Math.floor(effectiveLimit * 0.15));
@@ -1464,6 +1476,15 @@ function generateModuleQuestions(module, difficulty = 'medium', limit = 10, opti
         }, rng));
         return true;
     }
+     // Populate selected from real content (unique + shared). Loops are
+    // bounded so a small pool still produces the requested count.
+    for (let i = 0; i < shuffledUnique.length && selected.length < targetUnique; i++) {
+        pushQuestion(shuffledUnique[i]);
+    }
+    for (let i = 0; i < shuffledShared.length && selected.length < effectiveLimit; i++) {
+        pushQuestion(shuffledShared[i]);
+    }
+    
 // PILOT FIX (2026-11-04): padJudgmentQuestions and the inline "extra filler"
     // loop disabled. Both produced template questions with identical correct-answer
     // patterns per module (always "verify + keep control"). See
@@ -1496,6 +1517,8 @@ function generateModuleQuestions(module, difficulty = 'medium', limit = 10, opti
     //         pool_tier: 'pad'
     //     }, 2);
     // }
+    const finalQuestions = shuffleArray(selected, rng).map((q, idx) => ({ ...q, id: idx + 1 }));
+    
     const expectedSum = finalQuestions.reduce((s, q) => s + (q.time_expected || 40), 0);
     const timeLimit = Math.max(180, Math.round(expectedSum * profile.timeFactor));
     const immersion = progressiveContent.immersionForRank(rank, module.name);
