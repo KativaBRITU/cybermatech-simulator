@@ -18,7 +18,7 @@ These are the Tier A modules (entry-point) plus the four highest-visibility Tier
 
 | Module ID | Module name | Tier | Current Q | Target Q | Primary ATT&CK / Control | Rotation buckets | Status | Owner | Target week |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | Phishing Detection | A | 3 | 12 | T1566.002 | aitm, bec, reporting | pending | Britu | W1 (pilot) |
+| 1 | Phishing Detection | A | 3 | 12 | T1566.002 | aitm, bec, reporting | done | Britu | W1 (pilot) |
 | 7 | BEC & Deepfake | A | 2 | 12 | T1566.001 / T1656 | bec, deepfake, payment-callback | pending | Britu | W2 |
 | 8 | Incident Response | A | 3 | 12 | T1486 / T1569 | ir, severity, forensics | pending | Britu | W2 |
 | 11 | Ransomware | A | 2 | 12 | T1486 | ransomware, extortion, backups | pending | Britu | W3 |
