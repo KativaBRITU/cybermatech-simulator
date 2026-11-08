@@ -1,0 +1,70 @@
+﻿ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  TRIBAMS Question Bank Audit ÔÇö Step 2
+  (Heuristics, not proofs. See docs/methodology/audit-caveat.md)
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+
+Generated: 2026-11-08T00:48:30.816Z
+Minimum questions per certificate module: 12
+Minimum analyze-level per module: 2
+
+TOTALS
+  Total questions:           202
+  Total essays:              57
+  Questions with any issue:  192
+  Essays with any issue:     57
+
+PER TIER
+  Tier A: 42 questions across 15 modules, 16 essays
+  Tier B: 104 questions across 52 modules, 23 essays
+  Tier C: 56 questions across 28 modules, 18 essays
+
+MODULES UNDER 12 QUESTIONS: 94
+  Tier A Module 7: 2 questions (need 10 more)
+  Tier A Module 8: 3 questions (need 9 more)
+  Tier A Module 11: 2 questions (need 10 more)
+  Tier A Module 18: 3 questions (need 9 more)
+  Tier A Module 21: 2 questions (need 10 more)
+  Tier A Module 37: 2 questions (need 10 more)
+  Tier A Module 46: 2 questions (need 10 more)
+  Tier A Module 51: 2 questions (need 10 more)
+  Tier A Module 52: 2 questions (need 10 more)
+  Tier A Module 58: 2 questions (need 10 more)
+  Tier A Module 60: 2 questions (need 10 more)
+  Tier A Module 70: 2 questions (need 10 more)
+  Tier A Module 84: 2 questions (need 10 more)
+  Tier A Module 95: 2 questions (need 10 more)
+  Tier B Module 2: 2 questions (need 10 more)
+  Tier B Module 3: 2 questions (need 10 more)
+  Tier B Module 4: 2 questions (need 10 more)
+  Tier B Module 5: 2 questions (need 10 more)
+  Tier B Module 9: 2 questions (need 10 more)
+  Tier B Module 10: 2 questions (need 10 more)
+  Tier B Module 12: 2 questions (need 10 more)
+  Tier B Module 14: 2 questions (need 10 more)
+  Tier B Module 15: 2 questions (need 10 more)
+  Tier B Module 16: 2 questions (need 10 more)
+  Tier B Module 17: 2 questions (need 10 more)
+  ... and 69 more
+
+MODULES WITHOUT >=2 ANALYZE-LEVEL: 94
+  Tier A Module 7: 0 analyze-level
+  Tier A Module 8: 0 analyze-level
+  Tier A Module 11: 0 analyze-level
+  Tier A Module 18: 0 analyze-level
+  Tier A Module 21: 0 analyze-level
+  Tier A Module 37: 0 analyze-level
+  Tier A Module 46: 0 analyze-level
+  Tier A Module 51: 0 analyze-level
+  Tier A Module 52: 0 analyze-level
+  Tier A Module 58: 0 analyze-level
+  Tier A Module 60: 0 analyze-level
+  Tier A Module 70: 0 analyze-level
+  Tier A Module 84: 0 analyze-level
+  Tier A Module 95: 0 analyze-level
+  Tier B Module 2: 0 analyze-level
+  ... and 79 more
+
+MODULES WITHOUT RUBRIC'D ESSAY: 56
+
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+Full report written to: docs/audit/audit-before.json
