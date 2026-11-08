@@ -32,45 +32,631 @@ function essay(question, guidelines, rubric = null) {
 
 const TIER_A_QUESTIONS = {
     1: [
+
         q(
-            'AiTM phishing proxies the real login and steals the session cookie after MFA. Which control family best reduces this?',
+
+            "An employee reports receiving unauthorized password reset notifications immediately after logging into their corporate M365 account using a standard hardware token. No suspicious inbound emails appear in the inbox. Your initial diagnostic priority is:",
+
             [
-                'Longer passwords only',
-                'Phishing-resistant MFA (passkeys/FIDO2) + conditional access / token binding where available',
-                'Disable all email',
-                'Ask users to “look carefully” at pixels'
+
+                "Audit Azure sign-in logs for concurrent sessions from unexpected proxy IP ranges",
+
+                "Reset the domain controller administrator password immediately to stop lateral movement",
+
+                "Reboot the local workstation to clear any resident keylogger from physical memory",
+
+                "Disable all external email forwarding rules on the tenant profile to prevent leaks"
+
             ],
-            1,
-            'AiTM beats OTP MFA. Phishing-resistant authenticators and session controls matter.',
-            'aitm',
-            45
+
+            0,
+
+            "Anomalous sign-in logs with sudden IP changes despite valid MFA point directly to adversary-in-the-middle session hijacking.",
+
+            "aitm",
+
+            45,
+
+            {
+
+                distractor_rationale: [
+
+                    "CORRECT — session token theft bypasses standard MFA, requiring log analysis of token claims and proxy indicators.",
+
+                    "WRONG — domain controller resets do not mitigate user-level session cookie theft or reverse proxy tokens.",
+
+                    "WRONG — keyloggers are secondary; if MFA was entered correctly, the failure point is likely an upstream proxy relay.",
+
+                    "WRONG — forwarding rules address mailbox compromise, not immediate token hijacking or session replay."
+
+                ],
+
+                cognitive_level: 3,
+
+                difficulty: 3,
+
+                coverage_tag: "T1539",
+
+                rotation_bucket: "aitm",
+
+                last_validated: "2026-11-07"
+
+            }
+
         ),
+
         q(
-            'DMARC is p=none with no monitoring. What is the honest risk statement?',
+
+            "The finance department receives an urgent WhatsApp message and follow-up email appearing to come from the CEO, requesting an immediate wire transfer for a closing deadline. The sender number is a foreign prefix, but the display name and profile picture match. Your first containment action is:",
+
             [
-                'Domain spoofing defenses are fully enforced',
-                'You have visibility at best — spoofed From can still succeed until policy moves to quarantine/reject with alignment',
-                'DMARC replaces backups',
-                'SPF alone is enough forever'
+
+                "Call the CEO on a known internal extension out-of-band before any transfer",
+
+                "Forward the email to the entire organization as an emergency security warning",
+
+                "Approve the transfer with a half-amount split to minimize immediate exposure",
+
+                "Block the domain at the mail gateway, then approve if the CEO confirms in chat"
+
             ],
-            1,
-            'p=none is monitoring mode. Enforcement is a deliberate hardening step.',
-            'email_auth',
-            40
+
+            0,
+
+            "Out-of-band verification via a trusted, independent communication channel is the primary defense against executive impersonation and deepfake/BEC fraud.",
+
+            "bec",
+
+            45,
+
+            {
+
+                distractor_rationale: [
+
+                    "CORRECT — out-of-band verification confirms identity independently of compromised or spoofed messaging channels.",
+
+                    "WRONG — organizational-wide warnings create panic and do not immediately verify or contain the specific fraudulent request.",
+
+                    "WRONG — partial transfers still result in financial loss and validate the attacker's persistence.",
+
+                    "WRONG — blocking the domain helps prevent future emails, but does not stop the active WhatsApp or multi-channel attack."
+
+                ],
+
+                cognitive_level: 3,
+
+                difficulty: 3,
+
+                coverage_tag: "T1656",
+
+                rotation_bucket: "bec",
+
+                last_validated: "2026-11-07"
+
+            }
+
         ),
+
         q(
-            'Namibian SME finance team gets WhatsApp “invoice” PDFs weekly. Best program control?',
+
+            "A Tier-1 SOC analyst receives a phishing link click alert for a user who self-reported clicking and submitted a screenshot. The analyst has 40 unread alerts in queue and 10 minutes before shift handover. The SOP says \"verify, then isolate, then document.\" What is the most professional judgment under this workload pressure?",
+
             [
-                'Ban WhatsApp company-wide without alternative',
-                'Out-of-band payment verification + trusted channels + coach reporting without shame',
-                'Trust any PDF with a logo',
-                'Only train once at onboarding forever'
+
+                "Verify the URL against intel, isolate if malicious, document and defer queue backlog",
+
+                "Skip verification and isolate the endpoint immediately since the user self-reported the click",
+
+                "Document the ticket first and leave queue triage for the incoming shift engineer",
+
+                "Route the alert directly to the on-call incident commander and close the ticket as duplicate"
+
             ],
-            1,
-            'Channel-realistic controls beat generic poster campaigns.',
-            'bec',
-            40
+
+            0,
+
+            "Professional triage balances rapid risk containment with evidence preservation and realistic workflow prioritization under duress.",
+
+            "reporting",
+
+            30,
+
+            {
+
+                distractor_rationale: [
+
+                    "CORRECT — focused verification ensures proportionate response without skipping critical validation steps or abandoning documentation.",
+
+                    "WRONG — isolating without verification risks unnecessary business disruption for benign or blocked outbound links.",
+
+                    "WRONG — deferring triage of an active user click violates basic containment SLAs and allows dwell time to grow.",
+
+                    "WRONG — escalating raw alerts to incident commanders without initial scoping overwhelms senior engineering resources."
+
+                ],
+
+                cognitive_level: 3,
+
+                difficulty: 3,
+
+                coverage_tag: "T1566.002",
+
+                rotation_bucket: "reporting",
+
+                last_validated: "2026-11-07"
+
+            }
+
+        ),
+
+        q(
+
+            "An employee enters their credentials into a fake login portal after clicking a link in a realistic company policy notification email. Ten minutes later, they realize their mistake and notify IT. Beyond resetting their password and checking individual session tokens, what is the most critical next check for enterprise scoping?",
+
+            [
+
+                "Query email gateway logs for identical sender hashes or subject lines across all mailboxes",
+
+                "Reinstall the operating system from a clean recovery image across all department machines",
+
+                "Change the passwords of all other employees in the exact same department as a precaution",
+
+                "Issue a formal disciplinary warning to the employee for failing security awareness training"
+
+            ],
+
+            0,
+
+            "Targeted credential harvesting campaigns are rarely isolated; checking for identical indicators across the tenant determines if it is a broad campaign.",
+
+            "aitm",
+
+            45,
+
+            {
+
+                distractor_rationale: [
+
+                    "CORRECT — scoping the wider tenant for identical phishing indicators identifies other potential victims in a campaign.",
+
+                    "WRONG — OS reinstallation is unnecessary for a single credential-phishing event unless local malware execution was verified.",
+
+                    "WRONG — resetting an entire department's passwords causes unnecessary operational friction without targeted indicators.",
+
+                    "WRONG — punitive measures hinder future incident reporting culture."
+
+                ],
+
+                cognitive_level: 3,
+
+                difficulty: 3,
+
+                coverage_tag: "T1078",
+
+                rotation_bucket: "aitm",
+
+                last_validated: "2026-11-07"
+
+            }
+
+        ),
+
+        q(
+
+            "An employee asks whether using a standard 6-digit Time-based One-Time Password (TOTP) authenticator app is considered \"phishing-resistant.\" Your correct technical assessment is:",
+
+            [
+
+                "No — TOTP codes can be intercepted and relayed via AiTM proxy frameworks in real time",
+
+                "Yes, because rotating 30-second codes cannot be guessed or reused by an attacker on the wire",
+
+                "Yes, provided the code is entered into a company-approved browser extension during login",
+
+                "No, unless the authenticator app is locked behind a secondary biometric device PIN code"
+
+            ],
+
+            0,
+
+            "Standard TOTP codes are vulnerable to real-time interception via adversary-in-the-middle phishing kits, unlike hardware FIDO2/WebAuthn keys.",
+
+            "aitm",
+
+            45,
+
+            {
+
+                distractor_rationale: [
+
+                    "CORRECT — TOTP tokens are susceptible to real-time relay attacks via reverse proxies.",
+
+                    "WRONG — rapid rotation prevents offline reuse, but does not stop live relay during active phishing.",
+
+                    "WRONG — browser extensions do not protect against proxy-based token capture.",
+
+                    "WRONG — device locks protect local access, not network interception."
+
+                ],
+
+                cognitive_level: 2,
+
+                difficulty: 2,
+
+                coverage_tag: "T1539",
+
+                rotation_bucket: "aitm",
+
+                last_validated: "2026-11-07"
+
+            }
+
+        ),
+
+        q(
+
+            "An accounts payable clerk receives an email stating that a key hardware vendor is changing their banking details to a new commercial account, accompanied by a scanned letter on official company letterhead. Before updating the payment profile, what is the mandatory verification step?",
+
+            [
+
+                "Call the vendor on a pre-established trusted number from records, never the number in the email",
+
+                "Reply to the email asking the account manager to confirm the change via return message",
+
+                "Check if the new bank routing code belongs to a licensed commercial bank in your region",
+
+                "Approve the profile change if the scanned letter contains a valid company registration stamp"
+
+            ],
+
+            0,
+
+            "Vendor bank change requests must be validated strictly via pre-established trusted phone numbers to prevent business email compromise (BEC).",
+
+            "bec",
+
+            45,
+
+            {
+
+                distractor_rationale: [
+
+                    "CORRECT — trusted pre-established numbers bypass compromised email communication loops.",
+
+                    "WRONG — replying to the email reaches the attacker if the vendor mailbox is already compromised.",
+
+                    "WRONG — valid bank routing codes do not verify the legitimacy of the recipient entity.",
+
+                    "WRONG — letterhead stamps and PDFs are easily fabricated by cybercriminals."
+
+                ],
+
+                cognitive_level: 2,
+
+                difficulty: 2,
+
+                coverage_tag: "T1656",
+
+                rotation_bucket: "bec",
+
+                last_validated: "2026-11-07"
+
+            }
+
+        ),
+
+        q(
+
+            "An employee realizes they entered credentials into a phishing portal 5 minutes ago and notifies the helpdesk. The analyst confirms the employee accessed a URL that returned a 200 with a fake login page. Before revoking sessions, what is the most critical first action to preserve evidence?",
+
+            [
+
+                "Capture the URL, screenshot the portal, and preserve the email headers for legal or forensic review",
+
+                "Revoke sessions immediately because operational containment always supersedes evidence retention",
+
+                "Wait for the employee to write a detailed witness statement while their memory is still fresh",
+
+                "Delete the phishing email from the user inbox immediately to prevent secondary clicks"
+
+            ],
+
+            0,
+
+            "Evidence preservation (URL, screenshot, headers) before containment ensures the attack can be reconstructed for coordination and legal.",
+
+            "reporting",
+
+            45,
+
+            {
+
+                distractor_rationale: [
+
+                    "CORRECT — capturing artifacts prior to mitigation ensures perishable indicators and headers are preserved.",
+
+                    "WRONG — while containment is vital, acting without capturing immediate transient browser artifacts destroys forensic value.",
+
+                    "WRONG — witness statements are secondary to technical log and header artifacts.",
+
+                    "WRONG — deleting the email destroys the primary threat artifact before collection."
+
+                ],
+
+                cognitive_level: 3,
+
+                difficulty: 3,
+
+                coverage_tag: "T1566.002",
+
+                rotation_bucket: "reporting",
+
+                last_validated: "2026-11-07"
+
+            }
+
+        ),
+
+        q(
+
+            "When an employee submits a suspicious phishing email via the security reporting plugin, what key metadata elements are most vital for the SOC automated pipeline to extract instantly?",
+
+            [
+
+                "Original RFC 822 internet headers, sender IP routing path, and embedded URL/attachment hashes",
+
+                "The user's department head and their line manager for approval workflow routing",
+
+                "The user's device model and operating system version for local endpoint profiling",
+
+                "The user's last login IP and geolocation from the Identity Provider for context"
+
+            ],
+
+            0,
+
+            "RFC 822 headers and file/URL hashes provide the precise technical indicators needed for threat intelligence correlation and gateway blocking.",
+
+            "reporting",
+
+            45,
+
+            {
+
+                distractor_rationale: [
+
+                    "CORRECT — technical headers and hashes are essential for accurate threat analysis and blocking.",
+
+                    "WRONG — management routing metadata is secondary to core artifact IOC extraction.",
+
+                    "WRONG — endpoint OS version is not part of internet email routing headers.",
+
+                    "WRONG — user login geolocation belongs to IdP sign-in logs rather than email header analysis."
+
+                ],
+
+                cognitive_level: 2,
+
+                difficulty: 2,
+
+                coverage_tag: "T1566",
+
+                rotation_bucket: "reporting",
+
+                last_validated: "2026-11-07"
+
+            }
+
+        ),
+
+        q(
+
+            "When configuring Conditional Access policies in Microsoft Entra ID to mitigate adversary-in-the-middle session token theft, which control combination provides the highest level of structural protection?",
+
+            [
+
+                "Require phishing-resistant MFA (FIDO2) combined with compliant device claims and strict sign-in frequency limits",
+
+                "Enforce standard SMS verification codes alongside optional legacy TLS authentication protocols",
+
+                "Restrict user access solely by IP subnet geofencing while allowing any standard software token",
+
+                "Disable all session timeouts to ensure users never experience re-authentication prompts"
+
+            ],
+
+            0,
+
+            "FIDO2 combined with device compliance and conditional access restricts token export and replay.",
+
+            "aitm",
+
+            45,
+
+            {
+
+                distractor_rationale: [
+
+                    "CORRECT — phishing-resistant authentication paired with device compliance mitigates stolen session tokens.",
+
+                    "WRONG — SMS and legacy protocols are highly vulnerable to interception and modern bypass attacks.",
+
+                    "WRONG — IP geofencing is easily bypassed via residential proxies and VPNs.",
+
+                    "WRONG — infinite session lifespans increase exposure windows for stolen session cookies."
+
+                ],
+
+                cognitive_level: 2,
+
+                difficulty: 2,
+
+                coverage_tag: "T1556.006",
+
+                rotation_bucket: "aitm",
+
+                last_validated: "2026-11-07"
+
+            }
+
+        ),
+
+        q(
+
+            "The finance manager receives a phone call from someone whose voice matches the Chief Executive Officer, requesting an urgent wire transfer for an acquisition. The caller claims to be calling from a noisy airport lounge on a mobile phone with poor reception. Your recommended verification policy is:",
+
+            [
+
+                "Refuse the transfer and require verification via a pre-established internal callback number or out-of-band channel",
+
+                "Proceed with the transfer since the vocal cadence and speech patterns matched the CEO",
+
+                "Ask the caller to recite their corporate login password over the active phone call as proof",
+
+                "Execute half the wire amount now and wait for the airport flight to land before sending the rest"
+
+            ],
+
+            0,
+
+            "Audio-only deepfakes require strict out-of-band callback verification using pre-established numbers rather than trusting vocal recognition.",
+
+            "bec",
+
+            45,
+
+            {
+
+                distractor_rationale: [
+
+                    "CORRECT — pre-established callback channels bypass audio deepfakes and caller ID spoofing.",
+
+                    "WRONG — modern voice cloning models replicate pitch and cadence accurately enough to fool casual listeners.",
+
+                    "WRONG — sharing passwords over voice channels creates severe credential exposure risks.",
+
+                    "WRONG — partial wire transfers still result in capital loss and encourage attacker persistence."
+
+                ],
+
+                cognitive_level: 3,
+
+                difficulty: 3,
+
+                coverage_tag: "T1656",
+
+                rotation_bucket: "bec",
+
+                last_validated: "2026-11-07"
+
+            }
+
+        ),
+
+        q(
+
+            "An employee receives a high-urgency message stating their corporate payroll profile will be deactivated within two hours unless they verify their credentials immediately. This tactic primarily exploits which human cognitive vulnerability?",
+
+            [
+
+                "Artificial urgency and fear of negative consequences designed to bypass critical thinking",
+
+                "Curiosity regarding internal company reorganization announcements and bonuses",
+
+                "Desire to help coworkers resolve IT support tickets during peak hours",
+
+                "Compliance with routine quarterly audit document submission workflows"
+
+            ],
+
+            0,
+
+            "Social engineering attacks rely heavily on artificial time pressure and intimidation to induce rushed decision-making.",
+
+            "bec",
+
+            30,
+
+            {
+
+                distractor_rationale: [
+
+                    "CORRECT — urgency and negative consequences induce panic, bypassing careful analysis.",
+
+                    "WRONG — curiosity targets different lures (e.g., compensation lists) rather than payroll deactivation.",
+
+                    "WRONG — helpfulness describes support scams, not imminent account loss threats.",
+
+                    "WRONG — routine compliance lacks the fabricated panic and immediate threat window."
+
+                ],
+
+                cognitive_level: 1,
+
+                difficulty: 1,
+
+                coverage_tag: "T1598",
+
+                rotation_bucket: "bec",
+
+                last_validated: "2026-11-07"
+
+            }
+
+        ),
+
+        q(
+
+            "What is the primary operational benefit of fostering a blame-free security incident reporting culture within an enterprise?",
+
+            [
+
+                "It eliminates psychological barriers, increasing reporting speed and reducing attacker dwell time",
+
+                "It replaces the need for automated endpoint detection and response software agents",
+
+                "It guarantees that zero phishing emails will ever bypass the secure email gateway",
+
+                "It transfers legal liability for security breaches entirely from the company to individual staff"
+
+            ],
+
+            0,
+
+            "A blame-free culture removes psychological barriers, ensuring rapid reporting of security incidents and minimizing adversary dwell time.",
+
+            "reporting",
+
+            30,
+
+            {
+
+                distractor_rationale: [
+
+                    "CORRECT — removing fear encourages prompt reporting, shortening the time to detect and contain threats.",
+
+                    "WRONG — cultural practices do not replace technical endpoint monitoring defenses.",
+
+                    "WRONG — no security perimeter can achieve 100% prevention against novel attacks.",
+
+                    "WRONG — liability cannot be legally shifted to employees in this manner."
+
+                ],
+
+                cognitive_level: 1,
+
+                difficulty: 1,
+
+                coverage_tag: "T1566",
+
+                rotation_bucket: "reporting",
+
+                last_validated: "2026-11-07"
+
+            }
+
         )
+
     ],
     7: [
         q(
