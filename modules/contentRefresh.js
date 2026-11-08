@@ -272,22 +272,12 @@ function synthesizeTrendQuestion(module, trend, idx, difficulty, mode) {
 }
 
 function generateQuizQuestions(module, content, count = 12, difficulty = 'medium', trendPack = currentTrendPack()) {
-    const cat = module.category || 'network';
-    const seed = (module.id || 1) * 313 + trendPack.key.charCodeAt(0);
-    const rng = mulberry32(seed);
+    // PILOT FIX (2026-11-08): trend-question injection disabled.
+    // synthesizeTrendQuestion() produced mangled content (truncated options,
+    // padded distractors) written to module_contents.quiz_bank.
+    // See docs/methodology/generic-content-defect.md.
     const engine = assessmentEngine.generateModuleQuestions(module, difficulty, count, { rank: 'intermediate' });
-    const trendCount = Math.min(4, Math.max(2, Math.floor(count / 4)));
-    const out = [...engine.questions];
-
-    for (let i = 0; i < trendCount; i++) {
-        const trend = pickTrend(trendPack.vectors, cat, seed + i * 17);
-        out.push(assessmentEngine.shuffleQuestion(
-            synthesizeTrendQuestion(module, trend, out.length, difficulty, 'quiz'),
-            rng
-        ));
-    }
-
-    return out.slice(0, Math.max(count, 10)).map((q, i) => ({ ...q, id: i + 1 }));
+    return engine.questions.slice(0, Math.max(count, 10)).map((q, i) => ({ ...q, id: i + 1 }));
 }
 
 function generatePracticeQuestions(module, content, count = 14, trendPack = currentTrendPack()) {
