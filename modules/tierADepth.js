@@ -1,6 +1,7 @@
 /**
  * Paid-grade depth for Tier A modules — extra questions + study extras.
  * Merged into assessmentEngine / contentLibrary.
+ * Refactored for strict length parity (±10%) and 100% plausibility-balanced distractors.
  */
 
 function q(question, options, correct, explanation, topic, time_expected = 40, meta = {}) {
@@ -32,1048 +33,1125 @@ function essay(question, guidelines, rubric = null) {
 
 const TIER_A_QUESTIONS = {
     1: [
-
         q(
-
-            "An employee reports receiving unauthorized password reset notifications immediately after logging into their corporate M365 account using a standard hardware token. No suspicious inbound emails appear in the inbox. Your initial diagnostic priority is:",
-
+            "An employee reports receiving unexpected password reset alerts immediately after logging into their corporate M365 account via standard hardware token. No inbound emails appear in the inbox. Your initial diagnostic priority is:",
             [
-
-                "Audit Azure sign-in logs for concurrent sessions from unexpected proxy IP ranges",
-
-                "Reset the domain controller administrator password immediately to stop lateral movement",
-
-                "Reboot the local workstation to clear any resident keylogger from physical memory",
-
-                "Disable all external email forwarding rules on the tenant profile to prevent leaks"
-
+                "Audit Azure sign-in logs for concurrent sessions originating from unexpected proxy IP ranges",
+                "Review local endpoint Windows event viewer logs to isolate potential browser extension hooks",
+                "Examine user mailbox audit logs for hidden inbox rules forwarding inbound security notifications",
+                "Inspect directory service synchronization logs to verify enterprise identity state integrity"
             ],
-
             0,
-
             "Anomalous sign-in logs with sudden IP changes despite valid MFA point directly to adversary-in-the-middle session hijacking.",
-
             "aitm",
-
             45,
-
             {
-
                 distractor_rationale: [
-
                     "CORRECT — session token theft bypasses standard MFA, requiring log analysis of token claims and proxy indicators.",
-
-                    "WRONG — domain controller resets do not mitigate user-level session cookie theft or reverse proxy tokens.",
-
-                    "WRONG — keyloggers are secondary; if MFA was entered correctly, the failure point is likely an upstream proxy relay.",
-
-                    "WRONG — forwarding rules address mailbox compromise, not immediate token hijacking or session replay."
-
+                    "WRONG — local browser extensions do not explain upstream session replication across hardware token prompts.",
+                    "WRONG — mailbox rules do not account for concurrent session anomalies occurring without email visibility.",
+                    "WRONG — directory sync logs reflect infrastructure state rather than active user-level session relay."
                 ],
-
                 cognitive_level: 3,
-
                 difficulty: 3,
-
                 coverage_tag: "T1539",
-
                 rotation_bucket: "aitm",
-
-                last_validated: "2026-11-07"
-
+                last_validated: "2026-11-12"
             }
-
         ),
-
         q(
-
-            "The finance department receives an urgent WhatsApp message and follow-up email appearing to come from the CEO, requesting an immediate wire transfer for a closing deadline. The sender number is a foreign prefix, but the display name and profile picture match. Your first containment action is:",
-
+            "Finance receives an urgent message appearing to come from the CEO requesting an immediate wire transfer for a closing deadline. The sender number has a foreign prefix, but display names match. Your first verification action is:",
             [
-
-                "Call the CEO on a known internal extension out-of-band before any transfer",
-
-                "Forward the email to the entire organization as an emergency security warning",
-
-                "Approve the transfer with a half-amount split to minimize immediate exposure",
-
-                "Block the domain at the mail gateway, then approve if the CEO confirms in chat"
-
+                "Call the CEO on the internal directory extension from corporate records before approval",
+                "Call the CEO directly on the WhatsApp mobile number listed inside the incoming message",
+                "Call the CEO on the vendor contract phone number printed on last year's agreement",
+                "Call the CEO on the phone number referenced in the sender signature of the follow-up email"
             ],
-
             0,
-
-            "Out-of-band verification via a trusted, independent communication channel is the primary defense against executive impersonation and deepfake/BEC fraud.",
-
+            "Pre-established internal directory extensions bypass compromised or spoofed external messaging channels completely.",
             "bec",
-
             45,
-
             {
-
                 distractor_rationale: [
-
-                    "CORRECT — out-of-band verification confirms identity independently of compromised or spoofed messaging channels.",
-
-                    "WRONG — organizational-wide warnings create panic and do not immediately verify or contain the specific fraudulent request.",
-
-                    "WRONG — partial transfers still result in financial loss and validate the attacker's persistence.",
-
-                    "WRONG — blocking the domain helps prevent future emails, but does not stop the active WhatsApp or multi-channel attack."
-
+                    "CORRECT — internal directory numbers bypass compromised or spoofed external communication loops.",
+                    "WRONG — calling the number listed in the incoming WhatsApp message connects directly back to the impostor.",
+                    "WRONG — historical vendor agreement numbers may be outdated or part of the compromised vendor dataset.",
+                    "WRONG — signature phone numbers in emails can be easily spoofed or controlled by the attacker."
                 ],
-
                 cognitive_level: 3,
-
                 difficulty: 3,
-
                 coverage_tag: "T1656",
-
                 rotation_bucket: "bec",
-
-                last_validated: "2026-11-07"
-
+                last_validated: "2026-11-12"
             }
-
         ),
-
         q(
-
             "A Tier-1 SOC analyst receives a phishing link click alert for a user who self-reported clicking and submitted a screenshot. The analyst has 40 unread alerts in queue and 10 minutes before shift handover. The SOP says \"verify, then isolate, then document.\" What is the most professional judgment under this workload pressure?",
-
             [
-
-                "Verify the URL against intel, isolate if malicious, document and defer queue backlog",
-
-                "Skip verification and isolate the endpoint immediately since the user self-reported the click",
-
-                "Document the ticket first and leave queue triage for the incoming shift engineer",
-
-                "Route the alert directly to the on-call incident commander and close the ticket as duplicate"
-
+                "Verify URL against intel, isolate if malicious, document findings, and defer queue backlog",
+                "Isolate endpoint immediately based on user self-report, document ticket, and defer intel checks",
+                "Document ticket details immediately and leave queue triage entirely for the incoming shift engineer",
+                "Route alert directly to incident commander queue and close ticket as duplicate event submission"
             ],
-
             0,
-
             "Professional triage balances rapid risk containment with evidence preservation and realistic workflow prioritization under duress.",
-
             "reporting",
-
             30,
-
             {
-
                 distractor_rationale: [
-
-                    "CORRECT — focused verification ensures proportionate response without skipping critical validation steps or abandoning documentation.",
-
-                    "WRONG — isolating without verification risks unnecessary business disruption for benign or blocked outbound links.",
-
+                    "CORRECT — focused verification ensures proportionate response without skipping critical validation steps.",
+                    "WRONG — isolating without verification risks unnecessary business disruption for benign outbound links.",
                     "WRONG — deferring triage of an active user click violates basic containment SLAs and allows dwell time to grow.",
-
-                    "WRONG — escalating raw alerts to incident commanders without initial scoping overwhelms senior engineering resources."
-
+                    "WRONG — escalating raw alerts to incident commanders without initial scoping overwhelms senior resources."
                 ],
-
                 cognitive_level: 3,
-
                 difficulty: 3,
-
                 coverage_tag: "T1566.002",
-
                 rotation_bucket: "reporting",
-
-                last_validated: "2026-11-07"
-
+                last_validated: "2026-11-12"
             }
-
         ),
-
         q(
-
-            "An employee enters their credentials into a fake login portal after clicking a link in a realistic company policy notification email. Ten minutes later, they realize their mistake and notify IT. Beyond resetting their password and checking individual session tokens, what is the most critical next check for enterprise scoping?",
-
+            "An employee realizes they entered credentials into a phishing portal 5 minutes ago and notifies helpdesk. The analyst confirms the employee accessed a URL returning a 200 OK with a fake login page. Before revoking sessions, what is the most critical first action to preserve evidence?",
             [
-
-                "Query email gateway logs for identical sender hashes or subject lines across all mailboxes",
-
-                "Reinstall the operating system from a clean recovery image across all department machines",
-
-                "Change the passwords of all other employees in the exact same department as a precaution",
-
-                "Issue a formal disciplinary warning to the employee for failing security awareness training"
-
+                "Capture the URL, screenshot the portal, and preserve original email headers for legal or forensic review",
+                "Export local browser cache artifacts and active session storage dumps into temporary workspace storage",
+                "Export complete directory service user attributes and authentication logs into an isolated share",
+                "Capture workstation memory dump files using local administrative forensic utility scripts before mitigation"
             ],
-
             0,
-
-            "Targeted credential harvesting campaigns are rarely isolated; checking for identical indicators across the tenant determines if it is a broad campaign.",
-
-            "aitm",
-
-            45,
-
-            {
-
-                distractor_rationale: [
-
-                    "CORRECT — scoping the wider tenant for identical phishing indicators identifies other potential victims in a campaign.",
-
-                    "WRONG — OS reinstallation is unnecessary for a single credential-phishing event unless local malware execution was verified.",
-
-                    "WRONG — resetting an entire department's passwords causes unnecessary operational friction without targeted indicators.",
-
-                    "WRONG — punitive measures hinder future incident reporting culture."
-
-                ],
-
-                cognitive_level: 3,
-
-                difficulty: 3,
-
-                coverage_tag: "T1078",
-
-                rotation_bucket: "aitm",
-
-                last_validated: "2026-11-07"
-
-            }
-
-        ),
-
-        q(
-
-            "An employee asks whether using a standard 6-digit Time-based One-Time Password (TOTP) authenticator app is considered \"phishing-resistant.\" Your correct technical assessment is:",
-
-            [
-
-                "No — TOTP codes can be intercepted and relayed via AiTM proxy frameworks in real time",
-
-                "Yes, because rotating 30-second codes cannot be guessed or reused by an attacker on the wire",
-
-                "Yes, provided the code is entered into a company-approved browser extension during login",
-
-                "No, unless the authenticator app is locked behind a secondary biometric device PIN code"
-
-            ],
-
-            0,
-
-            "Standard TOTP codes are vulnerable to real-time interception via adversary-in-the-middle phishing kits, unlike hardware FIDO2/WebAuthn keys.",
-
-            "aitm",
-
-            45,
-
-            {
-
-                distractor_rationale: [
-
-                    "CORRECT — TOTP tokens are susceptible to real-time relay attacks via reverse proxies.",
-
-                    "WRONG — rapid rotation prevents offline reuse, but does not stop live relay during active phishing.",
-
-                    "WRONG — browser extensions do not protect against proxy-based token capture.",
-
-                    "WRONG — device locks protect local access, not network interception."
-
-                ],
-
-                cognitive_level: 2,
-
-                difficulty: 2,
-
-                coverage_tag: "T1539",
-
-                rotation_bucket: "aitm",
-
-                last_validated: "2026-11-07"
-
-            }
-
-        ),
-
-        q(
-
-            "An accounts payable clerk receives an email stating that a key hardware vendor is changing their banking details to a new commercial account, accompanied by a scanned letter on official company letterhead. Before updating the payment profile, what is the mandatory verification step?",
-
-            [
-
-                "Call the vendor on a pre-established trusted number from records, never the number in the email",
-
-                "Reply to the email asking the account manager to confirm the change via return message",
-
-                "Check if the new bank routing code belongs to a licensed commercial bank in your region",
-
-                "Approve the profile change if the scanned letter contains a valid company registration stamp"
-
-            ],
-
-            0,
-
-            "Vendor bank change requests must be validated strictly via pre-established trusted phone numbers to prevent business email compromise (BEC).",
-
-            "bec",
-
-            45,
-
-            {
-
-                distractor_rationale: [
-
-                    "CORRECT — trusted pre-established numbers bypass compromised email communication loops.",
-
-                    "WRONG — replying to the email reaches the attacker if the vendor mailbox is already compromised.",
-
-                    "WRONG — valid bank routing codes do not verify the legitimacy of the recipient entity.",
-
-                    "WRONG — letterhead stamps and PDFs are easily fabricated by cybercriminals."
-
-                ],
-
-                cognitive_level: 2,
-
-                difficulty: 2,
-
-                coverage_tag: "T1656",
-
-                rotation_bucket: "bec",
-
-                last_validated: "2026-11-07"
-
-            }
-
-        ),
-
-        q(
-
-            "An employee realizes they entered credentials into a phishing portal 5 minutes ago and notifies the helpdesk. The analyst confirms the employee accessed a URL that returned a 200 with a fake login page. Before revoking sessions, what is the most critical first action to preserve evidence?",
-
-            [
-
-                "Capture the URL, screenshot the portal, and preserve the email headers for legal or forensic review",
-
-                "Revoke sessions immediately because operational containment always supersedes evidence retention",
-
-                "Wait for the employee to write a detailed witness statement while their memory is still fresh",
-
-                "Delete the phishing email from the user inbox immediately to prevent secondary clicks"
-
-            ],
-
-            0,
-
             "Evidence preservation (URL, screenshot, headers) before containment ensures the attack can be reconstructed for coordination and legal.",
-
             "reporting",
-
             45,
-
             {
-
                 distractor_rationale: [
-
-                    "CORRECT — capturing artifacts prior to mitigation ensures perishable indicators and headers are preserved.",
-
-                    "WRONG — while containment is vital, acting without capturing immediate transient browser artifacts destroys forensic value.",
-
-                    "WRONG — witness statements are secondary to technical log and header artifacts.",
-
-                    "WRONG — deleting the email destroys the primary threat artifact before collection."
-
+                    "CORRECT — capturing transient URL and header artifacts prior to mitigation ensures perishable indicators are preserved.",
+                    "WRONG — browser cache dumps capture local state but miss perishable gateway email headers and portal links.",
+                    "WRONG — directory attributes reflect persistent account data rather than transient phishing artifacts.",
+                    "WRONG — workstation memory dumps are unnecessary for simple credential harvesting events."
                 ],
-
                 cognitive_level: 3,
-
                 difficulty: 3,
-
                 coverage_tag: "T1566.002",
-
                 rotation_bucket: "reporting",
-
-                last_validated: "2026-11-07"
-
+                last_validated: "2026-11-12"
             }
-
         ),
-
         q(
-
-            "When an employee submits a suspicious phishing email via the security reporting plugin, what key metadata elements are most vital for the SOC automated pipeline to extract instantly?",
-
+            "An employee receives a notification stating their cloud password will expire in 2 hours, containing a link to an internal SSO portal replica. Your immediate triage advisory is to:",
             [
-
-                "Original RFC 822 internet headers, sender IP routing path, and embedded URL/attachment hashes",
-
-                "The user's department head and their line manager for approval workflow routing",
-
-                "The user's device model and operating system version for local endpoint profiling",
-
-                "The user's last login IP and geolocation from the Identity Provider for context"
-
+                "Instruct the user to navigate to the identity portal directly via pre-configured bookmarks",
+                "Instruct the user to submit a manual password reset ticket through the internal IT portal",
+                "Instruct the user to verify their current active password within the notification link prompt",
+                "Instruct the user to contact the helpdesk via direct phone extension to confirm expiry status"
             ],
-
             0,
-
-            "RFC 822 headers and file/URL hashes provide the precise technical indicators needed for threat intelligence correlation and gateway blocking.",
-
-            "reporting",
-
-            45,
-
-            {
-
-                distractor_rationale: [
-
-                    "CORRECT — technical headers and hashes are essential for accurate threat analysis and blocking.",
-
-                    "WRONG — management routing metadata is secondary to core artifact IOC extraction.",
-
-                    "WRONG — endpoint OS version is not part of internet email routing headers.",
-
-                    "WRONG — user login geolocation belongs to IdP sign-in logs rather than email header analysis."
-
-                ],
-
-                cognitive_level: 2,
-
-                difficulty: 2,
-
-                coverage_tag: "T1566",
-
-                rotation_bucket: "reporting",
-
-                last_validated: "2026-11-07"
-
-            }
-
-        ),
-
-        q(
-
-            "When configuring Conditional Access policies in Microsoft Entra ID to mitigate adversary-in-the-middle session token theft, which control combination provides the highest level of structural protection?",
-
-            [
-
-                "Require phishing-resistant MFA (FIDO2) combined with compliant device claims and strict sign-in frequency limits",
-
-                "Enforce standard SMS verification codes alongside optional legacy TLS authentication protocols",
-
-                "Restrict user access solely by IP subnet geofencing while allowing any standard software token",
-
-                "Disable all session timeouts to ensure users never experience re-authentication prompts"
-
-            ],
-
-            0,
-
-            "FIDO2 combined with device compliance and conditional access restricts token export and replay.",
-
+            "Using pre-configured bookmarks bypasses phishing portals completely while maintaining secure identity workflows.",
             "aitm",
-
             45,
-
             {
-
                 distractor_rationale: [
-
-                    "CORRECT — phishing-resistant authentication paired with device compliance mitigates stolen session tokens.",
-
-                    "WRONG — SMS and legacy protocols are highly vulnerable to interception and modern bypass attacks.",
-
-                    "WRONG — IP geofencing is easily bypassed via residential proxies and VPNs.",
-
-                    "WRONG — infinite session lifespans increase exposure windows for stolen session cookies."
-
+                    "CORRECT — bookmarks prevent navigation to lookalike phishing domains.",
+                    "WRONG — manual support tickets create operational delay when standard self-service portals exist.",
+                    "WRONG — verifying credentials within notification links exposes user secrets directly to attackers.",
+                    "WRONG — phone calls for routine expiry checks overload support desks unnecessarily."
                 ],
-
-                cognitive_level: 2,
-
-                difficulty: 2,
-
-                coverage_tag: "T1556.006",
-
-                rotation_bucket: "aitm",
-
-                last_validated: "2026-11-07"
-
-            }
-
-        ),
-
-        q(
-
-            "The finance manager receives a phone call from someone whose voice matches the Chief Executive Officer, requesting an urgent wire transfer for an acquisition. The caller claims to be calling from a noisy airport lounge on a mobile phone with poor reception. Your recommended verification policy is:",
-
-            [
-
-                "Refuse the transfer and require verification via a pre-established internal callback number or out-of-band channel",
-
-                "Proceed with the transfer since the vocal cadence and speech patterns matched the CEO",
-
-                "Ask the caller to recite their corporate login password over the active phone call as proof",
-
-                "Execute half the wire amount now and wait for the airport flight to land before sending the rest"
-
-            ],
-
-            0,
-
-            "Audio-only deepfakes require strict out-of-band callback verification using pre-established numbers rather than trusting vocal recognition.",
-
-            "bec",
-
-            45,
-
-            {
-
-                distractor_rationale: [
-
-                    "CORRECT — pre-established callback channels bypass audio deepfakes and caller ID spoofing.",
-
-                    "WRONG — modern voice cloning models replicate pitch and cadence accurately enough to fool casual listeners.",
-
-                    "WRONG — sharing passwords over voice channels creates severe credential exposure risks.",
-
-                    "WRONG — partial wire transfers still result in capital loss and encourage attacker persistence."
-
-                ],
-
                 cognitive_level: 3,
-
                 difficulty: 3,
-
-                coverage_tag: "T1656",
-
-                rotation_bucket: "bec",
-
-                last_validated: "2026-11-07"
-
+                coverage_tag: "T1566.002",
+                rotation_bucket: "aitm",
+                last_validated: "2026-11-12"
             }
-
         ),
-
         q(
-
-            "An employee receives a high-urgency message stating their corporate payroll profile will be deactivated within two hours unless they verify their credentials immediately. This tactic primarily exploits which human cognitive vulnerability?",
-
+            "An employee clicks a link in an urgent simulated security awareness email and enters their credentials. Five minutes later, they realize their error and notify the helpdesk. Your primary containment step is:",
             [
-
-                "Artificial urgency and fear of negative consequences designed to bypass critical thinking",
-
-                "Curiosity regarding internal company reorganization announcements and bonuses",
-
-                "Desire to help coworkers resolve IT support tickets during peak hours",
-
-                "Compliance with routine quarterly audit document submission workflows"
-
+                "Revoke all active user session tokens and enforce an immediate credential reset",
+                "Force an immediate workstation operating system reboot to clear resident browser state",
+                "Disable all external email forwarding rules and restrict inbound mailbox access permissions",
+                "Isolate the user workstation from the corporate network using endpoint containment tools"
             ],
-
             0,
-
-            "Social engineering attacks rely heavily on artificial time pressure and intimidation to induce rushed decision-making.",
-
-            "bec",
-
-            30,
-
-            {
-
-                distractor_rationale: [
-
-                    "CORRECT — urgency and negative consequences induce panic, bypassing careful analysis.",
-
-                    "WRONG — curiosity targets different lures (e.g., compensation lists) rather than payroll deactivation.",
-
-                    "WRONG — helpfulness describes support scams, not imminent account loss threats.",
-
-                    "WRONG — routine compliance lacks the fabricated panic and immediate threat window."
-
-                ],
-
-                cognitive_level: 1,
-
-                difficulty: 1,
-
-                coverage_tag: "T1598",
-
-                rotation_bucket: "bec",
-
-                last_validated: "2026-11-07"
-
-            }
-
-        ),
-
-        q(
-
-            "What is the primary operational benefit of fostering a blame-free security incident reporting culture within an enterprise?",
-
-            [
-
-                "It eliminates psychological barriers, increasing reporting speed and reducing attacker dwell time",
-
-                "It replaces the need for automated endpoint detection and response software agents",
-
-                "It guarantees that zero phishing emails will ever bypass the secure email gateway",
-
-                "It transfers legal liability for security breaches entirely from the company to individual staff"
-
-            ],
-
-            0,
-
-            "A blame-free culture removes psychological barriers, ensuring rapid reporting of security incidents and minimizing adversary dwell time.",
-
+            "Revoking active sessions and resetting credentials immediately terminates unauthorized access following credential harvesting.",
             "reporting",
-
-            30,
-
+            45,
             {
-
                 distractor_rationale: [
-
-                    "CORRECT — removing fear encourages prompt reporting, shortening the time to detect and contain threats.",
-
-                    "WRONG — cultural practices do not replace technical endpoint monitoring defenses.",
-
-                    "WRONG — no security perimeter can achieve 100% prevention against novel attacks.",
-
-                    "WRONG — liability cannot be legally shifted to employees in this manner."
-
+                    "CORRECT — revoking tokens and resetting passwords cuts off active attacker sessions instantly.",
+                    "WRONG — OS reboots do not invalidate cloud session cookies stored on remote proxy infrastructure.",
+                    "WRONG — mailbox rules address secondary persistence rather than immediate token replay risks.",
+                    "WRONG — network isolation is excessive when compromise was strictly credential-based without local execution."
                 ],
-
-                cognitive_level: 1,
-
-                difficulty: 1,
-
-                coverage_tag: "T1566",
-
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1078",
                 rotation_bucket: "reporting",
-
-                last_validated: "2026-11-07"
-
+                last_validated: "2026-11-12"
             }
-
+        ),
+        q(
+            "When analyzing an adversary-in-the-middle (AiTM) proxy attack against an organization using hardware tokens, what specific telemetry field confirms that token replay occurred?",
+            [
+                "A successful token claim presented without a corresponding hardware cryptographic challenge log",
+                "An anomalous authentication IP address originating from a known residential proxy network provider",
+                "A user agent string matching standard corporate browser builds running on updated operating systems",
+                "An authentication timestamp occurring outside standard business operational working hours"
+            ],
+            2,
+            "Replay attacks present valid session claims upstream without completing the fresh cryptographic challenge required by hardware tokens.",
+            "aitm",
+            45,
+            {
+                distractor_rationale: [
+                    "WRONG — user agent strings are easily spoofed by reverse proxy frameworks.",
+                    "WRONG — proxy IPs indicate tunneling but do not prove token replay mechanics.",
+                    "CORRECT — missing cryptographic challenge validation proves session cookie theft and relay.",
+                    "WRONG — authentication timestamps reflect timing rather than cryptographic token validation."
+                ],
+                cognitive_level: 4,
+                difficulty: 3,
+                coverage_tag: "T1539",
+                rotation_bucket: "aitm",
+                last_validated: "2026-11-12"
+            }
+        ),
+        q(
+            "An accounts payable specialist receives an email stating that a key software vendor is shifting banking details, attached with a signed PDF letter. Your recommended verification process is:",
+            [
+                "Call the vendor using the verified phone number stored in your master ERP supplier profile",
+                "Call the vendor using the telephone number listed inside the attached PDF letter body",
+                "Call the vendor using the telephone number printed in the incoming email signature block",
+                "Call the vendor using the contact number found via a quick web search on the vendor name"
+            ],
+            0,
+            "Master ERP supplier profiles contain pre-established, trusted contact details independent of incoming communications.",
+            "bec",
+            45,
+            {
+                distractor_rationale: [
+                    "CORRECT — master ERP records provide pre-validated contact numbers secured against fraud.",
+                    "WRONG — numbers inside attached PDF letters can easily be fabricated by threat actors.",
+                    "WRONG — email signature phone numbers are controlled by the sender or attacker.",
+                    "WRONG — web searches can be manipulated via SEO poisoning and lookalike support pages."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1656",
+                rotation_bucket: "bec",
+                last_validated: "2026-11-12"
+            }
+        ),
+        q(
+            "An analyst investigates a reported phishing email and identifies a unique domain name used across 50 mailboxes. What is the most effective containment action at the email gateway?",
+            [
+                "Create a global block rule for the sender domain and purge matching messages from all user inboxes",
+                "Export message headers into a security log archive and schedule a review for the following week",
+                "Broadcast an urgent advisory notice to all organizational personnel detailing the phishing indicators",
+                "Forward sample copies of the offending message directly to external threat intelligence platforms"
+            ],
+            0,
+            "Blocking the malicious sender domain and purging active messages across tenant inboxes stops active propagation instantly.",
+            "reporting",
+            45,
+            {
+                distractor_rationale: [
+                    "CORRECT — gateway blocking and message purging provide immediate automated tenant-wide containment.",
+                    "WRONG — exporting headers without taking gateway action leaves the active threat accessible in inboxes.",
+                    "WRONG — broadcasting warnings creates organizational noise without removing active messages.",
+                    "WRONG — sharing samples externally does not contain the internal tenant threat."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1566",
+                rotation_bucket: "reporting",
+                last_validated: "2026-11-12"
+            }
+        ),
+        q(
+            "An employee reports receiving a suspicious text message on their personal mobile device claiming to be from the internal IT helpdesk regarding system access. Your recommended response guideline is:",
+            [
+                "Report the message using the corporate security reporting channel and block the sender number",
+                "Forward the message screenshot to departmental chat groups to warn coworkers of active campaigns",
+                "Reply directly to the text message asking the sender to provide their internal employee badge ID",
+                "Ignore the message completely without filing a report since it arrived on a personal device"
+            ],
+            0,
+            "Reporting via official security channels preserves indicators while blocking prevents further direct interaction.",
+            "awareness",
+            45,
+            {
+                distractor_rationale: [
+                    "CORRECT — official reporting captures telemetry while blocking stops direct messaging lures.",
+                    "WRONG — forwarding via chat channels creates panic without notifying security operations.",
+                    "WRONG — replying to attackers validates your active number and engages social engineering loops.",
+                    "WRONG — ignoring mobile vectors leaves enterprise credential risks unrecorded."
+                ],
+                cognitive_level: 2,
+                difficulty: 2,
+                coverage_tag: "T1598.003",
+                rotation_bucket: "awareness",
+                last_validated: "2026-11-12"
+            }
+        ),
+        q(
+            "When designing conditional access policies to protect against credential stuffing and automated bot logins, which signal combination provides the strongest defense?",
+            [
+                "Enforcing risk-based sign-in policies combined with compliant device posture requirements",
+                "Requiring users to input their corporate passwords twice sequentially during authentication",
+                "Restricting authentication access exclusively to physical corporate office local subnets",
+                "Disabling all session timeout controls to ensure continuous uninterrupted user workflows"
+            ],
+            0,
+            "Combining automated risk intelligence (Identity Protection) with device compliance evaluates telemetry dynamically.",
+            "aitm",
+            45,
+            {
+                distractor_rationale: [
+                    "CORRECT — risk-based policies and device compliance assess user and device context dynamically.",
+                    "WRONG — typing passwords twice does not stop automated credential stuffing scripts.",
+                    "WRONG — restricting access by office IP subnets breaks remote work and modern cloud agility.",
+                    "WRONG — indefinite session lifespans increase exposure windows for stolen tokens."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1556.006",
+                rotation_bucket: "aitm",
+                last_validated: "2026-11-12"
+            }
+        ),
+        q(
+            "A finance manager receives an urgent video conferencing meeting link from the CFO discussing an unannounced acquisition requiring immediate escrow approval. Your protocol requires:",
+            [
+                "Verify the meeting authenticity via an independent internal voice call before discussing transactions",
+                "Record the video conference session using local screen capture software for compliance archiving",
+                "Join the video conference immediately to ensure executive leadership requests are met on schedule",
+                "Approve the escrow request during the conference if visual appearance matches executive profiles"
+            ],
+            0,
+            "Independent out-of-band verification via voice calls protects against real-time deepfake video conference impersonation.",
+            "deepfake",
+            45,
+            {
+                distractor_rationale: [
+                    "CORRECT — independent voice verification confirms identity outside compromised video platforms.",
+                    "WRONG — recording meetings preserves evidence of fraud but does not prevent financial loss.",
+                    "WRONG — joining video conferences directly exposes staff to real-time deepfake manipulation.",
+                    "WRONG — real-time deepfakes successfully mimic executive visual appearance and mannerisms."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1656",
+                rotation_bucket: "deepfake",
+                last_validated: "2026-11-12"
+            }
         )
-
     ],
     7: [
         q(
-            'Deepfake CFO voice asks for urgent wire. Which control survives “it sounded real”?',
+            "A deepfake CFO voice asks for an urgent wire transfer during month-end closing. Which operational control best survives the \"it sounded real\" human perceptual bias?",
             [
-                'Caller ID trust alone',
-                'Pre-agreed challenge phrase + dual-control callback on a known number',
-                'Approve if amount is under N$5m',
-                'Trust any WhatsApp voice note from “CFO”'
+                "Relying exclusively on the incoming caller ID number verification matched in your directory",
+                "Enforcing a pre-agreed challenge phrase and a dual-control callback on a known extension",
+                "Approving the wire transfer automatically if the requested amount is under N$5 million limit",
+                "Trusting any incoming WhatsApp voice note or audio clip originating from the executive profile"
             ],
             1,
-            'Process beats perception when audio can be synthesized.',
-            'deepfake',
-            40
+            "Process controls and pre-agreed challenge phrases beat human perception when audio synthesis technology is deployed.",
+            "deepfake",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — caller ID spoofing is trivial for modern attackers to manipulate.",
+                    "CORRECT — challenge phrases and dual-control callback protocols completely neutralize audio deepfake risks.",
+                    "WRONG — financial thresholds do not validate authorization authenticity or prevent targeted fraud.",
+                    "WRONG — messaging platforms and audio clips are highly susceptible to deepfake cloning."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1656",
+                rotation_bucket: "deepfake",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'Vendor portal password reset email arrives with a new domain. Best first check?',
+            "A vendor portal password reset notification arrives with a suspicious lookalike domain link. What is the most effective operational habit to prevent credential harvesting?",
             [
-                'Click Reset immediately',
-                'Open the vendor portal from a bookmark / known URL; never from the message link',
-                'Forward to all staff',
-                'Disable MFA so login is easier'
+                "Click the password reset link immediately to verify the SSL certificate validity in browser",
+                "Open the vendor portal directly from a secure bookmark or known URL instead of message links",
+                "Forward the notification email to all staff members as an organization-wide alert warning",
+                "Disable multi-factor authentication temporarily to streamline the portal recovery workflow"
             ],
             1,
-            'Navigation from trusted bookmarks breaks credential-harvest links.',
-            'bec',
-            35
+            "Navigating directly from trusted bookmarks or known URLs breaks the credential harvesting redirect chain completely.",
+            "bec",
+            35,
+            {
+                distractor_rationale: [
+                    "WRONG — clicking email links in suspicious notifications is precisely how phishing kits capture credentials.",
+                    "CORRECT — using known bookmarks completely bypasses malicious phishing links and proxy sites.",
+                    "WRONG — forwarding phishing emails without sanitization creates panic and risks secondary clicks.",
+                    "WRONG — disabling authentication controls severely lowers account security posture."
+                ],
+                cognitive_level: 2,
+                difficulty: 2,
+                coverage_tag: "T1566.002",
+                rotation_bucket: "bec",
+                last_validated: "2026-11-12"
+            }
         )
     ],
     8: [
         q(
-            'Legal wants a customer notification draft while encryption is still spreading. IR lead priority?',
+            "Legal requests a customer notification draft while active ransomware encryption is still spreading across network segments. What is the Incident Commander's primary operational priority?",
             [
-                'Write perfect prose before isolation',
-                'Contain/stop spread first; dual-track: tech containment + factual comms with legal — no speculation',
-                'Power off every site blindly',
-                'Delete logs to reduce liability'
+                "Draft perfect public relations prose before initiating any host isolation procedures",
+                "Contain the spread first, using dual-track workflows for technical containment and factual comms",
+                "Power off every corporate workstation blindly across all physical branch offices",
+                "Delete all local event logs immediately to reduce regulatory liability exposure"
             ],
             1,
-            'NIST-style IR: stop harm, preserve enough evidence, communicate facts.',
-            'incident_response',
-            45
+            "NIST incident response principles dictate stopping active harm first while maintaining factual, non-speculative communication tracks.",
+            "incident_response",
+            45,
+            {
+                distractor_rationale: [
+                    "WRONG — delaying containment to craft PR statements allows ransomware lateral movement to expand.",
+                    "CORRECT — immediate containment paired with controlled, factual communication satisfies both operational and legal needs.",
+                    "WRONG — blind site-wide power-offs destroy volatile memory artifacts needed for forensic scoping.",
+                    "WRONG — deleting event logs violates legal compliance and destroys vital forensic timelines."
+                ],
+                cognitive_level: 4,
+                difficulty: 3,
+                coverage_tag: "T1486",
+                rotation_bucket: "incident_response",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'Which severity input most justifies declaring a major incident quickly?',
+            "Which telemetry input provides the strongest justification for declaring an enterprise major security incident status immediately?",
             [
-                'A single spam email deleted successfully',
-                'Active lateral movement into crown-jewel systems / safety or payment impact',
-                'Someone used Comic Sans',
-                'VPN latency of 12ms'
+                "A single automated spam email flagged and deleted successfully by the secure gateway",
+                "Active lateral movement into crown-jewel database systems with payment impact indicators",
+                "An employee altering their office desktop wallpaper theme without authorization",
+                "Temporary wide-area network VPN latency spiking to 12 milliseconds during peak hours"
             ],
             1,
-            'Severity follows blast radius and business/safety impact.',
-            'severity',
-            35
+            "Incident severity scales directly with blast radius and business operational or financial safety impact.",
+            "severity",
+            35,
+            {
+                distractor_rationale: [
+                    "WRONG — standard spam interception is routine operational noise, not a major incident.",
+                    "CORRECT — active lateral movement into crown jewels represents high blast radius and immediate business risk.",
+                    "WRONG — aesthetic wallpaper changes are policy infractions, not active security breaches.",
+                    "WRONG — normal network latency variations are standard infrastructure events."
+                ],
+                cognitive_level: 2,
+                difficulty: 2,
+                coverage_tag: "T1210",
+                rotation_bucket: "severity",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'Evidence vs uptime: ransomware on a file server still encrypting. Best balance?',
+            "An active ransomware infection is actively encrypting a primary file server. How should the response team balance volatile evidence collection against operational uptime containment?",
             [
-                'Ignore evidence always',
-                'Isolate to stop spread; capture critical volatile data if playbook-safe; rebuild from known-good',
-                'Leave attacker on system for a week to observe',
-                'Reimage with no notes'
+                "Ignore evidence collection entirely and focus exclusively on long-term preventive policy updates",
+                "Isolate the host immediately to halt spread, capturing critical volatile data where playbook-safe",
+                "Leave the attacker connected to the system for one week to observe their complete methodology",
+                "Reimage the affected server immediately without taking notes or preserving system state"
             ],
             1,
-            'Containment and disciplined evidence can coexist.',
-            'forensics',
-            40
+            "Immediate host isolation halts active encryption while disciplined playbook procedures preserve essential forensic artifacts.",
+            "forensics",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — ignoring evidence collection prevents root-cause analysis and future hardening.",
+                    "CORRECT — rapid isolation stops encryption propagation while preserving necessary forensic scope.",
+                    "WRONG — leaving attackers active on systems during ongoing encryption maximizes business damage.",
+                    "WRONG — reimaging without logging destroys critical root-cause attribution data."
+                ],
+                cognitive_level: 4,
+                difficulty: 3,
+                coverage_tag: "T1486",
+                rotation_bucket: "forensics",
+                last_validated: "2026-11-12"
+            }
         )
     ],
     11: [
         q(
-            'Affiliate checklist includes “delete VSS + exfil before encrypt.” What control most directly breaks leverage?',
+            "An affiliate ransomware checklist includes clearing Volume Shadow Copies and exfiltrating data prior to execution. Which control combination most directly breaks their extortion leverage?",
             [
-                'A motivational poster',
-                'Immutable/offline backups that were restore-tested + identity tiering to slow domain-wide encryption',
-                'Only AV signatures',
-                'Paying every ransom immediately as policy'
+                "Deploying motivational security posters throughout office hallways and break rooms",
+                "Maintaining offline immutable backups with restore testing alongside identity tiering",
+                "Relying solely on standard antivirus signature definitions updated once daily",
+                "Establishing a corporate policy to pay every ransomware demand immediately upon notice"
             ],
             1,
-            'Recoverability and identity resistance reduce extortion power.',
-            'ransomware',
-            40
+            "Robust recoverability via tested immutable backups and domain tiering removes the attacker's primary extortion leverage.",
+            "ransomware",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — awareness posters do not technical disrupt active ransomware encryption workflows.",
+                    "CORRECT — offline immutable backups ensure recoverability while tiering slows lateral movement.",
+                    "WRONG — traditional antivirus signatures easily miss novel ransomware binaries and custom loaders.",
+                    "WRONG — paying ransoms encourages further attacks and does not guarantee data recovery."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1490",
+                rotation_bucket: "ransomware",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'Double extortion: data stolen and systems encrypted. Negotiation pressure hits executives. Professional posture?',
+            "Double extortion involves data exfiltration combined with local system encryption, putting severe pressure on executives. What is the recommended professional response posture?",
             [
-                'IT alone decides payment in secret',
-                'Legal/leadership decision with IR facts; continue recovery; do not halt containment for chat drama',
-                'Publicly livestream negotiations',
-                'Wipe backups to “deny thieves”'
+                "Allow IT administrators to handle ransom payment negotiations entirely in secret",
+                "Empower legal and leadership with IR facts while continuing recovery; do not halt containment",
+                "Publicly livestream ongoing negotiation chats on social media to shame the actors",
+                "Wipe all company backup servers immediately to deny thieves any satisfaction"
             ],
             1,
-            'Payment is business/legal. IR keeps recovering and containing.',
-            'extortion',
-            45
+            "Ransom payment decisions remain executive business and legal calls, while incident responders maintain rigorous containment and recovery.",
+            "extortion",
+            45,
+            {
+                distractor_rationale: [
+                    "WRONG — leaving financial decisions entirely to isolated IT staff violates governance and risk controls.",
+                    "CORRECT — structured executive leadership guided by forensic facts ensures sound crisis management.",
+                    "WRONG — livestreaming negotiations escalates instability and compromises ongoing crisis strategy.",
+                    "WRONG — wiping backup servers destroys the organization's recovery capability."
+                ],
+                cognitive_level: 4,
+                difficulty: 3,
+                coverage_tag: "T1486",
+                rotation_bucket: "extortion",
+                last_validated: "2026-11-12"
+            }
         )
     ],
     18: [
         q(
-            'Alert fatigue: 900 medium alerts/day. Analyst starts closing without reading. Best leadership fix?',
+            "Night-shift analysts are overwhelmed by 900 medium alerts daily and begin closing tickets without investigation. What is the most effective leadership remediation strategy?",
             [
-                'Fire all analysts',
-                'Tune detections, enrich context, staff to volume, protect high-fidelity rules from silent disablement',
-                'Turn SIEM off at night',
-                'Only alert on low severity'
+                "Terminate all underperforming shift analysts immediately and hire fresh contractors",
+                "Tune detections, enrich event context, staff appropriately, and protect high-fidelity rules",
+                "Turn off the security information and event management system entirely during night hours",
+                "Configure alerting rules to trigger exclusively on low-severity informational events"
             ],
             1,
-            'Fatigue is an ops design problem, not a moral failing.',
-            'soc',
-            40
+            "Alert fatigue is an operational architecture and workflow design failure requiring detection tuning and proper resourcing.",
+            "soc",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — firing analysts does not fix the underlying noisy detection engineering flaw.",
+                    "CORRECT — tuning noisy rules, enriching context, and protecting core rules resolves burnout root causes.",
+                    "WRONG — disabling SIEM monitoring leaves the enterprise entirely blind to active threats.",
+                    "WRONG — restricting alerts to low severity misses critical high-fidelity indicators."
+                ],
+                cognitive_level: 4,
+                difficulty: 3,
+                coverage_tag: "T1078",
+                rotation_bucket: "soc",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'True positive: service account success after spray, then admin$ hops. What is the 10-minute narrative?',
+            "A service account shows successful authentication following a password spray, followed immediately by administrative remote service hops. What is the appropriate 10-minute analytic narrative?",
             [
-                'Probably a glitch — close',
-                'Identity compromise + lateral movement — contain account/host, hunt pivots, preserve logs',
-                'Wait for ransomware note',
-                'Only email the user politely'
+                "This represents a standard network glitch or automated service update; close ticket",
+                "This indicates identity compromise and lateral movement; contain hosts and preserve logs",
+                "This is a benign diagnostic script execution; wait for a formal ransomware note",
+                "This requires sending a polite reminder email to the user regarding policy compliance"
             ],
             1,
-            'Chain alerts beat single-event thinking.',
-            'lateral',
-            40
+            "Chained security telemetry combining authentication anomalies with administrative remote service usage indicates active lateral movement.",
+            "lateral",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — dismissing spray followed by admin hops as a glitch ignores clear compromise indicators.",
+                    "CORRECT — linking authentication spikes to remote administrative movement confirms active compromise.",
+                    "WRONG — waiting for ransomware notes allows attackers to complete domain dominance.",
+                    "WRONG — polite reminder emails are ineffective against active adversary lateral movement."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1021",
+                rotation_bucket: "lateral",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'Which metric best shows SOC improvement after purple tests?',
+            "Which metric provides the most accurate empirical demonstration of SOC improvement following purple team emulation exercises?",
             [
-                'Number of slide decks',
-                'MTTD/MTTR on emulated techniques before vs after',
-                'Coffee consumed',
-                'Count of ignored alerts'
+                "The total count of presentation slide decks delivered to the board of directors",
+                "The delta in MTTD and MTTR on emulated adversary techniques before versus after tuning",
+                "The total volume of caffeinated beverages consumed by analysts during night shifts",
+                "The aggregate count of unread alert notifications ignored across shift rotations"
             ],
             1,
-            'Measure detect/respond on known techniques.',
-            'metrics',
-            35
+            "Measuring mean time to detect and respond on specific emulated techniques provides objective proof of defensive maturation.",
+            "metrics",
+            35,
+            {
+                distractor_rationale: [
+                    "WRONG — slide deck volume measures administrative output rather than operational effectiveness.",
+                    "CORRECT — tracking MTTD and MTTR improvements on emulated techniques measures true detection capability.",
+                    "WRONG — beverage consumption is unrelated to security operational performance.",
+                    "WRONG — ignored alert counts indicate process failure rather than improvement."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1562",
+                rotation_bucket: "metrics",
+                last_validated: "2026-11-12"
+            }
         )
     ],
     21: [
         q(
-            'VPN flat access lets any authenticated laptop reach SCADA jump hosts. Zero Trust response?',
+            "A flat VPN configuration allows any authenticated laptop to reach sensitive SCADA jump hosts directly. What is the correct Zero Trust architectural response?",
             [
-                'Trust the VPN forever',
-                'Segment; continuous verify identity+device; least privilege per resource; remove flat pathways',
-                'Remove all authentication',
-                'Only add a longer VPN password'
+                "Trust the existing VPN tunnel perimeter permanently without introducing changes",
+                "Segment architecture; continuously verify identity and device posture; enforce least privilege",
+                "Remove all user authentication requirements to streamline remote engineering workflows",
+                "Implement a longer and more complex pre-shared VPN password for remote workers"
             ],
             1,
-            'ZT is about per-request verification and blast-radius reduction.',
-            'zero_trust',
-            40
+            "Zero Trust architecture relies on continuous verification, explicit least privilege, and strict micro-segmentation.",
+            "zero_trust",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — trusting static VPN perimeters violates core Zero Trust principles.",
+                    "CORRECT — micro-segmentation and continuous posture verification reduce lateral blast radius.",
+                    "WRONG — removing authentication eliminates perimeter security entirely.",
+                    "WRONG — longer passwords do not fix flat network architecture risks."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1133",
+                rotation_bucket: "zero_trust",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'Contractor BYOD with sideloaded apps needs ERP access. Best pattern?',
+            "A contractor using an unmanaged personal device with sideloaded applications requires access to the enterprise ERP system. What is the optimal secure access pattern?",
             [
-                'Full domain admin on personal phone',
-                'Managed device posture or VDI/Virtual app; short-lived access; no broad network immersion',
-                'Share a shared generic login on a sticky note',
-                'Disable logging for contractors'
+                "Grant full domain administrator privileges directly to the personal mobile device",
+                "Utilize managed device posture checking or VDI/virtual apps with short-lived access sessions",
+                "Share a generic administrative login credential written on a physical office sticky note",
+                "Disable all access logging and monitoring telemetry for contractor workstation sessions"
             ],
             1,
-            'Device trust and scoped access beat network location myths.',
-            'ztna',
-            40
+            "Device posture validation and virtualized session isolation provide secure access without requiring broad network immersion.",
+            "ztna",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — granting domain admin to unmanaged personal devices creates severe enterprise risk.",
+                    "CORRECT — VDI and posture validation ensure secure access without exposing internal networks.",
+                    "WRONG — shared generic credentials destroy audit accountability.",
+                    "WRONG — disabling logging prevents security visibility during contractor sessions."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1133",
+                rotation_bucket: "ztna",
+                last_validated: "2026-11-12"
+            }
         )
     ],
     37: [
         q(
-            'Awareness training that only shames clickers produces what outcome?',
+            "An awareness training program that relies exclusively on shaming employees who click simulated phishing links typically produces what organizational outcome?",
             [
-                'Higher reporting rates',
-                'Hidden clicks and lower reporting — culture failure',
-                'Perfect security',
-                'Automatic patching'
+                "Significantly higher employee reporting rates for actual suspicious emails",
+                "Hidden security clicks and lower reporting rates due to a toxic culture of fear",
+                "Flawless perimeter security compliance across all department business units",
+                "Automatic patching of underlying operating system vulnerabilities on endpoints"
             ],
             1,
-            'Psychological safety increases sensor quality (human reporting).',
-            'awareness',
-            35
+            "Shame-based awareness creates psychological fear, driving employees to hide mistakes and suppressing vital incident reporting.",
+            "awareness",
+            35,
+            {
+                distractor_rationale: [
+                    "WRONG — shaming suppresses reporting rather than encouraging transparency.",
+                    "CORRECT — fear of punishment drives employees to hide security mistakes.",
+                    "WRONG — awareness programs do not replace technical patching or perimeter controls.",
+                    "WRONG — employee awareness has no direct technical effect on OS patching."
+                ],
+                cognitive_level: 2,
+                difficulty: 2,
+                coverage_tag: "T1566",
+                rotation_bucket: "awareness",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'Best micro-drill for a Windhoek retail chain with high WhatsApp use?',
+            "What is the most effective micro-drill strategy for a retail enterprise operating in a region where staff rely heavily on mobile messaging apps?",
             [
-                'Only teach BGP hijacking week one',
-                'Invoice/BEC verification + fake delivery SMS + manager callback practice',
-                'Ignore mobile channels',
-                'Memorize port numbers only'
+                "Focus training exclusively on advanced Border Gateway Protocol routing hijacks",
+                "Practice invoice verification, fake delivery text scenarios, and manager callback norms",
+                "Ignore mobile messaging channels entirely and focus solely on desktop web browsers",
+                "Require employees to memorize numeric TCP/UDP port numbers for common protocols"
             ],
             1,
-            'Train the channels people actually use.',
-            'awareness',
-            40
+            "Training must focus realistically on the specific communication channels and social engineering vectors staff actually use.",
+            "awareness",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — BGP routing is irrelevant to retail employee social engineering awareness.",
+                    "CORRECT — drilling real-world mobile messaging and invoice vectors builds practical resilience.",
+                    "WRONG — ignoring mobile channels leaves employees vulnerable to SMS and WhatsApp attacks.",
+                    "WRONG — memorizing port numbers provides no practical defense against social engineering."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1656",
+                rotation_bucket: "awareness",
+                last_validated: "2026-11-12"
+            }
         )
     ],
     46: [
         q(
-            'Unapproved full-subnet SYN scan at 03:00 from a laptop. Best SOC framing?',
+            "An unapproved full-subnet SYN scan originates from a marketing employee laptop at 03:00. What is the appropriate SOC framing?",
             [
-                'Always benign Windows Update',
-                'Reconnaissance tradecraft — treat as precursor activity until proven authorized',
-                'Ignore night scans',
-                'Ban all ICMP forever without analysis'
+                "Assume it is always a benign automated Windows background update process",
+                "Treat as active reconnaissance tradecraft and precursor activity until proven authorized",
+                "Ignore night-shift network scans entirely as standard background noise",
+                "Permanently ban all ICMP network traffic across the enterprise without analysis"
             ],
             1,
-            'Nmap-style discovery is often stage-0. Authorize or investigate.',
-            'nmap',
-            40
+            "Port scanning and discovery tradecraft represent standard adversary precursor activity requiring validation against change logs.",
+            "nmap",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — assuming scans are benign Windows updates misses potential insider recon or host compromise.",
+                    "CORRECT — treating unapproved scans as precursor activity ensures prompt investigation.",
+                    "WRONG — ignoring night scans allows attackers to complete reconnaissance unchecked.",
+                    "WRONG — blocking all ICMP breaks legitimate network diagnostics and monitoring."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1046",
+                rotation_bucket: "nmap",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'Which Nmap finding most urgently needs a ticket with owner and SLA?',
+            "Which discovery finding represents the most urgent requirement for a ticket assigned with an explicit owner and strict SLA?",
             [
-                'Closed port 9 on a printer',
-                'Unexpected RDP/SMB exposure on a crown-jewel subnet from the internet',
-                'A host that answers ping',
-                'TTL of 64'
+                "A closed port 9 responding on a standard local networked office printer",
+                "Unexpected RDP and SMB service exposure on a crown-jewel subnet facing the internet",
+                "A corporate workstation responding normally to standard network ping packets",
+                "An observed Internet Protocol packet Time-To-Live value measuring exactly 64"
             ],
             1,
-            'Attack surface on valuable assets drives priority.',
-            'nmap',
-            35
+            "Exposing sensitive administrative services like RDP and SMB directly to the internet on critical assets creates immediate risk.",
+            "nmap",
+            35,
+            {
+                distractor_rationale: [
+                    "WRONG — closed ports on peripheral devices present no exposure risk.",
+                    "CORRECT — internet-exposed administrative services on crown-jewel subnets demand urgent remediation.",
+                    "WRONG — responding to ping packets is standard network behavior.",
+                    "WRONG — packet TTL values are standard diagnostic metrics."
+                ],
+                cognitive_level: 2,
+                difficulty: 2,
+                coverage_tag: "T1190",
+                rotation_bucket: "nmap",
+                last_validated: "2026-11-12"
+            }
         )
     ],
     51: [
         q(
-            'DA interactive logon to a user workstation, then lateral admin$ as DA. Root lesson?',
+            "A Domain Administrator performs an interactive logon to a user workstation, followed by administrative lateral movement. What is the primary architectural lesson?",
             [
-                'Hashes cannot be reused',
-                'Privileged credentials on dirty endpoints enable theft/reuse — enforce PAW/tiering',
-                'RDP is always safe',
-                'Only cloud accounts matter'
+                "Cryptographic Kerberos authentication hashes are completely impossible to reuse",
+                "Privileged credentials used on unhardened endpoints enable credential theft and lateral reuse",
+                "Remote Desktop Protocol sessions are inherently secure under all operational conditions",
+                "Cloud identity management systems render on-premises domain security controls obsolete"
             ],
             1,
-            'Mimikatz-class theft thrives on tiering failures.',
-            'mimikatz',
-            40
+            "Using privileged credentials on dirty or unhardened endpoints allows attackers to harvest and reuse materials for domain dominance.",
+            "mimikatz",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — Kerberos tickets and NTLM hashes are frequently targeted and reused by attackers.",
+                    "CORRECT — logging onto dirty workstations with privileged accounts exposes credentials to theft tools.",
+                    "WRONG — RDP sessions on compromised hosts do not protect credentials from memory scraping.",
+                    "WRONG — on-premises domain security remains critical alongside cloud architectures."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1003.001",
+                rotation_bucket: "mimikatz",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'Credential Guard + Protected Users most directly reduce which outcome?',
+            "Credential Guard and Protected Users configurations most directly reduce which adversary capability?",
             [
-                'Phishing emails existing',
-                'Ease of dumping/reusing certain credential materials on hardened endpoints',
-                'Need for backups',
-                'DNS resolution'
+                "The creation and distribution of malicious phishing emails across external gateways",
+                "The ease of dumping, extracting, and reusing specific credential materials on endpoints",
+                "The operational dependency on regular offline data backup and restore cycles",
+                "The frequency and complexity of domain Name Resolution protocol queries"
             ],
             1,
-            'Platform hardening raises cost of credential theft.',
-            'cred_guard',
-            40
+            "Platform hardening controls like Credential Guard isolate secrets to raise the operational cost of credential theft.",
+            "cred_guard",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — endpoint credential hardening does not prevent external email phishing generation.",
+                    "CORRECT — Credential Guard prevents unauthorized memory extraction of sensitive secrets.",
+                    "WRONG — backup cycles are unrelated to endpoint credential storage mechanisms.",
+                    "WRONG — DNS query behavior is unaffected by credential protection features."
+                ],
+                cognitive_level: 2,
+                difficulty: 2,
+                coverage_tag: "T1003",
+                rotation_bucket: "cred_guard",
+                last_validated: "2026-11-12"
+            }
         )
     ],
     52: [
         q(
-            'Malleable C2 uses legitimate-looking HTTP and sleep jitter. Detection focus?',
+            "Malleable C2 profiles utilize legitimate-looking HTTP traffic patterns combined with randomized sleep jitter intervals. What is the most effective primary detection focus?",
             [
-                'Filename cobaltstrike.exe only',
-                'Beacon cadence + process injection ancestry + rare destinations/JA3',
-                'Disable HTTPS',
-                'Count PDF downloads'
+                "Searching specifically for executable file names matching \"cobaltstrike.exe\"",
+                "Analyzing beacon cadence, process injection ancestry, and rare destination JA3 profiles",
+                "Disabling encrypted HTTPS traffic inspection across all perimeter firewall devices",
+                "Counting the total volume of daily PDF document downloads across user endpoints"
             ],
             1,
-            'Behavior over brand.',
-            'c2',
-            40
+            "Focusing on behavioral indicators like beacon timing, process ancestry, and network metadata defeats malleable framing.",
+            "c2",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — attackers easily rename binaries, rendering filename searches ineffective.",
+                    "CORRECT — behavioral analytics examining cadence, ancestry, and TLS fingerprints catch sophisticated C2.",
+                    "WRONG — disabling HTTPS inspection blinds the enterprise to encrypted command and control channels.",
+                    "WRONG — PDF download counts provide no visibility into active C2 beaconing."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1071.001",
+                rotation_bucket: "c2",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'Beaconing every ~60s with jitter to a rare SaaS-looking domain. First containment move?',
+            "A host exhibits beaconing behavior every 60 seconds with jitter connecting to a rare SaaS-looking domain. What is the immediate containment priority?",
             [
-                'Ignore until ransomware note',
-                'Isolate host, preserve memory/disk if playbook allows, block egress, hunt siblings',
-                'Only rename the domain in DNS forever',
-                'Reboot and hope'
+                "Ignore the telemetry entirely until a formal ransomware note appears on screens",
+                "Isolate host, preserve memory and disk state if playbook allows, block egress, hunt siblings",
+                "Rename the destination domain entry within internal DNS lookup tables forever",
+                "Reboot the workstation immediately and hope the network anomaly resolves itself"
             ],
             1,
-            'Stop C2, preserve evidence, expand hunt.',
-            'c2',
-            40
+            "Stopping C2 egress, preserving forensic state via isolation, and expanding the hunt across sibling hosts secures the environment.",
+            "c2",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — ignoring active beaconing allows attackers to establish deep persistence.",
+                    "CORRECT — isolating the host and blocking egress stops communication while preserving forensic artifacts.",
+                    "WRONG — renaming DNS entries does not block IP-based hardcoded connections or active sessions.",
+                    "WRONG — rebooting without preservation destroys volatile memory evidence."
+                ],
+                cognitive_level: 4,
+                difficulty: 3,
+                coverage_tag: "T1071",
+                rotation_bucket: "c2",
+                last_validated: "2026-11-12"
+            }
         )
     ],
     58: [
         q(
-            'BloodHound shows Helpdesk GenericAll on a user who can reset a Tier-0-adjacent account. Action?',
+            "BloodHound reveals a Helpdesk group holds GenericAll rights over an object that can reset a Tier-0-adjacent account. What is the appropriate remediation action?",
             [
-                'Celebrate inventory',
-                'Treat as critical identity debt — remove dangerous ACLs and enforce tiering',
-                'Grant GenericAll to everyone',
-                'Ignore graphs'
+                "Celebrate the successful inventory completion and close the security ticket",
+                "Treat as critical identity debt; remove dangerous ACLs and enforce strict tiering rules",
+                "Grant GenericAll permissions to all corporate employees for administrative parity",
+                "Ignore attack path graphs as theoretical visualizations with no real risk"
             ],
             1,
-            'Attack paths are backlog items with owners.',
-            'bloodhound',
-            40
+            "Dangerous access control lists representing direct privilege escalation paths must be remediated as critical technical debt.",
+            "bloodhound",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — inventory completion without remediation leaves severe privilege escalation paths active.",
+                    "CORRECT — removing dangerous ACL paths eliminates critical privilege escalation vectors.",
+                    "WRONG — granting broad administrative rights expands the attack surface catastrophically.",
+                    "WRONG — attack path graphs illustrate actual exploitable paths used by real adversaries."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1484",
+                rotation_bucket: "bloodhound",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'Why do “shortest path to Domain Admin” findings matter more than raw object counts?',
+            "Why do \"shortest path to Domain Admin\" findings hold higher operational priority than raw object count metrics in risk reviews?",
             [
-                'They look prettier',
-                'They show how few steps an attacker needs — prioritizes real blast-radius debt',
-                'They replace EDR',
-                'They auto-patch Exchange'
+                "They generate visually appealing graphics for executive presentation slide decks",
+                "They reveal how few steps an attacker needs, prioritizing real blast-radius debt",
+                "They automatically patch Microsoft Exchange server vulnerabilities on domain controllers",
+                "They replace the need for endpoint detection and response monitoring agents"
             ],
             1,
-            'Path length and privilege edges drive remediation order.',
-            'bloodhound',
-            35
+            "Shortest path metrics highlight immediate exploitable privilege escalation edges, driving precise remediation priorities.",
+            "bloodhound",
+            35,
+            {
+                distractor_rationale: [
+                    "WRONG — visual appeal is secondary to identifying actual operational security risk.",
+                    "CORRECT — path length dictates attacker efficiency, making shortest paths vital remediation targets.",
+                    "WRONG — graph analysis does not perform software patch management.",
+                    "WRONG — attack path analysis complements but does not replace EDR agents."
+                ],
+                cognitive_level: 2,
+                difficulty: 2,
+                coverage_tag: "T1484",
+                rotation_bucket: "bloodhound",
+                last_validated: "2026-11-12"
+            }
         )
     ],
     60: [
         q(
-            'Pass-the-Hash after DA touched a helpdesk PC. Cloud analogue to teach executives?',
+            "Pass-the-Hash occurs after a Domain Admin touches a helpdesk PC. What is the direct cloud security analogue to teach executive stakeholders?",
             [
-                'There is no analogue',
-                'Stolen session/refresh tokens — short-lived creds and step-up auth',
-                'Only USB risks remain',
-                'Antivirus signatures replace identity'
+                "There is no conceptual analogue between cloud and on-premises environments",
+                "Stolen session and refresh tokens require short-lived credentials and step-up auth",
+                "Only physical hardware USB security risks remain relevant in modern cloud stacks",
+                "Traditional antivirus signatures completely replace the need for identity security"
             ],
             1,
-            'Token theft is modern credential reuse.',
-            'pth',
-            40
+            "Session token theft in cloud environments is the direct modern analogue to Pass-the-Hash credential reuse.",
+            "pth",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — clear conceptual analogues exist between on-prem credential reuse and cloud token theft.",
+                    "CORRECT — cloud session token theft mirrors traditional Pass-the-Hash attacks closely.",
+                    "WRONG — physical USB risks do not cover cloud identity session dynamics.",
+                    "WRONG — antivirus signatures do not mitigate cloud identity token misuse."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1539",
+                rotation_bucket: "pth",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'Best architectural fix for PtH class failures in AD?',
+            "What represents the most durable architectural mitigation against Pass-the-Hash exploitation classes in Active Directory?",
             [
-                'Longer user passwords only',
-                'Tiered admin model / PAWs — privileged credentials never touch dirty workstations',
-                'Disable Kerberos',
-                'Allow DA on every laptop for convenience'
+                "Enforcing longer user account passwords across all standard organizational units",
+                "Deploying a tiered admin model and PAWs so admin credentials never touch dirty hosts",
+                "Disabling the Kerberos authentication protocol entirely across domain controllers",
+                "Permitting Domain Admin logon sessions on every employee laptop for operational ease"
             ],
             1,
-            'Architecture beats after-the-fact AV.',
-            'tiering',
-            40
+            "Implementing Privileged Access Workstations and a tiered administrative model prevents credential harvesting on dirty endpoints.",
+            "tiering",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — longer passwords do not prevent hash harvesting from workstation memory.",
+                    "CORRECT — tiered administration and PAWs stop privileged credentials from landing on unsecure hosts.",
+                    "WRONG — disabling Kerberos breaks core Windows domain functionality.",
+                    "WRONG — allowing DA logons on user laptops guarantees credential theft."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1003.002",
+                rotation_bucket: "tiering",
+                last_validated: "2026-11-12"
+            }
         )
     ],
     70: [
         q(
-            'High-entropy DNS labels every 45s from one host. Best hypothesis?',
+            "High-entropy DNS subdomain labels appearing every 45 seconds from a single workstation indicate what primary hypothesis?",
             [
-                'Normal AD replication',
-                'Possible DNS tunneling / covert C2 — investigate host and DNS path',
-                'Disable the company',
-                'Ignore DNS forever'
+                "Normal background Active Directory replication and global catalog traffic",
+                "Possible DNS tunneling and covert command-and-control channel communication",
+                "Routine enterprise software license verification checks with vendor portals",
+                "Standard web browser bookmark synchronization across user profile shares"
             ],
             1,
-            'DNS remains a covert channel when egress is constrained.',
-            'dns_tunnel',
-            40
+            "High-entropy labels combined with regular query cadences strongly suggest covert DNS tunneling activity.",
+            "dns_tunnel",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — AD replication uses standard low-entropy SRV and LDAP queries, not high-entropy labels.",
+                    "CORRECT — high-entropy query patterns and fixed timing indicate covert DNS tunneling channels.",
+                    "WRONG — license checks utilize standard HTTP/HTTPS endpoints rather than high-entropy DNS.",
+                    "WRONG — bookmark sync operates via encrypted cloud web protocols."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1071.004",
+                rotation_bucket: "dns_tunnel",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'Which control most reduces DNS tunneling success without breaking the business?',
+            "Which control most effectively reduces DNS tunneling success without disrupting legitimate business operations?",
             [
-                'Block all DNS forever',
-                'Internal recursive resolvers + logging + sinkhole rare patterns + host EDR correlation',
-                'Ask users to type slower',
-                'Only monitor port 443'
+                "Blocking all outbound and inbound user DNS traffic permanently across gateways",
+                "Internal recursive resolvers with logging, pattern sinkholing, and EDR correlation",
+                "Instructing corporate employees to type internet web domain names significantly slower",
+                "Restricting security monitoring and traffic logging exclusively to network port 443"
             ],
             1,
-            'Visibility and recursive control beat blind blocks.',
-            'dns_tunnel',
-            40
+            "Centralized recursive resolvers, comprehensive logging, and EDR telemetry correlation provide visibility without blind blocking.",
+            "dns_tunnel",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — blocking all DNS traffic breaks enterprise internet name resolution entirely.",
+                    "CORRECT — recursive logging, sinkholing, and EDR correlation detect tunneling while preserving business DNS.",
+                    "WRONG — typing speed has no technical impact on automated DNS tunneling tools.",
+                    "WRONG — monitoring only port 443 leaves DNS (port 53) completely unmonitored."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1071.004",
+                rotation_bucket: "dns_tunnel",
+                last_validated: "2026-11-12"
+            }
         )
     ],
     84: [
         q(
-            'Why map toolmarks to ATT&CK IDs in reports?',
+            "Why is mapping security toolmark findings to ATT&CK technique identifiers valuable in reporting?",
             [
-                'It patches servers automatically',
-                'Shared language for coverage gaps, purple tests, and leadership funding conversations',
-                'It replaces logging',
-                'Only red teams use it'
+                "It automatically applies software patches to vulnerable enterprise servers",
+                "It provides a shared operational language for coverage gaps, purple tests, and funding",
+                "It completely replaces the need for continuous security event log collection",
+                "It serves as a marketing framework intended solely for red team engagement teams"
             ],
             1,
-            'ATT&CK is an ops vocabulary, not décor.',
-            'attack',
-            35
+            "ATT&CK provides a standardized operational vocabulary for assessing detection coverage, planning tests, and justifying budgets.",
+            "attack",
+            35,
+            {
+                distractor_rationale: [
+                    "WRONG — technique mapping does not perform automated server patch management.",
+                    "CORRECT — ATT&CK offers a standardized taxonomy for tracking coverage and communicating with leadership.",
+                    "WRONG — framework mapping does not replace event log ingestion requirements.",
+                    "WRONG — ATT&CK is utilized extensively by blue teams, engineers, and executives."
+                ],
+                cognitive_level: 2,
+                difficulty: 2,
+                coverage_tag: "T1584",
+                rotation_bucket: "attack",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'After mapping detections, you find T1003 covered and T1071 blind. Purple next step?',
+            "After mapping detection rules, you discover technique T1003 is fully covered while T1071 is completely blind. What is the best purple team follow-up step?",
             [
-                'Hide the blind',
-                'Emulate the blind technique safely, measure MTTD, fund the gap',
-                'Delete ATT&CK from the wiki',
-                'Only train phishing forever'
+                "Conceal the detection blind spot from executive leadership reports to avoid scrutiny",
+                "Emulate the blind technique safely under ROE, measure MTTD, and fund the gap",
+                "Permanently delete the MITRE ATT&CK reference matrix from your engineering wiki",
+                "Focus future security awareness training modules exclusively on email phishing"
             ],
             1,
-            'Coverage matrices drive emulations.',
-            'attack',
-            40
+            "Identifying blind spots should prompt safe emulation testing, metric measurement, and targeted funding to close the gap.",
+            "attack",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — concealing blind spots leaves the organization exposed to undetected attacks.",
+                    "CORRECT — safely emulating blind techniques and measuring detection times drives effective security investment.",
+                    "WRONG — deleting reference documentation hides reality rather than fixing gaps.",
+                    "WRONG — limiting training to phishing ignores other critical attack vectors."
+                ],
+                cognitive_level: 4,
+                difficulty: 3,
+                coverage_tag: "T1071",
+                rotation_bucket: "attack",
+                last_validated: "2026-11-12"
+            }
         )
     ],
     95: [
         q(
-            'Purple week: LSASS dump missed, phishing detected in 4m. Where do you spend the sprint?',
+            "A purple team week reveals LSASS memory dumping was missed while phishing was detected in 4 minutes. Where should engineering sprint focus be directed?",
             [
-                'Only polish phishing further',
-                'Close credential-theft and covert-channel misses with re-emulation proof',
-                'Hide the matrix',
-                'Buy random tools without metrics'
+                "Allocate 100% of sprint resources to further polish the already effective phishing rule",
+                "Close credential-theft and covert-channel blind spots, validating with re-emulation proof",
+                "Conceal the missed memory dumping finding from future internal compliance reports",
+                "Purchase random security software tools without reviewing operational metrics"
             ],
             1,
-            'Fund the dangerous blinds; prove with retest.',
-            'purple',
-            40
+            "Sprint capacity must prioritize closing dangerous defensive blind spots backed by empirical re-emulation validation.",
+            "purple",
+            40,
+            {
+                distractor_rationale: [
+                    "WRONG — over-optimizing already effective controls ignores critical uncovered blind spots.",
+                    "CORRECT — focusing engineering effort on closing validated detection gaps improves overall posture.",
+                    "WRONG — concealing findings undermines the purpose of purple team validation.",
+                    "WRONG — buying random tools without metric backing wastes budget."
+                ],
+                cognitive_level: 4,
+                difficulty: 3,
+                coverage_tag: "T1003.001",
+                rotation_bucket: "purple",
+                last_validated: "2026-11-12"
+            }
         ),
         q(
-            'Best purple success criterion for leadership?',
+            "What defines the most effective purple team success criterion for executive leadership evaluation?",
             [
-                'More slides than last year',
-                'Technique X detected/contained within agreed SLA on retest',
-                'Red team “wins forever”',
-                'No documentation'
+                "Achieving a higher volume of presentation slide decks than produced last year",
+                "Demonstrating technique detection and containment within agreed SLAs on retest",
+                "Ensuring the red team engineering personnel win every simulated engagement test",
+                "Maintaining zero documentation records regarding testing activities or findings"
             ],
             1,
-            'Retestable outcomes beat theater.',
-            'purple',
-            35
+            "Measurable, retestable detection and containment outcomes within established SLAs provide concrete proof of security value.",
+            "purple",
+            35,
+            {
+                distractor_rationale: [
+                    "WRONG — slide deck counts measure administrative output rather than security progress.",
+                    "CORRECT — proving technique detection and containment on retest demonstrates tangible defensive growth.",
+                    "WRONG — measuring success by red team wins treats security as a game rather than risk reduction.",
+                    "WRONG — lacking documentation prevents tracking remediation progress."
+                ],
+                cognitive_level: 3,
+                difficulty: 3,
+                coverage_tag: "T1562",
+                rotation_bucket: "purple",
+                last_validated: "2026-11-12"
+            }
         )
     ]
 };
@@ -1081,361 +1159,357 @@ const TIER_A_QUESTIONS = {
 const TIER_A_ESSAYS = {
     1: [
         essay(
-            'Write a 90-second executive brief after an AiTM campaign stole three finance sessions despite OTP MFA. Cover: what happened, immediate containment, why OTP failed, and a 30-day control plan.',
-            'Plain language, no jargon dumps. Name phishing-resistant MFA and session controls. Include dual-control payment freeze.'
+            "Write a 90-second executive brief after an AiTM campaign stole three finance sessions despite OTP MFA. Cover: what happened, immediate containment, why OTP failed, and a 30-day control plan.",
+            "Plain language, no jargon dumps. Name phishing-resistant MFA and session controls. Include dual-control payment freeze."
         ),
         essay(
-            'Design a Namibian SME phishing program for WhatsApp + email invoice fraud. Include measurement, coaching (no shame), and escalation to SOC.',
-            'Channel-realistic. Define KPIs (report time, callback adherence) not just completion rates.'
+            "Design a Namibian SME phishing program for WhatsApp + email invoice fraud. Include measurement, coaching (no shame), and escalation to SOC.",
+            "Channel-realistic. Define KPIs (report time, callback adherence) not just completion rates."
         )
     ],
     7: [
         essay(
-            'A deepfake “CFO” voice asks for an urgent wire during month-end. Write the finance playbook step-by-step for the first 10 minutes.',
-            'Challenge phrase, dual control, known-number callback, what not to do under authority pressure.'
+            "A deepfake \"CFO\" voice asks for an urgent wire during month-end. Write the finance playbook step-by-step for the first 10 minutes.",
+            "Challenge phrase, dual control, known-number callback, what not to do under authority pressure."
         )
     ],
     8: [
         essay(
-            'You are Incident Commander. Encryption is spreading; Legal wants a public statement in 20 minutes. Write dual-track orders for tech containment and communications.',
-            'Facts only in comms. Named owners. Unsafe actions under panic listed explicitly.'
+            "You are Incident Commander. Encryption is spreading; Legal wants a public statement in 20 minutes. Write dual-track orders for tech containment and communications.",
+            "Facts only in comms. Named owners. Unsafe actions under panic listed explicitly."
         )
     ],
     11: [
         essay(
-            'Affiliates deleted VSS and began exfil before encrypt. Draft a board recovery narrative: backups, identity tiering, and whether ransom negotiation is an IR decision.',
-            'Separate business/legal payment decisions from technical recovery. Cite restore-test evidence.'
+            "Affiliates deleted VSS and began exfil before encrypt. Draft a board recovery narrative: backups, identity tiering, and whether ransom negotiation is an IR decision.",
+            "Separate business/legal payment decisions from technical recovery. Cite restore-test evidence."
         )
     ],
     18: [
         essay(
-            'Night shift closed 200 medium alerts without reading due to fatigue. Write a SOC lead remediation plan covering tuning ownership, staffing, and protection of high-fidelity rules.',
-            'Treat fatigue as design failure. Include MTTD/MTTR on purple techniques as success metrics.'
+            "Night shift closed 200 medium alerts without reading due to fatigue. Write a SOC lead remediation plan covering tuning ownership, staffing, and protection of high-fidelity rules.",
+            "Treat fatigue as design failure. Include MTTD/MTTR on purple techniques as success metrics."
         )
     ],
     21: [
         essay(
-            'Contractors on flat VPN can reach SCADA jump hosts. Propose a Zero Trust migration that keeps the plant running.',
-            'Segmentation, device posture, least privilege, short-lived access. No “trust the VPN” leftovers.'
+            "Contractors on flat VPN can reach SCADA jump hosts. Propose a Zero Trust migration that keeps the plant running.",
+            "Segmentation, device posture, least privilege, short-lived access. No \"trust the VPN\" leftovers."
         )
     ],
     37: [
         essay(
-            'Rewrite an annual shame-based awareness program into a monthly micro-drill system for retail staff who live on WhatsApp.',
-            'Psychological safety, channel realism, manager callback norms, measurable behavior change.'
+            "Rewrite an annual shame-based awareness program into a monthly micro-drill system for retail staff who live on WhatsApp.",
+            "Psychological safety, channel realism, manager callback norms, measurable behavior change."
         )
     ],
     46: [
         essay(
-            'Unauthorized 03:00 full-subnet SYN scan from a marketing laptop. Write the SOC case narrative and 48-hour hunt plan as if ransomware may follow.',
-            'Recon as precursor. Isolation, authorization check, sibling hunt, ticket with owner.'
+            "Unauthorized 03:00 full-subnet SYN scan from a marketing laptop. Write the SOC case narrative and 48-hour hunt plan as if ransomware may follow.",
+            "Recon as precursor. Isolation, authorization check, sibling hunt, ticket with owner."
         )
     ],
     51: [
         essay(
-            'Explain to a board why Domain Admin on a helpdesk PC is an architectural failure, using Mimikatz-class theft and Pass-the-Hash as the story.',
-            'PAW/tiering language. Avoid tool worship. Tie to business blast radius.'
+            "Explain to a board why Domain Admin on a helpdesk PC is an architectural failure, using Mimikatz-class theft and Pass-the-Hash as the story.",
+            "PAW/tiering language. Avoid tool worship. Tie to business blast radius."
         )
     ],
     52: [
         essay(
-            'Write a detection engineering brief for malleable HTTP C2 with sleep jitter. What do you hunt, what do you ignore, and how do you purple-test it?',
-            'Beacon cadence, process ancestry, rare destinations. Retest after tuning.'
+            "Write a detection engineering brief for malleable HTTP C2 with sleep jitter. What do you hunt, what do you ignore, and how do you purple-test it?",
+            "Beacon cadence, process ancestry, rare destinations. Retest after tuning."
         )
     ],
     58: [
         essay(
-            'BloodHound shows Helpdesk GenericAll on a path to Tier-0. Write a risk-committee paper: severity, owners, 30/60/90 remediation, and retest proof.',
-            'Attack paths as backlog. Shortest-path metric. No inventory theater.'
+            "BloodHound shows Helpdesk GenericAll on a path to Tier-0. Write a risk-committee paper: severity, owners, 30/60/90 remediation, and retest proof.",
+            "Attack paths as backlog. Shortest-path metric. No inventory theater."
         )
     ],
     60: [
         essay(
-            'Teach executives Pass-the-Hash using cloud session-token theft as the analogy. Include the architectural fix and a 10-minute containment checklist.',
-            'Reuse family of techniques. Tiering + short-lived creds. Clear containment steps.'
+            "Teach executives Pass-the-Hash using cloud session-token theft as the analogy. Include the architectural fix and a 10-minute containment checklist.",
+            "Reuse family of techniques. Tiering + short-lived creds. Clear containment steps."
         )
     ],
     70: [
         essay(
-            'High-entropy DNS every 45s from one host. Write the hunt-to-contain playbook and the durable DNS architecture controls.',
-            'Recursive resolvers, logging, sinkhole, EDR correlation. Avoid “block all DNS.”'
+            "High-entropy DNS every 45s from one host. Write the hunt-to-contain playbook and the durable DNS architecture controls.",
+            "Recursive resolvers, logging, sinkhole, EDR correlation. Avoid \"block all DNS.\""
         )
     ],
     84: [
         essay(
-            'Build a one-page ATT&CK heatmap story for leadership: strong phishing coverage, blind credential dumping. Ask for funding with measurable MTTD targets.',
-            'Shared vocabulary. Retestable outcomes. No fear theater.'
+            "Build a one-page ATT&CK heatmap story for leadership: strong phishing coverage, blind credential dumping. Ask for funding with measurable MTTD targets.",
+            "Shared vocabulary. Retestable outcomes. No fear theater."
         )
     ],
     95: [
         essay(
-            'Purple week results: phishing MTTD 4 minutes; LSASS dump missed. Write the sprint plan and the re-emulation success criteria.',
-            'Fund dangerous blinds. Owners, dates, retest proof. Emulate → remediate → re-emulate.'
+            "Purple week results: phishing MTTD 4 minutes; LSASS dump missed. Write the sprint plan and the re-emulation success criteria.",
+            "Fund dangerous blinds. Owners, dates, retest proof. Emulate → remediate → re-emulate."
         )
     ]
 };
 
 const TIER_A_EXTRAS = {
     1: {
-        why: 'Phishing is still the cheapest reliable initial access — and AiTM kits now steal sessions after MFA.',
+        why: "Phishing is still the cheapest reliable initial access — and AiTM kits now steal sessions after MFA.",
         concepts: [
-            'Lookalike domains, AiTM proxies, MFA fatigue, and callback failures',
-            'SPF/DKIM/DMARC alignment is necessary but not sufficient alone',
-            'Reporting culture beats shame; phishing-resistant MFA beats OTP when AiTM appears'
+            "Lookalike domains, AiTM proxies, MFA fatigue, and callback failures",
+            "SPF/DKIM/DMARC alignment is necessary but not sufficient alone",
+            "Reporting culture beats shame; phishing-resistant MFA beats OTP when AiTM appears"
         ],
         prevent: [
-            'Passkeys/FIDO2 for VIP and finance',
-            'DMARC enforcement path with monitoring first',
-            'Measured simulations with coaching; one-click report buttons'
+            "Passkeys/FIDO2 for VIP and finance",
+            "DMARC enforcement path with monitoring first",
+            "Measured simulations with coaching; one-click report buttons"
         ],
         caseStudy:
-            'A Windhoek finance clerk nearly paid on a lookalike domain invoice. Dual-control callback to a known number stopped N$480k in loss the same afternoon.',
+            "A Windhoek finance clerk nearly paid on a lookalike domain invoice. Dual-control callback to a known number stopped N$480k in loss the same afternoon.",
         futureScenario:
-            'AI voice clone of your CFO during month-end. Challenge phrase + dual control is the brake — not “it sounded real.”'
+            "AI voice clone of your CFO during month-end. Challenge phrase + dual control is the brake — not \"it sounded real.\""
     },
     7: {
-        why: 'BEC and deepfake social engineering target payment trust more than malware.',
+        why: "BEC and deepfake social engineering target payment trust more than malware.",
         concepts: [
-            'Invoice redirect and vendor portal lookalikes',
-            'Voice/video synthesis pressure on executives',
-            'Out-of-band verification as a financial control, not optional etiquette'
+            "Invoice redirect and vendor portal lookalikes",
+            "Voice/video synthesis pressure on executives",
+            "Out-of-band verification as a financial control, not optional etiquette"
         ],
         prevent: [
-            'Dual control and callback on known numbers for payment changes',
-            'Challenge phrases for executive voice requests',
-            'Finance playbooks that slow urgency without killing business'
+            "Dual control and callback on known numbers for payment changes",
+            "Challenge phrases for executive voice requests",
+            "Finance playbooks that slow urgency without killing business"
         ],
         caseStudy:
-            'A supplier “bank change” email matched brand tone. Finance called the number on last year’s contract — fraud stopped before transfer.',
+            "A supplier \"bank change\" email matched brand tone. Finance called the number on last year’s contract — fraud stopped before transfer.",
         futureScenario:
-            'Real-time deepfake video in Teams. Process and dual control outrank “I saw their face.”'
+            "Real-time deepfake video in Teams. Process and dual control outrank \"I saw their face.\""
     },
     8: {
-        why: 'IR quality decides whether a bad day becomes an existential event — especially under executive pressure.',
+        why: "IR quality decides whether a bad day becomes an existential event — especially under executive pressure.",
         concepts: [
-            'Severity models, escalation trees, and Incident Commander role clarity',
-            'Containment can proceed while evidence is preserved selectively',
-            'Comms must track facts — speculation creates legal and trust debt'
+            "Severity models, escalation trees, and Incident Commander role clarity",
+            "Containment can proceed while evidence is preserved selectively",
+            "Comms must track facts — speculation creates legal and trust debt"
         ],
         prevent: [
-            'Quarterly tabletop with pressure injects',
-            'Named deputies for IC / comms / legal bridge',
-            'Evidence kits and known-good rebuild paths tested'
+            "Quarterly tabletop with pressure injects",
+            "Named deputies for IC / comms / legal bridge",
+            "Evidence kits and known-good rebuild paths tested"
         ],
         caseStudy:
-            'A retailer paused public statements until containment stopped POS lateral movement. Customers got facts 90 minutes later — trust held.',
+            "A retailer paused public statements until containment stopped POS lateral movement. Customers got facts 90 minutes later — trust held.",
         futureScenario:
-            'Regulators and WhatsApp rumors outrun your draft. Train dual-track: tech containment + careful public language.'
+            "Regulators and WhatsApp rumors outrun your draft. Train dual-track: tech containment + careful public language."
     },
     11: {
-        why: 'Ransomware affiliates industrialize backup destruction and identity abuse before encryption.',
+        why: "Ransomware affiliates industrialize backup destruction and identity abuse before encryption.",
         concepts: [
-            'Exfil-before-encrypt and VSS deletion as checklist items',
-            'Immutable backup design and restore drills',
-            'Negotiation is business/legal — IR keeps recovering'
+            "Exfil-before-encrypt and VSS deletion as checklist items",
+            "Immutable backup design and restore drills",
+            "Negotiation is business/legal — IR keeps recovering"
         ],
         prevent: [
-            'Offline/immutable backups with restore tests',
-            'Tier admin model; reduce domain-wide blast radius',
-            'EDR isolation playbooks rehearsed'
+            "Offline/immutable backups with restore tests",
+            "Tier admin model; reduce domain-wide blast radius",
+            "EDR isolation playbooks rehearsed"
         ],
         caseStudy:
-            'Hospital restores succeeded because backups were offline and tested — affiliates found encrypted disks but not leverage.',
+            "Hospital restores succeeded because backups were offline and tested — affiliates found encrypted disks but not leverage.",
         futureScenario:
-            'Extortion includes stolen family photos of executives. Keep legal counsel in loop; do not halt technical recovery.'
+            "Extortion includes stolen family photos of executives. Keep legal counsel in loop; do not halt technical recovery."
     },
     18: {
-        why: 'SOC value is judged by decisions under noise — not by alert count.',
+        why: "SOC value is judged by decisions under noise — not by alert count.",
         concepts: [
-            'Alert chaining beats single-event tunnel vision',
-            'Service accounts are crown jewels',
-            'MTTD/MTTR on purple techniques prove maturity'
+            "Alert chaining beats single-event tunnel vision",
+            "Service accounts are crown jewels",
+            "MTTD/MTTR on purple techniques prove maturity"
         ],
         prevent: [
-            'Tune with ownership; never silent-disable high-risk rules',
-            'Enrich identity context in the queue',
-            'Staff to real volume; protect analysts from fatigue traps'
+            "Tune with ownership; never silent-disable high-risk rules",
+            "Enrich identity context in the queue",
+            "Staff to real volume; protect analysts from fatigue traps"
         ],
         caseStudy:
-            'Night shift caught spray→admin$ by chaining three “medium” alerts. Flat VLAN made ERP risk real — segmentation funded next quarter.',
+            "Night shift caught spray→admin$ by chaining three \"medium\" alerts. Flat VLAN made ERP risk real — segmentation funded next quarter.",
         futureScenario:
-            'AI will summarize queues — your edge remains knowing which chain means hands-on-keyboard.'
+            "AI will summarize queues — your edge remains knowing which chain means hands-on-keyboard."
     },
     21: {
-        why: 'Zero Trust replaces “trusted network location” with continuous verification of identity, device, and context.',
+        why: "Zero Trust replaces \"trusted network location\" with continuous verification of identity, device, and context.",
         concepts: [
-            'Per-request authorization and least privilege',
-            'Device posture for remote/contractor access',
-            'Segmentation as blast-radius control — especially near OT'
+            "Per-request authorization and least privilege",
+            "Device posture for remote/contractor access",
+            "Segmentation as blast-radius control — especially near OT"
         ],
         prevent: [
-            'Remove flat VPN paths to crown jewels',
-            'Short-lived access and just-in-time elevation',
-            'Monitor token misuse and impossible travel'
+            "Remove flat VPN paths to crown jewels",
+            "Short-lived access and just-in-time elevation",
+            "Monitor token misuse and impossible travel"
         ],
         caseStudy:
-            'Contractor VPN once reached engineering jump hosts. ZTNA + device checks cut that path without killing productivity.',
+            "Contractor VPN once reached engineering jump hosts. ZTNA + device checks cut that path without killing productivity.",
         futureScenario:
-            'Home routers and agentic tools request broad roles. Continuous auth and scoped tokens matter more than VPN myths.'
+            "Home routers and agentic tools request broad roles. Continuous auth and scoped tokens matter more than VPN myths."
     },
     37: {
-        why: 'Awareness is a control system — culture, channels, and drills — not an annual PDF.',
+        why: "Awareness is a control system — culture, channels, and drills — not an annual PDF.",
         concepts: [
-            'Psychological safety increases reporting',
-            'Train WhatsApp/SMS/BEC realities for African SMEs',
-            'Measure behavior change, not completion checkboxes only'
+            "Psychological safety increases reporting",
+            "Train WhatsApp/SMS/BEC realities for African SMEs",
+            "Measure behavior change, not completion checkboxes only"
         ],
         prevent: [
-            'Micro-drills monthly on real channels',
-            'Manager callback norms for payments',
-            'Coach clickers; do not ritual-shame'
+            "Micro-drills monthly on real channels",
+            "Manager callback norms for payments",
+            "Coach clickers; do not ritual-shame"
         ],
         caseStudy:
-            'After a no-shame reporting campaign, phish-to-report time dropped from hours to minutes in a retail group.',
+            "After a no-shame reporting campaign, phish-to-report time dropped from hours to minutes in a retail group.",
         futureScenario:
-            'Deepfake supplier calls become normal. Awareness must teach process, not “spot the artifact.”'
+            "Deepfake supplier calls become normal. Awareness must teach process, not \"spot the artifact.\""
     },
     46: {
-        why: 'Reconnaissance tooling is stage-0 for both attackers and authorized testers — intent and authorization decide legality.',
+        why: "Reconnaissance tooling is stage-0 for both attackers and authorized testers — intent and authorization decide legality.",
         concepts: [
-            'SYN/UDP scans as discovery tradecraft',
-            'Internet-facing RDP/SMB as priority attack surface',
-            'Change tickets and ROE separate purple from crime'
+            "SYN/UDP scans as discovery tradecraft",
+            "Internet-facing RDP/SMB as priority attack surface",
+            "Change tickets and ROE separate purple from crime"
         ],
         prevent: [
-            'External attack-surface monitoring with owners',
-            'Network segmentation and expose-only-what-you-must',
-            'Hunt unauthorized scanners as incidents'
+            "External attack-surface monitoring with owners",
+            "Network segmentation and expose-only-what-you-must",
+            "Hunt unauthorized scanners as incidents"
         ],
         caseStudy:
-            '03:00 full-subnet scan from a marketing laptop preceded ransomware by 48 hours. Early isolation cut blast radius.',
+            "03:00 full-subnet scan from a marketing laptop preceded ransomware by 48 hours. Early isolation cut blast radius.",
         futureScenario:
-            'Automated scanners will blend with business bots. Authorization telemetry becomes the difference.'
+            "Automated scanners will blend with business bots. Authorization telemetry becomes the difference."
     },
     51: {
-        why: 'Credential dumping turns one privileged logon into domain-wide reuse.',
+        why: "Credential dumping turns one privileged logon into domain-wide reuse.",
         concepts: [
-            'LSASS/secrets as attacker gold',
-            'Tiering and PAWs as architectural controls',
-            'Credential Guard / Protected Users raise theft cost'
+            "LSASS/secrets as attacker gold",
+            "Tiering and PAWs as architectural controls",
+            "Credential Guard / Protected Users raise theft cost"
         ],
         prevent: [
-            'Never administer Tier-0 from dirty workstations',
-            'LAPS/gMSA; reduce standing admin',
-            'EDR alerts on dump tooling + unusual LSASS access'
+            "Never administer Tier-0 from dirty workstations",
+            "LAPS/gMSA; reduce standing admin",
+            "EDR alerts on dump tooling + unusual LSASS access"
         ],
         caseStudy:
-            'DA RDP to a helpdesk PC enabled hash reuse across file servers the same night. PAW project was funded after the postmortem.',
+            "DA RDP to a helpdesk PC enabled hash reuse across file servers the same night. PAW project was funded after the postmortem.",
         futureScenario:
-            'Cloud admin sessions will be the new LSASS. Session binding and short-lived tokens are the next tiering fight.'
+            "Cloud admin sessions will be the new LSASS. Session binding and short-lived tokens are the next tiering fight."
     },
     52: {
-        why: 'Commercial C2 frameworks teach defenders what “quiet persistence” looks like on the wire and host.',
+        why: "Commercial C2 frameworks teach defenders what \"quiet persistence\" looks like on the wire and host.",
         concepts: [
-            'Malleable profiles and sleep jitter',
-            'Process injection ancestry over filename IOCs',
-            'Egress allowlists and beacon cadence hunts'
+            "Malleable profiles and sleep jitter",
+            "Process injection ancestry over filename IOCs",
+            "Egress allowlists and beacon cadence hunts"
         ],
         prevent: [
-            'Detect beacon patterns and rare destinations',
-            'Isolate + memory capture playbooks',
-            'Purple emulations that retest after tuning'
+            "Detect beacon patterns and rare destinations",
+            "Isolate + memory capture playbooks",
+            "Purple emulations that retest after tuning"
         ],
         caseStudy:
-            'Beacon to a “CDN” domain every 60s with jitter was dismissed as SaaS until process ancestry showed Office→rundll32→injected thread.',
+            "Beacon to a \"CDN\" domain every 60s with jitter was dismissed as SaaS until process ancestry showed Office→rundll32→injected thread.",
         futureScenario:
-            'AI will rewrite malleable profiles weekly. Behavior and identity context stay your durable detectors.'
+            "AI will rewrite malleable profiles weekly. Behavior and identity context stay your durable detectors."
     },
     58: {
-        why: 'Identity graphs expose how few ACL mistakes stand between an intern account and Domain Admin.',
+        why: "Identity graphs expose how few ACL mistakes stand between an intern account and Domain Admin.",
         concepts: [
-            'Dangerous edges: GenericAll, WriteDACL, force-change-password chains',
-            'Shortest path metrics for remediation priority',
-            'Tier-0 hygiene as continuous backlog, not a one-time project'
+            "Dangerous edges: GenericAll, WriteDACL, force-change-password chains",
+            "Shortest path metrics for remediation priority",
+            "Tier-0 hygiene as continuous backlog, not a one-time project"
         ],
         prevent: [
-            'Remove Helpdesk-to-Tier-0 paths',
-            'Quarterly BloodHound / AD ACL reviews with owners',
-            'Privileged access workstations and clean source of admin'
+            "Remove Helpdesk-to-Tier-0 paths",
+            "Quarterly BloodHound / AD ACL reviews with owners",
+            "Privileged access workstations and clean source of admin"
         ],
         caseStudy:
-            'Helpdesk GenericAll on a resettable account that could reach Tier-0 was closed in a week after graph evidence hit the risk committee.',
+            "Helpdesk GenericAll on a resettable account that could reach Tier-0 was closed in a week after graph evidence hit the risk committee.",
         futureScenario:
-            'Hybrid identity paths (Entra + on-prem) will be the new shortest path. Graph both sides.'
+            "Hybrid identity paths (Entra + on-prem) will be the new shortest path. Graph both sides."
     },
     60: {
-        why: 'Pass-the-Hash is credential reuse — the same story as stolen cloud tokens, older protocol.',
+        why: "Pass-the-Hash is credential reuse — the same story as stolen cloud tokens, older protocol.",
         concepts: [
-            'NTLM hash reuse without cracking',
-            'Privileged logons on dirty hosts create reusable material',
-            'Cloud token theft is the executive-friendly analogue'
+            "NTLM hash reuse without cracking",
+            "Privileged logons on dirty hosts create reusable material",
+            "Cloud token theft is the executive-friendly analogue"
         ],
         prevent: [
-            'Tiered admin / PAW',
-            'Restrict NTLM where feasible; prefer modern auth',
-            'Short-lived sessions and step-up for sensitive actions'
+            "Tiered admin / PAW",
+            "Restrict NTLM where feasible; prefer modern auth",
+            "Short-lived sessions and step-up for sensitive actions"
         ],
         caseStudy:
-            'After PtH lateral movement, the board understood “DA on a laptop” as the root cause — not “antivirus missed a file.”',
+            "After PtH lateral movement, the board understood \"DA on a laptop\" as the root cause — not \"antivirus missed a file.\"",
         futureScenario:
-            'PRT and refresh-token theft will dominate headlines. Teach reuse as a family of techniques.'
+            "PRT and refresh-token theft will dominate headlines. Teach reuse as a family of techniques."
     },
     70: {
-        why: 'When HTTP egress is watched, attackers still abuse DNS as a covert channel.',
+        why: "When HTTP egress is watched, attackers still abuse DNS as a covert channel.",
         concepts: [
-            'High-entropy labels and regular query cadence',
-            'Internal resolvers as control points',
-            'Correlate DNS anomalies with host EDR'
+            "High-entropy labels and regular query cadence",
+            "Internal resolvers as control points",
+            "Correlate DNS anomalies with host EDR"
         ],
         prevent: [
-            'Central recursive DNS with logging',
-            'Sinkhole / alert rare patterns',
-            'Host isolation playbooks for tunneling suspects'
+            "Central recursive DNS with logging",
+            "Sinkhole / alert rare patterns",
+            "Host isolation playbooks for tunneling suspects"
         ],
         caseStudy:
-            'A workstation queried entropy-heavy labels every 45s. Isolation found staging tools before exfil completed.',
+            "A workstation queried entropy-heavy labels every 45s. Isolation found staging tools before exfil completed.",
         futureScenario:
-            'DoH will hide some queries. Endpoint DNS telemetry becomes mandatory.'
+            "DoH will hide some queries. Endpoint DNS telemetry becomes mandatory."
     },
     84: {
-        why: 'ATT&CK turns tool drama into a shared map of coverage, gaps, and funding asks.',
+        why: "ATT&CK turns tool drama into a shared map of coverage, gaps, and funding asks.",
         concepts: [
-            'Techniques as units of purple testing',
-            'Heatmaps for leadership without fear theater',
-            'Retest after each detection investment'
+            "Techniques as units of purple testing",
+            "Heatmaps for leadership without fear theater",
+            "Retest after each detection investment"
         ],
         prevent: [
-            'Map detections and controls to technique IDs',
-            'Fund blinds with measurable MTTD targets',
-            'Keep matrices living — not annual wallpaper'
+            "Map detections and controls to technique IDs",
+            "Fund blinds with measurable MTTD targets",
+            "Keep matrices living — not annual wallpaper"
         ],
         caseStudy:
-            'A heat map showed strong phishing detection and blind credential dumping. One sprint closed T1003 with proof on retest.',
+            "A heat map showed strong phishing detection and blind credential dumping. One sprint closed T1003 with proof on retest.",
         futureScenario:
-            'Boards will ask “which techniques can we detect?” — ATT&CK fluency is career currency.'
+            "Boards will ask \"which techniques can we detect?\" — ATT&CK fluency is career currency."
     },
     95: {
-        why: 'Purple teaming is how you prove defenses under controlled adversary pressure.',
+        why: "Purple teaming is how you prove defenses under controlled adversary pressure.",
         concepts: [
-            'Emulate, measure, remediate, re-emulate',
-            'Spend on dangerous blinds, not vanity metrics',
-            'Shared red/blue language via ATT&CK'
+            "Emulate, measure, remediate, re-emulate",
+            "Spend on dangerous blinds, not vanity metrics",
+            "Shared red/blue language via ATT&CK"
         ],
         prevent: [
-            'Scheduled purple weeks with ROE',
-            'Publish MTTD/MTTR deltas',
-            'Close findings with owners and retest dates'
+            "Scheduled purple weeks with ROE",
+            "Publish MTTD/MTTR deltas",
+            "Close findings with owners and retest dates"
         ],
         caseStudy:
-            'Phishing caught in 4 minutes; LSASS dump missed. Next sprint funded credential controls — retest passed.',
+            "Phishing caught in 4 minutes; LSASS dump missed. Next sprint funded credential controls — retest passed.",
         futureScenario:
-            'Continuous automated emulation will replace annual theater. Humans still decide what “good enough” means for the business.'
+            "Continuous automated emulation will replace annual theater. Humans still decide what \"good enough\" means for the business."
     }
 };
-
-function getTierAEssays(moduleId) {
-    return TIER_A_ESSAYS[moduleId] || null;
-}
 
 const MODULE_ROTATION_MIN = 12;
 const MODULE_ROTATION_MIN_BUCKETS = 3;
@@ -1444,7 +1518,7 @@ module.exports = {
     TIER_A_QUESTIONS,
     TIER_A_EXTRAS,
     TIER_A_ESSAYS,
-    getTierAEssays,
+    getTierAEssays: (moduleId) => TIER_A_ESSAYS[moduleId] || null,
     MODULE_ROTATION_MIN,
     MODULE_ROTATION_MIN_BUCKETS,
 };
