@@ -1229,16 +1229,21 @@ function buildQuestionPool(module, rank = 'beginner') {
 
     // PILOT FIX (2026-11-04): synthesized questions disabled.
     // See docs/methodology/generic-content-defect.md.
-    const unique = [
-        ...premiumQuiz.map((q) => ({ ...q, pool_tier: 'premium' })),
-        ...progressiveQuiz.map((q) => ({ ...q, pool_tier: 'progressive' })),
-        ...africaQuiz.map((q) => ({ ...q, pool_tier: 'africa' })),
-        ...tierA.map((q) => ({ ...q, pool_tier: 'tier_a' })),
-        ...tierB.map((q) => ({ ...q, pool_tier: 'tier_b' })),
-        ...tierC.map((q) => ({ ...q, pool_tier: 'tier_c' })),
-        ...specialOps.map((q) => ({ ...q, pool_tier: 'special_ops' })),
-        ...specific.map((q) => ({ ...q, pool_tier: 'module_specific' }))
-    ];
+    // PILOT FIX (2026-11-12): if tierA has >=12 questions, serve ONLY tierA
+    const tierAOnly = tierA.length >= 12;
+
+    const unique = tierAOnly
+        ? tierA.map((q) => ({ ...q, pool_tier: 'tier_a_pilot' }))
+        : [
+            ...premiumQuiz.map((q) => ({ ...q, pool_tier: 'premium' })),
+            ...progressiveQuiz.map((q) => ({ ...q, pool_tier: 'progressive' })),
+            ...africaQuiz.map((q) => ({ ...q, pool_tier: 'africa' })),
+            ...tierA.map((q) => ({ ...q, pool_tier: 'tier_a' })),
+            ...tierB.map((q) => ({ ...q, pool_tier: 'tier_b' })),
+            ...tierC.map((q) => ({ ...q, pool_tier: 'tier_c' })),
+            ...specialOps.map((q) => ({ ...q, pool_tier: 'special_ops' })),
+            ...specific.map((q) => ({ ...q, pool_tier: 'module_specific' }))
+        ];
 
     const category = getCategoryQuestions(module.category).map(q => ({
         ...q,
@@ -1246,7 +1251,7 @@ function buildQuestionPool(module, rank = 'beginner') {
         pool_tier: 'shared_category'
     }));
 
-    const shared = [...category];
+    const shared = tierAOnly ? [] : [...category];
     if (module.category === 'malware') {
         shared.push(...CATEGORY_QUESTIONS.forensics.slice(0, 2).map(q => ({
             ...q,
