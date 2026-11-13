@@ -348,12 +348,12 @@ const TIER_A_QUESTIONS = {
     ],
     7: [
   q(
-    'A finance clerk at a Windhoek logistics SME receives a WhatsApp video call from someone who looks and sounds exactly as expected for the company\'s CFO. The CFO states an urgent supplier wire transfer must be released before close of business. The clerk has never handled a request from this executive directly before. What is the most defensible first action?',
+    'A finance clerk at a Windhoek logistics SME receives a WhatsApp video call from someone who looks and sounds exactly like the company CFO, requesting an urgent wire transfer before close of business. The clerk has never interacted with this executive directly before. What is the most defensible initial action?',
     [
-      'Call the CFO back on the number listed in the internal directory to confirm the request, then follow the standard dual-approval process',
-      'Approve the payment immediately since the high-definition video and authentic voice match the CFO perfectly',
-      'End the call, log the request as suspicious with IT, and take no further action on the pending wire transfer',
-      'Ask the caller to send the request in writing by corporate email, then approve once the confirmation arrives'
+      'Confirm the request through an established internal directory callback and follow standard dual-approval workflows',
+      'Approve the payment immediately since the high-definition live video and authentic voice match the CFO perfectly',
+      'End the call, log the security incident with IT support, and take no further action on the pending wire transfer',
+      'Ask the caller to send the transfer request in writing by corporate email, then process once confirmation arrives'
     ],
     0,
     'Out-of-band verification via a known internal directory number combined with standard dual-control workflows is the primary defense against real-time deepfake impersonation.',
@@ -375,27 +375,27 @@ const TIER_A_QUESTIONS = {
   ),
 
   q(
-    'An accounts payable specialist receives an email from a primary hardware supplier stating their commercial banking partner has changed, accompanied by a scanned PDF letterhead. The email is signed by the usual account manager. What is the most robust verification procedure before updating payment master data?',
+    'An accounts payable clerk receives an email from a supplier marked "FINAL NOTICE - IMMEDIATE ACTION REQUIRED" stating that the supplier will cease deliveries unless an outstanding balance is paid by end of day. The supplier\'s usual purchase order number and delivery references are correct. What is the most defensible action?',
     [
-      'Initiate a voice callback using a pre-established, verified phone number from enterprise master vendor records',
-      'Reply to the email thread asking the account manager to confirm the banking change by return message',
-      'Verify that the new bank routing code corresponds to a registered commercial bank operating within Namibia',
-      'Examine the scanned PDF letterhead for high-resolution company logos and authentic management stamps'
+      'Call the supplier on the pre-established account manager number to confirm the balance before releasing any payment',
+      'Pay the invoice immediately to avoid delivery disruption and account suspension',
+      'Reply to the email asking the supplier to confirm the exact amount and payment terms in a follow-up message',
+      'Forward the email to the warehouse manager to ask if any recent deliveries were missed or disputed'
     ],
     0,
-    'Vendor bank change requests require out-of-band verification using pre-established enterprise records to bypass compromised email loops.',
+    'BEC often uses legal pressure and urgency to bypass verification. The correct control is out-of-band confirmation through a pre-established number, not through the email thread.',
     'bec',
     45,
     {
       distractor_rationale: [
-        'CORRECT - trusted pre-established master records bypass compromised email communication loops entirely.',
-        'WRONG - replying to the same email thread reaches the attacker if the vendor mailbox is already compromised.',
-        'WRONG - valid bank routing codes confirm a bank exists but provide zero proof of who owns the account.',
-        'WRONG - letterhead stamps and PDFs are easily fabricated by cybercriminals using public assets.'
+        'CORRECT - a callback to a pre-established account manager number verifies the balance through a channel the attacker does not control.',
+        'WRONG - paying immediately is exactly the action the "final notice" pressure is designed to force; the balance may be fraudulent.',
+        'WRONG - replying within the thread reaches the attacker if the supplier mailbox is compromised.',
+        'WRONG - the warehouse manager sees the same email the clerk sees; their view does not verify the sender.'
       ],
-      cognitive_level: 2,
-      difficulty: 2,
-      coverage_tag: 'T1656',
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1566.002',
       rotation_bucket: 'bec',
       last_validated: '2026-11-13'
     }
@@ -404,20 +404,20 @@ const TIER_A_QUESTIONS = {
   q(
     'A junior helpdesk technician receives an urgent phone call from someone claiming to be the Chief Executive Officer, demanding an immediate manual password reset because they are locked out before an investor meeting. The caller becomes aggressive when asked for verification. What is the most professional action?',
     [
-      'Refuse the immediate reset, require identity verification through established out-of-band channels, and log an urgent ticket',
-      'Send a temporary password reset link directly to the corporate email address on file to resolve the blockage without further delay',
+      'Send a temporary password reset link directly to the corporate email address on file to resolve the blockage quickly',
       'Execute the reset immediately to prevent executive escalation, then notify the security team within the hour',
+      'Refuse the reset, require identity verification through out-of-band channels, and log an urgent ticket',
       'Transfer the caller directly to the helpdesk lead and ask them to handle the exception workflow'
     ],
-    0,
+    2,
     'Authority pressure and manufactured urgency are designed to intimidate staff into bypassing identity verification protocols.',
     'authority',
     45,
     {
       distractor_rationale: [
-        'CORRECT - strict adherence to out-of-band verification protects against executive impersonation and intimidation.',
         'WRONG - sending reset links without active voice/out-of-band confirmation risks handing account control to an imposter.',
         'WRONG - bypassing procedures for executives creates a critical vector for unauthorized account takeover.',
+        'CORRECT - strict adherence to out-of-band verification protects against executive impersonation and intimidation.',
         'WRONG - transferring the call without verification merely shifts the social engineering target to another technician.'
       ],
       cognitive_level: 3,
@@ -429,12 +429,12 @@ const TIER_A_QUESTIONS = {
   ),
 
   q(
-    'An employee receives a video clip on Microsoft Teams from the Head of Engineering, asking for a quick review of an unreleased product deck before tomorrow\'s launch. The lighting on the speaker\'s face shifts oddly when they turn, and the audio seems a half-second out of sync when they say "deadline." The employee has never received a Teams video from this person before. What is the most defensible action?',
+    'An employee receives a video clip on Microsoft Teams from the Head of Engineering, asking for a quick review of an unreleased product deck before tomorrow\'s launch. The lighting on the speaker\'s face shifts oddly when they turn, and the audio seems a half-second out of sync. The employee has never received a Teams video from this person before. What is the most defensible action?',
     [
-      'Halt the interaction, verify the request through a separate known channel (corporate chat, phone, or in person), and report the suspicious video to IT',
-      'Reply on Teams asking the Head of Engineering to resend the video from their personal email, in case the corporate upload corrupted the file',
-      'Ignore the visual glitches - corporate video calls lag and drop frames all the time, especially during busy periods',
-      'Look up the Head of Engineering\'s profile photo in the corporate directory and compare it to the video frame by frame to confirm it is really them'
+      'Halt the interaction, verify the request through an independent known channel, and report the suspicious video to IT',
+      'Reply on Teams asking the Head of Engineering to resend the video from a personal email in case corporate upload lagged',
+      'Ignore the visual glitches because corporate video conferencing software frequently drops frames during busy operational hours',
+      'Look up the Head of Engineering profile photo in the corporate directory and compare it frame by frame to confirm identity'
     ],
     0,
     'Synthetic media is built from public profile photos and public executive audio. Comparing against those same sources cannot verify identity; only an independent channel can.',
@@ -444,8 +444,8 @@ const TIER_A_QUESTIONS = {
       distractor_rationale: [
         'CORRECT - only an independent known channel verifies identity; the video itself cannot.',
         'WRONG - asking the sender to resend from a personal email hands the attacker a second channel they already control.',
-        'WRONG - dismissing the anomalies as "normal lag" is exactly the perceptual bias deepfakes rely on.',
-        'WRONG - the profile photo is one of the sources the attacker used to build the deepfake. Comparing to it confirms nothing.'
+        'WRONG - dismissing the anomalies as normal lag is exactly the perceptual bias deepfakes rely on.',
+        'WRONG - the profile photo is one of the sources used to build the deepfake, so comparing to it confirms nothing.'
       ],
       cognitive_level: 3,
       difficulty: 3,
@@ -458,19 +458,19 @@ const TIER_A_QUESTIONS = {
   q(
     'A finance officer receives an email from an external domain (@supplier-support-namibia.com) requesting immediate settlement of an overdue invoice to avoid legal action. The invoice format looks identical to previous legitimate bills. What is the most appropriate initial containment and verification procedure?',
     [
-      'Forward the invoice notice to the primary procurement officer and verify via a known vendor contact number before processing payment',
       'Block the external sender domain immediately at the secure email gateway and delete the message thread from all active mailboxes',
-      'Ask the vendor\'s usual account manager to confirm the new bank details on the next scheduled call, then process the payment',
-      'Forward the invoice to the CFO for approval since the amount is within their delegated operational spending authority'
+      'Forward the invoice notice to the primary procurement officer and verify via a known vendor contact number before payment processing',
+      'Ask the vendor usual account manager to confirm the new bank details on the next scheduled call, then process the transaction',
+      'Forward the invoice to the CFO for executive approval since the requested amount falls within delegated spending limits'
     ],
-    0,
+    1,
     'Lookalike domains and invoice pressure require verification via trusted procurement contacts rather than blocking or delayed scheduling.',
     'bec',
     45,
     {
       distractor_rationale: [
-        'CORRECT - verifying through established procurement channels confirms invoice validity before financial exposure occurs.',
         'WRONG - gateway blocking prevents future emails but does not verify whether the pending invoice requires settlement.',
+        'CORRECT - verifying through established procurement channels confirms invoice validity before financial exposure occurs.',
         'WRONG - waiting for a scheduled call leaves the fraudulent invoice pending while attacker pressure mounts.',
         'WRONG - escalating unverified invoices to executive leadership bypasses procurement validation controls.'
       ],
@@ -485,21 +485,21 @@ const TIER_A_QUESTIONS = {
   q(
     'An employee receives an SMS text message claiming to be from the internal HR Director, stating that annual tax rebate forms must be updated immediately via an attached mobile link to avoid payroll delays. The message includes the employee\'s correct department name. What is the appropriate initial response?',
     [
-      'Ignore the SMS link, report the message via the phishing plugin, and verify directly through the internal HR portal',
-      'Click the link to inspect the landing page URL and determine if the banking form looks authentic before submitting details',
-      'Forward the SMS text message to a colleague in HR to ask if they know anything about the rebate forms',
-      'Reply to the SMS asking the sender to provide their employee identification number before you proceed'
+      'Click the mobile link to inspect the landing page URL and determine if the banking form looks authentic before submitting details',
+      'Forward the SMS text message directly to a colleague in HR to ask if they know anything about the mandatory rebate forms',
+      'Reply to the SMS asking the sender to provide their corporate employee identification number before you proceed further',
+      'Ignore the SMS link, report the message via the enterprise phishing plugin, and verify directly through the internal portal'
     ],
-    0,
+    3,
     'Personalized SMS phishing (smishing) exploits financial incentives and trust in internal departments to induce hasty clicks.',
     'authority',
     45,
     {
       distractor_rationale: [
-        'CORRECT - ignoring untrusted mobile links and reporting via official channels neutralizes smishing campaigns.',
         'WRONG - visiting untrusted phishing landing pages risks browser exploits and credential harvesting.',
         'WRONG - forwarding unverified messages to coworkers defers security responsibility and spreads uncertainty.',
-        'WRONG - replying to attackers on SMS engages the threat actor and confirms your mobile number is active.'
+        'WRONG - replying to attackers on SMS engages the threat actor and confirms your mobile number is active.',
+        'CORRECT - ignoring untrusted mobile links and reporting via official channels neutralizes smishing campaigns.'
       ],
       cognitive_level: 2,
       difficulty: 2,
@@ -512,10 +512,10 @@ const TIER_A_QUESTIONS = {
   q(
     'A regional manager takes a VoIP call from someone who sounds like the Chief Operating Officer. The COO instructs the manager to approve an emergency equipment purchase outside normal procurement thresholds. The line has a faint echo on high notes, which the manager initially assumes is VoIP compression. The COO is using familiar procurement terminology and has the right context. What should the manager do?',
     [
-      'Challenge the caller with a pre-established internal security passphrase and confirm through a callback on a known internal number before proceeding',
-      'Continue the call but make a note to raise the procurement concern with the regional manager after the call ends',
-      'Comply with the purchase instruction - the voice, vocabulary, and context all match what a real COO would say',
-      'Ask the COO to send a follow-up email confirming the purchase so there is a paper trail for the unusual approval'
+      'Challenge the caller with a pre-established internal security passphrase and confirm through a callback on a known internal number',
+      'Continue the active call but make a note to raise the procurement concern with the regional manager after the call concludes',
+      'Comply with the purchase instruction because the voice characteristics, vocabulary, and context all match a real COO',
+      'Ask the COO to send a follow-up email confirming the purchase so there is a paper trail for the unusual operational approval'
     ],
     0,
     'Voice cloning learns from public audio and can replicate cadence and vocabulary. Only a challenge phrase or an out-of-band callback, both pre-established, defeats it.',
@@ -524,7 +524,7 @@ const TIER_A_QUESTIONS = {
     {
       distractor_rationale: [
         'CORRECT - a pre-agreed challenge phrase plus a callback on a known internal number verifies identity independent of the audio.',
-        'WRONG - "note it for later" lets the fraudulent purchase proceed while the manager feels diligent.',
+        'WRONG - noting it for later lets the fraudulent purchase proceed while the manager feels diligent.',
         'WRONG - matching tone and vocabulary is exactly what a voice clone trained on public executive audio will do.',
         'WRONG - an email follow-up can be spoofed from a lookalike domain, and the purchase is already approved by voice.'
       ],
@@ -537,23 +537,23 @@ const TIER_A_QUESTIONS = {
   ),
 
   q(
-    'An accounts payable clerk receives an email thread that appears to be an ongoing discussion between the CEO and the CFO about a secret overseas acquisition. The clerk is suddenly CC\'d on the latest message and instructed to wire funds immediately to close the deal. The thread has the right names, the right tone, and a plausible history. What should the clerk do first?',
+    'An accounts payable clerk receives an email thread that appears to be an ongoing discussion between the Chief Executive Officer and the Chief Financial Officer regarding a secret overseas acquisition, in which the clerk is suddenly CC\'d and instructed to wire funds. Which indicator most strongly suggests thread hijacking?',
     [
-      'Call the CFO on a known internal number to verify the wire instruction before processing anything',
-      'Reply to the thread asking the CFO to confirm the wire amount and the recipient account details before processing',
-      'Check the email headers to see if the latest message was injected into the historical thread before processing',
-      'Forward the email thread to the clerk\'s manager for approval before processing the wire transfer'
+      'Header analysis showing that the malicious message was injected into an older legitimate conversation history via compromise',
+      'The thread earlier messages were sent from a different geographic region than the executive normally operates within',
+      'The attachment on the latest message is a compressed archive file, while earlier messages in the thread used PDF format',
+      'The domain names in the email header match corporate DNS records and pass all standard SPF and DKIM authentication checks'
     ],
     0,
-    'Thread hijacking uses a compromised mailbox to inject instructions into a real, ongoing conversation. Only an independent, known channel (a phone call to a directory number) verifies the instruction - the thread itself, however authentic it looks, is what the attacker controls.',
+    'Thread hijacking involves injecting malicious instructions into existing legitimate email threads to establish false credibility.',
     'bec',
     45,
     {
       distractor_rationale: [
-        'CORRECT - an independent callback on a known internal number verifies the instruction through a channel the attacker does not control.',
-        'WRONG - replying within the thread reaches the compromised mailbox; the "confirmation" would come from the attacker.',
-        'WRONG - header forensics is a useful first step for investigators, but it does not authorize or block the transfer; the clerk cannot read headers for injection reliably, and a clean header does not mean the mailbox is not compromised.',
-        'WRONG - manager approval does not verify the sender; the manager sees the same plausible-looking thread the clerk sees, and the transfer still proceeds.'
+        'CORRECT - header analysis in thread hijacking often uncovers message injection into historical conversations.',
+        'WRONG - geographic differences in messaging history can occur due to legitimate travel or VPN routing.',
+        'WRONG - attachment type changes are secondary indicators and do not confirm message injection into historical threads.',
+        'WRONG - passing SPF/DKIM indicates the sending server is authorized, but does not prove the account owner was not compromised.'
       ],
       cognitive_level: 3,
       difficulty: 3,
@@ -566,19 +566,19 @@ const TIER_A_QUESTIONS = {
   q(
     'Corporate reception receives a phone call from an individual claiming to be a senior national regulatory official, threatening immediate site closure and severe legal penalties unless the internal network topology diagram is emailed immediately. How should reception handle this pressure?',
     [
-      'Refuse immediate disclosure, request official documentation via formal channels, and escalate to legal and security teams',
-      'Take the caller\'s name and direct office number, then call them back immediately on that same line to verify their identity',
-      'Email the network diagram with a password-protected link to satisfy the regulatory requirement while protecting data',
-      'Note the deadline given by the caller and place the request in the normal compliance queue for next month\'s review'
+      'Take the caller name and direct office number, then call them back immediately on that same line to verify their official identity',
+      'Refuse immediate disclosure, request official documentation through formal channels, and escalate to legal and security teams',
+      'Email the network diagram with a password-protected link to satisfy the regulatory requirement while protecting sensitive data',
+      'Note the deadline given by the caller and place the request in the normal compliance queue for next month scheduled review'
     ],
-    0,
+    1,
     'Regulator impersonation relies on legal intimidation; official requests must be verified through established institutional channels.',
     'authority',
     45,
     {
       distractor_rationale: [
-        'CORRECT - refusing rush disclosures and routing through formal legal/security teams neutralizes intimidation tactics.',
         'WRONG - calling back a number provided by an unverified caller on the same line achieves zero independent verification.',
+        'CORRECT - refusing rush disclosures and routing through formal legal/security teams neutralizes intimidation tactics.',
         'WRONG - password-protecting sensitive topology diagrams does not authorize sharing confidential infrastructure data with outsiders.',
         'WRONG - treating an active extortion attempt as a routine compliance ticket ignores an ongoing security threat.'
       ],
@@ -591,23 +591,23 @@ const TIER_A_QUESTIONS = {
   ),
 
   q(
-    'A marketing manager receives a pre-recorded video from a prominent industry partner inviting urgent participation in an "exclusive executive survey" via a link in the video description. The video shows the partner\'s CEO, whose neck and shoulders look slightly off in the lighting. The partnership is strategically important and the survey seems low-stakes. What is the most defensible response?',
+    'A marketing manager receives a pre-recorded video from a prominent industry partner inviting urgent participation in an executive survey via a link in the video description. The video shows the partner CEO, whose neck and shoulders look slightly unnatural in the lighting. The partnership is strategically important and the survey seems low-stakes. What is the most defensible response?',
     [
-      'Do not click the link; verify the invitation independently through the partner\'s official published contact before participating, and report the video to IT',
       'Ask a marketing colleague to click the link first and confirm it looks like a real survey before participating personally',
-      'Look up the partner company\'s public website to see if they have announced a survey, then click the link if the announcement matches',
-      'Participate in the survey - the partnership relationship is important, and declining an executive survey could damage the relationship'
+      'Look up the partner company public website to see if they announced a survey, then click the link if announcements match',
+      'Participate in the survey because partnership relationships are vital, and declining an executive survey could cause friction',
+      'Verify the invitation independently through the partner official published contact details before clicking any external links'
     ],
-    0,
-    'Synthetic video lures rely on recognizable figures and plausible business context. Only independent verification through the partner\'s official channel confirms the invitation is real.',
+    3,
+    'Synthetic video lures rely on recognizable figures and plausible business context. Only independent verification through the partner official channel confirms the invitation is real.',
     'deepfake',
     30,
     {
       distractor_rationale: [
-        'CORRECT - verifying through the partner\'s published contact bypasses the synthetic video and the phishing link entirely.',
         'WRONG - a colleague clicking first is equally likely to be phished; delegation does not verify anything.',
-        'WRONG - an attacker can seed a fake announcement on a lookalike site, so a web search confirms only that a web page exists, not that the invitation is real.',
-        'WRONG - prioritizing the relationship over verification is exactly the pressure a synthetic lure is designed to create.'
+        'WRONG - an attacker can seed a fake announcement on a lookalike site, so a web search confirms only that a web page exists.',
+        'WRONG - prioritizing the relationship over verification is exactly the pressure a synthetic lure is designed to create.',
+        'CORRECT - verifying through the partner published contact bypasses the synthetic video and the phishing link entirely.'
       ],
       cognitive_level: 3,
       difficulty: 3,
@@ -618,21 +618,21 @@ const TIER_A_QUESTIONS = {
   ),
 
   q(
-    'An employee in human resources receives an email marked "CONFIDENTIAL / STRICTLY PERSONAL" from the board chairperson, demanding that employee salary schedules be sent over for an urgent executive review. What is the definitive verification check?',
+    'An employee in human resources receives an email marked confidential from the board chairperson, demanding that employee salary schedules be sent over for an urgent executive review. What is the definitive verification check?',
     [
-      'Confirm the request through an independent internal communication channel before disclosing sensitive PII',
-      'Check the email header to confirm whether the sender domain matches the board\'s standard prefix, and proceed if it is clean',
-      'Forward the salary records with password encryption enabled to protect the data during transit',
-      'Reply to the chairperson asking if payroll files can be transferred via an alternative corporate file-sharing link'
+      'Check the email header to confirm whether the sender domain matches the standard board prefix, and proceed if clean',
+      'Confirm the request through an independent internal communication channel before disclosing sensitive personal data records',
+      'Forward the salary records with strong password encryption enabled to protect the data files during transit across networks',
+      'Reply to the chairperson asking if payroll files can be transferred via an alternative corporate secure file-sharing link'
     ],
-    0,
+    1,
     'Confidentiality markers and executive pressure are used to extract sensitive PII; independent verification is mandatory.',
     'bec',
     45,
     {
       distractor_rationale: [
-        'CORRECT - verifying requests involving sensitive PII through independent channels prevents data exfiltration.',
         'WRONG - header signature checks can be spoofed by attackers and do not replace independent out-of-band confirmation.',
+        'CORRECT - verifying requests involving sensitive PII through independent channels prevents data exfiltration.',
         'WRONG - sending PII externally violates data privacy regulations regardless of file encryption settings.',
         'WRONG - offering alternative file-sharing links facilitates data exfiltration rather than validating identity.'
       ],
@@ -645,23 +645,23 @@ const TIER_A_QUESTIONS = {
   ),
 
   q(
-    'A new admin assistant is asked by a senior executive (whom they have never met) to urgently send a confidential document to an external address for a board meeting. The assistant worries that refusing will reflect poorly in their first week. What is the most defensible action under this pressure?',
+    'A new admin assistant is asked by a senior executive whom they have never met to urgently send a confidential document to an external address for a board meeting. The assistant worries that refusing will reflect poorly in their first week. What is the most defensible action under this pressure?',
     [
-      'Verify the request independently through the executive\'s known office or a colleague in that department, and refuse external delivery until verified',
-      'Comply with the request - new employees should demonstrate reliability and trust senior leadership directives',
-      'Ask a more experienced colleague to handle the request since the assistant lacks the authority to refuse executives',
-      'Send the document but copy the assistant\'s manager on the email so that the transmission is officially on record'
+      'Comply with the request because new employees should demonstrate reliability and trust senior leadership directives',
+      'Ask a more experienced colleague to handle the request since the assistant lacks authority to refuse senior executives',
+      'Send the document but copy the assistant manager on the email so that the transmission is officially recorded on file',
+      'Verify independently through the executive known office or a colleague, and refuse external delivery until confirmed'
     ],
-    0,
+    3,
     'The pressure to comply as a new employee is exactly what authority-based social engineering exploits. Only independent verification confirms the request is legitimate.',
     'authority',
     45,
     {
       distractor_rationale: [
-        'CORRECT - independent verification through the executive\'s known office or a colleague verifies the request without relying on the assistant\'s judgment under pressure.',
         'WRONG - compliance under pressure is the primary goal of the attack, not a demonstration of reliability.',
         'WRONG - delegating to a colleague without verification does not confirm the request is real; it only transfers the decision.',
-        'WRONG - copying a manager on an email does not verify the sender, and the confidential document has already been sent to the attacker.'
+        'WRONG - copying a manager on an email does not verify the sender, and the confidential document has already been sent.',
+        'CORRECT - independent verification through the executive known office or a colleague verifies the request safely.'
       ],
       cognitive_level: 3,
       difficulty: 3,
