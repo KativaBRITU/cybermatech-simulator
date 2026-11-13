@@ -672,85 +672,330 @@ const TIER_A_QUESTIONS = {
   )
 ],
     8: [
-        q(
-            "Legal requests a customer notification draft while active ransomware encryption is still spreading across network segments. What is the Incident Commander's primary operational priority?",
-            [
-                "Draft perfect public relations prose before initiating any host isolation procedures",
-                "Contain the spread first, using dual-track workflows for technical containment and factual comms",
-                "Power off every corporate workstation blindly across all physical branch offices",
-                "Delete all local event logs immediately to reduce regulatory liability exposure"
-            ],
-            1,
-            "NIST incident response principles dictate stopping active harm first while maintaining factual, non-speculative communication tracks.",
-            "incident_response",
-            45,
-            {
-                distractor_rationale: [
-                    "WRONG — delaying containment to craft PR statements allows ransomware lateral movement to expand.",
-                    "CORRECT — immediate containment paired with controlled, factual communication satisfies both operational and legal needs.",
-                    "WRONG — blind site-wide power-offs destroy volatile memory artifacts needed for forensic scoping.",
-                    "WRONG — deleting event logs violates legal compliance and destroys vital forensic timelines."
-                ],
-                cognitive_level: 4,
-                difficulty: 3,
-                coverage_tag: "T1486",
-                rotation_bucket: "incident_response",
-                last_validated: "2026-11-12"
-            }
-        ),
-        q(
-            "Which telemetry input provides the strongest justification for declaring an enterprise major security incident status immediately?",
-            [
-                "A single automated spam email flagged and deleted successfully by the secure gateway",
-                "Active lateral movement into crown-jewel database systems with payment impact indicators",
-                "An employee altering their office desktop wallpaper theme without authorization",
-                "Temporary wide-area network VPN latency spiking to 12 milliseconds during peak hours"
-            ],
-            1,
-            "Incident severity scales directly with blast radius and business operational or financial safety impact.",
-            "severity",
-            35,
-            {
-                distractor_rationale: [
-                    "WRONG — standard spam interception is routine operational noise, not a major incident.",
-                    "CORRECT — active lateral movement into crown jewels represents high blast radius and immediate business risk.",
-                    "WRONG — aesthetic wallpaper changes are policy infractions, not active security breaches.",
-                    "WRONG — normal network latency variations are standard infrastructure events."
-                ],
-                cognitive_level: 2,
-                difficulty: 2,
-                coverage_tag: "T1210",
-                rotation_bucket: "severity",
-                last_validated: "2026-11-12"
-            }
-        ),
-        q(
-            "An active ransomware infection is actively encrypting a primary file server. How should the response team balance volatile evidence collection against operational uptime containment?",
-            [
-                "Ignore evidence collection entirely and focus exclusively on long-term preventive policy updates",
-                "Isolate the host immediately to halt spread, capturing critical volatile data where playbook-safe",
-                "Leave the attacker connected to the system for one week to observe their complete methodology",
-                "Reimage the affected server immediately without taking notes or preserving system state"
-            ],
-            1,
-            "Immediate host isolation halts active encryption while disciplined playbook procedures preserve essential forensic artifacts.",
-            "forensics",
-            40,
-            {
-                distractor_rationale: [
-                    "WRONG — ignoring evidence collection prevents root-cause analysis and future hardening.",
-                    "CORRECT — rapid isolation stops encryption propagation while preserving necessary forensic scope.",
-                    "WRONG — leaving attackers active on systems during ongoing encryption maximizes business damage.",
-                    "WRONG — reimaging without logging destroys critical root-cause attribution data."
-                ],
-                cognitive_level: 4,
-                difficulty: 3,
-                coverage_tag: "T1486",
-                rotation_bucket: "forensics",
-                last_validated: "2026-11-12"
-            }
-        )
+  q(
+    'A ransomware note has appeared on a finance file server. Encryption is ongoing across two other file shares. The CEO wants an immediate public statement denying a breach before the news gets it. The legal team says a statement can go out within 20 minutes. The IT director asks if they can just restore from last night\'s backup and not tell anyone. What is the incident commander\'s most defensible first priority?',
+    [
+      'Contain the spread across the remaining shares, then convene a legal/comms/technical call to decide what can truthfully be said',
+      'Issue the statement now, then contain once the narrative is under control',
+      'Restore from backup and close quietly if it works',
+      'Draft the public statement first; forensics facts will emerge and can be published as confirmed'
     ],
+    0,
+    'Containment is the only action that stops ongoing harm. Statement timing and forensic facts follow containment; they do not precede or delay it.',
+    'incident_response',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - halting the spread is the only action that reduces business impact; all other decisions can proceed once damage is stopped.',
+        'WRONG - issuing a statement first without facts creates false claims, not narrative control.',
+        'WRONG - restoring from backup may work but leaves the attacker foothold intact; "close quietly" is a legal decision, not the IC\'s alone.',
+        'WRONG - drafting first and verifying later delays containment and publishes unverified claims.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1486',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'Which telemetry input most strongly justifies declaring an enterprise major incident immediately?',
+    [
+      'A single automated spam email flagged and deleted successfully by the secure gateway during routine queue processing hours',
+      'Active lateral movement into crown-jewel database systems with payment impact indicators and confirmed attacker persistence',
+      'An employee altering their office desktop wallpaper theme without authorization from the IT asset management team',
+      'Temporary wide-area network VPN latency spiking to 12 milliseconds during peak hours with no packet loss detected'
+    ],
+    1,
+    'Incident severity scales directly with blast radius and business operational or financial safety impact.',
+    'severity',
+    35,
+    {
+      distractor_rationale: [
+        'WRONG - standard spam interception is routine operational noise, not a major incident.',
+        'CORRECT - active lateral movement into crown jewels represents high blast radius and immediate business risk.',
+        'WRONG - aesthetic wallpaper changes are policy infractions, not active security breaches.',
+        'WRONG - normal network latency variations are standard infrastructure events.'
+      ],
+      cognitive_level: 2,
+      difficulty: 2,
+      coverage_tag: 'T1210',
+      rotation_bucket: 'severity',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'An active ransomware infection is encrypting a primary file server. How should the response team balance volatile evidence collection against operational uptime containment?',
+    [
+      'Ignore evidence collection entirely and focus exclusively on long-term preventive policy updates',
+      'Isolate the host now, capturing volatile memory and network connections where the playbook allows',
+      'Leave the attacker connected for a week to observe their full methodology, then isolate and remediate',
+      'Reimage the affected server immediately without notes to restore uptime before the business notices'
+    ],
+    1,
+    'Immediate host isolation halts active encryption while disciplined playbook procedures preserve essential forensic artifacts.',
+    'forensics',
+    40,
+    {
+      distractor_rationale: [
+        'WRONG - ignoring evidence collection prevents root-cause analysis and future hardening.',
+        'CORRECT - rapid isolation stops encryption propagation while preserving necessary forensic scope.',
+        'WRONG - leaving attackers active during encryption maximizes business damage.',
+        'WRONG - reimaging without logging destroys critical root-cause attribution data.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1486',
+      rotation_bucket: 'forensics',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'The CFO forwards a forwarded email chain — originally from the "cyber insurance broker" — demanding an immediate ransom-payment decision "to preserve the policy." The email contains a Bitcoin address and a 48-hour deadline. What is the most defensible action?',
+    [
+      'Pay the ransom quickly to preserve the insurance claim and end the disruption before the deadline expires',
+      'Engage the insurer on a recorded line through their published claims number, and do not respond to the email',
+      'Reply to the broker asking for written confirmation of the payment amount and wallet address before proceeding',
+      'Forward the email to the CEO and board chair and await their direction before responding to anyone'
+    ],
+    1,
+    'Ransomware demands sent by email are themselves often fraudulent or attacker-originated. Only the insurer\'s published claims channel is authoritative for policy and payment questions.',
+    'legal_comms',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - paying on email instruction is exactly how secondary fraud occurs on top of the original incident.',
+        'CORRECT - the insurer\'s published claims channel is authoritative; the email is attacker-controlled or broker-compromised.',
+        'WRONG - replying to the email confirms the mailbox is live and engages the attacker further.',
+        'WRONG - escalation to the board is appropriate eventually, but forwarding attacker email to leadership is a decision delay, not a decision.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1657',
+      rotation_bucket: 'legal_comms',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'A staff member reports that a file server shows encrypted extensions on shared files, and a README.txt demands payment. The staff member has not disconnected the server from the network. What is the first action?',
+    [
+      'Disconnect the server from the network now, then notify the incident response lead and preserve the README as evidence',
+      'Ask the staff member to check whether other users are also seeing encrypted files before disconnecting',
+      'Restore the server from the most recent backup first, then confirm the attack is stopped before disconnecting',
+      'Wait for the incident response lead to confirm the classification before taking any technical action'
+    ],
+    0,
+    'Containment begins at the moment of recognition. Waiting for confirmation while encryption continues expands the blast radius.',
+    'ransomware_containment',
+    40,
+    {
+      distractor_rationale: [
+        'CORRECT - isolate first, then notify. Every minute of connection is more encryption.',
+        'WRONG - asking others to check while the server is still on the network spreads the encryption.',
+        'WRONG - restoring from backup without disconnecting lets the attacker re-encrypt the restored files.',
+        'WRONG - waiting for classification while the server remains connected is the classic delay that expands blast radius.'
+      ],
+      cognitive_level: 3,
+      difficulty: 2,
+      coverage_tag: 'T1486',
+      rotation_bucket: 'ransomware_containment',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'During a ransomware incident, the CEO asks whether the company should publish a public statement that "no customer data was accessed." The forensics team has not yet scoped which systems were touched. What is the safest advice to the CEO?',
+    [
+      'Publish the statement — customer trust depends on confident leadership during a crisis and the forensics will likely confirm it',
+      'Publish only what is verified: acknowledge the incident, state that the investigation is active, and commit to further updates',
+      'Wait to publish anything until the full forensics report is complete, even if the news breaks before then',
+      'Publish the customer data claim but add a legal disclaimer that early findings may change'
+    ],
+    1,
+    'Statements during an active incident must be factual and verified. Unverified claims create liability regardless of the disclaimer.',
+    'legal_comms',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - "likely confirm it" is not verified; publishing an unverified claim creates legal and reputational liability.',
+        'CORRECT - publish only verified facts, acknowledge the incident, and commit to further updates as facts are confirmed.',
+        'WRONG - waiting indefinitely for a full report lets the news cycle define the narrative; verified-facts-now is safer than silence.',
+        'WRONG - disclaimers do not protect against a false claim of "no data accessed"; the statement itself is the liability.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1657',
+      rotation_bucket: 'legal_comms',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'The incident response team has contained a ransomware incident but not yet identified the initial access vector. The board wants to announce "the incident is closed." What should the incident commander recommend?',
+    [
+      'Announce closure once the file shares are restored and users are back at work — operational recovery is the business signal',
+      'Do not announce closure until the initial access vector is identified and remediated, or a compensating control is in place',
+      'Announce closure immediately — the longer the incident is open, the more damage to the brand and to investor confidence',
+      'Announce closure but keep the investigation running quietly in the background under a different incident number'
+    ],
+    1,
+    'An incident is not closed when files are restored. It is closed when the attacker cannot return through the same path.',
+    'incident_response',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - operational recovery with the entry vector unidentified means the attacker can re-enter.',
+        'CORRECT - closure requires either remediation of the initial vector or a compensating control that blocks the same path.',
+        'WRONG - announcing closure to protect the brand while the attacker can return is exactly the misrepresentation that damages credibility later.',
+        'WRONG - a parallel "quiet" investigation is operationally possible but publicly it is still a misrepresentation of closure.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1486',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'The ransom note demands payment in Monero and provides a Tor chat link. The CEO asks whether negotiating with the attacker is legal and advisable. What is the most defensible position to state?',
+    [
+      'Negotiation may be legal depending on jurisdiction, but it is a decision for legal and the insurer, not the IC alone, and only through the insurer\'s approved channel',
+      'Never negotiate — paying or communicating with attackers is always illegal and creates sanctions exposure in every jurisdiction',
+      'Engage the Tor chat immediately to buy time and gather intelligence while the technical team contains the spread',
+      'Pay the ransom — decryption is faster and cheaper than rebuilding, and the insurer will reimburse the cost anyway'
+    ],
+    0,
+    'Ransom negotiation is a legal and insurance decision with jurisdictional and sanctions implications. The IC provides operational input but does not decide it alone.',
+    'legal_comms',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - the legal/insurance decision belongs to legal/insurer; the IC\'s role is operational input and technical coordination.',
+        'WRONG - "always illegal" is factually wrong; some jurisdictions permit payment under conditions, others restrict it, and sanctions regimes vary.',
+        'WRONG - the IC engaging a Tor chat without legal/insurer approval is outside the role and could compromise the insurer\'s position.',
+        'WRONG - "the insurer will reimburse" assumes the claim is approved; paying first and claiming later may forfeit coverage.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1657',
+      rotation_bucket: 'legal_comms',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'Backups have been restored and file shares are working, but the SIEM still shows periodic outbound connections from a server that was supposedly cleaned. What should the IR lead do?',
+    [
+      'Treat the outbound connections as evidence the attacker is still active, re-isolate the server, and re-scope the investigation',
+      'Assume the connections are benign scanning or update traffic and continue with the recovery and closure timeline',
+      'Disable the SIEM alerts for that server so the recovery can complete without operational distraction',
+      'Wait for the outbound connections to escalate before re-isolating, to avoid disrupting restored operations again'
+    ],
+    0,
+    'Outbound connections from a "cleaned" host are the strongest signal the attacker never left. Re-isolate and re-scope.',
+    'ransomware_containment',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - outbound connections from a cleaned host are evidence of persistence; re-isolation and re-scoping are required before closure.',
+        'WRONG - assuming benign is exactly the complacency that allows second-stage attacks.',
+        'WRONG - disabling detection to avoid operational disruption is how small incidents become major ones.',
+        'WRONG - waiting for escalation is the attacker\'s preferred timeline; the IC controls the timeline, not the attacker.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1071',
+      rotation_bucket: 'ransomware_containment',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'The forensics team has identified the ransomware strain and the initial access vector. The legal team asks whether the company must notify a regulator within 72 hours. The company operates in Namibia and has EU customers. What is the most defensible response?',
+    [
+      'Notify both regulators immediately — 72 hours is the deadline in most jurisdictions and it is better to over-notify',
+      'The obligation depends on which data was affected and which regimes apply; legal must determine scope before any notification',
+      'Do not notify any regulator — the ransom was not paid and the incident was contained without customer data exfiltration',
+      'Notify only the EU regulator — the 72-hour rule is a European rule and does not apply to Namibian operations'
+    ],
+    1,
+    'Notification obligations depend on jurisdiction, affected data categories, and confirmed facts. Notification without legal scoping can be as wrong as failing to notify.',
+    'legal_comms',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - over-notification has its own consequences (false claims, unnecessary reputation damage, possible regulatory confusion).',
+        'CORRECT - the obligation is scoped by jurisdiction and by what data was affected; legal scopes, then notifies.',
+        'WRONG - containment without confirmed exfiltration does not automatically remove notification obligations; the scope question still applies.',
+        'WRONG - Namibian operations may have their own notification regime under national law, independent of GDPR.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1657',
+      rotation_bucket: 'legal_comms',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'During a ransomware incident, a junior analyst says they have identified the attacker\'s initial access and knows the exact malware family. The analyst wants to post a warning to a public security forum to "help other organisations prepare." What should the IR lead say?',
+    [
+      'Do not post during the active incident — attribution and technical details can tip off the attacker and affect the investigation',
+      'Post the warning immediately — protecting other organisations is more important than the current investigation timeline',
+      'Post an anonymised version of the warning without the company name but with the technical details, since the technical details help defenders',
+      'Wait for the investigation to close and then post the full details to the public forum for maximum community benefit'
+    ],
+    0,
+    'During an active incident, all external communication — including "helpful" technical disclosure — must be gated by the IR plan. Attribution and technical details tip off the attacker.',
+    'legal_comms',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - during an active incident, external communication is gated by the IR plan; "helping others" is not the IC\'s call to make mid-incident.',
+        'WRONG - protecting others does not override the requirement to not compromise the current investigation.',
+        'WRONG - anonymisation does not protect against correlation; the attacker reads the same forums and can recognise their own tradecraft.',
+        'WRONG - post-incident disclosure is a legitimate option but requires legal/comms coordination, not a unilateral analyst decision.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1657',
+      rotation_bucket: 'legal_comms',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'An investigation has confirmed that the ransomware entered through a compromised vendor account with weak MFA. The vendor is a national logistics provider that serves other companies in the same industry. What is the most defensible action?',
+    [
+      'Notify the vendor privately, provide the evidence of compromise, and coordinate on a joint response before any broader disclosure',
+      'Publish the vendor\'s role publicly — the industry needs to know which vendors are compromised to protect themselves',
+      'Do not notify the vendor — the compromise is the vendor\'s own security problem and reporting it shifts attention from your incident',
+      'Notify the vendor only through their public security contact form and let them handle their own scope from there'
+    ],
+    0,
+    'Third-party compromise requires coordinated private disclosure first. Public disclosure without giving the vendor a chance to act spreads risk and damages the relationship.',
+    'incident_response',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - private notification with evidence and coordination is the responsible disclosure path that gives the vendor a chance to act.',
+        'WRONG - public disclosure without prior private notification is irresponsible disclosure and can spread risk to the vendor\'s other customers.',
+        'WRONG - failing to notify a compromised vendor leaves other customers exposed and is a governance failure, not a security win.',
+        'WRONG - the public security contact form is unlikely to route to the right people at the speed required for a compromised vendor account.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1199',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-13'
+    }
+  )
+],
     11: [
         q(
             "An affiliate ransomware checklist includes clearing Volume Shadow Copies and exfiltrating data prior to execution. Which control combination most directly breaks their extortion leverage?",
