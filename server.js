@@ -5016,7 +5016,7 @@ async function initializeServer() {
         if (refreshSummary.refreshed > 0) {
             console.log(`🔄 Quarterly content refresh: ${refreshSummary.refreshed}/${refreshSummary.total} modules updated`);
         }
-        await labVersioning.syncLabGenerations(db);
+        await labVersioning.syncLabGenerations(db, labEngine.modulesWithLabs());
         await seedFounderNews(db);
         console.log('✅ All systems initialized!');
     } catch (error) {
