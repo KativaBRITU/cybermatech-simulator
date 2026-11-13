@@ -1736,7 +1736,7 @@ app.get('/api/module-questions/:id', async (req, res) => {
     const sessionSeed = (req.session.user.id * 1000) + id + (mode === 'practice' ? 7 : 13);
     const generated = generateModuleQuestions(id, difficulty, limit, { rank: learner.rank, mode, sessionSeed });
     const refreshed = await loadRefreshedQuestionDrill(id, mode, difficulty, limit, learner.rank, sessionSeed);
-    const drill = mergeQuestionsToLimit(refreshed, generated, limit);
+    const drill = mergeQuestionsToLimit(generated, refreshed, limit);
 
     if (mode === 'practice') {
         const practiceToken = crypto.randomBytes(12).toString('hex');
