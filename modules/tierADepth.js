@@ -997,59 +997,330 @@ const TIER_A_QUESTIONS = {
   )
 ],
     11: [
-        q(
-            "An affiliate ransomware checklist includes clearing Volume Shadow Copies and exfiltrating data prior to execution. Which control combination most directly breaks their extortion leverage?",
-            [
-                "Deploying motivational security posters throughout office hallways and break rooms",
-                "Maintaining offline immutable backups with restore testing alongside identity tiering",
-                "Relying solely on standard antivirus signature definitions updated once daily",
-                "Establishing a corporate policy to pay every ransomware demand immediately upon notice"
-            ],
-            1,
-            "Robust recoverability via tested immutable backups and domain tiering removes the attacker's primary extortion leverage.",
-            "ransomware",
-            40,
-            {
-                distractor_rationale: [
-                    "WRONG — awareness posters do not technical disrupt active ransomware encryption workflows.",
-                    "CORRECT — offline immutable backups ensure recoverability while tiering slows lateral movement.",
-                    "WRONG — traditional antivirus signatures easily miss novel ransomware binaries and custom loaders.",
-                    "WRONG — paying ransoms encourages further attacks and does not guarantee data recovery."
-                ],
-                cognitive_level: 3,
-                difficulty: 3,
-                coverage_tag: "T1490",
-                rotation_bucket: "ransomware",
-                last_validated: "2026-11-12"
-            }
-        ),
-        q(
-            "Double extortion involves data exfiltration combined with local system encryption, putting severe pressure on executives. What is the recommended professional response posture?",
-            [
-                "Allow IT administrators to handle ransom payment negotiations entirely in secret",
-                "Empower legal and leadership with IR facts while continuing recovery; do not halt containment",
-                "Publicly livestream ongoing negotiation chats on social media to shame the actors",
-                "Wipe all company backup servers immediately to deny thieves any satisfaction"
-            ],
-            1,
-            "Ransom payment decisions remain executive business and legal calls, while incident responders maintain rigorous containment and recovery.",
-            "extortion",
-            45,
-            {
-                distractor_rationale: [
-                    "WRONG — leaving financial decisions entirely to isolated IT staff violates governance and risk controls.",
-                    "CORRECT — structured executive leadership guided by forensic facts ensures sound crisis management.",
-                    "WRONG — livestreaming negotiations escalates instability and compromises ongoing crisis strategy.",
-                    "WRONG — wiping backup servers destroys the organization's recovery capability."
-                ],
-                cognitive_level: 4,
-                difficulty: 3,
-                coverage_tag: "T1486",
-                rotation_bucket: "extortion",
-                last_validated: "2026-11-12"
-            }
-        )
+  q(
+    'During a ransomware tabletop exercise, the CTO asks whether the company\'s nightly database backups are "enough." The backups are stored on a NAS that is always online and accessible from the production network. What is the most defensible answer?',
+    [
+      'Enough — nightly backups capture all data within 24 hours of loss, which meets industry recovery time objectives for most SMEs',
+      'Enough — as long as the NAS is protected by antivirus and a strong password policy, the backups are safe from ransomware',
+      'Not enough — the backups sit on an always-online NAS reachable from production, one of the first targets in a ransomware attack',
+      'Not enough — but the fix is simply to double the frequency so backups happen every 12 hours instead of every 24 hours'
     ],
+    2,
+    'Always-online backups reachable from the production network are the primary target in modern ransomware. Immutability and network separation matter more than frequency.',
+    'backup_architecture',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - frequency without separation still means the attacker encrypts the last 24 hours of backups along with production.',
+        'WRONG - AV and passwords do not stop ransomware operators who already have domain admin from the initial compromise.',
+        'CORRECT - online, network-reachable backups are compromised in the same attack; immutability and separation are the controls that matter.',
+        'WRONG - more frequent backups on the same compromised NAS are more encrypted copies, not safer copies.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1486',
+      rotation_bucket: 'backup_architecture',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'A mid-sized SME has an on-premise backup server that runs nightly. The backup server uses the same domain administrator credentials as the production servers. What is the specific risk this represents?',
+    [
+      'Acceptable — the backup server is not internet-facing, so an attacker would need physical access to compromise it',
+      'Minimal — the backup server is only used for backup, so compromise of production credentials does not affect it',
+      'Only a concern if the backup server is in a different building from the production data centre',
+      'Shared domain admin credentials mean that the same identity compromise that encrypts production also encrypts the backups in the same attack'
+    ],
+    3,
+    'Shared domain admin credentials mean the same compromise that encrypts production encrypts backups. Backup infrastructure must be isolated at the identity layer, not just the network layer.',
+    'identity_tiering',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - internet-facing is not the only attack path; identity compromise from a phishing email is the primary route.',
+        'WRONG - shared credentials mean shared compromise; the "only used for backup" framing ignores the identity link.',
+        'WRONG - physical separation does not help when the attack is at the identity layer.',
+        'CORRECT - shared domain admin credentials mean the attacker who compromises production also owns the backups.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'identity_tiering',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'The company has restored file shares from backup following a ransomware incident, but four days later the shares are re-encrypted. What is the most likely explanation?',
+    [
+      'The attacker remained on the network with persistent access and encrypted the restored files after recovery',
+      'The backup was corrupt, and the "restored" files were actually still encrypted copies of the original files',
+      'A new ransomware variant was introduced by an employee during the recovery process through an email attachment',
+      'The backup restore process itself accidentally re-encrypted the files as part of its normal restoration operation'
+    ],
+    0,
+    'Re-encryption after restore is the clearest signal that the attacker never left. Restoring without re-scoping the network rebuilds the target.',
+    'ransomware_defense',
+    40,
+    {
+      distractor_rationale: [
+        'CORRECT - re-encryption after restore means the attacker retained access; restoration without re-scoping rebuilt the target.',
+        'WRONG - corrupted backups produce missing or broken files, not active re-encryption.',
+        'WRONG - new variants come from new intrusion attempts; they do not appear spontaneously during recovery.',
+        'WRONG - backup restore software does not encrypt files as part of restoration.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1486',
+      rotation_bucket: 'ransomware_defense',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'A backup administrator proposes moving the company\'s backup server off the domain and onto a separate, isolated network segment with its own local credentials. The IT director asks whether this is worth the operational complexity. What is the most defensible answer?',
+    [
+      'No — off-domain backups add operational complexity for a threat that is already covered by endpoint protection and email filtering',
+      'Yes — isolating backup credentials from domain compromise is one of the highest-value controls available, because it removes the backup server from the attack path most ransomware uses',
+      'Yes, but only if the backup server is also protected by a hardware security module and multi-factor authentication for all backup operations',
+      'No — the backup server only needs to be protected by the same controls as production, since the attack surface is essentially identical'
+    ],
+    1,
+    'Backup infrastructure is the last line of defense against ransomware. Isolating it from the identity plane the attacker compromises removes the primary path that leaves victims without recovery.',
+    'backup_architecture',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - endpoint protection and email filtering are preventive; they do not stop an attacker who is already on the network.',
+        'CORRECT - off-domain, isolated backups remove the identity path that most ransomware operators use to encrypt backups.',
+        'WRONG - HSM and MFA are good additions, but they are not prerequisites for the isolation benefit; isolation alone is worth doing.',
+        'WRONG - the attack surface is not identical; backup servers have different access patterns and different credential exposure.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1486',
+      rotation_bucket: 'backup_architecture',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'A company has "immutable" backups that cannot be deleted or modified during a 30-day retention window. An attacker who compromised the environment 45 days ago is now encrypting files. What protection do the immutable backups provide?',
+    [
+      'Full protection — immutable backups cannot be encrypted by ransomware, so the data is always recoverable',
+      'Reduced protection — immutability is best-effort and the attacker can defeat it with sufficient privilege escalation',
+      'None — the attacker compromised the environment before the retention window began, so all current backups contain their implant',
+      'Partial protection — recoverable to a point within 30 days, but any earlier compromise point is exposed'
+    ],
+    2,
+    'Immutable backups protect against encryption, not against an attacker who was present before the retention window. Recovering to a clean point requires knowing when the compromise began.',
+    'ransomware_defense',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - full protection assumes the attacker is only present at encryption time, not 45 days before.',
+        'WRONG - immutability is a hard technical guarantee, not best-effort; defeating it requires different attack paths.',
+        'CORRECT - immutability protects the backup from encryption, but if the attacker was present 45 days ago, backups within the 30-day window contain their implant.',
+        'WRONG - partial protection is a reasonable guess but misses the key point: without knowing when the compromise started, "recoverable" is uncertain.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1486',
+      rotation_bucket: 'ransomware_defense',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'The company wants to test its ransomware recovery capability. The IT team proposes restoring a production database from last week\'s backup to a staging environment. What should the security lead insist on before this test runs?',
+    [
+      'Confirm that the test is scheduled outside business hours so that it does not affect users if the restore goes wrong',
+      'Confirm that the staging environment is fully isolated from production and that the restore does not touch live credentials or production encryption keys',
+      'Confirm that the backup is at least 30 days old, since recent backups are more likely to contain malware from the current quarter',
+      'Confirm that the staging environment has the same anti-ransomware software as production, to validate the security stack'
+    ],
+    1,
+    'A restore test that touches production credentials or keys is not a test — it is a production operation. Isolation must be verified before the test runs, not assumed.',
+    'restore_operations',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - scheduling outside business hours does not address the credential and key exposure risk.',
+        'CORRECT - the staging environment must be isolated and credentials must be separate before the test runs; otherwise the test risks the production environment.',
+        'WRONG - 30-day-old backups are not inherently safer, and forcing a longer retention is not the control that matters.',
+        'WRONG - AV parity is not the primary concern; credential isolation is.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1486',
+      rotation_bucket: 'restore_operations',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'After restoring from backup, the IT team wants to rejoin the restored file server to the production domain immediately. The security lead objects. What is the most defensible reason for the objection?',
+    [
+      'Rejoining the domain is fine as long as the server was restored from a backup that was taken before the incident',
+      'Rejoining the restored server to the production domain re-exposes it to the same compromised identity plane that allowed the original attack',
+      'Rejoining should wait until the backup has been scanned by the most recent antivirus signatures',
+      'Rejoining should wait until the server has been patched to the most current operating system release'
+    ],
+    1,
+    'Restored servers rejoined to a compromised domain will be re-attacked. The domain itself must be re-secured or the restored system must operate in an isolated state until it is.',
+    'restore_operations',
+    40,
+    {
+      distractor_rationale: [
+        'WRONG - "before the incident" backups are safer but do not address the compromised domain itself.',
+        'CORRECT - the domain is the compromised identity plane; rejoining re-exposes the server to the same attack path.',
+        'WRONG - AV scanning is useful but does not verify the domain is safe to rejoin.',
+        'WRONG - patching is useful but does not verify the domain is safe to rejoin.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'restore_operations',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'A backup administrator has credentials to both the production domain and the isolated backup network. The security team recommends removing the administrator from the production domain entirely. What is the operational risk the security team should address in the same change?',
+    [
+      'Removing production domain credentials will immediately break the administrator\'s ability to log into their workstation',
+      'The change is impossible — backup administrators must have production access to test restores against production data',
+      'Without a designated backup-only identity, the administrator may use shared credentials in an emergency, restoring the very risk the change was meant to remove',
+      'The change is unnecessary — the administrator is a trusted employee and their credentials are not part of the attack surface'
+    ],
+    2,
+    'Tiering removes a risk only if the replacement identity is fully provisioned. Emergency "shared credentials" fallback restores the exact risk tiering was meant to remove.',
+    'identity_tiering',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - workstation login is a separate concern and can be solved with a different local identity.',
+        'WRONG - restore testing can happen in an isolated environment; production access is not required.',
+        'CORRECT - without a fully provisioned backup-only identity, the admin will re-use shared credentials in an emergency, restoring the original risk.',
+        'WRONG - "trusted employee" is exactly the assumption that breaks in a phishing compromise.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'identity_tiering',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'The company has a 3-2-1 backup strategy: three copies of data, on two different media, with one copy off-site. In a ransomware incident, the attacker encrypted the local copies and deleted the off-site copy through the cloud backup provider\'s API. What went wrong?',
+    [
+      'The 3-2-1 strategy protects against media failure, not against an attacker with credentials to all three copies; the off-site copy needed separate, unshared credentials',
+      'The 3-2-1 strategy protects against ransomware by definition; the attack must have used a method outside the strategy\'s scope',
+      'The cloud provider is at fault for allowing API deletions; a different provider would have prevented this',
+      'The 3-2-1 strategy is outdated and should be replaced with a 4-3-2 strategy for modern threats'
+    ],
+    0,
+    '3-2-1 is a resilience framework against failure, not a security framework against attackers. The off-site copy is only protected if the attacker cannot reach it with the same credentials.',
+    'backup_architecture',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - 3-2-1 is about media and location diversity; it does not address the credential path that lets an attacker delete all copies.',
+        'WRONG - 3-2-1 does not "protect against ransomware by definition"; it protects against specific failure modes.',
+        'WRONG - cloud providers offer immutability and object lock; the control exists but was not enabled.',
+        'WRONG - a bigger number does not solve the credential problem; the issue is access separation, not copy count.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1486',
+      rotation_bucket: 'backup_architecture',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'A ransomware incident is contained and the company wants to test whether backups will actually restore. The IT director asks for a "quick" test: restore one file from one backup and confirm it opens. Is this test sufficient?',
+    [
+      'Yes — if one file restores successfully, the backup mechanism works and the rest will follow the same process',
+      'Yes, if the file chosen is the most important file in the backup set, since that represents the highest-value recovery target',
+      'No — one file from one backup proves the file can be restored, not that the full environment can be recovered to an operational state',
+      'No — but a test that restores 10 files from 3 backups is sufficient for any environment regardless of complexity'
+    ],
+    2,
+    'A single-file restore tests the file, not the environment. Full recovery requires verifying credentials, network paths, service dependencies, and operational sequences — not just that a file opens.',
+    'restore_operations',
+    40,
+    {
+      distractor_rationale: [
+        'WRONG - one file restoring says nothing about the environment, credentials, or service dependencies.',
+        'WRONG - "most important file" is a heuristic, not a test of the recovery process.',
+        'CORRECT - single-file tests prove very little; real recovery testing restores services, dependencies, and access paths.',
+        'WRONG - "10 files from 3 backups" is better than 1 but still does not test operational recovery.'
+      ],
+      cognitive_level: 3,
+      difficulty: 2,
+      coverage_tag: 'T1486',
+      rotation_bucket: 'restore_operations',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'An SME has a full backup from 8 months ago and incrementals every night since. The ransomware encrypted production 3 days ago. What is the most defensible recovery plan?',
+    [
+      'Restore from the most recent backup, since it contains the most up-to-date data and the incident was only 3 days ago',
+      'Restore from the 8-month full backup only, since all incrementals after that point are suspect',
+      'Wait for law enforcement to identify the attacker\'s entry point before restoring anything, to avoid re-compromise',
+      'Identify the earliest point of compromise before restore, then restore to a point before that date — the full backup plus nightly incrementals to the chosen date'
+    ],
+    3,
+    'Recovery requires a known-clean point. The most recent backup may contain the attacker\'s implant; the 8-month full backup may be too old. The correct point is the last one before compromise.',
+    'ransomware_defense',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - the most recent backup may contain the implant; restoring it re-compromises the environment.',
+        'WRONG - the 8-month full is too far back; the incrementals up to the compromise date are exactly what is needed.',
+        'WRONG - waiting for law enforcement delays recovery indefinitely; the defender can scope the compromise independently.',
+        'CORRECT - the recovery point must be before compromise; the full + incrementals to that date is the correct approach.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1486',
+      rotation_bucket: 'ransomware_defense',
+      last_validated: '2026-11-13'
+    }
+  ),
+
+  q(
+    'The company uses a cloud backup provider whose API allows deleting objects with an API key. The security team recommends enabling object lock on the backup bucket. The cloud architect objects: "object lock makes normal backups harder because we cannot delete old versions." What is the most defensible response?',
+    [
+      'The architect is correct; object lock is too costly operationally and should only be used for regulated industries',
+      'The architect is correct but object lock is still mandatory under cybersecurity regulations, so we have no choice',
+      'Object lock is unnecessary if the API key is stored in a secrets manager and rotated regularly',
+      'The immutability cost is acceptable: the tradeoff is that a compromised API key cannot delete the backups during a ransomware incident, which is the exact risk we are trying to prevent'
+    ],
+    3,
+    'Immutability is the control that survives credential compromise. The operational cost is real but small compared to the risk of losing all backups to a compromised API key.',
+    'identity_tiering',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - the architect is right about the operational cost but wrong about the priority; the security benefit outweighs it.',
+        'WRONG - framing it as regulation is inaccurate; the reason is the security benefit, not a legal requirement.',
+        'WRONG - a secrets manager reduces but does not eliminate the risk; object lock is the control that survives credential compromise.',
+        'CORRECT - the tradeoff is worth it because credential compromise is the exact risk object lock addresses; operational cost is manageable.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'identity_tiering',
+      last_validated: '2026-11-13'
+    }
+  )
+],
     18: [
         q(
             "Night-shift analysts are overwhelmed by 900 medium alerts daily and begin closing tickets without investigation. What is the most effective leadership remediation strategy?",
