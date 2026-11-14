@@ -56,9 +56,357 @@ const TIER_B_QUESTIONS = {
         q('Best ROE element before any offensive technique in a lab or engagement?', ['Surprise the blue team with production ransomware', 'Written scope, systems, times, data handling, emergency stop, and reporting rules', 'Anonymous Twitter liveblog', 'Use personal cloud for loot'], 1, 'ROE is the contract that keeps purple legal.', 'ethics', 40)
     ],
     12: [
-        q('Confirmed personal data exfil of EU customers. Parallel clocks?', ['Only restore servers; ignore law', 'Technical containment + legal/privacy notification assessment under applicable law', 'Wait a year', 'Pay ransom instead of notifying'], 1, 'Privacy incidents are dual-track: tech + legal.', 'privacy', 40),
-        q('Vendor processes HR data without a DPA. Best action?', ['Ignore — vendors are trusted by default', 'Stop or constrain processing until contract/controls meet requirements', 'Email SSNs to speed onboarding', 'Post data publicly'], 1, 'Processors need contractual and technical guardrails.', 'privacy', 35)
+  q(
+    'A Windhoek SME receives an email from a customer in Berlin requesting a copy of all personal data held about them and asking why it is being kept. The SME owner is unsure whether to respond, because the customer is not in Namibia. What is the most defensible first action?',
+    [
+      'Ignore the request — GDPR applies only to organisations established in the EU, not to Namibian companies',
+      'Respond within one month with the requested data and the purpose of processing — the customer is a data subject under GDPR regardless of where the SME is located',
+      'Forward the request to the customer embassy for official verification before responding to anything',
+      'Delete the customer data immediately to remove any obligation to respond to the request'
     ],
+    1,
+    'GDPR Article 3(2) applies to organisations outside the EU when they offer goods or services to EU residents. The one-month response window (Article 12(3)) applies to a Namibian SME serving German customers.',
+    'data_subject_rights',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - GDPR Article 3(2) explicitly covers non-EU organisations that offer goods or services to EU residents.',
+        'CORRECT - GDPR has extraterritorial scope; the one-month access response obligation applies to non-EU controllers serving EU data subjects.',
+        'WRONG - embassies do not verify data subject access requests; verification is done by the controller using reasonable means.',
+        'WRONG - deleting data to avoid a request is itself a breach (Article 17 limits erasure) and separate spoliation.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'GDPR-Art-15',
+      rotation_bucket: 'data_subject_rights',
+      last_validated: '2026-11-14'
+    }
+  ),
+
+  q(
+    'A Mariental agricultural exporter discovers that a ransomware attack exfiltrated the personal data of 400 EU customers 3 days ago. The technical team is still scoping which files were taken. The CEO asks whether the company must "report this to someone." What is the most defensible answer?',
+    [
+      'Wait until the technical scoping is complete before notifying anyone, since the scope determines whether the breach is reportable',
+      'Notify every affected customer immediately with full details before notifying any regulator, to preserve customer trust',
+      'Notify the lead supervisory authority within 72 hours of becoming aware unless the breach is unlikely to result in a risk — the clock started 3 days ago',
+      'The 72-hour rule does not apply to non-EU companies, so notification timing is at the company own discretion'
+    ],
+    2,
+    'GDPR Article 33 requires controller notification to the supervisory authority within 72 hours of awareness unless the breach is unlikely to result in a risk. Scope does not pause the clock; phased notification is permitted under Article 33(4).',
+    'breach_notification',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - waiting for scope completion is a common error; the clock runs from awareness, and Art 33(4) permits phased updates.',
+        'WRONG - customer notification is Art 34 and depends on high risk; the regulator notification under Art 33 comes first.',
+        'CORRECT - the 72-hour clock starts at awareness, not at scope completion; phased notification under Art 33(4) is the correct approach.',
+        'WRONG - Art 33 applies to controllers established outside the EU when Art 3 applies; non-EU location does not exempt notification.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'GDPR-Art-33',
+      rotation_bucket: 'breach_notification',
+      last_validated: '2026-11-14'
+    }
+  ),
+
+  q(
+    'An HR manager in Rundu wants to send employee salary records to a cloud storage provider whose servers are in the United States. The provider is not covered by an EU adequacy decision. What is the most defensible first step?',
+    [
+      'Send the data — the United States is a trusted jurisdiction and salary data is low-risk compared to customer data',
+      'Encrypt the records with a password and send them by email, since encryption removes any transfer restriction',
+      'Ask employees to consent in writing, since employee consent is sufficient to authorise any international transfer',
+      'Check whether the transfer has a valid legal mechanism under GDPR Chapter V — adequacy, Standard Contractual Clauses, or an equivalent safeguard — before sending anything'
+    ],
+    3,
+    'GDPR Chapter V restricts transfers outside the EEA. Encryption is a security measure, not a transfer mechanism. Employee consent is rarely valid under GDPR due to the power imbalance in employment.',
+    'cross_border_transfer',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - the US is not automatically adequate for all data types; the Schrems II ruling requires case-by-case assessment.',
+        'WRONG - encryption does not remove the transfer restriction; it is a security control, not a legal basis.',
+        'WRONG - employee consent is generally not valid for transfers under GDPR due to the employment power imbalance.',
+        'CORRECT - cross-border transfers require a Chapter V mechanism; adequacy, SCCs, or BCRs are the lawful paths.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'GDPR-Chapter-V',
+      rotation_bucket: 'cross_border_transfer',
+      last_validated: '2026-11-14'
+    }
+  ),
+
+  q(
+    'A Lagos-based fintech processes payroll data for a client company in Windhoek. The Namibian client has not signed a data processing agreement. What is the most defensible action for the Namibian client?',
+    [
+      'Pause the payroll data processing until a written DPA with POPIA-compliant terms is in place — the processor relationship requires contractual safeguards',
+      'Continue processing but add a confidentiality clause to the existing service agreement, since POPIA allows short-form processor terms',
+      'Continue processing — POPIA only applies to the processor, not to the responsible party sending the data',
+      'Ask the Lagos fintech to self-certify compliance with POPIA and continue processing once the self-certification is received'
+    ],
+    0,
+    'POPIA section 20 requires a written contract between the responsible party and the operator (processor) before processing personal information. Self-certification and short-form clauses do not satisfy the requirement.',
+    'processor_management',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - POPIA s.20 requires a written contract with specific terms before the operator processes personal information on behalf of the responsible party.',
+        'WRONG - a confidentiality clause alone does not satisfy the specific requirements of POPIA s.20.',
+        'WRONG - POPIA s.20 places the obligation on the responsible party to ensure the operator relationship is contracted.',
+        'WRONG - self-certification is not a substitute for the contractual requirement in POPIA s.20.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'POPIA-s20',
+      rotation_bucket: 'processor_management',
+      last_validated: '2026-11-14'
+    }
+  ),
+
+  q(
+    'A Windhoek marketing team wants to use a customer email list for a new product launch. The list was collected for "account notifications only" 18 months ago. The team asks if they can just send the launch email. What is the most defensible answer?',
+    [
+      'No — using the list for a purpose it was not collected for is a purpose-limitation issue; the launch requires a new lawful basis such as fresh consent or a legitimate-interest assessment',
+      'Yes — the customers already consented to marketing when they signed up for the account, so no new consent is needed',
+      'Yes — 18 months is old enough that the original purpose has lapsed and the data is effectively fair game',
+      'Yes, but only if the launch email includes an opt-out link at the bottom of the message'
+    ],
+    0,
+    'Purpose limitation is a core data protection principle. Using data for a new purpose requires a new lawful basis. Consent for account notifications does not extend to product marketing.',
+    'data_minimization',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - purpose limitation requires a fresh lawful basis for new processing purposes; account notifications do not cover product marketing.',
+        'WRONG - consent for account notifications is not consent for product marketing; purposes must be specified at collection.',
+        'WRONG - lapsed time does not open data for new purposes; the original purpose still governs until a new basis exists.',
+        'WRONG - an opt-out link is a transparency measure, not a lawful basis for the new processing purpose.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'GDPR-Art-5',
+      rotation_bucket: 'data_minimization',
+      last_validated: '2026-11-14'
+    }
+  ),
+
+  q(
+    'A customer in Nairobi asks a Namibian online store to delete all their personal data. The store also has a legal obligation to retain transaction records for 7 years under Namibian tax law. What is the most defensible response?',
+    [
+      'Refuse the request entirely because the tax retention obligation overrides any right to deletion under data protection law',
+      'Delete what is not legally required, explain which records must be kept and why, and confirm the deletion of the rest in writing',
+      'Delete every record including the tax-retained transaction data to comply with the customer request in full',
+      'Forward the request to the Namibian tax authority and wait for their decision before responding to the customer'
+    ],
+    1,
+    'GDPR Article 17(3)(b) and POPIA s.24(1)(c) both limit the right to erasure when processing is necessary for legal obligations. The correct response is partial deletion with transparent explanation.',
+    'data_subject_rights',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - a blanket refusal is disproportionate; the correct approach is partial deletion with transparent reasoning.',
+        'CORRECT - legal retention obligations limit the erasure right; the controller should erase the rest and explain the retained records.',
+        'WRONG - deleting tax-retained records is a separate legal breach; erasure cannot override a legal retention obligation.',
+        'WRONG - tax authorities do not adjudicate data subject requests; the controller remains responsible for the response.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'GDPR-Art-17',
+      rotation_bucket: 'data_subject_rights',
+      last_validated: '2026-11-14'
+    }
+  ),
+
+  q(
+    'A Windhoek clinic experiences a breach affecting HIV status data. POPIA section 22 requires notification to the Information Regulator and affected data subjects. The clinic director asks whether they can notify affected patients by SMS only. What is the most defensible answer?',
+    [
+      'SMS alone is sufficient — POPIA does not specify the form of notification, so any method that reaches the data subject satisfies section 22',
+      'Notifications to the Information Regulator and to data subjects can be delayed until the investigation is complete to avoid causing panic',
+      'SMS may be part of the notification but must clearly describe the breach and the steps patients should take; POPIA requires the notification to be in a form that is likely to reach the data subjects with adequate detail',
+      'Because the data is medical, the clinic only needs to notify the Information Regulator, not the affected patients'
+    ],
+    2,
+    'POPIA s.22 requires notification to both the Regulator and the data subjects. The notification form must adequately describe the breach and mitigation steps; SMS is possible but must meet those requirements.',
+    'breach_notification',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - POPIA does specify requirements for the form and content of notification; a bare SMS without adequate content may not comply.',
+        'WRONG - POPIA does not permit indefinite delay; notification should happen as soon as reasonably possible after discovery.',
+        'CORRECT - POPIA s.22 requires notification to both the Regulator and the data subject with sufficient detail; SMS can be used but must be adequate.',
+        'WRONG - medical data does not exempt notification to data subjects; both notifications are required.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'POPIA-s22',
+      rotation_bucket: 'breach_notification',
+      last_validated: '2026-11-14'
+    }
+  ),
+
+  q(
+    'A Johannesburg insurance company uses a Kenyan cloud provider to store policyholder data. The Kenyan provider subcontracts storage to a third party in India without notifying the insurer. What is the most defensible action?',
+    [
+      'Require the primary processor to disclose all sub-processors and obtain the insurer prior authorisation for any sub-processing, then assess whether the India transfer has a valid transfer mechanism',
+      'Terminate the relationship with the Kenyan provider immediately, since any sub-processor use is a breach of the GDPR',
+      'Continue the relationship — the Kenyan provider is the controller contracted processor, so sub-processor changes are their internal matter',
+      'Accept the sub-processor arrangement but require the Kenyan provider to sign an additional confidentiality clause'
+    ],
+    0,
+    'GDPR Article 28(2) requires prior authorisation for sub-processors, and Article 28(4) requires the same data protection obligations to flow down. A new jurisdiction triggers a fresh Chapter V transfer assessment.',
+    'processor_management',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - Art 28(2) and 28(4) require prior authorisation and flow-down of obligations, and the India transfer requires a separate Chapter V assessment.',
+        'WRONG - termination is not automatically required; prior authorisation and assessment are the first steps.',
+        'WRONG - sub-processors are not an internal matter for the processor; the controller must authorise and flow down obligations.',
+        'WRONG - a confidentiality clause is not enough; the new jurisdiction and sub-processor change require a full Art 28 and Chapter V review.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'GDPR-Art-28',
+      rotation_bucket: 'processor_management',
+      last_validated: '2026-11-14'
+    }
+  ),
+
+  q(
+    'A Gaborone-based bank collects customer addresses for account opening, then uses the same addresses to run a targeted wealth-management marketing campaign. Under Botswana Data Protection Act, what is the most defensible first action?',
+    [
+      'Proceed — the data was collected lawfully for account opening and marketing is a natural extension of the customer relationship',
+      'Confirm whether the original collection notice covered marketing, and if not, either obtain fresh consent or conduct a lawful-basis assessment before the campaign runs',
+      'Proceed but include an opt-out link at the bottom of every marketing email to satisfy the transparency requirement',
+      'Anonymise the addresses by removing the customer names before using them for the marketing campaign'
+    ],
+    1,
+    'Botswana Data Protection Act and the equivalent provisions in POPIA and GDPR require purpose specification at collection. A new purpose requires a new lawful basis.',
+    'data_minimization',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - "natural extension" is not a lawful basis; the collection purpose was specified at account opening.',
+        'CORRECT - purpose specification at collection governs later use; a new purpose requires a new lawful basis.',
+        'WRONG - an opt-out is a transparency measure, not a lawful basis for the new processing purpose.',
+        'WRONG - anonymisation is relevant only if the data is truly anonymised (not pseudonymised); addresses with customer names can often be re-identified.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'BWA-DPA',
+      rotation_bucket: 'data_minimization',
+      last_validated: '2026-11-14'
+    }
+  ),
+
+  q(
+    'A Namibian SME has customers in Namibia and Germany. It wants to design a privacy notice that works for both. What is the most defensible approach?',
+    [
+      'Write two fully separate notices — one for Namibia and one for Germany — because no common template can satisfy both regimes',
+      'Write one notice based on GDPR alone, since GDPR is the stricter standard and compliance with it automatically satisfies POPIA',
+      'Write one notice based on POPIA alone, since the company is Namibian and its home jurisdiction controls the notice',
+      'Write a single notice that meets the higher standard — GDPR — and add Namibia-specific items where POPIA requires different content or a different regulator contact'
+    ],
+    3,
+    'POPIA and GDPR overlap but are not identical — POPIA adds the Information Regulator as the local authority and has different breach-notification terms. A single high-standard notice with local addenda is the practical approach.',
+    'cross_border_transfer',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - two fully separate notices create confusion and duplication; a single high-standard notice with local addenda is workable.',
+        'WRONG - GDPR compliance does not automatically satisfy POPIA; local regulator contacts and breach timelines differ.',
+        'WRONG - a POPIA-only notice will not satisfy GDPR higher requirements for EU data subjects.',
+        'CORRECT - a single notice meeting GDPR plus POPIA-specific additions is the practical approach; regimes overlap but are not identical.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'GDPR-POPIA-overlap',
+      rotation_bucket: 'cross_border_transfer',
+      last_validated: '2026-11-14'
+    }
+  ),
+
+  q(
+    'A Namibian hospital group discovers that a shared drive had been accessible to unauthorised staff for 6 months, exposing patient records. The breach was found during an internal audit, not by an attacker. The board asks whether this counts as a breach that needs notifying. What is the most defensible answer?',
+    [
+      'No — the exposure was internal and no external attacker was involved, so this is an internal governance matter, not a reportable breach',
+      'No — the exposure was discovered by an internal audit, and only breaches discovered by external parties must be reported',
+      'Yes — a security incident leading to accidental or unlawful access is a personal data breach under POPIA s.22 regardless of whether the access was malicious',
+      'Yes, but only if the hospital can confirm that specific patient records were actually viewed by unauthorised staff'
+    ],
+    2,
+    'POPIA s.22 and GDPR Art 4(12) define a personal data breach as a security incident leading to accidental or unlawful destruction, loss, alteration, or unauthorised disclosure or access. Intent is irrelevant.',
+    'breach_notification',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - internal exposure is still unauthorised access under the breach definition; no external attacker is required.',
+        'WRONG - the mode of discovery (internal audit, external report) does not affect whether a breach occurred.',
+        'CORRECT - the definition of a breach covers accidental or unlawful access regardless of intent or attacker involvement.',
+        'WRONG - the breach is defined by the exposure itself, not by confirmed viewing of specific records; notification decisions turn on risk, not confirmation of use.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'POPIA-s22',
+      rotation_bucket: 'breach_notification',
+      last_validated: '2026-11-14'
+    }
+  ),
+
+  q(
+    'A Windhoek software company offers a free mobile app to users in Namibia, Kenya, and the United Kingdom. The app collects location data "to improve the service." A UK user asks what lawful basis the company is relying on for the location collection. What is the most defensible answer?',
+    [
+      'State that "legitimate interest" covers all collection, since improving the service is a legitimate business purpose by definition',
+      'Specify a lawful basis for each processing purpose — for location data this is typically consent, and it must be specific, informed, and withdrawable at any time',
+      'State that the app terms of service constitute consent, since users agreed to the terms when they installed the app',
+      'State that the location data is not personal data because it is aggregated before being used by the company'
+    ],
+    1,
+    'GDPR Article 6 requires a lawful basis for each processing purpose. Location data is personal data; "improve the service" is not a lawful basis by itself, and bundling consent into terms of service is not valid consent.',
+    'data_subject_rights',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - "legitimate interest" requires a balancing test and is not automatic; blanket reliance on it is not valid.',
+        'CORRECT - Art 6 requires a specified lawful basis per purpose; location data typically relies on consent, which must be specific and withdrawable.',
+        'WRONG - bundling consent into terms of service is not valid consent; consent must be freely given and separate.',
+        'WRONG - location data is personal data even when aggregated at rest; the collection is the processing that requires a basis.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'GDPR-Art-6',
+      rotation_bucket: 'data_subject_rights',
+      last_validated: '2026-11-14'
+    }
+  ),
+
+  q(
+    'A retail chain with stores in Windhoek, Rundu, and Oshakati keeps customer purchase history for 10 years "for analytics." POPIA requires that personal information not be retained longer than necessary. What is the most defensible first action?',
+    [
+      'Keep the data for 10 years but restrict access to the analytics team only, so the retention risk is contained',
+      'Keep the data because it may be useful in the future — POPIA does not require a specific retention period',
+      'Delete all data older than 12 months immediately, since POPIA treats anything older as excessive',
+      'Define a retention period per data category based on business need and legal obligation, delete data past that period, and document the retention policy'
+    ],
+    3,
+    'POPIA s.14 requires that personal information not be retained longer than necessary for the purpose for which it was collected. A retention policy with category-specific periods is the standard compliance approach.',
+    'data_minimization',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - access restriction is a security control, not a retention control; the data is still retained beyond necessity.',
+        'WRONG - POPIA s.14 does require retention limits; "may be useful later" is not a lawful reason to retain indefinitely.',
+        'WRONG - a fixed 12-month cutoff is arbitrary and may delete data the business is legally required to keep.',
+        'CORRECT - s.14 requires a documented retention policy with periods per category, deletion at the end, and records of the policy.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'POPIA-s14',
+      rotation_bucket: 'data_minimization',
+      last_validated: '2026-11-14'
+    }
+  )
+],
     14: [
         q('App account has db_owner “for convenience.” Primary risk?', ['Faster reports only', 'Blast radius: SQLi or app compromise becomes full DB takeover / data theft', 'None if SSL is on', 'Only affects NoSQL'], 1, 'Least privilege is a database control, not a slogan.', 'database', 40),
         q('Production DB reachable from the internet with weak auth. First move?', ['Celebrate remote admin', 'Remove exposure; enforce strong auth/network controls; rotate credentials; hunt access', 'Disable backups', 'Grant PUBLIC full rights'], 1, 'Attack surface reduction first.', 'database', 35)
