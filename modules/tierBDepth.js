@@ -380,32 +380,7 @@ const TIER_B_QUESTIONS = {
     }
   ),
 
-  q(
-    'A retail chain with stores in Windhoek, Rundu, and Oshakati keeps customer purchase history for 10 years "for analytics." POPIA requires that personal information not be retained longer than necessary. What is the most defensible first action?',
-    [
-      'Keep the data for 10 years but restrict access to the analytics team only, so the retention risk is contained',
-      'Keep the data because it may be useful in the future — POPIA does not require a specific retention period',
-      'Delete all data older than 12 months immediately, since POPIA treats anything older as excessive',
-      'Define a retention period per data category based on business need and legal obligation, delete data past that period, and document the retention policy'
-    ],
-    3,
-    'POPIA s.14 requires that personal information not be retained longer than necessary for the purpose for which it was collected. A retention policy with category-specific periods is the standard compliance approach.',
-    'data_minimization',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - access restriction is a security control, not a retention control; the data is still retained beyond necessity.',
-        'WRONG - POPIA s.14 does require retention limits; "may be useful later" is not a lawful reason to retain indefinitely.',
-        'WRONG - a fixed 12-month cutoff is arbitrary and may delete data the business is legally required to keep.',
-        'CORRECT - s.14 requires a documented retention policy with periods per category, deletion at the end, and records of the policy.'
-      ],
-      cognitive_level: 3,
-      difficulty: 3,
-      coverage_tag: 'POPIA-s14',
-      rotation_bucket: 'data_minimization',
-      last_validated: '2026-11-14'
-    }
-  )
+  
 ],
     14: [
         q('App account has db_owner “for convenience.” Primary risk?', ['Faster reports only', 'Blast radius: SQLi or app compromise becomes full DB takeover / data theft', 'None if SSL is on', 'Only affects NoSQL'], 1, 'Least privilege is a database control, not a slogan.', 'database', 40),
@@ -647,7 +622,63 @@ const TIER_B_EXTRAS = {
 const TIER_B_ESSAYS = {
     2: [essay('Write a SOC handling guide for a suspected malicious macro that sandbox-marked “clean.” Include isolation, analysis path, and user coaching.', 'Do not open samples on personal endpoints. Evidence + containment.')],
     4: [essay('Draft a 30/60/90 cloud hardening plan after a public bucket + leaked access key incident.', 'Include identity, exposure, CI secrets, and owners.')],
-    12: [essay('Explain dual-track response for personal data exfil to a non-technical CEO in one page.', 'Legal clocks + technical containment; no speculation.')],
+    12: [
+  {
+    question: 'You are the newly appointed privacy officer at a 15-person Namibian marketing agency. The agency runs campaigns for clients in Namibia, South Africa, and the EU. During your first week you discover that the agency has been collecting email addresses from client websites "for future campaigns" without a privacy notice, without a documented lawful basis, and without any retention policy. The CEO asks you to write a one-page memo outlining what must change in the next 30 days to avoid regulatory exposure. Write the memo.',
+    guidelines: 'Focus on the highest-risk gaps first. Name the specific POPIA sections and GDPR articles that are being violated, and give concrete actions with named owners and 30-day deadlines. Do not write generic privacy slogans.',
+    rubric: [
+      { criterion: 'Identifies the missing lawful basis for email collection', points: 2, evidence_required: 'Names POPIA s.11 or GDPR Art 6 and specifies which basis is absent for the current practice' },
+      { criterion: 'Identifies the missing privacy notice', points: 2, evidence_required: 'Names POPIA s.18 or GDPR Art 13/14 and describes what a compliant notice must contain for this agency' },
+      { criterion: 'Identifies the missing retention policy', points: 2, evidence_required: 'Names POPIA s.14 or GDPR Art 5(1)(e) and proposes a retention period per data category' },
+      { criterion: 'Prioritises actions with deadlines and owners', points: 2, evidence_required: 'At least three concrete actions, each with a named owner and a 30-day deadline' },
+      { criterion: 'Avoids generic advice without legal citation', points: 2, evidence_required: 'Every recommendation cites a specific law, article, or section; no "best practice" claims without a legal anchor' }
+    ]
+  },
+  {
+    question: 'A customer in Nairobi has emailed your Windhoek-based online store asking for a copy of all personal data held about them, the purpose of each processing activity, and the identity of every third party who has received their data. Your store uses a Lagos payment processor, a Kenyan cloud host, and a German email marketing platform. The customer has given you 30 days. Write the response plan: what you will provide, what you may withhold and why, and how you will handle the third-party disclosure requirement.',
+    guidelines: 'This is a data subject access request under GDPR Art 15 (the customer is in Kenya but your store serves EU customers, so GDPR applies). Show how you will meet the one-month deadline and what exemptions apply. Be specific about each processor.',
+    rubric: [
+      { criterion: 'Correctly identifies the one-month response deadline and the extension mechanism', points: 2, evidence_required: 'Names GDPR Art 12(3) and the two-month extension for complex requests, with a reason that would justify it' },
+      { criterion: 'Lists the specific information the response must include', points: 2, evidence_required: 'Covers purposes, categories, recipients, retention, source, and rights — the Art 15(1) list' },
+      { criterion: 'Identifies the third-party recipient disclosure requirement correctly', points: 2, evidence_required: 'Names all three processors (payment, cloud, email) and explains whether each counts as a "recipient" under Art 15(1)(c)' },
+      { criterion: 'Correctly distinguishes what may be withheld', points: 2, evidence_required: 'Cites at least one Art 15(4) or Art 12(5) exemption with a real basis — not "confidentiality" as a blanket refusal' },
+      { criterion: 'Provides a realistic operational plan with owners and steps', points: 2, evidence_required: 'At least four steps with the team or role responsible, and a stated completion date within the 30-day window' }
+    ]
+  },
+  {
+    question: 'Your Windhoek software company wants to move its customer support ticketing system to a cloud provider headquartered in the United States. The ticketing system holds customer names, email addresses, support conversation histories, and occasionally screenshots that contain national ID numbers. Your customers are in Namibia, South Africa, Kenya, and the EU. Write a one-page risk assessment for the board that identifies the transfer mechanism you will rely on, the risks the board should accept, and the compensating controls you will put in place.',
+    guidelines: 'This is a cross-border transfer under GDPR Chapter V and POPIA s.72. The US provider is not covered by an adequacy decision. Identify the specific transfer mechanism and the practical safeguards. The board wants a decision, not a legal treatise.',
+    rubric: [
+      { criterion: 'Identifies the correct transfer mechanism under GDPR Chapter V', points: 2, evidence_required: 'Names Standard Contractual Clauses (2021/914) or an equivalent Art 46 mechanism; does not claim adequacy for the US' },
+      { criterion: 'Addresses the Schrems II supplementary measures requirement', points: 2, evidence_required: 'Names at least two supplementary measures (e.g., encryption with keys held in the EEA, pseudonymisation, split processing) and explains why they are necessary' },
+      { criterion: 'Addresses POPIA s.72 cross-border transfer requirements', points: 2, evidence_required: 'Explains how the transfer satisfies POPIA s.72 (adequate protection, data subject consent, or contractual necessity) and does not rely on GDPR compliance alone' },
+      { criterion: 'Identifies the national ID screenshot risk specifically', points: 2, evidence_required: 'Flags national ID data as sensitive/high-risk and proposes a specific mitigation (redaction at upload, separate storage, or exclusion from the cloud system)' },
+      { criterion: 'Provides a defensible board-level decision with residual risk stated', points: 2, evidence_required: 'States a clear recommendation with the residual risk that remains after controls, not a "we will be compliant" conclusion' }
+    ]
+  },
+  {
+    question: 'Your retail chain operates stores in Windhoek, Rundu, and Oshakati. The company keeps customer purchase history, loyalty programme data, and CCTV footage for 10 years "for analytics." The board has asked you to design a retention policy that meets POPIA. Write the policy: for each data category, state the retention period, the legal or business justification, the disposal method, and the person responsible. Do not write a general statement about "retaining data only as long as necessary" — the board needs specific periods and reasons.',
+    guidelines: 'POPIA s.14 requires that personal information not be retained longer than necessary for the purpose for which it was collected. Each category needs a defensible period tied to a specific purpose or legal obligation, not a round number.',
+    rubric: [
+      { criterion: 'Separates data categories and treats each one differently', points: 2, evidence_required: 'At least three distinct categories (purchase history, loyalty data, CCTV) each with its own retention period and justification' },
+      { criterion: 'Justifies each retention period with a specific legal or business reason', points: 2, evidence_required: 'Every period is tied to a named obligation (e.g., tax retention under Namibian Income Tax Act, POPIA s.14, CCTV security purpose) — not "industry standard"' },
+      { criterion: 'Addresses the CCTV footage specifically', points: 2, evidence_required: 'CCTV has a shorter retention period than purchase history, with a reason tied to the security purpose — 10 years for CCTV is indefensible' },
+      { criterion: 'Specifies a disposal method and responsible person per category', points: 2, evidence_required: 'Each category names the disposal method (secure deletion, shredding, anonymisation) and the role responsible for execution' },
+      { criterion: 'Provides a review mechanism and change control', points: 2, evidence_required: 'States how often the policy is reviewed, who approves changes, and how exceptions are documented' }
+    ]
+  },
+  {
+    question: 'Your Namibian SME has customers in Namibia and Germany. The board wants a single privacy notice that works for both jurisdictions, because maintaining two notices is operationally expensive. Write a one-page memo to the board explaining whether a single notice is possible, what it would need to contain to satisfy both POPIA and GDPR, and where the two regimes require different or additional content. End with a clear recommendation.',
+    guidelines: 'The two regimes overlap significantly but are not identical. The memo should identify where a single high-standard notice is sufficient, where local addenda are needed, and why the board should care about the differences.',
+    rubric: [
+      { criterion: 'Correctly states whether a single notice can satisfy both regimes', points: 2, evidence_required: 'States clearly that a single high-standard notice with Namibia-specific addenda is workable, or explains why not, with reasoning' },
+      { criterion: 'Names the core content requirements shared by both regimes', points: 2, evidence_required: 'Covers identity of controller, purposes, lawful basis, recipients, retention, and rights — the common core' },
+      { criterion: 'Names the GDPR-specific requirements', points: 2, evidence_required: 'Cites at least two GDPR-specific items (e.g., Art 13(2)(e) transfers, Art 13(2)(d) legitimate interest detail, Art 22 automated decisions) that POPIA does not require in the same form' },
+      { criterion: 'Names the POPIA-specific requirements', points: 2, evidence_required: 'Cites at least two POPIA-specific items (e.g., Information Regulator contact, s.18(1)(f) cross-border transfer notice, POPIA complaint procedure) that GDPR does not require in the same form' },
+      { criterion: 'Provides a defensible recommendation with implementation cost awareness', points: 2, evidence_required: 'Recommends single notice with addenda or two notices, and states the operational cost of the chosen path (translation, maintenance, update cycle)' }
+    ]
+  }
+],
     15: [essay('Design a DevSecOps exception process for shipping with a critical CVE.', 'Owner, expiry, compensating controls, retest.')],
     16: [essay('Create a live-response order-of-operations for ransomware still encrypting a file server.', 'Containment vs volatile evidence; chain of custody.')],
     19: [essay('Propose removing standing Domain Admin for helpdesk with JIT/PAM without breaking operations.', 'PAW, roles, emergency break-glass.')],

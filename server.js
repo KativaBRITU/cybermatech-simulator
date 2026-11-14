@@ -1648,12 +1648,28 @@ app.get('/api/module-content/:id', async (req, res) => {
 
         // Prefer quarterly-refreshed essay prompts when present
         let essayQuestions = guide.essayQuestions;
+
+        // PILOT OVERRIDE: prefer tier A/B essays with rubrics when present
+        let _pilotOverrideApplied = false;
+        try {
+            const { TIER_B_ESSAYS: _pb } = require('./modules/tierBDepth');
+            const { TIER_A_ESSAYS: _pa } = require('./modules/tierADepth');
+            const _pilotEssays = (_pb && _pb[id]) || (_pa && _pa[id]) || [];
+            const _pilotOK = Array.isArray(_pilotEssays)
+                && _pilotEssays.length >= 5
+                && _pilotEssays.every(e => e && e.rubric && Array.isArray(e.rubric) && e.rubric.length >= 3);
+            if (_pilotOK) {
+                essayQuestions = _pilotEssays;
+                _pilotOverrideApplied = true;
+            }
+        } catch (_) { /* ignore */ }
+
         try {
             const stored = await db.getAsync(
                 'SELECT essay_questions, content_refreshed_at FROM module_contents WHERE module_id = ?',
                 [id]
             );
-            if (stored?.essay_questions) {
+            if (!_pilotOverrideApplied && stored?.essay_questions) {
                 const parsed = JSON.parse(stored.essay_questions || '[]');
                 if (Array.isArray(parsed) && parsed.length) {
                     if (stored.content_refreshed_at) {
