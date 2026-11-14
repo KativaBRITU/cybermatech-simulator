@@ -1231,9 +1231,12 @@ function buildQuestionPool(module, rank = 'beginner') {
     // See docs/methodology/generic-content-defect.md.
     // PILOT FIX (2026-11-12): if tierA has >=12 questions, serve ONLY tierA
     const tierAOnly = tierA.length >= 12;
+    const tierBOnly = !tierAOnly && tierB.length >= 12;
 
     const unique = tierAOnly
         ? tierA.map((q) => ({ ...q, pool_tier: 'tier_a_pilot' }))
+        : tierBOnly
+        ? tierB.map((q) => ({ ...q, pool_tier: 'tier_b_pilot' }))
         : [
             ...premiumQuiz.map((q) => ({ ...q, pool_tier: 'premium' })),
             ...progressiveQuiz.map((q) => ({ ...q, pool_tier: 'progressive' })),
@@ -1251,7 +1254,7 @@ function buildQuestionPool(module, rank = 'beginner') {
         pool_tier: 'shared_category'
     }));
 
-    const shared = tierAOnly ? [] : [...category];
+    const shared = (tierAOnly || tierBOnly) ? [] : [...category];
     if (module.category === 'malware') {
         shared.push(...CATEGORY_QUESTIONS.forensics.slice(0, 2).map(q => ({
             ...q,
