@@ -1322,85 +1322,330 @@ const TIER_A_QUESTIONS = {
   )
 ],
     18: [
-        q(
-            "Night-shift analysts are overwhelmed by 900 medium alerts daily and begin closing tickets without investigation. What is the most effective leadership remediation strategy?",
-            [
-                "Terminate all underperforming shift analysts immediately and hire fresh contractors",
-                "Tune detections, enrich event context, staff appropriately, and protect high-fidelity rules",
-                "Turn off the security information and event management system entirely during night hours",
-                "Configure alerting rules to trigger exclusively on low-severity informational events"
-            ],
-            1,
-            "Alert fatigue is an operational architecture and workflow design failure requiring detection tuning and proper resourcing.",
-            "soc",
-            40,
-            {
-                distractor_rationale: [
-                    "WRONG — firing analysts does not fix the underlying noisy detection engineering flaw.",
-                    "CORRECT — tuning noisy rules, enriching context, and protecting core rules resolves burnout root causes.",
-                    "WRONG — disabling SIEM monitoring leaves the enterprise entirely blind to active threats.",
-                    "WRONG — restricting alerts to low severity misses critical high-fidelity indicators."
-                ],
-                cognitive_level: 4,
-                difficulty: 3,
-                coverage_tag: "T1078",
-                rotation_bucket: "soc",
-                last_validated: "2026-11-12"
-            }
-        ),
-        q(
-            "A service account shows successful authentication following a password spray, followed immediately by administrative remote service hops. What is the appropriate 10-minute analytic narrative?",
-            [
-                "This represents a standard network glitch or automated service update; close ticket",
-                "This indicates identity compromise and lateral movement; contain hosts and preserve logs",
-                "This is a benign diagnostic script execution; wait for a formal ransomware note",
-                "This requires sending a polite reminder email to the user regarding policy compliance"
-            ],
-            1,
-            "Chained security telemetry combining authentication anomalies with administrative remote service usage indicates active lateral movement.",
-            "lateral",
-            40,
-            {
-                distractor_rationale: [
-                    "WRONG — dismissing spray followed by admin hops as a glitch ignores clear compromise indicators.",
-                    "CORRECT — linking authentication spikes to remote administrative movement confirms active compromise.",
-                    "WRONG — waiting for ransomware notes allows attackers to complete domain dominance.",
-                    "WRONG — polite reminder emails are ineffective against active adversary lateral movement."
-                ],
-                cognitive_level: 3,
-                difficulty: 3,
-                coverage_tag: "T1021",
-                rotation_bucket: "lateral",
-                last_validated: "2026-11-12"
-            }
-        ),
-        q(
-            "Which metric provides the most accurate empirical demonstration of SOC improvement following purple team emulation exercises?",
-            [
-                "The total count of presentation slide decks delivered to the board of directors",
-                "The delta in MTTD and MTTR on emulated adversary techniques before versus after tuning",
-                "The total volume of caffeinated beverages consumed by analysts during night shifts",
-                "The aggregate count of unread alert notifications ignored across shift rotations"
-            ],
-            1,
-            "Measuring mean time to detect and respond on specific emulated techniques provides objective proof of defensive maturation.",
-            "metrics",
-            35,
-            {
-                distractor_rationale: [
-                    "WRONG — slide deck volume measures administrative output rather than operational effectiveness.",
-                    "CORRECT — tracking MTTD and MTTR improvements on emulated techniques measures true detection capability.",
-                    "WRONG — beverage consumption is unrelated to security operational performance.",
-                    "WRONG — ignored alert counts indicate process failure rather than improvement."
-                ],
-                cognitive_level: 3,
-                difficulty: 3,
-                coverage_tag: "T1562",
-                rotation_bucket: "metrics",
-                last_validated: "2026-11-12"
-            }
-        )
+  q(
+    'A night-shift SOC analyst at a Windhoek-based managed security provider sees 900 medium-severity alerts per shift. The previous three shifts closed 40% of tickets as "benign" without investigation. The SOC manager asks what to do. What is the most defensible first response?',
+    [
+      'Tune the noisiest detection rules, enrich alert context, and protect the small set of high-fidelity rules — then reassess after 30 days',
+      'Fire the analysts who closed tickets without investigation — the problem is discipline, not detection design',
+      'Disable the noisiest alert rules entirely so the remaining alerts can be investigated properly',
+      'Require analysts to investigate every alert regardless of severity — the volume is the job'
     ],
+    0,
+    'Alert fatigue is a detection engineering and resourcing problem, not a discipline problem. The correct response is to reduce the noise at the source, not to demand more output from exhausted analysts.',
+    'alert_triage',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - tuning noisy rules and protecting high-fidelity rules reduces the volume at the source; enrichment helps analysts make faster decisions.',
+        'WRONG - firing analysts is the classic mistake that makes the problem worse (loss of context, retraining cost, remaining team morale).',
+        'WRONG - disabling alert rules entirely is not tuning — it turns off detection rather than improving it.',
+        'WRONG - "investigate every alert regardless of severity" does not address volume and cannot scale; analysts will still close tickets as benign, just later.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'alert_triage',
+      last_validated: '2026-11-15'
+    }
+  ),
+
+  q(
+    'A service account shows a successful authentication from a new IP range, followed 4 minutes later by three administrative RDP hops across different servers. The analyst on shift sees this in the SIEM. What is the most defensible 10-minute action?',
+    [
+      'Close the ticket as a likely network glitch — service accounts often authenticate from unexpected places during updates',
+      'Isolate the servers involved, revoke the service account sessions, and preserve authentication logs for the incident',
+      'Wait for the next scheduled shift and hand over the alert as "needs investigation" without further action',
+      'Email the service account owner asking them to confirm whether they ran any administrative scripts in the last hour'
+    ],
+    1,
+    'This is a textbook identity compromise chain: spray success → fast lateral movement via administrative protocols. The 10-minute window is the moment to isolate, not to defer.',
+    'alert_triage',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - a service account authenticating from a new IP and then performing admin hops is a specific attacker pattern, not routine updates.',
+        'CORRECT - isolate hosts, revoke sessions, preserve logs; this is a confirmed compromise chain, not a suspicion.',
+        'WRONG - handing over without action leaves the attacker with 8+ hours to move laterally; "needs investigation" is not a containment action.',
+        'WRONG - emailing the owner gives the attacker time to act and assumes the owner will respond in the 10-minute window.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1021.001',
+      rotation_bucket: 'alert_triage',
+      last_validated: '2026-11-15'
+    }
+  ),
+
+  q(
+    'A SOC analyst finishes a shift with three open investigations: one is a confirmed phishing report (link clicked, no credentials entered), one is an alert about a scheduled backup job that fired at an unusual hour, and one is a medium-severity alert about a user accessing files outside their normal department. What must the analyst hand over, and what can they close before leaving?',
+    [
+      'Hand over the phishing report only — the other two are routine and do not need the next shift\'s attention',
+      'Close the backup job alert as benign and the phishing report as contained, hand over only the department-access alert with context',
+      'Close all three as "no immediate threat" and hand over a summary noting they were reviewed',
+      'Hand over all three with full context (what was checked, what remains, who owns each); close nothing without manager approval'
+    ],
+    3,
+    'Handover quality is the single biggest determinant of SOC effectiveness across shifts. Closing items without explicit manager approval is the pattern that lets real incidents fall through shift boundaries.',
+    'shift_handover',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - the backup job at an unusual hour and the department-access alert both deserve handover; they are not routine without investigation.',
+        'WRONG - closing the phishing report as contained assumes no further action, and the backup job closure without approval is a handover failure.',
+        'WRONG - closing all three without investigation is the exact failure mode this module exists to prevent.',
+        'CORRECT - all three hand over with full context; closing items without approval is exactly the pattern that loses incidents at shift boundaries.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'shift_handover',
+      last_validated: '2026-11-15'
+    }
+  ),
+
+  q(
+    'A day-shift analyst has been investigating a suspicious login for 5 hours. The login came from a country the user has never visited, but the user has confirmed via email that they are travelling. The SIEM alert has not been closed. The next shift is taking over in 10 minutes. What is the most defensible handover?',
+    [
+      'Document the user confirmation, the travel evidence, and the specific indicator to watch; hand over with a recommendation to close if no further anomalies appear in 24 hours',
+      'Close the alert now — the user confirmed travel, so there is no further action needed and the next shift has enough work',
+      'Hand over "suspicious login, user says travelling, needs follow-up" with no detail — the next shift can re-read the SIEM',
+      'Leave the alert open without a handover note — the next shift will pick it up from the queue automatically'
+    ],
+    0,
+    'Good handover records the state of knowledge, the specific indicator to watch, and the recommended action. "Needs follow-up" is not handover — it is abdication.',
+    'shift_handover',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - documents the evidence, names the specific next decision, and gives the next shift a clear recommendation with conditions.',
+        'WRONG - closing without manager approval and without recording the travel verification means the next shift cannot audit the decision.',
+        'WRONG - "needs follow-up" without context forces the next shift to re-investigate 5 hours of work; this is the classic handover failure.',
+        'WRONG - leaving an alert open without a handover note is the pattern that lets real incidents sit for days.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'shift_handover',
+      last_validated: '2026-11-15'
+    }
+  ),
+
+  q(
+    'A SOC analyst sees an alert about a user opening a suspicious email attachment. The user is a mid-level finance employee. The email was quarantined by the gateway 30 seconds after delivery, and the user has not reported anything. What is the most defensible escalation decision?',
+    [
+      'Close the alert as contained — the gateway quarantined the email, so no user action was possible',
+      'Escalate to the incident response team as a potential phishing incident — quarantine is not confirmation that the attachment was harmless',
+      'Escalate to the user\'s manager asking them to confirm whether the user opened the attachment',
+      'Wait for the user to report the email — proactive investigation of quarantined emails is overreach'
+    ],
+    1,
+    'Gateway quarantine removes the email from the inbox, but if the user opened the attachment before quarantine, the payload has already executed. Quarantine is not containment of the user action.',
+    'escalation',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - closing as contained assumes the user did not open the attachment before quarantine; this is the assumption that misses incidents.',
+        'CORRECT - quarantine of the email does not retroactively un-execute a payload the user may have opened in the 30-second window.',
+        'WRONG - asking the manager to confirm whether the user opened the attachment puts a non-technical person in the verification path.',
+        'WRONG - waiting for user reports is the failure mode that lets phishing compromises sit undetected for hours.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1566.001',
+      rotation_bucket: 'escalation',
+      last_validated: '2026-11-15'
+    }
+  ),
+
+  q(
+    'A tier-1 analyst identifies what they believe is a low-severity policy violation (an employee using a personal USB drive). The employee is a senior manager. The tier-1 analyst is unsure whether to escalate. What is the most defensible action?',
+    [
+      'Do not escalate — USB policy is a compliance issue, not a security incident, and the employee is a senior manager',
+      'Escalate to the SOC lead with the specific evidence and let the lead decide on the appropriate handling — the analyst role is to surface, not to decide',
+      'Escalate directly to the senior manager\'s manager, bypassing the SOC lead, to ensure it is handled',
+      'Close the alert as a policy matter and note it in the shift log without further action'
+    ],
+    1,
+    'Tier-1 analysts surface; they do not adjudicate. The escalation path preserves the lead ability to handle the incident proportionally and protects the analyst from either over- or under-reacting.',
+    'escalation',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - "USB is not a security incident" is factually wrong; personal USB drives are a known exfiltration and malware path (T1091, T1052).',
+        'CORRECT - escalate to the SOC lead with evidence; the lead makes the proportional-response decision.',
+        'WRONG - bypassing the SOC lead is not the analyst call and creates a political incident that distracts from the security issue.',
+        'WRONG - closing without escalation is the failure mode that lets senior-manager policy violations become senior-manager compromises.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1091',
+      rotation_bucket: 'escalation',
+      last_validated: '2026-11-15'
+    }
+  ),
+
+  q(
+    'A regional SOC analyst in Rundu receives an alert that a workstation on the same subnet as the CEO office is beaconing to an IP in a country the company has no business with. The alert is medium severity. The analyst shift ends in 30 minutes. What is the most defensible action before handover?',
+    [
+      'Hand over the alert to the day shift with a note that it is "medium severity, needs investigation" — it is not urgent',
+      'Close the alert — the analyst is not sure the IP is malicious, and 30 minutes is not enough to investigate properly',
+      'Isolate the workstation, preserve network flow logs, notify the day-shift lead, and hand over with the actions already taken',
+      'Wait to see if other workstations show the same beaconing — if it is widespread, it is more likely benign'
+    ],
+    2,
+    'Beaconing to a country the company has no business with is a textbook C2 indicator. The 30-minute window before handover is exactly when isolation should happen, not when handover should defer it.',
+    'escalation',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - "medium severity, needs investigation" without action is the deferral pattern that lets beaconing become data theft overnight.',
+        'WRONG - closing because "not sure" is the failure mode that lets real incidents sit closed; the analyst does not need to confirm maliciousness to isolate.',
+        'CORRECT - isolate, preserve logs, notify the lead, and hand over with actions taken; this is the pattern of a professional SOC.',
+        'WRONG - waiting for widespread beaconing before acting is the "wait for ransomware note" pattern; by then, the compromise is mature.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1071',
+      rotation_bucket: 'escalation',
+      last_validated: '2026-11-15'
+    }
+  ),
+
+  q(
+    'A SOC lead at a Johannesburg-based bank notices that a detection rule for credential dumping has fired 47 times in 30 days, all against different users, and 45 of the 47 alerts were closed as "false positive — legitimate administrative tool." The rule has not been tuned in 18 months. What is the most defensible action?',
+    [
+      'Disable the rule — 96% false positive rate means it is not useful and is wasting analyst time',
+      'Review the 45 closed alerts for pattern consistency, then tune the rule with exclusions that match the legitimate admin tool while preserving the detection for any other credential-dumping variant',
+      'Leave the rule as-is — 2 true positives in 30 days is a signal that the rule is working as designed',
+      'Raise the severity of the rule to critical so analysts investigate more carefully'
+    ],
+    1,
+    'A high-false-positive rule is not a useless rule — it is a rule that needs tuning. 45 closed alerts may hide a real attack, and disabling the rule makes the team blind to the technique.',
+    'detection_tuning',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - disabling the rule makes the team blind to all credential dumping, including real attacks; this is the failure mode that lets an incident mature.',
+        'CORRECT - review the closed alerts for consistency, then tune with specific exclusions; this preserves detection while reducing noise.',
+        'WRONG - leaving the rule untuned wastes 47 analyst hours per month and normalizes the pattern of closing alerts without investigating.',
+        'WRONG - raising severity does not reduce volume; it makes the alert more prominent but still noisy, and analysts will still close it as false positive.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1003',
+      rotation_bucket: 'detection_tuning',
+      last_validated: '2026-11-15'
+    }
+  ),
+
+  q(
+    'A SOC team has just completed a purple-team exercise where the red team successfully used a specific lateral-movement technique (T1021.002 — SMB/Windows Admin Shares) to move from a compromised workstation to a database server. The technique was not detected. What is the most defensible next step?',
+    [
+      'Document the technique in the purple-team report and schedule a follow-up exercise in 90 days to see if detection improved',
+      'Add a general "lateral movement" alert that fires on any SMB traffic to the database server — broad coverage is better than missing the technique',
+      'Purchase a new EDR product that claims to detect T1021.002 specifically',
+      'Write a detection rule based on the specific process, network, and credential patterns the red team used, and test it against the red-team replay before closing the exercise'
+    ],
+    3,
+    'Purple-team value comes from closing the loop: writing a detection, testing it against the same technique, and verifying the detection fires. Documenting without detection work is a report, not an improvement.',
+    'detection_tuning',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - documenting and scheduling a follow-up 90 days later leaves the gap open for 90 days; detection should be written now.',
+        'WRONG - a general "any SMB to the database" alert will fire on every legitimate admin action and become another noisy rule that gets closed without investigation.',
+        'WRONG - purchasing a new EDR product without testing whether it detects the specific technique is buying hope, not capability.',
+        'CORRECT - write a specific detection based on the technique, test it against the red-team replay, then close; this is the purple-team loop.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1021.002',
+      rotation_bucket: 'detection_tuning',
+      last_validated: '2026-11-15'
+    }
+  ),
+
+  q(
+    'A SOC analyst on shift sees an alert about a user account that has logged in successfully from three different countries in 20 minutes (Windhoek, Lagos, London). The user has no travel history on file. What is the most defensible first action?',
+    [
+      'Close the alert as a VPN artefact — users on corporate VPN often show multiple apparent geolocations',
+      'Verify with the user through a known internal channel whether they are travelling, while revoking active sessions and checking for concurrent logins in the meantime',
+      'Block all three countries at the gateway to prevent the possibility of further logins from those locations',
+      'Wait for a second alert — one implausible travel pattern is not enough to act on'
+    ],
+    1,
+    'The three-country pattern in 20 minutes cannot be physically real — it is a session-theft or credential-sharing indicator. Acting on it while verifying is the right sequence.',
+    'alert_triage',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - VPN artefact does not produce three countries in 20 minutes; even with VPN, the geography would be the VPN exit, not the user.',
+        'CORRECT - verify with the user while containing; revocation is the safe containment action that can be reversed if the user is legitimate.',
+        'WRONG - blocking three countries is disproportionate and would affect other legitimate users; revoke the specific sessions instead.',
+        'WRONG - waiting for a second alert assumes the attacker will repeat; they will not — this alert is the opportunity.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1539',
+      rotation_bucket: 'alert_triage',
+      last_validated: '2026-11-15'
+    }
+  ),
+
+  q(
+    'A SOC manager is preparing a quarterly report for the CISO. The team has closed 3,200 alerts this quarter, opened 180 investigations, and escalated 12 incidents. What is the most defensible way to present SOC performance to the CISO?',
+    [
+      'Present MTTD and MTTR trends on specific critical techniques, the ratio of escalations to incidents (false positive rate), and the number of detection rules tested and improved — with two specific gaps and a remediation plan',
+      'Present the total alerts closed and investigations opened — these are the standard volume metrics that show throughput',
+      'Present only the number of incidents prevented and the savings from prevented breaches — the CISO cares about business outcomes',
+      'Present the number of slides delivered to the board and the number of analyst trainings completed — these show professional development'
+    ],
+    0,
+    'Volume metrics measure activity; MTTD/MTTR on critical techniques measure effectiveness. Gaps with remediation plans turn reporting from vanity metrics into a business decision.',
+    'detection_tuning',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - MTTD/MTTR on critical techniques plus false-positive rate plus tested-and-improved rules plus named gaps equals an honest readiness picture.',
+        'WRONG - volume metrics (alerts closed, investigations opened) measure activity, not effectiveness; a team could close 3,200 alerts and still miss every real attack.',
+        'WRONG - "incidents prevented" is unprovable by construction and CISO audiences know it; it reads as marketing rather than reporting.',
+        'WRONG - slides and trainings are process inputs, not security outcomes; the CISO needs to see whether the SOC is actually reducing risk.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1562',
+      rotation_bucket: 'detection_tuning',
+      last_validated: '2026-11-15'
+    }
+  )
+,
+  q(
+    'A SOC manager is preparing a quarterly report for the CISO. The team has closed 3,200 alerts this quarter, opened 180 investigations, and escalated 12 incidents. What is the most defensible way to present SOC performance to the CISO?',
+    [
+      'Present MTTD and MTTR trends on specific critical techniques, the ratio of escalations to incidents (false positive rate), and the number of detection rules tested and improved — with two specific gaps and a remediation plan',
+      'Present the total alerts closed and investigations opened — these are the standard volume metrics that show throughput',
+      'Present only the number of incidents prevented and the savings from prevented breaches — the CISO cares about business outcomes',
+      'Present the number of slides delivered to the board and the number of analyst trainings completed — these show professional development'
+    ],
+    0,
+    'Volume metrics measure activity; MTTD/MTTR on critical techniques measure effectiveness. Gaps with remediation plans turn reporting from vanity metrics into a business decision.',
+    'detection_tuning',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - MTTD/MTTR on critical techniques plus false-positive rate plus tested-and-improved rules plus named gaps equals an honest readiness picture.',
+        'WRONG - volume metrics (alerts closed, investigations opened) measure activity, not effectiveness; a team could close 3,200 alerts and still miss every real attack.',
+        'WRONG - "incidents prevented" is unprovable by construction and CISO audiences know it; it reads as marketing rather than reporting.',
+        'WRONG - slides and trainings are process inputs, not security outcomes; the CISO needs to see whether the SOC is actually reducing risk.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1562',
+      rotation_bucket: 'detection_tuning',
+      last_validated: '2026-11-15'
+    }
+  )
+],
     21: [
         q(
             "A flat VPN configuration allows any authenticated laptop to reach sensitive SCADA jump hosts directly. What is the correct Zero Trust architectural response?",
