@@ -1945,33 +1945,233 @@ const TIER_A_QUESTIONS = {
 
 const TIER_A_ESSAYS = {
     1: [
-        essay(
-            "Write a 90-second executive brief after an AiTM campaign stole three finance sessions despite OTP MFA. Cover: what happened, immediate containment, why OTP failed, and a 30-day control plan.",
-            "Plain language, no jargon dumps. Name phishing-resistant MFA and session controls. Include dual-control payment freeze."
-        ),
-        essay(
-            "Design a Namibian SME phishing program for WhatsApp + email invoice fraud. Include measurement, coaching (no shame), and escalation to SOC.",
-            "Channel-realistic. Define KPIs (report time, callback adherence) not just completion rates."
-        )
-    ],
+  {
+    question: 'You are the IT lead at a 10-person Namibian accounting firm in Windhoek. Three staff members have received a phishing email that looks like a legitimate invoice from a client. The email contains a link to a fake login portal. One staff member clicked the link but says they did not enter their password. Write an incident report to the firm partner: what happened, what you verified, what you contained, and what you recommend for the next 30 days.',
+    guidelines: 'This is a credential-harvesting incident. Your report should distinguish between "clicked but did not enter credentials" and "entered credentials" — the containment differs. Name the specific controls you applied.',
+    rubric: [
+      { criterion: 'Distinguishes clicked-link from entered-credentials risk', points: 2, evidence_required: 'States clearly that clicking alone does not compromise the account, but entering credentials does; containment differs accordingly' },
+      { criterion: 'Names specific containment actions', points: 2, evidence_required: 'Mentions session revocation (not just password reset), MFA status check, and review of sign-in logs for the affected account' },
+      { criterion: 'Identifies the phishing mechanism', points: 2, evidence_required: 'Names the technique (T1566.002 spearphishing link, or credential harvesting via proxy) and explains why the portal looked real' },
+      { criterion: 'Provides evidence of what was preserved', points: 2, evidence_required: 'Mentions the email headers, original URL, screenshot, and sign-in logs' },
+      { criterion: 'Recommends specific 30-day improvements', points: 2, evidence_required: 'At least three concrete actions (e.g., phishing-resistant MFA rollout, email gateway rule, staff reporting drill) with an owner and date' }
+    ]
+  },
+  {
+    question: 'A staff member at your Rundu office forwards you an email that claims to be from the company bank, saying "your business account has been flagged for suspicious activity — click here to verify." The email uses the correct bank logo, the correct greeting name, and the sender address looks like the bank. Write the response you would send back to the staff member: what to do, what not to do, and what they should watch for in future messages like this.',
+    guidelines: 'This is a user-facing response — the tone should be respectful and educational, not accusatory. It should teach the specific pattern, not just "be careful."',
+    rubric: [
+      { criterion: 'Tells the user not to click, and why', points: 2, evidence_required: 'States clearly that the link leads to a credential harvester or proxy and that clicking alone can expose them' },
+      { criterion: 'Explains the specific indicators without blaming', points: 2, evidence_required: 'Names at least three indicators (sender domain, link destination, urgency, generic greeting) and explains why they matter' },
+      { criterion: 'Names the correct channel to verify with the bank', points: 2, evidence_required: 'States that the bank should be contacted via its published phone number or app — not a link or number from the email' },
+      { criterion: 'Provides a reporting path that preserves evidence', points: 2, evidence_required: 'States how to forward the email to IT/security with original headers intact, without deleting it' },
+      { criterion: 'Gives one forward-looking habit', points: 2, evidence_required: 'Provides one specific habit (e.g., "always navigate to your bank via bookmark, never via email") rather than a general "stay safe"' }
+    ]
+  },
+  {
+    question: 'A junior staff member reports a suspicious email to you. When you examine it, you notice the sender domain is `@supplier-name.com` but the legitimate supplier is `@supplier.com.na`. The email body is an invoice with a PDF attachment. Write an incident triage note: what the attack is, what evidence to preserve, what to check across the rest of the organisation, and what to do about the attached PDF.',
+    guidelines: 'This is a triage note — the audience is your security team or your manager. Specific technical detail is expected. The note should be short enough to act on.',
+    rubric: [
+      { criterion: 'Correctly identifies the lookalike domain pattern', points: 2, evidence_required: 'Names the attack as lookalike-domain BEC or T1566.002 spearphishing, and explains why the difference is significant (`.com.na` vs `.com`)' },
+      { criterion: 'Explains what to preserve', points: 2, evidence_required: 'Mentions the email headers (full message source, not just the body), sender IP, and the PDF file hash' },
+      { criterion: 'Recommends organisation-wide check', points: 2, evidence_required: 'States that the same sender should be searched across all mailboxes, and that any delivered messages should be quarantined' },
+      { criterion: 'Explains what to do with the PDF', points: 2, evidence_required: 'States that the PDF should not be opened on a production machine; it should be analysed in a sandbox or by an incident response team' },
+      { criterion: 'Recommends a gateway rule or block', points: 2, evidence_required: 'States that the sender domain should be blocked at the gateway, and that any similar domains should be monitored' }
+    ]
+  },
+  {
+    question: 'A staff member received a text message from a number claiming to be their line manager, asking them to urgently buy gift cards for a "client appreciation" and to send the codes. They did not comply, but they reported it. Write the internal security bulletin that you would send to the whole company. It should warn staff without spreading panic, and it should teach them what to do if they receive something similar.',
+    guidelines: 'This is a communication exercise. The bulletin should be specific enough that staff recognise the pattern, but not alarmist. It should also reinforce that reporting is a good thing, not a mistake.',
+    rubric: [
+      { criterion: 'Names the attack pattern accurately', points: 2, evidence_required: 'Identifies the attack as gift-card fraud or BEC impersonation, and explains the pressure tactic (authority + urgency)' },
+      { criterion: 'Provides a specific rule staff can follow', points: 2, evidence_required: 'States that gift-card requests from executives are always fraudulent, and that any such request should be reported' },
+      { criterion: 'Reinforces that reporting is positive', points: 2, evidence_required: 'Thanks the reporter, states that reporting protects the whole company, and does not frame the report as a mistake' },
+      { criterion: 'Names the correct verification channel', points: 2, evidence_required: 'States that the "manager" should be verified through the internal directory or a known channel, not by replying to the SMS' },
+      { criterion: 'Provides a clear reporting path', points: 2, evidence_required: 'Names the specific reporting mechanism (IT ticket, phishing plugin, or a named person) and what to include in the report' }
+    ]
+  },
+  {
+    question: 'You are reviewing the firm\'s phishing defences for a meeting with the managing partner. Current state: no phishing-resistant MFA, staff reporting rate is 40%, IT response time to reported phishing is 4 hours. The partner asks: "What is the one change that would most reduce our risk?" Write the memo: state the recommendation, justify it with evidence, name the trade-offs, and explain how you would measure success.',
+    guidelines: 'This is a business case — the partner wants a decision, not a lecture. The recommendation should be specific and defensible with a clear success metric.',
+    rubric: [
+      { criterion: 'Recommends phishing-resistant MFA (or equivalent structural control)', points: 2, evidence_required: 'Names a specific structural control (passkeys, FIDO2, hardware tokens) rather than "more training"' },
+      { criterion: 'Justifies with a specific attack it prevents', points: 2, evidence_required: 'Explains that OTP and password-based defences are defeated by AiTM and proxy phishing; phishing-resistant MFA is the control that survives' },
+      { criterion: 'Names trade-offs honestly', points: 2, evidence_required: 'Mentions at least two trade-offs (cost, user training, hardware tokens, legacy system support) with a realistic assessment' },
+      { criterion: 'Provides measurable success criteria', points: 2, evidence_required: 'Names specific metrics (e.g., "successful AiTM against the firm drops to 0 per quarter", "reported-phishing response time under 30 min")' },
+      { criterion: 'Sequences the rollout with owners and dates', points: 2, evidence_required: 'Provides at least three concrete implementation steps with named owners and a 30/60/90-day timeline' }
+    ]
+  }
+],
     7: [
-        essay(
-            "A deepfake \"CFO\" voice asks for an urgent wire during month-end. Write the finance playbook step-by-step for the first 10 minutes.",
-            "Challenge phrase, dual control, known-number callback, what not to do under authority pressure."
-        )
-    ],
+  {
+    question: 'You are the finance lead at a 12-person Namibian logistics SME in Walvis Bay. A WhatsApp voice message arrives from someone claiming to be the company director, asking you to release an urgent supplier payment of N$180,000 before close of business. The voice sounds exactly like the director. The director is currently travelling in South Africa and is not reachable by phone. Write a one-page memo to the operations manager explaining what you will do next, why, and what evidence you will preserve for the audit trail.',
+    guidelines: 'Focus on verification through a channel the attacker does not control. Name the specific risk (voice-cloning/BEC). Give concrete steps with owners and a timeline. Do not write generic "verify before paying" advice.',
+    rubric: [
+      { criterion: 'Names the attack type correctly', points: 2, evidence_required: 'Identifies voice cloning or BEC impersonation as the specific risk — not just "fraud"' },
+      { criterion: 'Identifies verification through a known channel', points: 2, evidence_required: 'Names a callback on the directory number or a pre-agreed challenge phrase, not WhatsApp itself' },
+      { criterion: 'Explains why the channel matters', points: 2, evidence_required: 'States that any channel the attacker can reach (WhatsApp, email, SMS) is compromised by default' },
+      { criterion: 'Specifies what evidence to preserve', points: 2, evidence_required: 'Mentions the audio message, timestamp, sender number, WhatsApp metadata, and any subsequent attempts' },
+      { criterion: 'Provides a defensible decision with escalation', points: 2, evidence_required: 'States clearly that payment is withheld until verification, and names who else is informed (operations manager, director on return)' }
+    ]
+  },
+  {
+    question: 'During a Microsoft Teams meeting, the CFO (who has never met you in person) asks you to approve a N$2.4 million supplier payment and to skip the standard dual-approval because "it is an emergency and the supplier is threatening legal action." You have been with the company for 3 weeks. The video is high quality but the CFO\'s voice occasionally sounds metallic on high notes. Write your response: what you will say in the meeting, what you will do immediately after, and how you will explain the decision to your manager.',
+    guidelines: 'This is both a deepfake test and an authority-pressure test. Your response should demonstrate that you can refuse a senior request without accusing them of being fake, and that you have a procedural path to verify.',
+    rubric: [
+      { criterion: 'In-meeting response defers without accusing', points: 2, evidence_required: 'States a procedural deferral (e.g., "I will need to run this through the normal approval process") rather than a direct "you might be a deepfake"' },
+      { criterion: 'Post-meeting verification through independent channel', points: 2, evidence_required: 'Names a specific known-directory callback or internal channel, not a number or email provided during the meeting' },
+      { criterion: 'Recognises the dual-control bypass as the real risk', points: 2, evidence_required: 'Explains that the bypass is the control being attacked, not just an inconvenience' },
+      { criterion: 'Explains the decision without accusing senior leadership', points: 2, evidence_required: 'Frames the verification as "protecting the CFO\'s authority" or "preserving the audit trail" rather than "I thought you were fake"' },
+      { criterion: 'Names what evidence is preserved', points: 2, evidence_required: 'Mentions the meeting recording, meeting metadata, the payment request itself, and the callback attempt' }
+    ]
+  },
+  {
+    question: 'Your Windhoek-based construction firm receives an email from a long-standing supplier saying their bank account has changed and the next invoice should be paid to the new account. The email is signed by the usual account manager, the PDF letterhead looks authentic, and the previous three invoices match the format. Write the internal procedure that your accounts payable team should follow before any bank change is accepted. Name the specific controls that prevent this attack.',
+    guidelines: 'This is a real-world BEC scenario. Your procedure should be operational, auditable, and enforceable — not a policy statement. Every control should be specific enough that an auditor can check whether it was followed.',
+    rubric: [
+      { criterion: 'Requires callback to a pre-established vendor number', points: 2, evidence_required: 'States that the callback must use a number from the ERP/vendor master, not one in the email or PDF' },
+      { criterion: 'Requires approval by at least two roles', points: 2, evidence_required: 'Names specific roles (e.g., AP clerk + finance manager) and states that the person making the request cannot approve it' },
+      { criterion: 'Requires a documented change request with evidence', points: 2, evidence_required: 'States what is recorded: callback date/time, who called, who was spoken to, verification outcome, and who approved the change' },
+      { criterion: 'Explains why letterhead and signature are not verification', points: 2, evidence_required: 'States explicitly that PDFs, logos, and email signatures are trivially forgeable and do not establish identity' },
+      { criterion: 'Provides a post-change audit check', points: 2, evidence_required: 'States that the first payment after a bank change is reviewed by a second person before release' }
+    ]
+  },
+  {
+    question: 'A junior helpdesk analyst receives a phone call from someone claiming to be the CEO, demanding an immediate password reset because they are locked out before an investor briefing. The caller becomes aggressive when asked to verify. Write the procedure the helpdesk should follow, the specific words the analyst should use to refuse without escalating, and the escalation path if the caller becomes abusive.',
+    guidelines: 'The procedure needs to be so clear that a first-week analyst can follow it. The script needs to be respectful and firm — not "sorry, I can\'t" — and it needs to hold up under pressure.',
+    rubric: [
+      { criterion: 'Provides a specific refusal script', points: 2, evidence_required: 'Includes exact wording that names the verification requirement without accusing the caller' },
+      { criterion: 'Specifies the out-of-band verification step', points: 2, evidence_required: 'Names the internal directory callback or a manager verification — not the number the caller provides' },
+      { criterion: 'Names the escalation path if caller becomes abusive', points: 2, evidence_required: 'States who the analyst notifies (helpdesk lead, security team) and what is logged' },
+      { criterion: 'Explains why executive title does not override procedure', points: 2, evidence_required: 'States clearly that authority does not bypass identity verification and that the procedure protects the executive' },
+      { criterion: 'Documents what is preserved', points: 2, evidence_required: 'Mentions the call log, caller number, time, and any subsequent attempts, and that this is reported to security' }
+    ]
+  },
+  {
+    question: 'Design a 45-minute tabletop exercise for a 20-person Namibian professional services firm. The scenario: an employee receives a WhatsApp voice note from a "client" asking them to urgently forward an invoice to a new bank account. Design the exercise: the injects (what happens at each stage), the roles (who does what), the decision gates (when a decision is required), and the scoring rubric that distinguishes a good response from a lucky one.',
+    guidelines: 'This is a design exercise — the rubric should score the quality of the tabletop, not the participants. Score what the exercise reveals: whether verification procedures exist, whether escalation paths are known, whether authority pressure is recognised.',
+    rubric: [
+      { criterion: 'Provides a coherent inject sequence', points: 2, evidence_required: 'At least three timed injects that escalate realistically (initial request → time pressure → confusion or escalation)' },
+      { criterion: 'Assigns specific roles', points: 2, evidence_required: 'Names the roles present (finance, manager, IT/security, communications) and what each is expected to do' },
+      { criterion: 'Identifies decision gates', points: 2, evidence_required: 'Names at least two moments where the team must decide, and what information is missing at those moments' },
+      { criterion: 'Scoring rubric distinguishes good from lucky', points: 2, evidence_required: 'The rubric scores process (who was called, what was verified, what was logged) rather than outcome (whether the payment was withheld)' },
+      { criterion: 'Debrief identifies procedural gaps and next steps', points: 2, evidence_required: 'States what to do after the exercise: update the procedure, retrain, rerun in 90 days' }
+    ]
+  }
+],
     8: [
-        essay(
-            "You are Incident Commander. Encryption is spreading; Legal wants a public statement in 20 minutes. Write dual-track orders for tech containment and communications.",
-            "Facts only in comms. Named owners. Unsafe actions under panic listed explicitly."
-        )
-    ],
+  {
+    question: 'You are the incident commander at a mid-sized Namibian insurance company. Ransomware is actively encrypting files on the policy administration server. The CEO wants a public statement within the hour. Legal wants a breach notification assessment within 72 hours. The insurer is asking whether the ransom is covered. The technical team estimates containment is 45 minutes away. Write the first 60 minutes of your incident command log: what you do, in what order, and why.',
+    guidelines: 'This is a prioritisation exercise under conflicting demands. The right answer is not "do everything" — it is "do the right thing in the right order, and document why the other demands wait."',
+    rubric: [
+      { criterion: 'Contains spread before anything else', points: 2, evidence_required: 'States that isolation or shutdown of the affected server is the first action, with the technical lead named' },
+      { criterion: 'Preserves evidence before or during containment', points: 2, evidence_required: 'Mentions memory capture, screenshot of the ransom note, and preservation of the encryption trigger artifacts' },
+      { criterion: 'Explicitly defers the CEO statement with reasoning', points: 2, evidence_required: 'States that a public statement cannot be issued before facts are confirmed, and names the legal/comms decision point' },
+      { criterion: 'Names the 72-hour clock and its trigger', points: 2, evidence_required: 'States clearly that the 72-hour GDPR clock (or equivalent) starts at awareness of a personal data breach, not at containment' },
+      { criterion: 'Addresses the insurance notification', points: 2, evidence_required: 'States that the insurer is notified through its published claims channel, not through any email or link received from the attacker' }
+    ]
+  },
+  {
+    question: 'The incident commander at a Windhoek-based logistics company has contained a ransomware incident. The attacker is still communicating through a Tor chat window, demanding payment. The CEO wants to know: should the company pay? Write a one-page brief for the CEO that covers the legal considerations, the practical risks of paying, the insurance position, and the recommended course of action.',
+    guidelines: 'This is a CEO-level decision. The brief should give a clear recommendation, not a menu of options. It should acknowledge uncertainty honestly.',
+    rubric: [
+      { criterion: 'Correctly states that payment legality depends on jurisdiction and sanctions', points: 2, evidence_required: 'Names at least two relevant regimes (Namibian law, EU/UK sanctions, OFAC) and does not claim payment is "always illegal" or "always legal"' },
+      { criterion: 'Names the practical risks of paying', points: 2, evidence_required: 'Mentions at least two (no guarantee of decryption, funding criminal operations, repeat targeting, sanctions violations) with specifics' },
+      { criterion: 'States the insurer position accurately', points: 2, evidence_required: 'Explains that the insurer must authorise the payment decision and that "the insurer will reimburse" is not a safe assumption' },
+      { criterion: 'Provides a clear recommendation with conditions', points: 2, evidence_required: 'States the recommended course (e.g., "do not pay unless the insurer confirms coverage and legal clears sanctions") with a condition' },
+      { criterion: 'Addresses the decryption alternative', points: 2, evidence_required: 'States that recovery from backups and reimagining is the primary path, with payment as a last resort under specific conditions' }
+    ]
+  },
+  {
+    question: 'Your company has experienced a ransomware incident. The technical containment is done, but the scoping is incomplete. The CEO asks you to draft the internal message that will go to all staff at 5pm today. Write the message: what you say, what you do not say, and why the difference matters.',
+    guidelines: 'This is an internal communications exercise during an active incident. The message should reassure without speculating, and it should give staff specific actions to take.',
+    rubric: [
+      { criterion: 'States facts only, no speculation', points: 2, evidence_required: 'The message contains only confirmed facts and does not speculate about scope, cause, or attacker identity' },
+      { criterion: 'Gives specific actions staff must take', points: 2, evidence_required: 'Names concrete actions (do not power off, do not open files, report to IT, do not discuss externally) with clear instructions' },
+      { criterion: 'Explains what NOT to do', points: 2, evidence_required: 'States clearly that staff should not discuss the incident on social media or with external parties until authorised' },
+      { criterion: 'Explains the tone choice', points: 2, evidence_required: 'States why the message is calm and factual rather than alarming, and why speculation would be damaging' },
+      { criterion: 'Names the communication cadence', points: 2, evidence_required: 'States when the next update will be, who will send it, and the channel (email, intranet) — so staff know when to expect information' }
+    ]
+  },
+  {
+    question: 'A ransomware incident at your company originated through a compromised vendor. The vendor is a national logistics provider that serves other companies in the same industry. Your incident commander asks: what do we tell the vendor, when, and how? Write the notification plan: what you disclose, what you do not, who signs off, and how you handle the relationship risk.',
+    guidelines: 'This is a responsible-disclosure decision during an active incident. The plan must balance evidence-sharing with legal and commercial risk.',
+    rubric: [
+      { criterion: 'Recommends private notification first', points: 2, evidence_required: 'States that the vendor is notified privately through a known contact before any public statement, with a named owner and timeline' },
+      { criterion: 'Names what to disclose and what to withhold', points: 2, evidence_required: 'States that evidence of the compromise path is shared, but the affected vendor\'s customer list is not disclosed without consent' },
+      { criterion: 'Names the sign-off path', points: 2, evidence_required: 'States that legal and comms review the notification before it is sent, and that the incident commander approves the technical evidence' },
+      { criterion: 'Addresses relationship risk', points: 2, evidence_required: 'States that the notification is framed as a shared threat (not a blame), and that the vendor is offered the opportunity to coordinate the industry response' },
+      { criterion: 'Provides a follow-up mechanism', points: 2, evidence_required: 'States that a follow-up call is scheduled within 48 hours, and that both parties agree on what will be said publicly and when' }
+    ]
+  },
+  {
+    question: 'Six months after a ransomware incident, the board asks: "How do we know we are better prepared than we were?" Write the brief: what evidence demonstrates readiness, what gaps remain, and what specific investments are needed in the next 12 months.',
+    guidelines: 'This is a board-level readiness assessment. The answer should be evidence-based, not a narrative of improvements. Name specific tests and metrics.',
+    rubric: [
+      { criterion: 'Names specific exercises or tests that prove readiness', points: 2, evidence_required: 'Mentions at least two (restore test, tabletop, red-team exercise) with dates and outcomes' },
+      { criterion: 'Provides metrics with before/after comparison', points: 2, evidence_required: 'Names at least two metrics (e.g., MTTD, restore time, phishing-report rate) with baseline and current value' },
+      { criterion: 'Names gaps honestly', points: 2, evidence_required: 'States at least two specific gaps that remain (e.g., no EDR on OT network, no immutable cloud backup, no after-hours response)' },
+      { criterion: 'Recommends prioritised investments', points: 2, evidence_required: 'Provides a ranked list of three investments with cost estimate and the risk each reduces' },
+      { criterion: 'Names the board decision required', points: 2, evidence_required: 'States clearly what decision the board must make (approve budget, accept residual risk, commission independent review) rather than ending with a summary' }
+    ]
+  }
+],
     11: [
-        essay(
-            "Affiliates deleted VSS and began exfil before encrypt. Draft a board recovery narrative: backups, identity tiering, and whether ransom negotiation is an IR decision.",
-            "Separate business/legal payment decisions from technical recovery. Cite restore-test evidence."
-        )
-    ],
+  {
+    question: 'Your Namibian SME has a backup server that runs nightly to a NAS in the same office. The backup server uses the same domain administrator account as production. Write a risk assessment for the managing director: what specifically is wrong with this setup, what is the specific attack scenario that defeats it, and what minimal changes would materially reduce the risk in the next 30 days.',
+    guidelines: 'The MD does not want a full architecture review — they want a specific problem and specific fixes. Name the attacker path, not the abstract vulnerability.',
+    rubric: [
+      { criterion: 'Names the specific attacker path', points: 2, evidence_required: 'Explains that the same domain admin credential compromise affects both production and backups — the attacker encrypts both in one move' },
+      { criterion: 'Identifies the always-online NAS as a target', points: 2, evidence_required: 'States that ransomware encrypts any online backup destination it can reach, and the NAS is reachable via the same network' },
+      { criterion: 'Provides three prioritised fixes', points: 2, evidence_required: 'Names at least three specific fixes (off-domain credential, air-gapped/offline backup, immutability) with the order of implementation' },
+      { criterion: 'Addresses the 30-day constraint honestly', points: 2, evidence_required: 'Distinguishes what can be done in 30 days (credential separation, offline copy) from what takes longer (immutable cloud storage, tested restore)' },
+      { criterion: 'Provides evidence the fix works', points: 2, evidence_required: 'States how success is measured: a restore test from the offline copy succeeds, and a penetration test cannot reach the backup from a compromised admin account' }
+    ]
+  },
+  {
+    question: 'Design a restore test plan for a mid-sized Namibian company that has never tested its backups. The plan should be detailed enough that an IT generalist can run it without further guidance. Include what is tested, how the test is isolated from production, what success looks like, and what evidence is recorded.',
+    guidelines: 'A restore test that touches production is not a test — it is a production operation. Isolation is the first control.',
+    rubric: [
+      { criterion: 'Specifies isolation from production before testing', points: 2, evidence_required: 'States that the test environment is network-isolated and uses separate credentials from production' },
+      { criterion: 'Names what is tested and why', points: 2, evidence_required: 'Covers at least three: a file restore, a database restore, and a service-level restore (email or application), with reasoning' },
+      { criterion: 'Defines success criteria per test', points: 2, evidence_required: 'For each test, names the observable success condition (file opens correctly, database queries succeed, application starts)' },
+      { criterion: 'Documents the evidence recorded', points: 2, evidence_required: 'Mentions the backup timestamp, restore timestamp, hash comparison, screenshot, and tester name' },
+      { criterion: 'Provides a post-test review step', points: 2, evidence_required: 'States that the plan is updated based on the test findings, and that the next test is scheduled with a specific date' }
+    ]
+  },
+  {
+    question: 'Your company\'s backup administrator has both production domain admin credentials and isolated-backup-network credentials. The security team recommends removing production access entirely. Write the operational change plan: what needs to happen so the removal does not break backup operations, and what the risks of the change are.',
+    guidelines: 'This is identity tiering — the theory is simple, the operational reality is hard. The plan should name the realistic failure modes.',
+    rubric: [
+      { criterion: 'Names the operational roles the backup admin needs', points: 2, evidence_required: 'States that a backup-only identity is created with the minimum permissions needed for backup and restore, before production access is removed' },
+      { criterion: 'Addresses the emergency fallback risk', points: 2, evidence_required: 'States clearly that without a fully provisioned backup-only identity, the admin will re-use production credentials in an emergency, restoring the exact risk being removed' },
+      { criterion: 'Provides a staged transition', points: 2, evidence_required: 'Names at least three transition stages (provision backup-only, run parallel for X weeks, remove production access, verify with a restore test)' },
+      { criterion: 'Identifies what could break', points: 2, evidence_required: 'Names at least two things that could break (backup job failure, restore-time access issue) and how to test for each before the change' },
+      { criterion: 'Names the sign-off and evidence', points: 2, evidence_required: 'States who approves the removal (security lead, IT director) and what evidence demonstrates the change succeeded (a successful restore test from the backup-only identity)' }
+    ]
+  },
+  {
+    question: 'Your company uses a cloud backup provider whose API allows deletion of objects with an API key. The security team recommends enabling object lock. The cloud architect objects that object lock makes normal backup operations harder. Write the memo to the CTO: what is the specific risk, what is the trade-off, and what is your recommendation.',
+    guidelines: 'The argument is about a specific control (immutability) versus a specific operational cost. Both are real. The memo should not dismiss the architect\'s concern.',
+    rubric: [
+      { criterion: 'Names the specific risk that object lock addresses', points: 2, evidence_required: 'States that a compromised API key allows the attacker to delete all backups in the cloud, leaving the company with no recovery path' },
+      { criterion: 'Acknowledges the operational cost honestly', points: 2, evidence_required: 'Names the specific operational cost (cannot delete versions during retention window, requires new object lifecycle management)' },
+      { criterion: 'Provides a mitigating design', points: 2, evidence_required: 'Proposes a specific mitigation (e.g., short retention window with automated expiry, dedicated bucket for immutable copy, separate account for normal backups)' },
+      { criterion: 'Compares to the alternative', points: 2, evidence_required: 'States what happens without object lock: an API-key compromise deletes all backups, and recovery depends on the attacker\'s goodwill or ransom payment' },
+      { criterion: 'Provides a clear recommendation with acceptance criteria', points: 2, evidence_required: 'States the recommendation and defines what would change it (e.g., "unless the architect can demonstrate a design where API-key compromise cannot delete backups")' }
+    ]
+  },
+  {
+    question: 'Your company\'s full backup is 8 months old with daily incrementals since. Ransomware encrypted production 3 days ago. The CISO asks: "Which backup do we use, and why?" Write the answer: how you determine the recovery point, what you restore first, and what you verify before restoring.',
+    guidelines: 'The answer requires determining the point of compromise before deciding on a recovery point. "Most recent backup" is the wrong default.',
+    rubric: [
+      { criterion: 'Explains why the most recent backup is not automatically safe', points: 2, evidence_required: 'States that the attacker may have been present for days or weeks before encryption, so recent backups may contain the implant' },
+      { criterion: 'Names how the compromise point is determined', points: 2, evidence_required: 'Mentions log analysis (authentication, EDR, email) to identify the earliest evidence of attacker activity, before choosing the recovery point' },
+      { criterion: 'Defines the recovery point explicitly', points: 2, evidence_required: 'States that the recovery point is the last backup taken before the compromise point, not the most recent one' },
+      { criterion: 'Names what to restore first and why', points: 2, evidence_required: 'States that the recovery is staged: identity/infrastructure first, then data, then applications — not all at once' },
+      { criterion: 'Names what to verify before restoring to production', points: 2, evidence_required: 'States that the restored environment is verified in isolation before reconnection to production, and that the domain is re-secured before restored servers join it' }
+    ]
+  }
+],
     18: [
         essay(
             "Night shift closed 200 medium alerts without reading due to fatigue. Write a SOC lead remediation plan covering tuning ownership, staffing, and protection of high-fidelity rules.",
