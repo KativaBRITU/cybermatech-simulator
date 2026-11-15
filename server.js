@@ -3467,6 +3467,7 @@ app.get('/api/progress', async (req, res) => {
     if (!req.session.user) return res.json({ success: false, scores: [] });
     try {
         const catalog = await getActiveModules();
+        const scores = await loadUserScores(req.session.user.id);
         const progress = await snapshotProgress(req.session.user.id, catalog);
         res.json({ success: true, scores: [...scores].reverse(), progress });
     } catch (error) {
