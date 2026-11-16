@@ -1647,59 +1647,357 @@ const TIER_A_QUESTIONS = {
   )
 ],
     21: [
-        q(
-            "A flat VPN configuration allows any authenticated laptop to reach sensitive SCADA jump hosts directly. What is the correct Zero Trust architectural response?",
-            [
-                "Trust the existing VPN tunnel perimeter permanently without introducing changes",
-                "Segment architecture; continuously verify identity and device posture; enforce least privilege",
-                "Remove all user authentication requirements to streamline remote engineering workflows",
-                "Implement a longer and more complex pre-shared VPN password for remote workers"
-            ],
-            1,
-            "Zero Trust architecture relies on continuous verification, explicit least privilege, and strict micro-segmentation.",
-            "zero_trust",
-            40,
-            {
-                distractor_rationale: [
-                    "WRONG — trusting static VPN perimeters violates core Zero Trust principles.",
-                    "CORRECT — micro-segmentation and continuous posture verification reduce lateral blast radius.",
-                    "WRONG — removing authentication eliminates perimeter security entirely.",
-                    "WRONG — longer passwords do not fix flat network architecture risks."
-                ],
-                cognitive_level: 3,
-                difficulty: 3,
-                coverage_tag: "T1133",
-                rotation_bucket: "zero_trust",
-                last_validated: "2026-11-12"
-            }
-        ),
-        q(
-            "A contractor using an unmanaged personal device with sideloaded applications requires access to the enterprise ERP system. What is the optimal secure access pattern?",
-            [
-                "Grant full domain administrator privileges directly to the personal mobile device",
-                "Utilize managed device posture checking or VDI/virtual apps with short-lived access sessions",
-                "Share a generic administrative login credential written on a physical office sticky note",
-                "Disable all access logging and monitoring telemetry for contractor workstation sessions"
-            ],
-            1,
-            "Device posture validation and virtualized session isolation provide secure access without requiring broad network immersion.",
-            "ztna",
-            40,
-            {
-                distractor_rationale: [
-                    "WRONG — granting domain admin to unmanaged personal devices creates severe enterprise risk.",
-                    "CORRECT — VDI and posture validation ensure secure access without exposing internal networks.",
-                    "WRONG — shared generic credentials destroy audit accountability.",
-                    "WRONG — disabling logging prevents security visibility during contractor sessions."
-                ],
-                cognitive_level: 3,
-                difficulty: 3,
-                coverage_tag: "T1133",
-                rotation_bucket: "ztna",
-                last_validated: "2026-11-12"
-            }
-        )
+  q(
+    'A Windhoek-based bank runs a flat VPN that allows any authenticated laptop to reach sensitive SCADA jump hosts directly. The CISO asks what the first architectural change should be. What is the most defensible response?',
+    [
+      'Replace the VPN with longer pre-shared keys and rotate them quarterly — the flat access model is fine once the keys are stronger',
+      'Segment the network so that the SCADA jump hosts are in a policy zone with explicit allow rules, and require device posture and continuous identity checks for each connection',
+      'Remove the VPN entirely and require all engineers to use personal devices from home — this eliminates the office perimeter',
+      'Add a second VPN layer on top of the existing one, so attackers need two credentials instead of one to reach the jump hosts'
     ],
+    1,
+    'Zero Trust does not mean no perimeter — it means the perimeter is around each resource, not around the network. Segmentation plus continuous verification is the architectural change; stronger VPN keys and layering are not.',
+    'microsegmentation',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - stronger keys do not change the flat access model; a compromised laptop can still reach the SCADA jump hosts.',
+        'CORRECT - policy zones around the sensitive resource, plus device and identity checks on every connection, is the architectural change.',
+        'WRONG - removing the VPN without a replacement access model leaves engineers with no secure path and does not implement Zero Trust.',
+        'WRONG - layering VPNs adds operational complexity without changing the trust model; one credential compromise still exposes both layers.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1133',
+      rotation_bucket: 'microsegmentation',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A contractor using an unmanaged personal laptop needs access to the ERP system for a 6-week project. The device has sideloaded apps and no MDM enrolment. What is the most defensible access design?',
+    [
+      'Issue the contractor a domain admin account so they can resolve any access issues themselves without needing IT support',
+      'Publish the ERP as a virtual app through a ZTNA gateway that checks user identity on every session, restricts the session to the specific ERP functions the contractor needs, and logs all activity',
+      'Allow full VPN access with no device checks — the contractor has signed an NDA, so the risk is covered by policy',
+      'Require the contractor to install MDM on their personal device, and deny access if they refuse — BYOD must be managed or blocked'
+    ],
+    1,
+    'ZTNA gives scoped access without managing the device. Device posture is one signal, not the only signal — for an unmanaged device, virtual app publishing plus per-session identity check and logging is the defensible path.',
+    'continuous_validation',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - domain admin for a contractor is the exact over-privilege that Zero Trust exists to prevent.',
+        'CORRECT - virtual app publishing with per-session identity check and audit trail provides scoped access without requiring device management.',
+        'WRONG - NDA covers the risk is not a security control; an unmanaged device with full VPN access is a breach vector.',
+        'WRONG - managed or blocked is one valid policy for employee BYOD, but it does not solve the access need for a 6-week contractor; ZTNA is the design that meets both requirements.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1133',
+      rotation_bucket: 'continuous_validation',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Namibian government ministry wants to adopt Zero Trust but has 40% of staff on Windows 7 machines that cannot run modern device-posture agents. What is the most defensible phased approach?',
+    [
+      'Pause the Zero Trust program until all 40% of Windows 7 machines are replaced — partial Zero Trust is not Zero Trust',
+      'Exempt the Windows 7 machines from Zero Trust controls entirely — they are a known legacy exception and should not block the program',
+      'Apply stronger identity verification to all staff first, and use application-level controls for the legacy machines until they are replaced',
+      'Roll out device-posture enforcement to all staff at once, accepting that 40% will lose access until they upgrade'
+    ],
+    2,
+    'Zero Trust is phased by design. Identity controls apply to everyone; device-posture enforcement waits for the fleet to catch up; application-level controls bridge the gap. Pausing, exempting, or big-banging are the three failure modes.',
+    'implementation_tradeoffs',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - pausing the program until fleet replacement delays the whole initiative by years and leaves identity controls unaddressed.',
+        'WRONG - exempting 40% of staff leaves the largest attack surface outside the program.',
+        'CORRECT - identity controls first, application-level controls as bridge, posture enforcement as machines are replaced — phased by capability.',
+        'WRONG - big-bang enforcement blocks 40% of staff on day one and is not implementable; Zero Trust is a journey, not a switch.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'implementation_tradeoffs',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Lagos-based fintech wants to implement Zero Trust for its 200-person engineering team. The CTO asks what "identity as the new perimeter" actually means for the company VPN. What is the most defensible answer?',
+    [
+      'It means replacing the VPN with a ZTNA service that brokers per-application access based on user identity and device posture, keeping the VPN as a fallback for legacy apps',
+      'It means keeping the VPN exactly as it is, but requiring users to authenticate twice — once for the VPN and once for each application',
+      'It means removing the VPN and publishing every internal application directly to the internet, protected only by MFA',
+      'It means moving all authentication to a single SSO provider and treating the VPN as the only enforcement point'
+    ],
+    0,
+    'Identity as the perimeter means per-application access brokered by identity and posture, not double authentication on the same flat network. ZTNA replaces VPN with per-app access; legacy apps can stay on the VPN temporarily.',
+    'identity_architecture',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - ZTNA brokers per-app access with identity and posture; the VPN remains for legacy apps during transition.',
+        'WRONG - double authentication on the same flat network does not change the access model; a compromised session still reaches every internal resource.',
+        'WRONG - publishing internal apps directly to the internet with only MFA is not Zero Trust; it is a new attack surface.',
+        'WRONG - SSO without ZTNA is still one credential, full network access; identity is centralised but the perimeter has not changed.'
+      ],
+      cognitive_level: 5,
+      difficulty: 3,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'identity_architecture',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Walvis Bay logistics company wants to enforce device posture on all employees, but 30% of staff use personal phones for email and Teams. The IT director proposes a strict "managed device or no access" policy. What is the most defensible response?',
+    [
+      'Accept the policy as proposed — managed device is the only defensible posture for email access',
+      'Exempt all personal phones from posture enforcement because enforcing it will cause staff friction',
+      'Implement app-level posture checks for mobile email while keeping managed-device enforcement for sensitive systems, and document the residual risk',
+      'Require personal phones to be enrolled in MDM, and use remote wipe as a condition of employment'
+    ],
+    2,
+    'Posture enforcement should be proportional to the sensitivity of the resource. Email on a personal phone is lower risk than ERP access; app-level controls plus documented residual risk are defensible. Managed or nothing and exempt everything are both failures.',
+    'implementation_tradeoffs',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - managed or nothing for email access is disproportionate and will fail operationally; most staff will find workarounds.',
+        'WRONG - exempting all personal phones removes the visibility that posture checks provide; app-level controls are the middle path.',
+        'CORRECT - app-level controls for lower-risk resources, device management for higher-risk ones, with documented residual risk.',
+        'WRONG - remote wipe as a condition of employment is a disproportionate privacy intrusion for email access and will not survive HR review.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'implementation_tradeoffs',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Johannesburg bank has 12 core applications, each with its own authentication system. The CIO wants to implement Zero Trust. What is the most defensible first architectural move?',
+    [
+      'Implement microsegmentation of the network first, and address identity federation in a later phase',
+      'Keep the 12 authentication systems as they are and add a VPN requirement on top for all application access',
+      'Federate the 12 authentication systems to a single identity provider with per-application access policy, before implementing network segmentation',
+      'Replace the 12 applications with a single ERP system, which removes the identity fragmentation at the source'
+    ],
+    2,
+    'Identity federation is the foundational move. Without a unified identity layer, per-application policy cannot be enforced consistently, and segmentation without identity control still allows lateral movement after authentication.',
+    'identity_architecture',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - segmentation without identity control still allows lateral movement once a user is authenticated; identity is the foundation.',
+        'WRONG - VPN on top does not address identity fragmentation; it adds a network layer without fixing the access model.',
+        'CORRECT - federating authentication to a single IdP with per-app policy is the architectural prerequisite for Zero Trust.',
+        'WRONG - replacing 12 applications with one ERP is a multi-year strategic project, not a Zero Trust architectural first move.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'identity_architecture',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Rundu-based clinic network uses a single flat VLAN for staff workstations, medical devices, and guest Wi-Fi. What is the most defensible microsegmentation design for a first phase?',
+    [
+      'Create separate policy zones for staff, medical devices, and guests, with explicit allow rules between them and monitoring for any traffic that crosses zones',
+      'Replace the flat VLAN with one VLAN per floor of the building — physical topology is the right basis for segmentation',
+      'Leave the flat VLAN but add a host-based firewall to every workstation — this achieves microsegmentation without changing the network',
+      'Move all devices to a cloud-based network so the flat VLAN problem disappears'
+    ],
+    0,
+    'Microsegmentation starts with policy zones defined by function, not by physical topology. Staff, medical devices, and guests are the three primary trust zones; explicit allow rules and zone-crossing monitoring are the first-phase controls.',
+    'microsegmentation',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - functional policy zones with explicit allow rules and crossing monitoring is the first-phase design.',
+        'WRONG - physical topology is not the right basis for segmentation; the same function on different floors should be in the same zone.',
+        'WRONG - host-based firewalls are a complementary control, not a substitute for network-level segmentation; a compromised host can still reach the flat VLAN.',
+        'WRONG - moving to cloud does not eliminate segmentation requirements; the same zones are needed in the cloud network.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1021',
+      rotation_bucket: 'microsegmentation',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A SOC analyst notices that 60% of remote users are being prompted for MFA re-authentication multiple times per day because of a recent conditional-access policy change. The CTO asks whether this is a policy error or an acceptable trade-off. What is the most defensible analysis?',
+    [
+      'Accept the trade-off — frequent MFA prompts are the cost of strong security, and users will adapt',
+      'Disable the policy — user productivity is more important than MFA and the previous state was acceptable',
+      'Add more MFA prompts — if 60% are being re-prompted, the other 40% should be too, so all users are treated consistently',
+      'Investigate whether the policy can achieve the same risk reduction with fewer prompts — session binding, trusted locations, and risk-based triggers can reduce friction without reducing protection'
+    ],
+    3,
+    'Zero Trust is a trade-off between friction and protection. The right answer is to tune the policy to achieve the same protection with less friction, not to accept the friction or remove the protection.',
+    'continuous_validation',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - users will adapt is not a policy analysis; excessive prompts drive workarounds that weaken security.',
+        'WRONG - disabling the policy removes the protection entirely; this is the failure mode that leads to incidents.',
+        'WRONG - more prompts treats frequency as a virtue; the goal is the right prompts at the right time, not maximum prompts.',
+        'CORRECT - session binding, trusted locations, and risk-based triggers can achieve the same protection with less friction.'
+      ],
+      cognitive_level: 5,
+      difficulty: 3,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'continuous_validation',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Namibian government agency wants to implement Zero Trust but the procurement process requires an 18-month timeline to acquire new technology. The CISO asks whether the agency can start Zero Trust without new purchases. What is the most defensible answer?',
+    [
+      'No — Zero Trust requires new ZTNA and microsegmentation technology; the agency must wait for procurement',
+      'Yes — Zero Trust is a pure policy framework, and the agency can achieve it entirely with documentation',
+      'Yes — the agency can start with identity controls and policy changes on existing infrastructure, and add technology as procurement completes',
+      'No — Zero Trust is a vendor product category, and only a named Zero Trust solution qualifies'
+    ],
+    2,
+    'Zero Trust is a strategy, not a product. Identity controls, policy changes, and configuration hardening are available on existing infrastructure. The 18-month procurement is not a blocker for Phase 1.',
+    'implementation_tradeoffs',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - Zero Trust does not require new technology to start; the identity layer is where most agencies begin.',
+        'WRONG - Zero Trust is not pure documentation; it requires technical implementation, but not necessarily new purchases.',
+        'CORRECT - identity controls and policy changes can start now on existing infrastructure; technology acquisition follows.',
+        'WRONG - treating Zero Trust as a vendor product category is exactly the framework tourism failure mode.'
+      ],
+      cognitive_level: 5,
+      difficulty: 3,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'implementation_tradeoffs',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Nairobi-based law firm wants to restrict document access to only the specific client matters each lawyer works on, rather than by department. What is the most defensible design?',
+    [
+      'Create a separate network segment for each client matter and restrict lawyer workstations to the correct segment',
+      'Implement attribute-based access control on the document management system, using user identity, client matter, and time-bound engagement as attributes',
+      'Restrict all lawyers to the same department and rely on the department head to grant access per matter',
+      'Add a second password to each client-matter document that only the assigned lawyer knows'
+    ],
+    1,
+    'ABAC at the application layer is the right control for per-matter access. Network segmentation is the wrong layer — it does not scale to hundreds of client matters, and it does not enforce document-level access.',
+    'microsegmentation',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - one network segment per client matter does not scale to hundreds of matters, and does not enforce document-level access.',
+        'CORRECT - ABAC on the document management system, with matter and engagement attributes, enforces per-matter access at the data layer.',
+        'WRONG - department head grants access is manual, slow, and does not provide continuous enforcement.',
+        'WRONG - a shared password per document does not provide auditability and cannot be revoked per user.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1021',
+      rotation_bucket: 'microsegmentation',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A SOC analyst at a Windhoek-based bank sees that a service account used for database backups has authenticated successfully from a new IP range. The device posture check for the host shows it is unpatched and running an unsupported OS. What should happen, and what should the Zero Trust design have done to prevent this?',
+    [
+      'Allow the access — the service account credentials are valid, and database backups must run regardless of the host',
+      'Deny the access but only after the service account owner confirms the new IP range in writing',
+      'Allow the access but log it for after-hours review — this is a backup job, not a user login',
+      'Deny the access because the device posture check failed; the Zero Trust design should have enforced posture on service-account connections, not just on user connections'
+    ],
+    3,
+    'Continuous validation applies to service accounts too. A service account with valid credentials but a compromised or unpatched host is a lateral-movement path, not a backup. Posture enforcement for service accounts is part of the design.',
+    'continuous_validation',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - backups must run regardless is the failure mode that lets a compromised host exfiltrate data using a service account.',
+        'WRONG - email confirmation is not a security control; the host is unpatched, which is the actual risk.',
+        'WRONG - log for later is exactly what a sophisticated attacker would prefer; the access should be denied now.',
+        'CORRECT - posture check failure should deny access; the design should have enforced posture on service accounts, not just users.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'continuous_validation',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A bank CISO is reviewing a Zero Trust proposal that costs N$14 million over three years. The board asks what would happen if the bank did nothing. What is the most defensible answer?',
+    [
+      'Without Zero Trust, the bank would be non-compliant with regulators, so the cost is mandatory regardless of the risk reduction',
+      'Without Zero Trust, the bank will certainly be breached — the N$14 million is a fraction of the cost of a breach',
+      'Without Zero Trust, the bank retains a flat trust model where a single compromised credential provides broad access; the specific risk reduction depends on which credentials are compromised, what they can reach, and whether the attack chain can be interrupted by other controls',
+      'Without Zero Trust, the bank cyber insurance will not pay out on ransomware claims, so the cost is justified by insurance requirements'
+    ],
+    2,
+    'The defensible answer names the specific risk reduction and connects it to the specific attack chain. Non-compliant, certainly breached, and insurance requires it are all unprovable or irrelevant claims.',
+    'implementation_tradeoffs',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - Zero Trust is not yet a specific regulatory requirement in most jurisdictions; non-compliant overstates the case.',
+        'WRONG - will certainly be breached is not a defensible claim and damages credibility with the board.',
+        'CORRECT - names the specific risk reduction, connects it to the attack chain, and acknowledges what other controls mitigate without Zero Trust.',
+        'WRONG - insurance requirements vary and are not the reason to invest in Zero Trust; this is an off-topic justification.'
+      ],
+      cognitive_level: 5,
+      difficulty: 5,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'implementation_tradeoffs',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A government ministry has a mix of cloud (M365, AWS) and on-premise legacy systems. The CISO wants one Zero Trust policy across both. What is the most defensible architectural recommendation?',
+    [
+      'Mandate that all systems migrate to a single cloud provider, so one Zero Trust policy can be enforced from one console',
+      'Define the Zero Trust policy in terms of identity, device posture, and resource classification — independent of where the resource lives — and enforce it through each environment existing control plane',
+      'Implement separate Zero Trust policies for cloud and on-premise, and accept that the two environments have different trust models',
+      'Choose one vendor whose Zero Trust product claims to support both cloud and on-premise, and standardise on that vendor'
+    ],
+    1,
+    'A defensible Zero Trust policy is defined by principles (identity, posture, resource classification) and enforced by each environment existing control plane. Vendor consolidation and environment separation are both the wrong architectural answer.',
+    'identity_architecture',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - migrating everything to one cloud is a multi-year migration and not an architectural prerequisite for Zero Trust.',
+        'CORRECT - policy defined by principles, enforced by each environment existing control plane, is the architectural answer.',
+        'WRONG - different trust models for cloud and on-premise is exactly the fragmentation Zero Trust is meant to eliminate.',
+        'WRONG - vendor standardisation before policy standardisation is the buy the product, hope for the outcome failure mode.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'identity_architecture',
+      last_validated: '2026-11-16'
+    }
+  )
+],
     37: [
         q(
             "An awareness training program that relies exclusively on shaming employees who click simulated phishing links typically produces what organizational outcome?",
