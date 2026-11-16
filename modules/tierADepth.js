@@ -1971,32 +1971,7 @@ const TIER_A_QUESTIONS = {
     }
   ),
 
-  q(
-    'A government ministry has a mix of cloud (M365, AWS) and on-premise legacy systems. The CISO wants one Zero Trust policy across both. What is the most defensible architectural recommendation?',
-    [
-      'Mandate that all systems migrate to a single cloud provider, so one Zero Trust policy can be enforced from one console',
-      'Define the Zero Trust policy in terms of identity, device posture, and resource classification — independent of where the resource lives — and enforce it through each environment existing control plane',
-      'Implement separate Zero Trust policies for cloud and on-premise, and accept that the two environments have different trust models',
-      'Choose one vendor whose Zero Trust product claims to support both cloud and on-premise, and standardise on that vendor'
-    ],
-    1,
-    'A defensible Zero Trust policy is defined by principles (identity, posture, resource classification) and enforced by each environment existing control plane. Vendor consolidation and environment separation are both the wrong architectural answer.',
-    'identity_architecture',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - migrating everything to one cloud is a multi-year migration and not an architectural prerequisite for Zero Trust.',
-        'CORRECT - policy defined by principles, enforced by each environment existing control plane, is the architectural answer.',
-        'WRONG - different trust models for cloud and on-premise is exactly the fragmentation Zero Trust is meant to eliminate.',
-        'WRONG - vendor standardisation before policy standardisation is the buy the product, hope for the outcome failure mode.'
-      ],
-      cognitive_level: 5,
-      difficulty: 4,
-      coverage_tag: 'T1078',
-      rotation_bucket: 'identity_architecture',
-      last_validated: '2026-11-16'
-    }
-  )
+
 ],
     37: [
         q(
