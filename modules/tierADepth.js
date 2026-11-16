@@ -2418,11 +2418,62 @@ const TIER_A_ESSAYS = {
   }
 ],
     18: [
-        essay(
-            "Night shift closed 200 medium alerts without reading due to fatigue. Write a SOC lead remediation plan covering tuning ownership, staffing, and protection of high-fidelity rules.",
-            "Treat fatigue as design failure. Include MTTD/MTTR on purple techniques as success metrics."
-        )
-    ],
+  {
+    question: 'You are the SOC manager at a Windhoek-based managed security provider. Your night shift handles 900 medium-severity alerts per shift. The previous three shifts closed 40% of tickets as "benign" without investigation. The morning shift lead tells you the team is "just closing noise to survive." Write a one-page memo to the CISO: what is actually happening, what the risk is, and what you will do about it in the next 30 days.',
+    guidelines: 'This is a management communication exercise. Name the specific failure mode (alert fatigue → ticket closure without investigation), the specific risk it creates (real incidents hidden in noise), and a specific 30-day plan. Do not write generic "we will improve training" advice.',
+    rubric: [
+      { criterion: 'Names the failure mode accurately', points: 2, evidence_required: 'Identifies alert fatigue leading to rubber-stamp ticket closure, not "analyst laziness" or "training gap"' },
+      { criterion: 'Explains the specific risk it creates', points: 2, evidence_required: 'States that real incidents are now hidden in the noise, and that the SOC cannot distinguish benign from malicious at this closure rate' },
+      { criterion: 'Provides a specific 30-day plan with actions', points: 2, evidence_required: 'At least three concrete actions (tune noisiest rules, add enrichment, protect high-fidelity rules, staff adjustment) with owners' },
+      { criterion: 'Names what success looks like', points: 2, evidence_required: 'States specific measurable criteria (e.g., "false positive rate under 40%", "every closure above medium severity has investigation notes")' },
+      { criterion: 'Acknowledges the resourcing constraint honestly', points: 2, evidence_required: 'States whether additional headcount is needed, and if so, the specific number and role — not "we need more resources" generically' }
+    ]
+  },
+  {
+    question: 'A tier-1 SOC analyst is finishing a shift. They have three open investigations: (1) a confirmed phishing report where the user clicked but did not enter credentials, (2) a backup job that fired at an unusual hour and is flagged medium severity, (3) a user accessing files outside their normal department with no other anomaly. Write the handover note the analyst should leave for the next shift. It must be detailed enough that the next analyst can act on each item without re-investigating from scratch.',
+    guidelines: 'This is an operational handover document, not a summary. Each of the three items needs: what was checked, what remains uncertain, what the next analyst should do first, and who owns the decision. Do not write "needs follow-up" — that is abdication.',
+    rubric: [
+      { criterion: 'Handles all three items with equal rigour', points: 2, evidence_required: 'Each of the three investigations has its own paragraph with state-of-knowledge and next action' },
+      { criterion: 'Documents what was checked, not just what was found', points: 2, evidence_required: 'For each item, states what the analyst reviewed (logs, user contact, baseline) so the next shift knows what not to repeat' },
+      { criterion: 'Names the specific decision the next analyst must make', points: 2, evidence_required: 'For each item, states the specific next decision (escalate or close, isolate or monitor) and the condition that would trigger each' },
+      { criterion: 'Names the owner and the deadline', points: 2, evidence_required: 'Each item has a named role (not "the team") and a specific timeframe (by end of shift, within 24 hours)' },
+      { criterion: 'Avoids the "needs follow-up" abdication pattern', points: 2, evidence_required: 'No item says "needs follow-up" without a specific action and decision criterion' }
+    ]
+  },
+  {
+    question: 'You are a tier-1 SOC analyst at a Johannesburg bank. An alert fires: a service account has successfully authenticated from a new IP range, and 4 minutes later the same account made three RDP connections to different servers. The alert is marked medium severity by the SIEM. Your shift supervisor is in a meeting. Write the escalation message you would send to the SOC lead, and explain what you would do while waiting for a response.',
+    guidelines: 'This is an escalation under time pressure with imperfect information. The escalation message should be short, factual, and action-oriented. The interim action should be specific and reversible if the escalation is confirmed benign.',
+    rubric: [
+      { criterion: 'Identifies the specific compromise chain', points: 2, evidence_required: 'Names the pattern: spray/credential success followed by lateral movement via admin protocol — and does not call it a "network anomaly"' },
+      { criterion: 'Provides specific evidence in the escalation', points: 2, evidence_required: 'Includes the account name, source IP range, timestamps, target servers, and the specific alert IDs' },
+      { criterion: 'Recommends an interim containment action', points: 2, evidence_required: 'Names a specific reversible action (isolate hosts, revoke sessions) and explains why it is safe if the alert turns out benign' },
+      { criterion: 'States what the analyst needs from the SOC lead', points: 2, evidence_required: 'Names the specific decision required (approve isolation, escalate to IR) and the timeframe (within 10 minutes)' },
+      { criterion: 'Explains what the analyst will do while waiting', points: 2, evidence_required: 'States specific actions: preserve logs, check other service accounts, notify affected server owners — not "wait for response"' }
+    ]
+  },
+  {
+    question: 'A detection rule for credential dumping (T1003) has fired 47 times in 30 days, all against different users. 45 of the 47 alerts were closed as "false positive — legitimate administrative tool." The rule has not been tuned in 18 months. Write the tuning plan: what you will review, what exclusions you will add, what you will keep, and how you will verify the tuned rule still detects the technique.',
+    guidelines: 'This is a detection engineering exercise. The plan must preserve the detection for real attacks while removing the noise from a legitimate tool. Exclusions must be specific (not "any process that is signed"), and the verification must be concrete.',
+    rubric: [
+      { criterion: 'Reviews the closed alerts before tuning', points: 2, evidence_required: 'States that the 45 closed alerts are reviewed to identify the specific legitimate tool and its behaviour pattern' },
+      { criterion: 'Proposes specific exclusions, not blanket ones', points: 2, evidence_required: 'Exclusions are scoped by process name, command line, parent process, or user context — not "any signed binary" or "any admin tool"' },
+      { criterion: 'Preserves detection for other variants', points: 2, evidence_required: 'States that the rule must still fire if the same technique is used by a different tool or in a different context' },
+      { criterion: 'Provides a verification plan', points: 2, evidence_required: 'Names a specific test (red-team replay, manual trigger with a known-malicious tool, or attack simulation) that proves the tuned rule still works' },
+      { criterion: 'Addresses the root cause of the 18-month gap', points: 2, evidence_required: 'States that a review cadence (monthly or quarterly) will prevent rules from being left untuned for 18 months again' }
+    ]
+  },
+  {
+    question: 'You are the SOC manager at a mid-sized company. You have been asked to present a quarterly report to the CISO. The data: 3,200 alerts closed, 180 investigations opened, 12 incidents escalated, and 0 confirmed breaches. Write the report outline: what you will present, what you will NOT present, and why. Include at least three specific metrics you will use and two specific gaps you will disclose.',
+    guidelines: 'This is a CISO-level communication exercise. The CISO needs to see whether the SOC is actually reducing risk, not whether it is busy. Name the specific metrics that prove effectiveness, and the specific gaps that reveal honesty.',
+    rubric: [
+      { criterion: 'Rejects volume metrics as the primary story', points: 2, evidence_required: 'States explicitly that "3,200 alerts closed" is activity, not effectiveness, and does not lead with it' },
+      { criterion: 'Names at least three effectiveness metrics', points: 2, evidence_required: 'Includes MTTD/MTTR on specific critical techniques, false positive rate on high-fidelity rules, or coverage of ATT&CK techniques — with baseline and current values' },
+      { criterion: 'Discloses two specific gaps with remediation plan', points: 2, evidence_required: 'Names two concrete gaps (e.g., "no EDR on OT network", "no after-hours triage for tier-1") and a plan with owner and date' },
+      { criterion: 'Explains what is NOT being presented and why', points: 2, evidence_required: 'States which metrics are excluded (e.g., "alerts closed" as headline, "incidents prevented" as unprovable claim) and explains the reasoning' },
+      { criterion: 'Names the specific decision the CISO must make', points: 2, evidence_required: 'States clearly what the CISO is being asked to decide (approve budget, accept residual risk, require a specific control) rather than ending with a summary' }
+    ]
+  }
+],
     21: [
         essay(
             "Contractors on flat VPN can reach SCADA jump hosts. Propose a Zero Trust migration that keeps the plant running.",
