@@ -2748,11 +2748,62 @@ const TIER_A_ESSAYS = {
   }
 ],
     21: [
-        essay(
-            "Contractors on flat VPN can reach SCADA jump hosts. Propose a Zero Trust migration that keeps the plant running.",
-            "Segmentation, device posture, least privilege, short-lived access. No \"trust the VPN\" leftovers."
-        )
-    ],
+  {
+    question: 'You are the newly appointed CISO at a 500-person Namibian bank. The board has approved a Zero Trust program with a 3-year, N$14 million budget. The CEO asks for a one-page memo: what will be different in 3 years, what are the phases, and what are the three decisions the board must make in the next 90 days. Write the memo.',
+    guidelines: 'This is a board-level strategy document. The memo must be specific about phases (not "we will implement Zero Trust"), about measurable outcomes (not "improve security"), and about the specific decisions the board must make. Do not write a vendor pitch.',
+    rubric: [
+      { criterion: 'Defines "different in 3 years" in measurable terms', points: 2, evidence_required: 'At least three specific outcomes (e.g., per-application access for all critical systems, no flat VPN, device posture enforced on 90% of endpoints)' },
+      { criterion: 'Provides a phased plan with dependencies', points: 2, evidence_required: 'Three phases with named deliverables per phase and the dependency between them (identity before segmentation, etc.)' },
+      { criterion: 'Names three specific board decisions', points: 2, evidence_required: 'Each decision is a real choice with a trade-off (approve Phase 1 budget, accept the UX impact of MFA, approve legacy exception), not a generic "approve the plan"' },
+      { criterion: 'Acknowledges the residual risk honestly', points: 2, evidence_required: 'States what Zero Trust will NOT fix in 3 years (e.g., unpatched legacy systems, supply chain risk) rather than claiming full protection' },
+      { criterion: 'Avoids vendor-specific claims and marketing language', points: 2, evidence_required: 'No product names in the memo unless they are already in the bank stack; no "industry-leading" or "best-in-class" claims' }
+    ]
+  },
+  {
+    question: 'Your bank operates 12 core applications and 3 legacy systems that cannot be modified. You are asked to design the microsegmentation strategy for the first phase. Write the design: what zones you will create, what the allow rules between zones will be, how you will handle the legacy systems, and what you will monitor in the first 90 days.',
+    guidelines: 'This is a technical design document. The zones must be based on function, not physical topology. The legacy systems are the hard part — the design must show how they fit without undermining the segmentation. Monitoring is how you prove the design works.',
+    rubric: [
+      { criterion: 'Defines zones by function, not topology', points: 2, evidence_required: 'Zones are defined by business function (core banking, payments, customer data, admin, legacy) with reasoning, not "floor 3" or "VLAN 40"' },
+      { criterion: 'Specifies explicit allow rules with default deny', points: 2, evidence_required: 'The design states default-deny between zones, with each allow rule naming source zone, destination zone, port, and business justification' },
+      { criterion: 'Addresses the legacy systems with a specific control', points: 2, evidence_required: 'Legacy systems are placed in a quarantine zone with compensating controls (proxy access, EDR, specific allow rules) and a documented review date' },
+      { criterion: 'Defines monitoring for the first 90 days', points: 2, evidence_required: 'Names specific monitoring (zone-crossing traffic logs, anomaly alerts on denied flows, baseline per zone) with the question each monitor answers' },
+      { criterion: 'Provides a rollback plan', points: 2, evidence_required: 'States how to revert a zone change if it breaks a business process, and who has authority to trigger the rollback' }
+    ]
+  },
+  {
+    question: 'A 40-year-old Namibian insurance company has 60% of staff on Windows 10, 30% on Windows 7, and 10% on a mix of macOS and Linux. The CISO wants to implement device posture checks. Write the implementation plan: which posture checks you will enforce first, which you will defer, and how you will handle the Windows 7 population without blocking their work entirely.',
+    guidelines: 'This is a phased technical rollout. Posture checks must be risk-ranked — the highest-value checks first, the lowest-value checks deferred. The Windows 7 population is the hard constraint: they cannot run modern agents, so the plan must show how they are controlled without being exempted.',
+    rubric: [
+      { criterion: 'Ranks posture checks by risk', points: 2, evidence_required: 'Names at least three checks (OS patching, disk encryption, EDR presence, screen lock, admin rights) with a risk ranking and the reason for each ranking' },
+      { criterion: 'Enforces highest-value checks on the modern populations first', points: 2, evidence_required: 'Windows 10, macOS, and Linux get specific first-phase checks with enforcement dates' },
+      { criterion: 'Addresses Windows 7 without exempting it', points: 2, evidence_required: 'Windows 7 devices are treated as higher-risk and subject to compensating controls (network isolation, application allowlisting, enhanced monitoring) rather than exemption' },
+      { criterion: 'Provides a timeline with owners', points: 2, evidence_required: 'At least three phases with named owners (IT, security, endpoint team) and specific dates per phase' },
+      { criterion: 'Names the specific user-experience impact', points: 2, evidence_required: 'States the expected impact on each population (e.g., "Windows 7 users will notice longer boot times due to isolation checks") so the impact is anticipated, not discovered' }
+    ]
+  },
+  {
+    question: 'You are the CISO at a Nairobi-based fintech that serves customers in Kenya, Tanzania, and Uganda. The regulator in each country has different expectations for data protection, incident notification, and audit logging. Write the memo that explains how a single Zero Trust architecture can satisfy all three regulators without building three separate environments.',
+    guidelines: 'This is a multi-jurisdiction architecture decision. The memo must identify the specific regulatory differences, show how the architecture accommodates them without duplication, and name the trade-offs. Do not write "we will comply with all regulations" — the memo must show how.',
+    rubric: [
+      { criterion: 'Identifies the specific regulatory differences', points: 2, evidence_required: 'Names at least two specific differences across the three jurisdictions (data residency, notification window, audit log retention) with the specific regulation cited' },
+      { criterion: 'Proposes a single architecture that satisfies all three', points: 2, evidence_required: 'Shows how identity, access policy, and logging are enforced centrally while accommodating jurisdiction-specific constraints' },
+      { criterion: 'Addresses data residency specifically', points: 2, evidence_required: 'States where data is stored for each jurisdiction, how access crosses borders (or does not), and how this is enforced technically — not just "in a compliant way"' },
+      { criterion: 'Names the specific trade-offs', points: 2, evidence_required: 'States at least two trade-offs (operational cost, complexity, UX impact on cross-border staff) that the business must accept' },
+      { criterion: 'Provides an audit mechanism', points: 2, evidence_required: 'States how the architecture produces the audit evidence each regulator requires, and how it is delivered without manual effort' }
+    ]
+  },
+  {
+    question: 'Six months into your Zero Trust implementation, the helpdesk is reporting a 300% increase in access tickets. Users are complaining that they cannot reach the resources they need. The CEO is frustrated. Write the incident review: what went wrong with the implementation, what the immediate fix is, and what the sustainable fix is. Do not write "we will improve communication" — name specific design and process failures.',
+    guidelines: 'This is an implementation post-mortem. The failure is systemic (policy design, access provisioning, exception handling), not a communication problem. The immediate fix restores access; the sustainable fix prevents the problem from recurring.',
+    rubric: [
+      { criterion: 'Diagnoses the specific design failure', points: 2, evidence_required: 'Names the specific policy design issue (e.g., access rules written without analysing actual user workflows, no discovery phase before enforcement) — not "users were not ready"' },
+      { criterion: 'Provides an immediate fix that restores access', points: 2, evidence_required: 'Names a specific action (temporary allow rules, re-enabling old access path for named roles) with a timeframe and an owner' },
+      { criterion: 'Provides a sustainable fix with a specific process', points: 2, evidence_required: 'Names the process change (access review before policy change, staged rollout with pilot group, exception workflow with SLAs) — not "more training"' },
+      { criterion: 'Addresses the exception backlog', points: 2, evidence_required: 'States how the existing 300% ticket backlog will be triaged, prioritised, and cleared — with a target date' },
+      { criterion: 'Recommends a governance change to prevent recurrence', points: 2, evidence_required: 'States a specific governance change (change approval board must include business representatives, policy changes require a pilot group sign-off) rather than a generic "better planning" recommendation' }
+    ]
+  }
+],
     37: [
         essay(
             "Rewrite an annual shame-based awareness program into a monthly micro-drill system for retail staff who live on WhatsApp.",
