@@ -2461,59 +2461,330 @@ const TIER_A_QUESTIONS = {
         )
     ],
     58: [
-        q(
-            "BloodHound reveals a Helpdesk group holds GenericAll rights over an object that can reset a Tier-0-adjacent account. What is the appropriate remediation action?",
-            [
-                "Celebrate the successful inventory completion and close the security ticket",
-                "Treat as critical identity debt; remove dangerous ACLs and enforce strict tiering rules",
-                "Grant GenericAll permissions to all corporate employees for administrative parity",
-                "Ignore attack path graphs as theoretical visualizations with no real risk"
-            ],
-            1,
-            "Dangerous access control lists representing direct privilege escalation paths must be remediated as critical technical debt.",
-            "bloodhound",
-            40,
-            {
-                distractor_rationale: [
-                    "WRONG — inventory completion without remediation leaves severe privilege escalation paths active.",
-                    "CORRECT — removing dangerous ACL paths eliminates critical privilege escalation vectors.",
-                    "WRONG — granting broad administrative rights expands the attack surface catastrophically.",
-                    "WRONG — attack path graphs illustrate actual exploitable paths used by real adversaries."
-                ],
-                cognitive_level: 3,
-                difficulty: 3,
-                coverage_tag: "T1484",
-                rotation_bucket: "bloodhound",
-                last_validated: "2026-11-12"
-            }
-        ),
-        q(
-            "Why do \"shortest path to Domain Admin\" findings hold higher operational priority than raw object count metrics in risk reviews?",
-            [
-                "They generate visually appealing graphics for executive presentation slide decks",
-                "They reveal how few steps an attacker needs, prioritizing real blast-radius debt",
-                "They automatically patch Microsoft Exchange server vulnerabilities on domain controllers",
-                "They replace the need for endpoint detection and response monitoring agents"
-            ],
-            1,
-            "Shortest path metrics highlight immediate exploitable privilege escalation edges, driving precise remediation priorities.",
-            "bloodhound",
-            35,
-            {
-                distractor_rationale: [
-                    "WRONG — visual appeal is secondary to identifying actual operational security risk.",
-                    "CORRECT — path length dictates attacker efficiency, making shortest paths vital remediation targets.",
-                    "WRONG — graph analysis does not perform software patch management.",
-                    "WRONG — attack path analysis complements but does not replace EDR agents."
-                ],
-                cognitive_level: 2,
-                difficulty: 2,
-                coverage_tag: "T1484",
-                rotation_bucket: "bloodhound",
-                last_validated: "2026-11-12"
-            }
-        )
+  q(
+    'A Windhoek-based bank runs a BloodHound scan and finds a path from a Helpdesk group to a Tier-0-adjacent account through three GenericAll relationships. The IT director asks whether this is a real risk. What is the most defensible response?',
+    [
+      "Treat it as critical identity debt: remove the dangerous ACLs, enforce tiered admin boundaries, and audit who in Helpdesk has the credentials that start the path",
+      "Close the finding — BloodHound paths are theoretical and require an attacker to already have Helpdesk credentials to exploit them",
+      "Grant GenericAll to all corporate employees so the Helpdesk group is no longer a unique privilege target",
+      "Add a new EDR agent to the Helpdesk workstations — the attack path is only exploitable if the workstation has malware"
     ],
+    0,
+    'BloodHound paths are not theoretical — they are exactly the privilege relationships attackers enumerate to find the shortest route to Tier-0. A three-hop path from Helpdesk is a real escalation vector, not a graph artefact. The remediation is identity-tiering, not detection on the workstation.',
+    'ad_attack_paths',
+    45,
+    {
+      distractor_rationale: [
+      "CORRECT - remove the dangerous ACLs, enforce tiering, audit who in Helpdesk can start the path.",
+      "WRONG - \"requires Helpdesk credentials\" is exactly the point: Helpdesk credentials are commonly compromised via phishing, and the path is what an attacker does next.",
+      "WRONG - granting GenericAll to everyone is the opposite of tiering; it expands the attack surface catastrophically.",
+      "WRONG - the path is exploitable through legitimate Helpdesk credentials; an EDR agent does not remove the privilege relationship."
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1484',
+      rotation_bucket: 'ad_attack_paths',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Johannesburg-based insurer runs BloodHound and finds that the shortest path to Domain Admin is four hops through a service account that has unconstrained delegation on a print server. What is the most defensible first action?',
+    [
+      "Disable the print server and reimage it — print servers are low-value targets and the delegation is a residual legacy configuration",
+      "Remove the unconstrained delegation from the service account, rotate its credentials, and audit what other services depend on it before restoring any of those dependencies",
+      "Leave the delegation in place but add monitoring for authentication events involving the print server",
+      "Restrict the print server to a separate VLAN — network segmentation removes the attack path without touching the service account"
+    ],
+    1,
+    'Unconstrained delegation on a print server is a classic privilege escalation path — an attacker who compromises the print server can impersonate any user who authenticates to it, including Domain Admins. The fix is removing the delegation and understanding what depends on it, not reimaging or segmenting.',
+    'privilege_escalation',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - reimaging the print server does not remove the delegation from the service account; the delegation follows the account.",
+      "CORRECT - remove the delegation, rotate credentials, audit dependencies before restoring.",
+      "WRONG - monitoring detects the exploit after the fact; it does not remove the delegation that enables it.",
+      "WRONG - VLAN segmentation helps but does not remove the delegation privilege; an attacker who reaches the print server on any path can still exploit it."
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1558',
+      rotation_bucket: 'privilege_escalation',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Lagos-based fintech runs a Kerberoasting test on its AD environment. Three service accounts have SPNs and passwords that were set four years ago. The test extracts all three hashes in under 5 minutes. What is the most defensible remediation?',
+    [
+      "Set the password policy to require a new password every 30 days for all service accounts",
+      "Disable Kerberos entirely and switch authentication to NTLM for the affected accounts",
+      "Rotate the passwords to 30+ character random values stored in a managed service account (gMSA), remove SPNs that are no longer required, and audit which accounts can request service tickets",
+      "Delete the three service accounts and reinstall the applications they support"
+    ],
+    2,
+    'Kerberoasting exploits weak service-account passwords by extracting the hash and cracking offline. Rotating to a 30+ character random password stored in a gMSA removes the crackability, and removing unused SPNs reduces the target set. Disabling Kerberos or deleting the accounts are disproportionate.',
+    'privilege_escalation',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - forced rotation every 30 days does not help if the passwords are short or predictable; the hash is still crackable.",
+      "WRONG - disabling Kerberos and switching to NTLM is a security downgrade; NTLM is weaker than Kerberos and does not fix the underlying problem.",
+      "CORRECT - gMSA with a 30+ character password removes crackability; removing unused SPNs reduces the attack surface; auditing requestors closes the discovery step.",
+      "WRONG - deleting the service accounts breaks the applications; the fix is to secure the accounts, not remove them."
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1558.003',
+      rotation_bucket: 'privilege_escalation',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Namibian government agency detects a pass-the-hash attack: an attacker is using a stolen NTLM hash to authenticate to multiple servers. The SOC isolates one server but the attacker is still authenticating to others. What is the most defensible next action?',
+    [
+      "Force a password reset for the compromised user account — pass-the-hash requires the password to be known",
+      "Reboot all servers on the network to clear any cached credentials",
+      "Change the domain administrator password — this invalidates all hashes immediately",
+      "Disable the compromised account, revoke all active sessions, identify which servers accepted the hash, and isolate those servers pending investigation"
+    ],
+    3,
+    'Pass-the-hash does not require the password — it uses the NTLM hash directly. Disabling the account stops new authentications but does not revoke sessions the attacker already has. The correct response is to disable the account, revoke sessions, and isolate every server where the hash was accepted.',
+    'lateral_movement',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - pass-the-hash uses the hash, not the password; changing the password does not invalidate the hash in the attacker cache.",
+      "WRONG - rebooting servers does not clear credentials on the attacker side; it disrupts operations without containing the attack.",
+      "WRONG - changing the DA password helps only for the DA account; it does not address the compromised user hash in use.",
+      "CORRECT - disable the account, revoke sessions, isolate the servers that accepted the hash."
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1550.002',
+      rotation_bucket: 'lateral_movement',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Rundu-based clinic\'s IT manager wants to reduce the AD attack surface but has no budget. What is the most defensible set of free/low-cost actions?',
+    [
+      "Purchase a commercial AD monitoring tool — free tools cannot detect attack paths",
+      "Implement Local Administrator Password Solution (LAPS), remove Domain Users from the local Administrators group on workstations, and enable Windows Defender Credential Guard where the hardware supports it",
+      "Disable all service accounts and require all users to use their own account for services",
+      "Move all AD services to a cloud provider — cloud AD is immune to BloodHound attacks"
+    ],
+    1,
+    'LAPS is free, removing Domain Users from local Administrators is a configuration change, and Credential Guard is available on Windows 10/11 Enterprise. All three reduce the attack surface without budget. Commercial tools, disabling service accounts, and cloud migration are not low-cost/immediate fixes.',
+    'ad_hardening',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - free tools like PingCastle and BloodHound Community Edition detect attack paths; the claim that only commercial tools work is false.",
+      "CORRECT - LAPS, removing Domain Users from local admins, and Credential Guard are all free/low-cost and materially reduce the attack surface.",
+      "WRONG - service accounts are required for services to run; disabling them breaks operations.",
+      "WRONG - cloud AD (Entra ID) is a different attack surface, but hybrid AD still has BloodHound paths; migrating does not eliminate them."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'ad_hardening',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Nairobi-based bank runs BloodHound and finds that 14 Domain Users have direct paths to Tier-0 resources through group nesting. What is the most defensible first action?',
+    [
+      "Remove all 14 users from the groups immediately — the paths are critical and any delay is unacceptable",
+      "Leave the paths in place but add monitoring for any Tier-0 access by these users",
+      "Map which groups the 14 users actually need for their roles, reduce the nesting that creates the paths, and communicate with the affected managers before making changes",
+      "Move the 14 users to a separate OU so the paths no longer show in BloodHound"
+    ],
+    2,
+    'The correct first action is to understand which paths are legitimate (users who need the access) and which are excess (nesting that was never intentional). Removing without analysis breaks legitimate workflows. Moving OUs does not break privilege relationships — the path remains, it is just hidden from the default BloodHound view.',
+    'ad_attack_paths',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - removing all 14 immediately will break legitimate access and cause operational disruption; analysis must precede removal.",
+      "WRONG - monitoring detects the exploit after the fact; the path is still there.",
+      "CORRECT - map actual need, reduce excess nesting, communicate with managers before changes.",
+      "WRONG - moving OUs does not break privilege paths; the group nesting still exists."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'ad_attack_paths',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Windhoek-based SME\'s domain controller has NTLM authentication enabled for backward compatibility with an old application. The security team wants to disable NTLM but the application owner says it will break. What is the most defensible approach?',
+    [
+      "Disable NTLM immediately — the security risk outweighs any application that depends on it",
+      "Leave NTLM enabled permanently — backward compatibility for the application is more important than the risk",
+      "Switch all authentication to a third-party product — this removes the NTLM problem entirely",
+      "Audit which accounts and services actually use NTLM, upgrade or replace the legacy application to support Kerberos, then disable NTLM in stages with monitoring for authentication failures"
+    ],
+    3,
+    'Disabling NTLM is the right end state, but doing it immediately breaks the application. The defensible path is audit, upgrade, staged disable, and monitoring — the same discipline as any legacy security removal.',
+    'ad_hardening',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - disabling NTLM immediately without knowing what depends on it will break the application and other integrations you did not know existed.",
+      "WRONG - leaving NTLM enabled permanently accepts the risk indefinitely; the goal is to remove it, not ignore it.",
+      "WRONG - third-party authentication products may still use NTLM internally; the protocol problem is not removed by product substitution.",
+      "CORRECT - audit, upgrade, staged disable, monitoring; the discipline for removing any legacy protocol."
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1550.002',
+      rotation_bucket: 'ad_hardening',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A SOC analyst sees an alert for a successful Kerberos authentication from a user account that was disabled 40 minutes earlier. What is the most defensible interpretation?',
+    [
+      "The authentication is likely a golden ticket or a forged Kerberos ticket using a stolen krbtgt hash — the disabled account is still trusted by the domain",
+      "The alert is a false positive — disabled accounts cannot authenticate",
+      "The account was re-enabled by IT without the alert being updated; check the change log",
+      "The user is on a legacy system that does not check the disabled flag; close the alert"
+    ],
+    0,
+    'A disabled account that authenticates successfully is one of the strongest indicators of a forged ticket. The krbtgt hash is the domain-wide ticket-granting key; an attacker who has it can forge tickets for any account, including disabled ones. This is a golden ticket alert and requires immediate escalation.',
+    'lateral_movement',
+    45,
+    {
+      distractor_rationale: [
+      "CORRECT - disabled account authenticating is a golden ticket indicator; escalate immediately and consider krbtgt reset.",
+      "WRONG - the alert is real; disabled accounts should not authenticate, and the successful authentication is the anomaly.",
+      "WRONG - checking the change log is reasonable but should not delay escalation; the more likely explanation is a forged ticket.",
+      "WRONG - legacy systems do check the disabled flag for Kerberos; this interpretation is not supported by AD behaviour."
+      ],
+      cognitive_level: 5,
+      difficulty: 5,
+      coverage_tag: 'T1558.001',
+      rotation_bucket: 'lateral_movement',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Namibian bank wants to prevent pass-the-hash attacks. Which control has the highest impact?',
+    [
+      "Deploying a new endpoint detection agent on all workstations — EDR detects pass-the-hash tools",
+      "Requiring all users to change their passwords every 30 days",
+      "Enforcing a tiered admin model where Domain Admin credentials are only used on Tier-0 systems, combined with Credential Guard on all admin workstations",
+      "Disabling NTLM across the domain without any migration path"
+    ],
+    2,
+    'Pass-the-hash is prevented by ensuring the hash never reaches a system the attacker can access. Tiered admin + Credential Guard means DA credentials are only entered on systems designed to protect them, and Credential Guard prevents hash extraction from LSASS.',
+    'ad_hardening',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - EDR can detect pass-the-hash tools but does not prevent the technique; the hash still works if the attacker avoids the tool.",
+      "WRONG - forced rotation does not prevent pass-the-hash; the hash of the new password is still crackable and reusable.",
+      "CORRECT - tiered admin + Credential Guard prevents the hash from being exposed where the attacker can reach it.",
+      "WRONG - disabling NTLM immediately breaks applications; the disciplined path is audit and migration, not wholesale disable."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1550.002',
+      rotation_bucket: 'ad_hardening',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A BloodHound scan shows that all Tier-0 Domain Admins have active sessions on user workstations. What is the most defensible interpretation and remediation?',
+    [
+      "The finding is benign — Domain Admins need to log into workstations to do their job",
+      "The finding is a BloodHound bug — DA sessions should not appear on workstations",
+      "The finding can be resolved by adding MFA to the workstations — MFA prevents credential theft",
+      "The finding is critical: an attacker who compromises any workstation can capture Domain Admin credentials from memory. Remediation is enforcing tiered admin where DA credentials never touch user workstations"
+    ],
+    3,
+    'DA sessions on workstations mean the DA credentials are exposed to any attacker who compromises the workstation — this is exactly how many major breaches escalate. Tiered admin (DA credentials only on Tier-0 systems) prevents the exposure. MFA on workstations does not prevent credential extraction from memory.',
+    'ad_attack_paths',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - DA sessions on workstations are one of the top privilege escalation paths in real breaches; the finding is not benign.",
+      "WRONG - BloodHound accurately reports sessions; it is not a bug.",
+      "WRONG - MFA on the workstation protects the login, not the in-memory credentials after login; extraction from LSASS is unaffected.",
+      "CORRECT - an attacker on any workstation with a DA session can extract DA credentials; tiered admin is the fix."
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'ad_attack_paths',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Walvis Bay logistics company has AD audit logs but no alerting on Kerberos anomalies. The CISO asks whether this is acceptable given the risk of Kerberoasting and golden ticket attacks. What is the most defensible answer?',
+    [
+      "Not acceptable — Kerberos anomalies should be alerted in near-real-time, with specific detections for SPN ticket requests, RC4 encryption usage, and disabled accounts authenticating",
+      "Acceptable — the logs are collected and reviewed quarterly, which is sufficient for a company of this size",
+      "Acceptable — Kerberoasting and golden ticket attacks are rare in African SMEs and the cost of alerting is not justified",
+      "Not acceptable — but the fix is to disable Kerberos entirely and rely on NTLM"
+    ],
+    0,
+    'Kerberos attacks are detectable through specific signals (unusual SPN ticket requests, RC4 downgrade, disabled account success). Quarterly log review means the attack has hours-to-days to operate. Near-real-time alerting on these signals is the minimum for a company that has AD.',
+    'lateral_movement',
+    45,
+    {
+      distractor_rationale: [
+      "CORRECT - near-real-time alerting on the specific signals that indicate Kerberos attacks is the minimum standard.",
+      "WRONG - quarterly review means an attack can operate for up to 90 days undetected; this is not acceptable for the risk.",
+      "WRONG - African SMEs are targeted; the assumption that these attacks are rare is not supported by the threat landscape.",
+      "WRONG - disabling Kerberos and relying on NTLM is a security downgrade; NTLM is weaker and does not address the problem."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1558',
+      rotation_bucket: 'lateral_movement',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Namibian SME wants to run a BloodHound scan to understand its AD attack surface. The IT manager asks what to do with the results. What is the most defensible answer?',
+    [
+      "Archive the results for compliance purposes — the scan itself satisfies the risk assessment requirement",
+      "Use the results to prioritise the highest-impact remediation steps: remove the shortest paths to Tier-0, reduce privilege nesting, and enforce tiering before chasing every finding",
+      "Share the raw graph with all staff so everyone understands the attack surface",
+      "Run the scan quarterly but do not act on the results until the next year budget cycle"
+    ],
+    1,
+    'BloodHound results are most useful for prioritisation. The shortest paths to Tier-0 are the highest-leverage fixes; everything else is secondary. Archiving without action, sharing raw graphs, and waiting for budget are the three failure modes.',
+    'ad_attack_paths',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - archiving without action does not reduce the attack surface; the finding is only useful if it drives remediation.",
+      "CORRECT - prioritise by path length to Tier-0, reduce privilege nesting, enforce tiering; everything else is secondary.",
+      "WRONG - sharing raw AD graphs with all staff exposes the attack surface; it is a security risk, not an awareness tool.",
+      "WRONG - waiting for the next budget cycle leaves the attack paths open for a year; the highest-impact fixes are often configuration changes with no budget cost."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1484',
+      rotation_bucket: 'ad_attack_paths',
+      last_validated: '2026-11-16'
+    }
+  )
+],
     60: [
         q(
             "Pass-the-Hash occurs after a Domain Admin touches a helpdesk PC. What is the direct cloud security analogue to teach executive stakeholders?",
