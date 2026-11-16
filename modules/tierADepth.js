@@ -1974,59 +1974,330 @@ const TIER_A_QUESTIONS = {
 
 ],
     37: [
-        q(
-            "An awareness training program that relies exclusively on shaming employees who click simulated phishing links typically produces what organizational outcome?",
-            [
-                "Significantly higher employee reporting rates for actual suspicious emails",
-                "Hidden security clicks and lower reporting rates due to a toxic culture of fear",
-                "Flawless perimeter security compliance across all department business units",
-                "Automatic patching of underlying operating system vulnerabilities on endpoints"
-            ],
-            1,
-            "Shame-based awareness creates psychological fear, driving employees to hide mistakes and suppressing vital incident reporting.",
-            "awareness",
-            35,
-            {
-                distractor_rationale: [
-                    "WRONG — shaming suppresses reporting rather than encouraging transparency.",
-                    "CORRECT — fear of punishment drives employees to hide security mistakes.",
-                    "WRONG — awareness programs do not replace technical patching or perimeter controls.",
-                    "WRONG — employee awareness has no direct technical effect on OS patching."
-                ],
-                cognitive_level: 2,
-                difficulty: 2,
-                coverage_tag: "T1566",
-                rotation_bucket: "awareness",
-                last_validated: "2026-11-12"
-            }
-        ),
-        q(
-            "What is the most effective micro-drill strategy for a retail enterprise operating in a region where staff rely heavily on mobile messaging apps?",
-            [
-                "Focus training exclusively on advanced Border Gateway Protocol routing hijacks",
-                "Practice invoice verification, fake delivery text scenarios, and manager callback norms",
-                "Ignore mobile messaging channels entirely and focus solely on desktop web browsers",
-                "Require employees to memorize numeric TCP/UDP port numbers for common protocols"
-            ],
-            1,
-            "Training must focus realistically on the specific communication channels and social engineering vectors staff actually use.",
-            "awareness",
-            40,
-            {
-                distractor_rationale: [
-                    "WRONG — BGP routing is irrelevant to retail employee social engineering awareness.",
-                    "CORRECT — drilling real-world mobile messaging and invoice vectors builds practical resilience.",
-                    "WRONG — ignoring mobile channels leaves employees vulnerable to SMS and WhatsApp attacks.",
-                    "WRONG — memorizing port numbers provides no practical defense against social engineering."
-                ],
-                cognitive_level: 3,
-                difficulty: 3,
-                coverage_tag: "T1656",
-                rotation_bucket: "awareness",
-                last_validated: "2026-11-12"
-            }
-        )
+  q(
+    'A Windhoek retail chain runs quarterly phishing simulations. Click rate has dropped from 40% to 8% over two years, but report rate has also dropped — from 15% to 3%. The security manager asks what to do. What is the most defensible response?',
+    [
+      "Change the program focus from click rate to report rate, and design the next simulation specifically to test whether staff report a suspicious email they receive",
+      "Continue the simulations as they are — the click rate is what matters, and 8% is a good result",
+      "Reduce the simulation frequency to once a year — quarterly simulations are exhausting the staff and driving the report rate down",
+      "Stop the phishing simulations entirely — 8% click rate means the training has worked and staff no longer need simulations"
     ],
+    0,
+    'Click rate and report rate measure different things. Low click rate with low report rate means staff are deleting suspicious emails instead of reporting them — which means real incidents could sit unreported. The program must shift focus to reporting, which is the behaviour that shortens detection time.',
+    'program_measurement',
+    45,
+    {
+      distractor_rationale: [
+      "CORRECT - shift the measurement to report rate and design simulations that test reporting, not just clicking.",
+      "WRONG - low click rate with low report rate is a warning sign, not a success; it means staff are not reporting suspicious emails.",
+      "WRONG - reducing frequency does not address the low report rate; it just gives fewer opportunities to detect whether staff report.",
+      "WRONG - stopping the program removes the visibility into whether staff are reporting, and the 8% click rate does not tell the whole story."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1566',
+      rotation_bucket: 'program_measurement',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A staff member at a Rundu office receives a suspicious email and forwards it to two colleagues asking "is this a scam?" before reporting it to IT. The email is a real phishing email. What is the most defensible program response?',
+    [
+      "Remove the staff member from the next phishing simulation cohort because they did not follow procedure",
+      "Praise the staff member for forwarding it and ask them to also use the report-phish button so the security team sees it immediately",
+      "Tell the staff member not to forward suspicious emails to colleagues — they should report to IT only, and forwarding to colleagues spreads risk",
+      "Ignore the case — the email was eventually reported and no one clicked, so there is no lesson to learn"
+    ],
+    1,
+    'The staff member did the right thing by recognizing the email was suspicious. The behaviour to correct is the channel, not the instinct. Praise preserves the reporting instinct while adding the report-phish channel.',
+    'reporting_culture',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - removing the staff member from the simulation punishes good behaviour and will stop future reporting.",
+      "CORRECT - praise the instinct, redirect the channel; the staff member did the harder thing (recognizing it) right.",
+      "WRONG - telling staff not to forward is the kind of response that suppresses reporting; the instinct to warn colleagues is good, the channel needs adjusting.",
+      "WRONG - the lesson is that staff are not aware of the report-phish button, which is a program gap, not no lesson."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1566',
+      rotation_bucket: 'reporting_culture',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Namibian SME wants to improve password hygiene across 15 staff. The IT manager proposes a policy: minimum 16 characters, change every 60 days, no reuse of last 10 passwords. What is the most defensible alternative?',
+    [
+      "Keep the current policy but add a quarterly password training session to help staff remember the requirements",
+      "Extend the minimum length to 20 characters and require special characters in at least 3 of the 4 character classes",
+      "Implement a password manager for all staff with a single strong master password, remove the forced rotation policy, and require MFA on all accounts",
+      "Ban password reuse across personal accounts as well as work accounts, and require staff to disclose their personal passwords to IT"
+    ],
+    2,
+    'Forced rotation with 16 characters drives workarounds (sticky notes, predictable patterns). A password manager eliminates the memory burden, and MFA addresses the credential theft risk that password policies cannot. The combination is the modern recommendation (NIST SP 800-63B).',
+    'habit_design',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - more training for an impossible policy makes the problem worse; staff will still use workarounds.",
+      "WRONG - longer passwords with more complexity requirements increase workaround behaviour rather than improving security.",
+      "CORRECT - password manager plus MFA is the modern best practice; it removes the memory burden and addresses credential theft.",
+      "WRONG - requiring personal password disclosure is a privacy violation and will not be accepted; it also does not address work password hygiene."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1110',
+      rotation_bucket: 'habit_design',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Walvis Bay logistics company runs a security awareness program for 200 staff. The CEO asks for one metric that shows whether the program is working. What is the most defensible metric?',
+    [
+      "The percentage of staff who completed the awareness training modules — completion rate shows engagement",
+      "The number of staff who attended the annual security briefing — attendance shows executive support",
+      "The number of phishing simulations run per quarter — frequency shows program intensity",
+      "The ratio of reported suspicious emails to clicked phishing simulations over time — it measures whether staff are reporting and whether they are clicking"
+    ],
+    3,
+    'Completion rate, simulation frequency, and attendance are activity metrics. The report-to-click ratio measures behaviour — whether staff are doing the thing you want them to do (report) and not doing the thing you want to prevent (click).',
+    'program_measurement',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - completion rate measures attendance, not behaviour change; a staff member can complete training and still click.",
+      "WRONG - attendance is an activity metric; it does not measure whether the briefing changed behaviour.",
+      "WRONG - simulation frequency measures effort, not effectiveness.",
+      "CORRECT - report-to-click ratio measures the two behaviours that matter: reporting suspicious emails and not falling for them."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1566',
+      rotation_bucket: 'program_measurement',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A senior manager at a Namibian government ministry receives a suspicious email and does not report it, because they are worried about looking foolish if the email turns out to be legitimate. What is the most defensible program change to address this?',
+    [
+      "Send a reminder to all senior managers that reporting is mandatory and that failure to report will be noted",
+      "Implement blame-free reporting that rewards near-miss reports, and have senior leaders publicly report their own suspicious emails in team meetings to model the behaviour",
+      "Require all senior managers to complete additional awareness training on the importance of reporting",
+      "Reduce the number of suspicious emails reaching senior managers by tightening the email gateway"
+    ],
+    1,
+    'The barrier is psychological — fear of looking foolish. Program changes that reduce this fear work; policy reminders and mandatory training do not. Senior leaders modelling the behaviour is the single highest-impact intervention.',
+    'reporting_culture',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - making reporting mandatory reinforces the fear of looking foolish; it does not address the psychological barrier.",
+      "CORRECT - blame-free reporting plus senior leader modelling addresses the actual barrier: fear of looking foolish.",
+      "WRONG - more training for senior managers does not change the incentive to not report.",
+      "WRONG - reducing email volume reduces the symptom, not the barrier; the next suspicious email will still not be reported."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1566',
+      rotation_bucket: 'reporting_culture',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A clinic in Oshakati has one shared computer at the reception desk used by six staff across three shifts. What is the most defensible security awareness intervention for this environment?',
+    [
+      "Train all staff on the importance of logging out after each session, and configure the computer to auto-lock after 5 minutes of inactivity",
+      "Post a reminder on the wall saying \"always log out\" and rely on staff to follow the reminder",
+      "Require each staff member to have their own account with a strong password, train them on locking the screen, and remove administrator rights from the shared account",
+      "Install a password manager that requires a master password to unlock before each session"
+    ],
+    2,
+    'Shared computers require shared-environment controls: individual accounts (for auditability), screen lock training (for hygiene), and least privilege (for damage limitation). A simple reminder or auto-lock alone is insufficient for a shared environment.',
+    'habit_design',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - auto-lock alone helps but does not address the lack of individual accounts or the shared admin rights.",
+      "WRONG - a wall reminder is not a control; shared-computer environments need technical and policy controls, not just reminders.",
+      "CORRECT - individual accounts plus screen lock plus removal of admin rights is the minimum for a shared computer environment.",
+      "WRONG - a password manager does not address the shared computer problem; it may actually make it worse if staff store shared passwords in a shared manager."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'habit_design',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Namibian SME runs an awareness program with quarterly phishing simulations. After 6 quarters, the click rate is 4% and the report rate is 60%. The finance team still fell for a real BEC email last week. What is the most defensible interpretation?',
+    [
+      "The program is failing — 4% click rate and 60% report rate are not good enough and the program needs to be redesigned",
+      "The finance team should be replaced — they ignored the training and caused the loss",
+      "The program should focus on phishing only — expanding to BEC is out of scope for awareness training",
+      "The program is working for most staff but BEC is a different attack class than phishing; the finance team needs specific training on BEC patterns and authority-pressure tactics"
+    ],
+    3,
+    'BEC requires different skills than phishing. A finance professional can recognize a standard phishing email and still fall for a BEC email that uses the CEO name, urgency, and a plausible supplier story. Awareness programs must cover both.',
+    'program_measurement',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - the metrics are good; the problem is coverage, not general program failure.",
+      "WRONG - replacing the team does not fix the training gap; the next team will make the same mistake.",
+      "WRONG - BEC is the most expensive attack class for SMEs; awareness training that does not cover it is incomplete.",
+      "CORRECT - BEC requires specific training on authority-pressure and finance-specific pretexts, which is a different skill from phishing recognition."
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1566.002',
+      rotation_bucket: 'program_measurement',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Nairobi-based company wants to implement a security awareness program for 50 staff but has a budget of only N$5,000 (approximately N$100 per staff member). What is the most defensible way to allocate the budget?',
+    [
+      "Run quarterly phishing simulations using free tools and spend the budget on a password manager for all staff and one in-person BEC workshop",
+      "Buy a commercial awareness platform with phishing simulations — commercial platforms offer better content than free tools",
+      "Spend the entire budget on printed awareness posters and distribute them across the office",
+      "Save the budget for next year and run the program without tools — good awareness training does not require budget"
+    ],
+    0,
+    'A password manager is the highest-leverage spend because it changes behaviour permanently. A free phishing simulation tool covers the simulation need at zero cost. One in-person BEC workshop covers the highest-risk attack class for SMEs. This combination addresses the biggest risks within the budget.',
+    'habit_design',
+    45,
+    {
+      distractor_rationale: [
+      "CORRECT - password manager plus free phishing simulations plus one BEC workshop addresses the biggest risks within the budget.",
+      "WRONG - commercial platforms spend the budget on licenses, leaving little for behaviour change tools; free simulations plus a password manager is higher-leverage.",
+      "WRONG - posters alone do not change behaviour; they are the classic low-impact spend.",
+      "WRONG - saving the budget means no improvement this year; the vulnerability continues."
+      ],
+      cognitive_level: 5,
+      difficulty: 3,
+      coverage_tag: 'T1110',
+      rotation_bucket: 'habit_design',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A Windhoek-based NGO has a WhatsApp group for finance staff. A staff member receives a WhatsApp message from a number that displays the CEO photo and name, asking them to send a payment link to a "new supplier." What is the most defensible response from the staff member?',
+    [
+      "Reply to the WhatsApp message asking for the supplier details and confirm the amount before sending the link",
+      "Forward the WhatsApp message to the finance team group so others can verify whether the request is legitimate",
+      "Do not act on the WhatsApp message; call the CEO on their known internal number or a verified contact to confirm the request",
+      "Block the WhatsApp number and move on — this is clearly a scam and does not need to be reported"
+    ],
+    2,
+    'WhatsApp is the primary attack surface for African SMEs. Display name and photo are not verification. The correct response is a callback on a known channel, which is the same principle established in Module 7. This question tests whether the awareness training generalises to the WhatsApp-first context.',
+    'social_engineering_awareness',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - replying to the attacker confirms the number is active and gives them a channel to escalate.",
+      "WRONG - forwarding to a group of colleagues does not verify; it spreads uncertainty and delays the correct action.",
+      "CORRECT - callback on the CEO known number is the only verification that survives WhatsApp impersonation.",
+      "WRONG - blocking without reporting means the security team has no visibility into the attack."
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1656',
+      rotation_bucket: 'social_engineering_awareness',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'A staff member at a Windhoek office tells the security team that they received a suspicious email, but they had already clicked the link and not entered credentials. They are embarrassed and ask not to be identified. What is the most defensible response?',
+    [
+      "Require the staff member to identify themselves so their account can be investigated, and add them to the next simulation cohort",
+      "Log the report anonymously and take no further action — if credentials were not entered, there is nothing to investigate",
+      "Report the staff member to their manager — clicking a link is a policy violation and they need to be held accountable",
+      "Respect the anonymity, thank the staff member for reporting, and check the authentication logs for their account without naming them to anyone else"
+    ],
+    3,
+    'The staff member did the right thing by reporting. Anonymity allows the security team to investigate the account without discouraging future reports. The investigation can proceed through technical channels without identifying the staff member.',
+    'reporting_culture',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - requiring identification undermines the anonymous reporting path and will stop future reports; the same investigation can happen without naming the staff member.",
+      "WRONG - even without entered credentials, the click can have exposed session data or browser information; the account needs investigation.",
+      "WRONG - punishing the click is the exact opposite of a blame-free reporting culture and will suppress the next report.",
+      "CORRECT - respect anonymity, investigate technically, and preserve the reporting instinct; the staff member did the hard thing right."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1566.002',
+      rotation_bucket: 'reporting_culture',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'An employee at a Windhoek SME receives a WhatsApp voice note from a "bank official" saying their business account has been flagged and they need to confirm their account details via a link. The employee is not sure whether to click, because the voice sounds professional and the bank name is correct. What is the most defensible response?',
+    [
+      "Do not click the link; call the bank on the number from the bank official website or a bank statement, and report the WhatsApp message to the security team",
+      "Click the link to see what it asks for, but do not enter any details until verifying with the bank",
+      "Reply to the WhatsApp message asking the bank official for their name and employee number to verify",
+      "Forward the WhatsApp message to colleagues to see if they received the same message — safety in numbers"
+    ],
+    0,
+    'Bank impersonation via WhatsApp voice note is a specific attack class in African markets. The correct response is a callback on the bank published number, not any link or number from the message. This is the same principle as Module 7, tested in the awareness context.',
+    'social_engineering_awareness',
+    45,
+    {
+      distractor_rationale: [
+      "CORRECT - callback on the bank published number is the only verification that survives WhatsApp impersonation; report to security preserves visibility.",
+      "WRONG - clicking to see what it asks for can trigger a credential harvester or proxy that captures the click.",
+      "WRONG - the attacker is on the other end of the WhatsApp reply; verifying with the attacker is not verification.",
+      "WRONG - forwarding to colleagues does not verify; it spreads uncertainty and delays the correct action."
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1656',
+      rotation_bucket: 'social_engineering_awareness',
+      last_validated: '2026-11-16'
+    }
+  ),
+
+  q(
+    'An SME wants to run a phishing simulation but is worried that it will damage staff trust if some staff click and feel embarrassed. What is the most defensible design for the first simulation?',
+    [
+      "Run the simulation with no follow-up coaching — the embarrassment of clicking is the lesson, and following up will make it worse",
+      "Run the simulation on a low-stakes benign email (e.g., \"cafeteria menu change\") and follow up with a blame-free debrief that explains what the simulation tested and why it matters",
+      "Skip the simulation entirely — the risk of damaging trust is greater than the benefit of testing",
+      "Run the simulation only on new staff who have not yet built relationships with the team"
+    ],
+    1,
+    'The first simulation sets the tone. A benign scenario plus a blame-free debrief establishes that the program is about learning, not punishment. Simulations that shame or exclude staff damage trust; simulations that debrief transparently build it.',
+    'social_engineering_awareness',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - no follow-up means clicks become a silent failure; staff do not learn what happened or why it matters.",
+      "CORRECT - benign scenario plus blame-free debrief establishes the learning tone and preserves trust.",
+      "WRONG - skipping simulations leaves the program without measurement and without practice.",
+      "WRONG - targeting only new staff isolates them, damages trust with the cohort, and misses the experienced staff who are equally at risk."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1566',
+      rotation_bucket: 'social_engineering_awareness',
+      last_validated: '2026-11-16'
+    }
+  )
+],
     46: [
         q(
             "An unapproved full-subnet SYN scan originates from a marketing employee laptop at 03:00. What is the appropriate SOC framing?",
@@ -2805,11 +3076,62 @@ const TIER_A_ESSAYS = {
   }
 ],
     37: [
-        essay(
-            "Rewrite an annual shame-based awareness program into a monthly micro-drill system for retail staff who live on WhatsApp.",
-            "Psychological safety, channel realism, manager callback norms, measurable behavior change."
-        )
-    ],
+  {
+    question: 'You are the security awareness lead at a 120-person Namibian insurance company. The CEO has approved a budget for awareness training but wants a one-page plan before release. Write the plan: what you will do in the first 90 days, what you will measure, and what "success" looks like at the end of the year. Do not write a training catalogue — write a behaviour-change plan.',
+    guidelines: 'This is a plan for a CEO who wants outcomes, not activities. The plan must name specific behaviours to change, specific measurements, and a specific definition of success. "We will run phishing simulations" is an activity; "we will measure report rate" is a behaviour change.',
+    rubric: [
+      { criterion: 'Names the specific behaviours to change', points: 2, evidence_required: 'At least three specific behaviours (report-phish button use, password manager adoption, BEC callback verification) rather than generic "security awareness"' },
+      { criterion: 'Names the specific measurements', points: 2, evidence_required: 'At least two behavioural metrics (report rate, click rate, password manager usage) with baseline and target' },
+      { criterion: 'Provides a 90-day phased plan with owners', points: 2, evidence_required: 'At least three phases with named owners and specific deliverables per phase' },
+      { criterion: 'Defines success in measurable terms', points: 2, evidence_required: 'States a year-end outcome (e.g., "report rate above 60%, click rate below 5%") rather than "improved awareness"' },
+      { criterion: 'Acknowledges at least one barrier honestly', points: 2, evidence_required: 'Names one real barrier (staff turnover, senior leader resistance, budget constraint) and how the plan addresses it' }
+    ]
+  },
+  {
+    question: 'A staff member at your Windhoek office receives a suspicious email, clicks the link, and does not enter credentials. They report it to the security team 20 minutes later. Write the response you would send: what you will do, what you need from them, and what you will not do. The tone should be blame-free but specific.',
+    guidelines: 'This is a real interaction, not a policy statement. The staff member did the right thing by reporting. The response must preserve the reporting instinct while taking the investigation seriously. Do not write "please be more careful in future."',
+    rubric: [
+      { criterion: 'Thanks the staff member specifically', points: 2, evidence_required: 'Thanks them for reporting, and names why it matters (e.g., "we can now check your session before anything worse happens")' },
+      { criterion: 'Names the specific investigation you will run', points: 2, evidence_required: 'States at least two actions (check authentication logs, revoke active sessions, check for forwarding rules) with a timeframe' },
+      { criterion: 'Names what you need from them', points: 2, evidence_required: 'Asks for specific information (when they clicked, what they saw, whether they shared the email) rather than "more details"' },
+      { criterion: 'States what you will not do', points: 2, evidence_required: 'Makes clear that reporting will not result in punishment, and that they should report future emails the same way' },
+      { criterion: 'Avoids the vague-warning pattern', points: 2, evidence_required: 'No "be careful next time" or "watch for suspicious emails" — the response is specific to what happened' }
+    ]
+  },
+  {
+    question: 'You are designing a security awareness programme for a Namibian SME with 15 staff. Six staff are over 55, four are under 25, and the rest are in between. The SME has no security team and the owner wants the programme to run without his involvement. Write the design: how you will reach each cohort, what channel you will use, and how you will measure whether the programme is working without the owner having to chase staff.',
+    guidelines: 'This is an awareness design exercise. Different cohorts respond to different channels and framing. The programme must be low-admin (the owner will not chase) and measurable without the owner. "We will send everyone an email" is the design that fails.',
+    rubric: [
+      { criterion: 'Differentiates the cohorts with reasoning', points: 2, evidence_required: 'Names how you will reach the over-55 cohort differently from the under-25 cohort, with a reason (e.g., WhatsApp voice notes for older staff, short videos for younger staff)' },
+      { criterion: 'Uses channels the SME already has', points: 2, evidence_required: 'Channels named are already in use (WhatsApp, SMS, in-person briefing) rather than "we will launch a new platform"' },
+      { criterion: 'Designs for low admin load', points: 2, evidence_required: 'The programme runs without the owner chasing staff — names the mechanism (e.g., automated reminders, one staff member as champion) with a specific role' },
+      { criterion: 'Provides measurement that does not require owner involvement', points: 2, evidence_required: 'Names the measurement (e.g., quarterly phishing simulation results, report rate to a dedicated WhatsApp group) and who compiles it' },
+      { criterion: 'Names a specific pilot cycle', points: 2, evidence_required: 'States the pilot length, the pilot cohort, and what would change based on the pilot results' }
+    ]
+  },
+  {
+    question: 'Your Namibian SME has run awareness training for two years. Staff can recite the policy but still fall for BEC emails. The CEO says the training is not working. Write the diagnostic memo: what you think is actually happening, three specific hypotheses you will test, and what you will do differently if any of the hypotheses turn out to be true.',
+    guidelines: 'This is a diagnostic exercise, not a defence of the programme. The CEO is right that something is not working. The memo should propose specific tests, not generic "more training." Each hypothesis must be testable and each test must change the programme.',
+    rubric: [
+      { criterion: 'Names a plausible root cause honestly', points: 2, evidence_required: 'States a specific reason the training is not working (e.g., the training is generic phishing, but the attacks are BEC; the policy does not match practice) rather than "staff need more training"' },
+      { criterion: 'Provides three testable hypotheses', points: 2, evidence_required: 'Each hypothesis can be tested with a specific method (e.g., "Hypothesis: the training does not cover authority-pressure tactics — Test: run a BEC simulation and measure")' },
+      { criterion: 'Names the test for each hypothesis', points: 2, evidence_required: 'Each hypothesis is paired with a specific test, metric, and timeframe' },
+      { criterion: 'Commits to a programme change if a hypothesis is true', points: 2, evidence_required: 'For each hypothesis, states what will change if the test confirms it (e.g., "if BEC simulation confirms the gap, we will add a finance-specific BEC module")' },
+      { criterion: 'Avoids blaming the staff', points: 2, evidence_required: 'The memo locates the failure in the programme design, not in the staff, and does not propose "more discipline" as a fix' }
+    ]
+  },
+  {
+    question: 'You are the security lead at a mid-sized Namibian company. The CEO asks: "If I have N$50,000 for security awareness this year, how should I spend it?" Write the recommendation: what you will spend it on, why, what you will NOT spend it on, and how you will measure whether it worked. Be specific about numbers.',
+    guidelines: 'This is a budget recommendation. The CEO wants specific numbers and a defence of each line item. "Training and tools" is not a recommendation. "N$15,000 on a password manager, N$10,000 on a BEC workshop, N$25,000 on..." is.',
+    rubric: [
+      { criterion: 'Provides a specific budget breakdown', points: 2, evidence_required: 'Every N$ accounted for with a specific line item, not a percentage range' },
+      { criterion: 'Prioritises behaviour-change tools over content', points: 2, evidence_required: 'At least 50% of the budget goes to behaviour-change tools (password manager, MFA hardware, report-phish tooling) rather than content or video libraries' },
+      { criterion: 'Names at least one thing NOT to buy and why', points: 2, evidence_required: 'States one category the CEO might expect (commercial video library, awareness posters, phishing simulation platform) and explains why it is not worth the budget' },
+      { criterion: 'Provides measurable success criteria', points: 2, evidence_required: 'Names at least two metrics tied to the spend (password manager adoption rate, report rate, click rate) with a baseline and year-end target' },
+      { criterion: 'Acknowledges the trade-off honestly', points: 2, evidence_required: 'States what the N$50,000 will NOT achieve (e.g., "this does not replace a security team, and BEC will still be a residual risk") rather than claiming the spend eliminates the risk' }
+    ]
+  }
+],
     46: [
         essay(
             "Unauthorized 03:00 full-subnet SYN scan from a marketing laptop. Write the SOC case narrative and 48-hour hunt plan as if ransomware may follow.",
