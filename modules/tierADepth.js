@@ -2678,59 +2678,330 @@ const TIER_A_QUESTIONS = {
   )
 ],
     52: [
-        q(
-            "Malleable C2 profiles utilize legitimate-looking HTTP traffic patterns combined with randomized sleep jitter intervals. What is the most effective primary detection focus?",
-            [
-                "Searching specifically for executable file names matching \"cobaltstrike.exe\"",
-                "Analyzing beacon cadence, process injection ancestry, and rare destination JA3 profiles",
-                "Disabling encrypted HTTPS traffic inspection across all perimeter firewall devices",
-                "Counting the total volume of daily PDF document downloads across user endpoints"
-            ],
-            1,
-            "Focusing on behavioral indicators like beacon timing, process ancestry, and network metadata defeats malleable framing.",
-            "c2",
-            40,
-            {
-                distractor_rationale: [
-                    "WRONG — attackers easily rename binaries, rendering filename searches ineffective.",
-                    "CORRECT — behavioral analytics examining cadence, ancestry, and TLS fingerprints catch sophisticated C2.",
-                    "WRONG — disabling HTTPS inspection blinds the enterprise to encrypted command and control channels.",
-                    "WRONG — PDF download counts provide no visibility into active C2 beaconing."
-                ],
-                cognitive_level: 3,
-                difficulty: 3,
-                coverage_tag: "T1071.001",
-                rotation_bucket: "c2",
-                last_validated: "2026-11-12"
-            }
-        ),
-        q(
-            "A host exhibits beaconing behavior every 60 seconds with jitter connecting to a rare SaaS-looking domain. What is the immediate containment priority?",
-            [
-                "Ignore the telemetry entirely until a formal ransomware note appears on screens",
-                "Isolate host, preserve memory and disk state if playbook allows, block egress, hunt siblings",
-                "Rename the destination domain entry within internal DNS lookup tables forever",
-                "Reboot the workstation immediately and hope the network anomaly resolves itself"
-            ],
-            1,
-            "Stopping C2 egress, preserving forensic state via isolation, and expanding the hunt across sibling hosts secures the environment.",
-            "c2",
-            40,
-            {
-                distractor_rationale: [
-                    "WRONG — ignoring active beaconing allows attackers to establish deep persistence.",
-                    "CORRECT — isolating the host and blocking egress stops communication while preserving forensic artifacts.",
-                    "WRONG — renaming DNS entries does not block IP-based hardcoded connections or active sessions.",
-                    "WRONG — rebooting without preservation destroys volatile memory evidence."
-                ],
-                cognitive_level: 4,
-                difficulty: 3,
-                coverage_tag: "T1071",
-                rotation_bucket: "c2",
-                last_validated: "2026-11-12"
-            }
-        )
+  q(
+    'A SOC analyst at a Windhoek-based bank sees a Windows host beaconing every 60 seconds to a rare SaaS-looking domain. The TLS JA3 hash from the host does not match the domain legitimate vendor. What is the most defensible first action?',
+    [
+      'Isolate the host, preserve memory and network connections, block egress for the host, and hunt for sibling hosts beaconing to the same JA3',
+      'Block the destination domain at the firewall and close the alert',
+      'Reboot the workstation to clear the beaconing process',
+      'Disable HTTPS inspection across the perimeter so the JA3 mismatch stops alerting'
     ],
+    0,
+    'The JA3 mismatch is the diagnostic signal: the domain looks legitimate but the TLS fingerprint is not the vendor. The correct response is to isolate and hunt across the environment, because an attacker with a beacon on one host may have beacons on others with the same infrastructure. Blocking the domain only removes one indicator; rebooting destroys the memory evidence; disabling inspection removes the detection.',
+    'beacon_detection',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - isolate, preserve, hunt siblings; the JA3 mismatch is the shared infrastructure signal that lets you find other beacons.',
+        'WRONG - blocking the domain removes one indicator but does not contain the beacon on the host and does not find sibling hosts.',
+        'WRONG - rebooting destroys memory evidence and does not remove attacker persistence.',
+        'WRONG - disabling HTTPS inspection removes the detection capability; it does not stop the beacon.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1071.001',
+      rotation_bucket: 'beacon_detection',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A red team uses a malleable C2 profile that mimics a legitimate SaaS API. The beacon uses HTTP POST with jitter between 20% and 40% around a 60-second sleep. Which detection approach gives the most reliable signal?',
+    [
+      'Alert on any HTTP POST to a SaaS domain — SaaS traffic is low in an SME',
+      'Alert on beacon cadence combined with JA3 mismatch to the domain vendor plus process ancestry that does not match the browser or the SaaS client',
+      'Alert on any process that makes HTTPS connections — HTTPS is the only C2 channel that matters',
+      'Alert on the destination domain being newly registered — attackers always use new domains'
+    ],
+    1,
+    'Malleable C2 defeats simple detection because the traffic looks legitimate. The reliable signal is the combination: cadence (the jitter does not defeat a timing correlation over time), JA3 mismatch (the TLS fingerprint does not match the claimed vendor), and process ancestry (the process making the connection is not the browser or the SaaS client). Any one of these alone is noisy or evadable; together they are high-signal.',
+    'beacon_detection',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - HTTP POST to a SaaS domain is normal in most environments; this alert will be ignored within days.',
+        'CORRECT - the combination of cadence, JA3 mismatch, and process ancestry is the reliable signal for malleable C2.',
+        'WRONG - not all C2 uses HTTPS, and not all HTTPS is C2; this is both too broad and too narrow.',
+        'WRONG - attackers increasingly use aged domains and compromised legitimate domains; new-domain detection is evadable.'
+      ],
+      cognitive_level: 5,
+      difficulty: 5,
+      coverage_tag: 'T1071.001',
+      rotation_bucket: 'beacon_detection',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A Namibian government agency wants to detect C2 traffic on its network. It has no TLS inspection and no EDR on endpoints. What is the most defensible detection set with the existing tools?',
+    [
+      'Purchase a new NGFW with TLS inspection — without it, C2 cannot be detected',
+      'Monitor only for known malicious IP addresses — reputation-based blocking catches C2',
+      'Use JA3/JARM fingerprinting on outbound traffic, DNS query logging for beacon-like lookups, and netflow analysis for repetitive connection patterns to rare destinations',
+      'Rely on user reports — users will notice when their workstation behaves unusually'
+    ],
+    2,
+    'JA3/JARM and DNS logging work on encrypted traffic without decryption, and netflow timing analysis catches beacon patterns. None of these require TLS inspection or EDR. Reputation is evadable (attackers use clean infrastructure) and user reports are unreliable.',
+    'c2_infrastructure',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - NGFW with TLS inspection is one option but it is a procurement cycle; JA3/JARM and DNS logging are available now.',
+        'WRONG - reputation-based blocking misses C2 on clean infrastructure, which is what sophisticated attackers use.',
+        'CORRECT - JA3/JARM, DNS logging, and netflow timing analysis are all available with existing tools and do not require decryption.',
+        'WRONG - users are not reliable sensors for C2 beaconing; the traffic is designed to look normal.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1071.001',
+      rotation_bucket: 'c2_infrastructure',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A SOC analyst sees a C2 beacon that uses a legitimate cloud CDN as a redirector. The destination IP belongs to the CDN and changes every few minutes. What is the most defensible containment strategy?',
+    [
+      'Block the CDN IP range entirely — the attacker is using it, so the whole range is compromised',
+      'Do nothing — the CDN IP is legitimate and blocking it would break normal traffic',
+      'Notify the CDN provider and wait for them to take down the C2 infrastructure',
+      'Block the specific beaconing host from the network, preserve the beacon samples for analysis, and block the specific C2 URI patterns at the proxy while allowing the CDN for legitimate users'
+    ],
+    3,
+    'Blocking the CDN range breaks legitimate traffic. Blocking nothing leaves the beacon active. The correct strategy is to isolate the beaconing host (removes the active threat), preserve the beacon (for analysis and signature development), and block the specific C2 URI patterns while keeping the CDN available for legitimate users.',
+    'c2_infrastructure',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - blocking the entire CDN range breaks legitimate SaaS and content delivery; the attacker is one tenant among millions.',
+        'WRONG - leaving the beacon active gives the attacker continued access.',
+        'WRONG - CDN takedown takes days and does not contain the active beacon; the SOC must act first.',
+        'CORRECT - isolate the host, preserve the beacon, block the specific URI pattern at the proxy without blocking the CDN.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1090.004',
+      rotation_bucket: 'c2_infrastructure',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A bank SOC identifies a Cobalt Strike beacon on a workstation. The analyst can see the C2 domain but not the command-and-control traffic (encrypted). What is the most defensible way to understand what the attacker did next?',
+    [
+      'Give up on analysis — encrypted traffic cannot be investigated',
+      'Analyse host-side telemetry: process injection ancestry, LSASS access, service creation, scheduled tasks, remote connections from the beaconing process, and lateral movement to other hosts in the same timeframe',
+      'Wait for the attacker to make a mistake that exposes their activity',
+      'Rebuild the workstation from scratch and assume the attacker is contained'
+    ],
+    1,
+    'Encrypted C2 traffic prevents seeing the commands, but the effects of those commands are visible on the host. Process ancestry, LSASS access, service creation, scheduled tasks, and lateral movement from the beaconing host reveal what the attacker did. Host-side telemetry is the answer when the network side is encrypted.',
+    'post_exploitation',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - encrypted traffic does not prevent investigation; it means pivoting to host-side telemetry.',
+        'CORRECT - process ancestry, LSASS access, service creation, scheduled tasks, and lateral movement reveal the attacker effects.',
+        'WRONG - waiting for the attacker to make a mistake gives them time to complete the objective.',
+        'WRONG - rebuilding without understanding what happened leaves the rest of the environment exposed.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1055',
+      rotation_bucket: 'post_exploitation',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A Windhoek-based SME has a Cobalt Strike beacon detected on a file server. The attacker has been on the network for 3 days. What is the most defensible decision about containment versus evidence preservation?',
+    [
+      'Disconnect the file server immediately to stop the attacker — evidence is secondary to containment',
+      'Leave the server online to watch the attacker — visibility is more important than containment',
+      'Isolate the file server from the rest of the network while preserving the live memory state, then perform a network-wide hunt for other beacons before powering the server off',
+      'Reboot the server to break the C2 session and prevent further commands from reaching it'
+    ],
+    2,
+    'Isolation removes the immediate threat to other systems while preserving the memory evidence needed to understand the attacker activity. A network-wide hunt for other beacons is required before declaring containment. Leaving the server online gives the attacker continued access; rebooting destroys evidence and lets the attacker re-establish.',
+    'incident_response',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - disconnecting immediately destroys the opportunity to understand the attacker and find other beacons.',
+        'WRONG - leaving the server online gives the attacker continued command-and-control and lateral movement.',
+        'CORRECT - network isolation preserves evidence and removes the immediate threat; network-wide hunt for other beacons is required.',
+        'WRONG - rebooting destroys memory evidence and the attacker re-establishes quickly with their persistence mechanisms.'
+      ],
+      cognitive_level: 5,
+      difficulty: 5,
+      coverage_tag: 'T1071.001',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A SOC analyst sees a C2 beacon using DNS over HTTPS (DoH) to a legitimate DoH resolver. The destination is encrypted and looks identical to normal DoH traffic. What is the most defensible detection approach?',
+    [
+      'Block all DoH traffic — DoH is used by C2 and must be disabled',
+      'Monitor only for known DoH providers — block all except the approved list',
+      'Rely on volume-based detection — C2 uses more data than legitimate DoH',
+      'Analyse the timing pattern of DoH queries from the host plus the JA3 fingerprint of the DoH client if the host does not use the standard browser DoH stack'
+    ],
+    3,
+    'DoH is legitimate for many users and blocking it breaks privacy. The detection is in the timing pattern, the query volume, and the client fingerprint — a host making DoH queries on a regular cadence from a process that is not the browser is a signal. JA3 of the DoH client also reveals if the client is not the standard browser stack.',
+    'c2_infrastructure',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - blocking all DoH breaks privacy tools and browsers that use DoH by default; it is a disproportionate response.',
+        'WRONG - allowlisting DoH providers does not help if the attacker uses the approved provider as a tunnel.',
+        'WRONG - C2 over DoH can use low volume; volume-based detection misses low-and-slow beaconing.',
+        'CORRECT - timing pattern, query volume, process ancestry, and DoH client JA3 reveal DoH C2 without blocking legitimate DoH.'
+      ],
+      cognitive_level: 5,
+      difficulty: 5,
+      coverage_tag: 'T1071.004',
+      rotation_bucket: 'beacon_detection',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'An attacker used a C2 beacon to steal credentials from the compromised host and then moved laterally. The SOC has contained the host but has not yet found the lateral movement destination. What is the most defensible next step?',
+    [
+      'Hunt for Kerberos and NTLM authentications from the compromised host in the hours before containment, identify which systems accepted those credentials, and isolate them for investigation',
+      'Reset all user passwords on the domain — this invalidates the stolen credentials',
+      'Review firewall logs to see which IPs the host connected to and block all of them',
+      'Wait for a new C2 alert from another host — the attacker will make a mistake eventually'
+    ],
+    0,
+    'The stolen credentials are the leverage for lateral movement. Hunting for authentications from the compromised host reveals which systems received the stolen credentials, which are the likely lateral destinations. Resetting passwords does not invalidate active Kerberos tickets (which is the reason for krbtgt reset in Module 51). Blocking IPs misses lateral movement over SMB and Windows Admin Shares, which are not always logged at the firewall.',
+    'post_exploitation',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - hunt authentications from the compromised host in the hours before containment; isolate accepting systems.',
+        'WRONG - password reset does not invalidate Kerberos tickets or cached credentials; the attacker can still move laterally.',
+        'WRONG - firewall IPs miss internal lateral movement over SMB and Windows Admin Shares.',
+        'WRONG - waiting for the next alert gives the attacker more time and access.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1021.002',
+      rotation_bucket: 'post_exploitation',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A Namibian bank wants to test its detection capability against Cobalt Strike. The CISO asks how to run a safe, legally defensible test. What is the most defensible plan?',
+    [
+      'Run Cobalt Strike against production systems during business hours — real tools need real targets',
+      'Deploy Cobalt Strike internally and see if the SOC catches it, without informing anyone first',
+      'Contract a red team under a signed ROE, in a scoped lab environment with the red team using their own C2 infrastructure, and the blue team measuring detection without telling the red team which rules are active',
+      'Hire an external firm to run phishing — C2 testing is out of scope'
+    ],
+    2,
+    'A legal red team test requires a signed ROE, a scoped environment, and a properly isolated C2 infrastructure. Running Cobalt Strike against production without scope is illegal and dangerous. Running it internally without informing anyone first is a real incident by any standard. Phishing-only testing misses the C2 detection capability, which is what the bank wants to test.',
+    'incident_response',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - running offensive tooling against production without a signed ROE and scope agreement is illegal and dangerous.',
+        'WRONG - running Cobalt Strike internally without informing anyone is a real incident; it is not a test.',
+        'CORRECT - signed ROE, scoped lab environment, isolated red team infrastructure, blue team measures detection without sharing rule details.',
+        'WRONG - phishing-only testing does not test C2 detection, which is the actual capability in question.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1071.001',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A C2 beacon on a compromised host has been silent for 6 hours. The SOC analyst assumes the attacker has left. What is the most defensible interpretation?',
+    [
+      'Silent beacon means the attacker has left the environment — close the incident',
+      'Silent beacon means the attacker was detected and the tooling failed — the host is clean',
+      'Silent beacon means the C2 server was taken down — the threat is over',
+      'Silent beacon could mean the attacker switched channels, went low-and-slow, or is staging for the next phase — do not close without host-side evidence that persistence is removed'
+    ],
+    3,
+    'Beacon silence is not evidence of attacker departure. Sophisticated C2 frameworks use long sleep periods, multiple channels, and staged operators who change tools as needed. Closing the incident on silence alone is the failure mode that lets an attacker return after the SOC stands down.',
+    'post_exploitation',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - silence is not evidence of departure; it is an ambiguity that requires host-side investigation.',
+        'WRONG - a silent beacon does not mean the tooling failed; it may mean the tool is designed to go quiet between operations.',
+        'WRONG - the C2 server being down does not remove host-side persistence, which can use alternative channels.',
+        'CORRECT - silence may be a channel switch, a low-and-slow sleep, or a staging period; investigate before closing.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1071',
+      rotation_bucket: 'post_exploitation',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A Johannesburg-based insurer wants to reduce its C2 attack surface. The CISO asks which controls have the highest impact. What is the most defensible answer?',
+    [
+      'Enforce egress filtering, implement DNS logging and blocking of unauthorized resolvers, enable network segmentation, and deploy endpoint detection for process injection and LSASS access',
+      'Deploy a commercial anti-C2 appliance — commercial tools detect every C2 framework',
+      'Block the known IP addresses of common C2 frameworks — the C2 server IPs are stable',
+      'Require all staff to use a VPN for all internet access — VPNs prevent C2 communication'
+    ],
+    0,
+    'C2 detection is about restricting the channel, not about detecting every tool. Egress filtering limits what can call out, DNS logging catches covert channels, segmentation limits lateral movement once a beacon exists, and endpoint detection catches the injection and credential theft that C2 enables. Commercial appliances are useful but not complete.',
+    'c2_infrastructure',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - egress filtering, DNS logging, segmentation, and endpoint detection are the highest-impact controls.',
+        'WRONG - no commercial tool detects every C2 framework; the detection depends on attacker infrastructure and behaviour.',
+        'WRONG - C2 server IPs change constantly; IP-based blocking is evaded by redirectors and legitimate CDNs.',
+        'WRONG - VPNs protect the traffic between the user and the VPN server but do not prevent C2 from the endpoint; the attacker can use the VPN channel.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1071',
+      rotation_bucket: 'c2_infrastructure',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A SOC analyst sees a host authenticating to multiple internal servers in a pattern that resembles the beacon jitter from an earlier C2 alert. The host has no EDR agent. What is the most defensible interpretation?',
+    [
+      'Benign — internal authentication is normal and EDR is the only reliable detection',
+      'Suspicious — the jitter pattern correlates with the earlier C2 alert, and the absence of EDR means the host cannot be verified as clean. Isolate, preserve network flow logs, and investigate',
+      'Close the alert — without EDR, there is no evidence to act on',
+      'Reboot the host — internal authentication patterns are usually stale sessions'
+    ],
+    1,
+    'The jitter pattern is the diagnostic signal: the same cadence that was seen in the C2 alert is now appearing in internal authentication traffic, which suggests lateral movement using the same operator infrastructure. The absence of EDR means the host cannot be verified as clean, so network-level analysis and isolation are the defensible actions. Closing because there is no EDR is the failure mode; rebooting destroys the network evidence.',
+    'post_exploitation',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - internal authentication is normal, but the jitter pattern correlating with the earlier C2 alert is the specific anomaly that requires investigation.',
+        'CORRECT - the jitter correlation plus the absence of EDR means the host cannot be verified as clean; isolate and investigate.',
+        'WRONG - the network telemetry is evidence; closing because there is no EDR ignores it.',
+        'WRONG - rebooting destroys the network evidence and does not remove the attacker if the host is compromised.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1021.002',
+      rotation_bucket: 'post_exploitation',
+      last_validated: '2026-11-17'
+    }
+  )
+],
     58: [
   q(
     'A Windhoek-based bank runs a BloodHound scan and finds a path from a Helpdesk group to a Tier-0-adjacent account through three GenericAll relationships. The IT director asks whether this is a real risk. What is the most defensible response?',
@@ -3738,11 +4009,62 @@ const TIER_A_ESSAYS = {
   }
 ],
     52: [
-        essay(
-            "Write a detection engineering brief for malleable HTTP C2 with sleep jitter. What do you hunt, what do you ignore, and how do you purple-test it?",
-            "Beacon cadence, process ancestry, rare destinations. Retest after tuning."
-        )
-    ],
+  {
+    question: 'You are the SOC lead at a Windhoek-based bank. A Cobalt Strike beacon has been detected on a file server, with a JA3 hash that does not match the claimed SaaS vendor. The C2 traffic is encrypted, so you cannot see the commands. Write the first-hour runbook: what you do first, what you preserve, how you hunt for sibling beacons, and what you tell the CISO in the first 15 minutes.',
+    guidelines: 'This is a live C2 incident. The runbook must prioritise containment of the beacon while preserving the memory evidence that reveals what the attacker did. The CISO brief in the first 15 minutes should be specific about what is known and what is not.',
+    rubric: [
+      { criterion: 'Isolates the host without destroying evidence', points: 2, evidence_required: 'States that the server is network-isolated but not rebooted or powered off, preserving memory for forensic capture' },
+      { criterion: 'Names the specific evidence preserved', points: 2, evidence_required: 'Memory dump, network connection table, JA3 hash extracted from traffic, and process list from the isolated host' },
+      { criterion: 'Hunts for sibling beacons using the shared indicator', points: 2, evidence_required: 'States that the same JA3 hash is searched across proxy or TLS logs to find other hosts beaconing to the same infrastructure' },
+      { criterion: 'Provides a specific CISO brief in the first 15 minutes', points: 2, evidence_required: 'States what is confirmed (beacon on one host), what is not yet known (scope, data accessed), and what the CISO should tell the board if asked' },
+      { criterion: 'Names the post-incident action', points: 2, evidence_required: 'States one specific change to prevent recurrence (e.g., egress allowlist, JA3 alerting rule, segmentation of the file server zone)' }
+    ]
+  },
+  {
+    question: 'A Cobalt Strike beacon uses a legitimate cloud CDN as a redirector. The destination IP changes every few minutes, and the domain looks like a CDN-hosted SaaS application. Write the containment strategy: what you block, what you preserve, what you tell the CDN provider, and how you avoid breaking legitimate CDN traffic for the rest of the company.',
+    guidelines: 'This is the tricky case — the attacker is hiding in legitimate infrastructure. Blocking the CDN is wrong, blocking nothing is wrong. The defensible strategy isolates the host and blocks the specific pattern at the proxy, not the CDN.',
+    rubric: [
+      { criterion: 'Isolates the beaconing host specifically', points: 2, evidence_required: 'States that the host is removed from the network, not the CDN blocked' },
+      { criterion: 'Blocks the specific URI pattern at the proxy', points: 2, evidence_required: 'States that the C2 URI path or pattern is blocked at the proxy, while the CDN domain remains reachable for legitimate users' },
+      { criterion: 'Preserves the beacon samples for analysis', points: 2, evidence_required: 'States that the beacon traffic is captured (PCAP or proxy logs) and the sample binary or memory is preserved' },
+      { criterion: 'Describes the CDN provider notification correctly', points: 2, evidence_required: 'States that the CDN abuse team is notified through its published channel with the specific URI pattern and timestamp, not an expectation of immediate takedown' },
+      { criterion: 'Names the risk of the pattern-block approach', points: 2, evidence_required: 'States that the attacker may change the URI pattern and the block will need updating; monitoring is required to detect the change' }
+    ]
+  },
+  {
+    question: 'A Namibian government agency has no TLS inspection, no EDR, and a small IT team. The CISO wants to detect C2 traffic. Write the detection plan: what you can detect with existing tools, what you cannot, and what the minimum procurement would be to close the biggest gap. Be specific about what each detection requires.',
+    guidelines: 'This is a capability-gap plan. The plan must be honest about what is possible without TLS inspection and EDR, and what the specific missing capabilities are. "We will deploy new tools" is not a plan if it does not name the tools and the gap each one closes.',
+    rubric: [
+      { criterion: 'Names what is detectable with existing tools', points: 2, evidence_required: 'At least three detections (JA3/JARM fingerprinting, DNS logging, netflow timing analysis, email gateway logs, firewall logs) with the specific indicator each uses' },
+      { criterion: 'Names what cannot be detected without TLS inspection', points: 2, evidence_required: 'States that encrypted C2 content cannot be inspected, which means some indicators (URL paths, HTTP headers) are not visible' },
+      { criterion: 'Names what cannot be detected without EDR', points: 2, evidence_required: 'States that process injection, LSASS access, and host-side command execution are not visible without endpoint telemetry' },
+      { criterion: 'Provides a minimum procurement list with costs', points: 2, evidence_required: 'At least two specific tools (e.g., free JA3 sensor on the perimeter, EDR on critical endpoints) with the specific gap each closes and a cost estimate' },
+      { criterion: 'Prioritises what to buy first', points: 2, evidence_required: 'States which single capability closes the biggest gap for the agency, and why (e.g., DNS logging first because it is free and catches covert channels)' }
+    ]
+  },
+  {
+    question: 'You are the incident commander at a bank. A Cobalt Strike beacon has been on the network for 3 days. The C2 traffic is encrypted, and the attacker used it to steal credentials and move laterally. The SOC has contained the initial host. The CEO asks: "Are we clean now?" Write the answer: what is known, what is not yet known, what must be done before you can say "clean," and what the timeline is.',
+    guidelines: 'This is the honest containment briefing. The CEO wants to hear "yes." The correct answer is "no, not yet, and here is why and how long." The memo must name the specific unknowns and the specific actions that close them.',
+    rubric: [
+      { criterion: 'States what is confirmed', points: 2, evidence_required: 'Beacon on one host, credential theft confirmed, initial containment done' },
+      { criterion: 'States what is not yet known', points: 2, evidence_required: 'Names at least three unknowns (scope of lateral movement, whether persistence remains on other hosts, whether data was exfiltrated)' },
+      { criterion: 'Names the specific steps to reach "clean"', points: 2, evidence_required: 'States the specific actions (network-wide beacon hunt, krbtgt reset twice, session revocation, persistence hunt, log analysis for exfiltration) that must complete' },
+      { criterion: 'Provides a realistic timeline', points: 2, evidence_required: 'States the time required to complete the actions (e.g., "5-7 days minimum for full scoping and eradication") rather than "as soon as possible"' },
+      { criterion: 'Acknowledges the residual risk honestly', points: 2, evidence_required: 'States what remains uncertain even after the actions (e.g., "we may not detect a second beacon that uses a different channel")' }
+    ]
+  },
+  {
+    question: 'You are the CISO at a Namibian bank. The board asks: "If we spend N$3 million on C2 defence this year, what changes?" Write the answer: three specific outcomes, three specific investments, one residual risk that the spend will not eliminate, and how the board will measure whether the spend worked. Be specific about which C2 techniques the investments are designed to detect.',
+    guidelines: 'This is a board-level investment case for C2 defence. The outcomes must be verifiable, the investments costed, the residual risk named, and the measurement defined. "We will be more secure" is not an outcome; "zero successful C2 beacons going undetected for more than 24 hours" is.',
+    rubric: [
+      { criterion: 'Provides three verifiable outcomes', points: 2, evidence_required: 'Three measurable outcomes (e.g., "zero successful C2 beacons undetected for more than 24 hours", "all critical endpoints have EDR", "quarterly C2 simulation tested and detected")' },
+      { criterion: 'Provides three costed investments', points: 2, evidence_required: 'Each investment has a specific N$ amount (within the N$3M total) and what C2 technique it detects' },
+      { criterion: 'Names the residual risk honestly', points: 2, evidence_required: 'States what the spend will not eliminate (e.g., "a well-resourced attacker using novel C2 infrastructure may evade detection for hours")' },
+      { criterion: 'Provides a board-level measurement cadence', points: 2, evidence_required: 'States what the board sees quarterly (metrics, incidents, gaps) and who reports it' },
+      { criterion: 'Provides a trade-off the board must accept', points: 2, evidence_required: 'States one operational impact (e.g., "users will notice slower internet access due to increased TLS inspection", "the SOC needs two additional analysts") rather than claiming zero friction' }
+    ]
+  }
+],
     58: [
   {
     question: 'You are the newly appointed security lead at a 200-person Namibian bank. A BloodHound scan reveals a four-hop path from a Helpdesk account to Domain Admin through three GenericAll ACLs. The IT director asks for a one-page remediation plan. Write the plan: what you will fix first, what you will defer, and how you will measure whether the attack path is actually broken.',
