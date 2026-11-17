@@ -3681,11 +3681,62 @@ const TIER_A_ESSAYS = {
         )
     ],
     51: [
-        essay(
-            "Explain to a board why Domain Admin on a helpdesk PC is an architectural failure, using Mimikatz-class theft and Pass-the-Hash as the story.",
-            "PAW/tiering language. Avoid tool worship. Tie to business blast radius."
-        )
-    ],
+  {
+    question: 'You are the security lead at a 200-person Namibian bank. A Sysmon Event ID 10 alert shows `rundll32.exe` accessing `lsass.exe` with `GrantedAccess: 0x1010`, launched from `C:\\Users\\Public\\` with `cmd.exe` as the parent process, on a finance manager laptop. The finance manager has Domain Admin rights on their daily account. Write the first-hour incident runbook: what you do, in what order, what you preserve, and what you escalate.',
+    guidelines: 'This is an active credential-theft incident on a host with DA credentials. The runbook must prioritise containment of the credential exposure over forensic completeness. Name the specific actions in the specific order, and name what you preserve at each step.',
+    rubric: [
+      { criterion: 'Contains the credential exposure first', points: 2, evidence_required: 'States that the finance manager DA account is disabled/revoked before any other action, because the DA hash may already be extracted' },
+      { criterion: 'Isolates the host without destroying evidence', points: 2, evidence_required: 'States that the laptop is network-isolated but not rebooted or powered off, preserving memory for forensic capture' },
+      { criterion: 'Preserves the specific evidence', points: 2, evidence_required: 'Names the specific artifacts (memory dump, Sysmon log extract, cmd.exe command-line history, rundll32 binary hash, users files) with where each is preserved' },
+      { criterion: 'Identifies the escalation path', points: 2, evidence_required: 'States who is notified (CISO, IR lead, bank regulator if applicable) and what the trigger is for a full incident declaration' },
+      { criterion: 'Provides a post-incident action for the DA-on-workstation misconfiguration', points: 2, evidence_required: 'States that the DA-on-daily-account configuration is the root cause and is remediated before restoration' }
+    ]
+  },
+  {
+    question: 'A Windhoek-based logistics company runs Windows 10 Home on 60% of its laptops and Windows 10 Enterprise on 40%. The CISO wants Credential Guard on all admin workstations. Write the deployment plan: what you will deploy on Enterprise, what compensating controls you will use on Home, how you will measure coverage, and what residual risk remains. Be specific about the control names.',
+    guidelines: 'This is a partial-deployment plan with a specific hardware constraint. The plan must show what is possible on Enterprise, what compensating controls replace Credential Guard on Home, and how coverage is measured. "We will deploy Credential Guard everywhere" is not a plan on mixed OS.',
+    rubric: [
+      { criterion: 'Identifies what can and cannot be deployed on each OS version', points: 2, evidence_required: 'States that Credential Guard requires Enterprise and is not available on Home; names the specific Enterprise features being deployed' },
+      { criterion: 'Names specific compensating controls for Home', points: 2, evidence_required: 'At least three compensating controls (LAPS, removal of DA credentials from Home laptops, LSASS access detection, Protected Users, admin tiering) with the specific role each plays' },
+      { criterion: 'Provides a coverage measurement', points: 2, evidence_required: 'States how coverage is measured (e.g., "Credential Guard status report from Intune on Enterprise, LSASS alert rate on Home") and who reports it' },
+      { criterion: 'Names the residual risk honestly', points: 2, evidence_required: 'States what remains after the plan (e.g., "Home laptops still allow LSASS memory extraction if the attacker has admin; detection is the only defence")' },
+      { criterion: 'Provides a decision on whether to upgrade Home', points: 2, evidence_required: 'States whether upgrading Home to Enterprise is recommended, and if so the cost per workstation and the business case' }
+    ]
+  },
+  {
+    question: 'A SOC analyst at a Nairobi-based fintech has no detection rule for Mimikatz. Write the detection rule design: what field you would watch, what logic you would use, what the expected false positive rate is, and how you would tune it in the first 30 days. Include a sample Sigma or KQL rule as pseudocode.',
+    guidelines: 'This is a detection engineering exercise. The rule must be specific enough that another engineer could implement it, with the field names and logic clear. The false positive discussion is the part that makes it operational — a rule that fires on everything is not a rule.',
+    rubric: [
+      { criterion: 'Identifies the specific telemetry source and field', points: 2, evidence_required: 'Names the event source (Sysmon Event ID 10, Windows Event ID 4688, or EDR LSASS access telemetry) and the specific field to watch (GrantedAccess, Image, ParentImage)' },
+      { criterion: 'Provides a specific detection logic', points: 2, evidence_required: 'The rule logic names the combination of conditions (non-standard path + parent process anomaly + access mask) not a single-condition alert' },
+      { criterion: 'Estimates the false positive rate realistically', points: 2, evidence_required: 'States an expected false positive rate (e.g., "5-10 per week in our environment based on past LSASS access pattern") rather than "low"' },
+      { criterion: 'Provides a tuning plan for the first 30 days', points: 2, evidence_required: 'States what will be tuned (specific exclusions for legitimate processes, confidence scoring) and how often' },
+      { criterion: 'Provides the pseudocode rule', points: 2, evidence_required: 'Includes a Sigma or KQL rule that is syntactically realistic, with field names and logic, not a description' }
+    ]
+  },
+  {
+    question: 'A bank CISO asks: "We detected Mimikatz, we reset every password, we added MFA. Are we clean?" Write the response memo: what is still at risk, what specific steps are required before you can say the environment is clean, and what the timeline is. Be specific about krbtgt and Kerberos tickets.',
+    guidelines: 'This is the post-incident validation memo. "Clean" is a specific state, not a feeling. The memo must name what password reset and MFA do not address, and the specific steps that do. Krbtgt reset is the key point — the memo should be specific about the number of resets.',
+    rubric: [
+      { criterion: 'States what password reset and MFA do NOT address', points: 2, evidence_required: 'Names Kerberos tickets, golden tickets, persistence mechanisms as unaddressed by password reset and MFA' },
+      { criterion: 'Names the krbtgt reset requirement specifically', points: 2, evidence_required: 'States that krbtgt must be reset twice to invalidate both current and previous password history, and that this is a domain-wide change with replication impact' },
+      { criterion: 'Names the persistence hunt', points: 2, evidence_required: 'States at least three persistence mechanisms that must be checked (scheduled tasks, services, WMI subscriptions, AD ACLs, delegated permissions)' },
+      { criterion: 'Provides a timeline with a clean-state definition', points: 2, evidence_required: 'States what "clean" means in verifiable terms (no new Kerberos tickets from stale hashes, no persistence found, krbtgt reset replicated to all DCs) and how long the validation takes' },
+      { criterion: 'Acknowledges what remains at risk after the response', points: 2, evidence_required: 'States at least one residual risk (e.g., the attacker may have exfiltrated data that has not been discovered) rather than claiming full remediation' }
+    ]
+  },
+  {
+    question: 'You are the CISO at a Namibian bank. The CEO asks: "If we spend N$2 million on credential theft defence this year, what changes?" Write the answer: three specific outcomes, three specific investments, one residual risk that the spend will not eliminate, and how the board will measure whether the spend worked. Be specific enough that the board can challenge each number.',
+    guidelines: 'This is a board-level investment case for a specific threat (credential theft). The outcomes must be verifiable, the investments costed, the residual risk named, and the measurement defined. "We will be more secure" is not an outcome.',
+    rubric: [
+      { criterion: 'Provides three verifiable outcomes', points: 2, evidence_required: 'Three measurable outcomes (e.g., "zero DA credentials on user workstations", "all admin workstations on Enterprise with Credential Guard", "Mimikatz detection rule live with under 5 false positives per week")' },
+      { criterion: 'Provides three costed investments', points: 2, evidence_required: 'Each investment has a specific N$ amount (within the N$2M total) and what it buys — not "security tools" generically' },
+      { criterion: 'Names the residual risk honestly', points: 2, evidence_required: 'States what the spend will not eliminate (e.g., "a determined attacker with physical access to a DA workstation can still extract credentials before Credential Guard detects")' },
+      { criterion: 'Provides a board-level measurement cadence', points: 2, evidence_required: 'States what the board sees quarterly (metrics, incidents, gaps) and who reports it' },
+      { criterion: 'Provides a trade-off the board must accept', points: 2, evidence_required: 'States one operational impact (e.g., "admin workstations will require hardware refresh for Enterprise", "helpdesk tickets may increase during tiering migration") rather than claiming zero friction' }
+    ]
+  }
+],
     52: [
         essay(
             "Write a detection engineering brief for malleable HTTP C2 with sleep jitter. What do you hunt, what do you ignore, and how do you purple-test it?",
