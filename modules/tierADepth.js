@@ -3422,11 +3422,62 @@ const TIER_A_ESSAYS = {
         )
     ],
     58: [
-        essay(
-            "BloodHound shows Helpdesk GenericAll on a path to Tier-0. Write a risk-committee paper: severity, owners, 30/60/90 remediation, and retest proof.",
-            "Attack paths as backlog. Shortest-path metric. No inventory theater."
-        )
-    ],
+  {
+    question: 'You are the newly appointed security lead at a 200-person Namibian bank. A BloodHound scan reveals a four-hop path from a Helpdesk account to Domain Admin through three GenericAll ACLs. The IT director asks for a one-page remediation plan. Write the plan: what you will fix first, what you will defer, and how you will measure whether the attack path is actually broken.',
+    guidelines: 'This is a priority-ordered remediation plan. The four-hop path must be broken at the highest-leverage edge, not at every edge at once. "We will fix all the ACLs" is not a plan — it is a wish. Name the specific edge, the specific fix, and the specific verification.',
+    rubric: [
+      { criterion: 'Identifies the highest-leverage edge to break first', points: 2, evidence_required: 'Names a specific edge (the Helpdesk-to-X relationship) and explains why removing it is cheaper and safer than removing the others' },
+      { criterion: 'Provides a specific fix per edge with owner and date', points: 2, evidence_required: 'At least three specific fixes with named owners (AD team, identity team) and dates, not "we will clean up ACLs"' },
+      { criterion: 'Names what is deferred and why', points: 2, evidence_required: 'States at least one edge or path that is not fixed in the first phase, with a reason (business dependency, change-window constraint)' },
+      { criterion: 'Provides verification that the path is broken', points: 2, evidence_required: 'States that BloodHound is re-run after remediation and the specific path no longer appears — not just "we removed the ACL"' },
+      { criterion: 'Acknowledges the residual risk honestly', points: 2, evidence_required: 'States what new paths might be created by the remediation (e.g., new group nesting introduced by the fix) and how they will be checked' }
+    ]
+  },
+  {
+    question: 'A Windhoek-based insurer runs a Kerberoasting test and extracts three service account hashes in under 5 minutes. The service account passwords were set four years ago and are 12 characters. The CISO asks for a one-page remediation: what to fix now, what to fix over 90 days, and what to accept as residual risk. Write the memo.',
+    guidelines: 'This is a remediation memo with a time dimension. The immediate fix removes the crackability of the current hashes. The 90-day plan removes the structural conditions (stale SPNs, password age) that allowed them to be cracked. Residual risk must be named, not denied.',
+    rubric: [
+      { criterion: 'Provides an immediate fix for the crackability', points: 2, evidence_required: 'Names a specific action (gMSA migration, 30+ character password rotation, SPN removal) that changes the crackability of the three hashes' },
+      { criterion: 'Provides a 90-day structural fix', points: 2, evidence_required: 'States at least three actions over 90 days that prevent recurrence (SPN inventory, password age limits, service-account management policy)' },
+      { criterion: 'Names a verification method', points: 2, evidence_required: 'States how the fix is verified (re-run Kerberoasting test, check hash crackability, audit service-account password age)' },
+      { criterion: 'Names the residual risk honestly', points: 2, evidence_required: 'States what Kerberoasting risk remains after the fix (e.g., "any account with an SPN is still a target if its password is short") rather than claiming it is eliminated' },
+      { criterion: 'Assigns owners and change-window constraints', points: 2, evidence_required: 'Each action has a named owner and states any change-window constraint (application must be restarted, service must be migrated)' }
+    ]
+  },
+  {
+    question: 'A SOC analyst at a Johannesburg bank sees an alert for a successful Kerberos authentication from a user account disabled 40 minutes ago. The analyst has no playbook for golden ticket detection. Write the first-hour incident runbook: what to check, who to notify, what to preserve, and what to do if the alert is confirmed as a forged ticket.',
+    guidelines: 'This is an incident runbook for a specific alert type. "Escalate to IR" is not a runbook — it is an escalation. The runbook must name what the analyst checks in the first 10 minutes, what evidence is preserved, and the exact escalation trigger.',
+    rubric: [
+      { criterion: 'Names the specific checks in the first 10 minutes', points: 2, evidence_required: 'At least three checks (confirm account is still disabled, check krbtgt password age, check other disabled accounts for the same pattern, check DC security logs)' },
+      { criterion: 'Names the specific evidence to preserve', points: 2, evidence_required: 'States the specific logs and artifacts (DC security logs, Kerberos ticket metadata, session information from the affected systems)' },
+      { criterion: 'Names the escalation trigger and path', points: 2, evidence_required: 'States exactly when the analyst escalates to IR (confirmed forged ticket, multiple disabled accounts, krbtgt compromise indicator) and to whom' },
+      { criterion: 'Names the containment if confirmed', points: 2, evidence_required: 'States the specific containment actions (krbtgt reset twice, all admin sessions revoked, DA account password rotation) rather than "isolate the DC"' },
+      { criterion: 'Provides a post-incident action', points: 2, evidence_required: 'States one specific change that prevents recurrence (krbtgt rotation schedule, protected users group, alert on disabled account authentication)' }
+    ]
+  },
+  {
+    question: 'A Rundu-based clinic\'s IT manager wants to reduce the AD attack surface with no budget. Write the 30-day plan: three free configuration changes, three free tools to install, and three "do not do" items that would make things worse. Explain why each item is on the list.',
+    guidelines: 'This is a no-budget hardening plan. "Install LAPS" is correct but generic — the memo must explain what LAPS does and why it matters in this specific clinic. "Do not do" items are the important part: they show the manager what looks like a fix but is not.',
+    rubric: [
+      { criterion: 'Names three specific free configuration changes', points: 2, evidence_required: 'Each change names a specific setting (LAPS on all workstations, remove Domain Users from local Administrators, enable Windows Defender Credential Guard) with a reason' },
+      { criterion: 'Names three specific free tools with reasons', points: 2, evidence_required: 'At least three tools (PingCastle, BloodHound Community Edition, Purple Knight) with what each one detects' },
+      { criterion: 'Names three "do not do" items with reasoning', points: 2, evidence_required: 'At least three items (do not disable all service accounts, do not disable NTLM immediately, do not grant all users DA) and why each would make the situation worse' },
+      { criterion: 'Explains what success looks like in 30 days', points: 2, evidence_required: 'States at least two measurable outcomes (e.g., "BloodHound paths to Tier-0 reduced from 14 to 3", "LAPS deployed to all 40 workstations")' },
+      { criterion: 'Acknowledges the limitations of the no-budget approach', points: 2, evidence_required: 'States what cannot be achieved with free tools alone (e.g., "Credential Guard requires Windows 10/11 Enterprise; if the clinic runs Home, this is deferred")' }
+    ]
+  },
+  {
+    question: 'You are the CISO at a Nairobi-based fintech. The board asks: "If we spend N$500,000 on AD security this year, what will be different in 12 months?" Write the answer: three specific outcomes, three specific investments, and one specific risk that will remain even after the spend. Be specific enough that the board can challenge each item.',
+    guidelines: 'This is a board-level investment case. The outcomes must be verifiable, the investments must be costed, and the residual risk must be named rather than denied. "We will be more secure" is not an outcome; "no Domain Admin credentials on user workstations" is.',
+    rubric: [
+      { criterion: 'Provides three specific verifiable outcomes', points: 2, evidence_required: 'At least three measurable outcomes (e.g., "zero DA sessions on user workstations", "BloodHound paths to Tier-0 under 5 hops", "all service accounts on gMSA with 30+ character passwords")' },
+      { criterion: 'Provides three costed investments', points: 2, evidence_required: 'Each investment has a specific cost (N$ amount or range) and what it buys (not "security tools" generically)' },
+      { criterion: 'Names the residual risk honestly', points: 2, evidence_required: 'States one specific risk that remains after the spend (e.g., "supply chain compromise of the AD vendor") rather than claiming the spend eliminates the risk' },
+      { criterion: 'Provides a measurement cadence', points: 2, evidence_required: 'States how the outcomes will be measured (quarterly BloodHound scans, monthly credential-guard coverage report) and who reports to the board' },
+      { criterion: 'Acknowledges at least one trade-off', points: 2, evidence_required: 'States one operational impact the board should accept (e.g., "helpdesk will spend more time on password resets during gMSA migration") rather than claiming zero friction' }
+    ]
+  }
+],
     60: [
         essay(
             "Teach executives Pass-the-Hash using cloud session-token theft as the analogy. Include the architectural fix and a 10-minute containment checklist.",
