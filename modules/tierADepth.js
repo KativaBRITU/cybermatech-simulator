@@ -2353,59 +2353,330 @@ const TIER_A_QUESTIONS = {
         )
     ],
     51: [
-        q(
-            "A Domain Administrator performs an interactive logon to a user workstation, followed by administrative lateral movement. What is the primary architectural lesson?",
-            [
-                "Cryptographic Kerberos authentication hashes are completely impossible to reuse",
-                "Privileged credentials used on unhardened endpoints enable credential theft and lateral reuse",
-                "Remote Desktop Protocol sessions are inherently secure under all operational conditions",
-                "Cloud identity management systems render on-premises domain security controls obsolete"
-            ],
-            1,
-            "Using privileged credentials on dirty or unhardened endpoints allows attackers to harvest and reuse materials for domain dominance.",
-            "mimikatz",
-            40,
-            {
-                distractor_rationale: [
-                    "WRONG — Kerberos tickets and NTLM hashes are frequently targeted and reused by attackers.",
-                    "CORRECT — logging onto dirty workstations with privileged accounts exposes credentials to theft tools.",
-                    "WRONG — RDP sessions on compromised hosts do not protect credentials from memory scraping.",
-                    "WRONG — on-premises domain security remains critical alongside cloud architectures."
-                ],
-                cognitive_level: 3,
-                difficulty: 3,
-                coverage_tag: "T1003.001",
-                rotation_bucket: "mimikatz",
-                last_validated: "2026-11-12"
-            }
-        ),
-        q(
-            "Credential Guard and Protected Users configurations most directly reduce which adversary capability?",
-            [
-                "The creation and distribution of malicious phishing emails across external gateways",
-                "The ease of dumping, extracting, and reusing specific credential materials on endpoints",
-                "The operational dependency on regular offline data backup and restore cycles",
-                "The frequency and complexity of domain Name Resolution protocol queries"
-            ],
-            1,
-            "Platform hardening controls like Credential Guard isolate secrets to raise the operational cost of credential theft.",
-            "cred_guard",
-            40,
-            {
-                distractor_rationale: [
-                    "WRONG — endpoint credential hardening does not prevent external email phishing generation.",
-                    "CORRECT — Credential Guard prevents unauthorized memory extraction of sensitive secrets.",
-                    "WRONG — backup cycles are unrelated to endpoint credential storage mechanisms.",
-                    "WRONG — DNS query behavior is unaffected by credential protection features."
-                ],
-                cognitive_level: 2,
-                difficulty: 2,
-                coverage_tag: "T1003",
-                rotation_bucket: "cred_guard",
-                last_validated: "2026-11-12"
-            }
-        )
+  q(
+    'A Windhoek-based bank uses the same Domain Admin account for both server administration and daily email on a helpdesk laptop. A penetration test extracts the DA hash from the laptop within 20 minutes of getting local admin. What is the most defensible architectural fix?',
+    [
+      "Separate the DA account from daily-use accounts, enforce tiered admin where DA credentials only touch Tier-0 systems, and deploy Credential Guard on admin workstations",
+      "Enforce a longer password policy on the DA account — 20 characters and 30-day rotation will make the hash uncrackable",
+      "Disable the DA account entirely and use local admin accounts on each server",
+      "Add EDR to the helpdesk laptop — EDR detects pass-the-hash tools and blocks them"
     ],
+    0,
+    'The problem is not the password — it is that the DA credential was exposed to a system the attacker could access. The architectural fix is tiering (DA credentials never touch user systems) plus Credential Guard (prevents hash extraction from LSASS). A longer password does not help if the hash is extracted from memory; EDR can miss pass-the-hash if the attacker uses native tools.',
+    'credential_theft_techniques',
+    45,
+    {
+      distractor_rationale: [
+      "CORRECT - tiered admin plus Credential Guard prevents the hash from being exposed on systems the attacker can access.",
+      "WRONG - a longer password does not help if the hash is extracted from LSASS; the attacker does not need the password to pass-the-hash.",
+      "WRONG - disabling DA and using local admins everywhere is operationally unworkable in a domain and does not remove the credential-theft vector.",
+      "WRONG - EDR can detect pass-the-hash tools but cannot prevent the technique if the attacker uses native tools or bypasses the EDR rule."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1003.001',
+      rotation_bucket: 'credential_theft_techniques',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A SOC analyst sees a Sysmon Event ID 10 alert: `rundll32.exe` accessed `lsass.exe` with `GrantedAccess: 0x1010`. The process path is `C:\\Users\\Public\\rundll32.exe` and the parent process is `cmd.exe`. What is the most defensible interpretation?',
+    [
+      "The alert is a false positive — rundll32 accesses lsass as part of normal Windows operation",
+      "This is a credential theft attempt: the non-standard path, the parent process, and the access mask are consistent with a Mimikatz-style LSASS dump. Isolate the host, preserve memory, and hunt for lateral movement",
+      "The alert is low priority — access to lsass is expected and only the process path is unusual",
+      "The alert can be closed after checking whether the user is an administrator — admins access lsass routinely"
+    ],
+    1,
+    'Sysmon Event ID 10 with rundll32 accessing lsass from a non-standard path, spawned by cmd.exe, and using the 0x1010 access mask is a textbook credential-dump indicator. The access mask 0x1010 (PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_VM_READ) is specifically what Mimikatz needs to read LSASS memory. This is not routine.',
+    'detection_engineering',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - rundll32 does interact with lsass in some legitimate scenarios, but not from C:\\Users\\Public\\ and not spawned by cmd.exe with the 0x1010 access mask.",
+      "CORRECT - the combination of non-standard path, anomalous parent process, and specific access mask is a credential-dump indicator; isolate and preserve.",
+      "WRONG - the process path and parent process are the diagnostic indicators here, not the fact that lsass was accessed.",
+      "WRONG - administrator status does not explain rundll32 running from C:\\Users\\Public\\ with cmd.exe as parent."
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1003.001',
+      rotation_bucket: 'detection_engineering',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A Namibian government agency wants to enable Credential Guard on all workstations but 60% are running Windows 10 Home, which does not support it. What is the most defensible approach?',
+    [
+      "Accept that 60% of workstations are unprotected and document the risk — Credential Guard is not available on Windows Home",
+      "Upgrade all Home workstations to Enterprise immediately — Credential Guard is essential and the cost is justified",
+      "Deploy Credential Guard where supported on Enterprise, and for the Home workstations implement compensating controls: LAPS for local admin passwords, removal of Domain Admin credentials from these systems, and detection for LSASS access",
+      "Disable Credential Guard everywhere so all workstations are treated equally"
+    ],
+    2,
+    'Credential Guard requires Enterprise; Home does not support it. The defensible path is Credential Guard where possible plus compensating controls where not. Accepting the gap without compensating controls, upgrading without budget, and disabling everywhere are all failures.',
+    'credential_defense',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - documenting the risk without compensating controls leaves the Home workstations unprotected; the tiering and detection controls can still be applied.",
+      "WRONG - upgrading all workstations immediately is a budget decision, not a security decision; the compensating controls are available now.",
+      "CORRECT - Credential Guard where supported, plus LAPS, removal of DA credentials, and LSASS detection on unsupported systems.",
+      "WRONG - disabling Credential Guard everywhere reduces protection on the workstations that support it."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1003',
+      rotation_bucket: 'credential_defense',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A Windhoek-based SME detects Mimikatz activity on a finance manager laptop. The SOC analyst is a one-person team and the laptop has the finance manager logged in with cached credentials. What is the most defensible first action?',
+    [
+      "Immediately reset all domain passwords — Mimikatz may have taken everything",
+      "Wait until the next business day to investigate — the attacker may still be in the environment and rushing could tip them off",
+      "Reboot the laptop to clear the attacker session",
+      "Isolate the laptop from the network, capture memory for forensics, and reset the finance manager account credentials and revoke sessions in parallel"
+    ],
+    3,
+    'The correct first action is to contain the host (isolate), preserve evidence (capture memory), and revoke the compromised credential in parallel. Resetting all domain passwords is disproportionate and disruptive; waiting lets the attacker move; rebooting destroys the memory evidence that proves what was extracted.',
+    'incident_response',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - resetting all domain passwords is disproportionate and will cause operational disruption; revoke the specific compromised credentials first.",
+      "WRONG - waiting a day gives the attacker hours to move laterally; the incident is live.",
+      "WRONG - rebooting destroys the memory evidence and does not remove attacker persistence on the network.",
+      "CORRECT - isolate, capture memory, revoke the finance manager account and sessions in parallel."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1003.001',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A Kerberos ticket was extracted from a workstation five hours ago. The attacker is using it for lateral movement. The SOC team has revoked the user session but has not reset the krbtgt account. What is the most defensible explanation of the residual risk?',
+    [
+      "The risk is contained — revoking the user session invalidates the extracted ticket",
+      "The residual risk is high: a Kerberos ticket-granting ticket (TGT) remains valid until it expires or the krbtgt is reset. Session revocation does not revoke already-issued tickets, and the attacker can request new tickets using the stolen TGT",
+      "The risk is zero — Kerberos tickets are tied to the user password and expire after one hour",
+      "The risk is moderate — the attacker cannot reuse the ticket outside the local network segment"
+    ],
+    1,
+    'Kerberos tickets are not invalidated by password reset or session revocation until the krbtgt account is reset (twice, for the current and previous password history). A stolen TGT remains valid until it expires (default 10 hours) and can be used to request new service tickets. The residual risk is high and krbtgt reset is required.',
+    'incident_response',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - session revocation does not invalidate already-issued Kerberos tickets; the TGT remains valid.",
+      "CORRECT - the TGT remains valid until expiry; krbtgt reset (twice) is required to invalidate all issued tickets.",
+      "WRONG - Kerberos TGTs have a 10-hour default lifetime, not one hour, and password reset does not invalidate them.",
+      "WRONG - the extracted ticket can be used from anywhere the domain controller accepts Kerberos authentication, not just the local segment."
+      ],
+      cognitive_level: 5,
+      difficulty: 5,
+      coverage_tag: 'T1550.003',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A Nairobi-based bank wants to detect Mimikatz-style credential theft at scale. Which detection approach has the highest coverage without excessive false positives?',
+    [
+      "Alert on any process accessing lsass.exe — this catches all credential dumping",
+      "Alert on any process named \"mimikatz\" — signature-based detection catches the tool",
+      "Alert on the specific combination of process path, parent process, and access mask for LSASS access, correlated with subsequent lateral movement from the same host",
+      "Alert on the presence of any unsigned process on workstations"
+    ],
+    2,
+    'Alerting on every process accessing lsass creates so much noise it will be ignored. Alerting on the specific combination (path, parent, access mask) plus correlation with lateral movement gives high signal. Signature-based detection misses renamed or obfuscated tooling; unsigned process detection is too broad.',
+    'detection_engineering',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - too many legitimate processes access lsass; this alert will be ignored within a week.",
+      "WRONG - signature-based detection misses renamed or obfuscated tools; Mimikatz source code is public and easy to recompile.",
+      "CORRECT - the specific combination plus correlation catches the actual credential-dump pattern.",
+      "WRONG - unsigned process detection generates enormous noise from legitimate tools and third-party applications."
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1003.001',
+      rotation_bucket: 'detection_engineering',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A domain administrator at a Namibian bank asks: "If we deploy Credential Guard everywhere, do we still need to worry about Mimikatz?" What is the most defensible answer?',
+    [
+      "Yes — Credential Guard fully protects against Mimikatz and no other controls are needed",
+      "Credential Guard is only relevant for Windows servers, not workstations",
+      "Credential Guard is a Microsoft-only technology and provides no protection against third-party tools",
+      "Credential Guard prevents LSASS memory extraction for the credentials it protects, but does not protect credentials outside the guarded scope (e.g., Kerberos tickets cached on unhardened systems), and does not eliminate pass-the-hash if hashes are extracted elsewhere"
+    ],
+    3,
+    'Credential Guard protects the LSASS process from memory extraction for credentials that are in the Credential Guard scope, but it is not a complete defense. Credentials cached outside LSASS, tickets stored elsewhere, and hashes extracted from non-guarded systems remain exposure paths. Credential Guard is one layer, not a complete solution.',
+    'credential_defense',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - Credential Guard is a strong control but not a complete solution; it protects a specific scope, not everything.",
+      "WRONG - Credential Guard applies to workstations and servers where supported.",
+      "WRONG - Credential Guard is a virtualization-based security control, not limited to Microsoft tools; it protects against any memory extraction.",
+      "CORRECT - Credential Guard protects LSASS scope; other credential paths remain, and the answer names them."
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1003',
+      rotation_bucket: 'credential_defense',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A SOC analyst sees that a user account has successfully authenticated with both NTLM and Kerberos in the same 5-minute window, from two different IPs. The NTLM authentication is to a legacy file server. What is the most defensible interpretation?',
+    [
+      "Suspicious — the NTLM authentication from a second IP is likely a pass-the-hash attempt: the attacker has the NTLM hash and is using it to access the legacy server while the legitimate user is authenticated via Kerberos from their normal workstation",
+      "Normal — the user has both a legacy application session and a modern application session",
+      "Benign — NTLM and Kerberos are used interchangeably by Windows and no action is needed",
+      "Low priority — NTLM authentication to a legacy server is expected and should not be alerted"
+    ],
+    0,
+    'The combination of NTLM authentication from a different IP while the legitimate user is authenticated via Kerberos is a classic pass-the-hash indicator. The attacker has the NTLM hash and is using it from a different system. This is a specific detection pattern — NTLM plus different source IP plus concurrent Kerberos is worth escalating.',
+    'detection_engineering',
+    45,
+    {
+      distractor_rationale: [
+      "CORRECT - NTLM from a second IP while the legitimate user is on Kerberos is a pass-the-hash pattern.",
+      "WRONG - concurrent NTLM and Kerberos from different IPs for the same account in a 5-minute window is not normal; it is a specific indicator.",
+      "WRONG - while Windows uses both, the concurrent use from different source IPs is the anomaly.",
+      "WRONG - NTLM to a legacy server alone is expected; NTLM to a legacy server from a different IP while the user is on Kerberos elsewhere is not."
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1550.002',
+      rotation_bucket: 'detection_engineering',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A Walvis Bay logistics company wants a 90-day plan to reduce Mimikatz risk. Which prioritization is most defensible?',
+    [
+      "Deploy Credential Guard to all workstations in month 1, deploy LAPS in month 2, enforce admin tiering in month 3",
+      "Roll out EDR with LSASS protection to all workstations in month 1, and defer all other changes until the EDR is fully deployed",
+      "Enforce admin tiering and remove Domain Admin credentials from user workstations first, then deploy LAPS and Credential Guard where supported, then add LSASS access detection",
+      "Purchase a privileged access management product and defer all configuration changes until it is implemented"
+    ],
+    2,
+    'The highest-leverage change is reducing where DA credentials are exposed. Tiering does that. LAPS and Credential Guard reduce the attack surface further but are less impactful if DA credentials are still on workstations. Detection is the safety net for what the preventive controls miss.',
+    'incident_response',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - deploying Credential Guard first without removing DA from workstations still leaves DA credentials exposed on unsupported systems.",
+      "WRONG - EDR is useful but deployment takes months and does not address the architectural exposure.",
+      "CORRECT - tiering first removes the highest-leverage exposure; LAPS and Credential Guard follow; detection closes the residual gap.",
+      "WRONG - PAM products are valuable but implementing one takes 6+ months; the configuration changes are available immediately."
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1003.001',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A Namibian SME has an older domain controller that does not support Protected Users security group enforcement. The security team wants to reduce credential theft risk. What is the most defensible approach?',
+    [
+      "Abandon the domain controller and migrate to a modern one immediately — Protected Users is essential",
+      "Rely on Protected Users alone — the group enforces credential protection across all domain controllers automatically",
+      "Disable NTLM authentication for the legacy DC entirely, which removes the credential theft risk",
+      "Add high-value accounts to Protected Users on the controllers that support it, and for the legacy DC, implement compensating controls: prohibit these accounts from authenticating to the legacy DC, restrict NTLM for these accounts, and add detection for their use on the legacy segment"
+    ],
+    3,
+    'Protected Users is enforced per-domain-controller based on the controller OS. If a legacy DC does not support it, adding accounts to Protected Users may prevent authentication on the legacy DC or fall back to unprotected authentication. The defensible path is partial deployment with compensating controls on the legacy segment.',
+    'credential_defense',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - immediate migration is a large project; the accounts need protection now with the controls available.",
+      "WRONG - Protected Users enforcement depends on the domain controller OS; a legacy DC may not enforce it.",
+      "WRONG - disabling NTLM entirely on the legacy DC may break applications that depend on it.",
+      "CORRECT - Protected Users where supported, plus compensating controls (block authentication to legacy DC, restrict NTLM, detect usage) for the legacy segment."
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1003',
+      rotation_bucket: 'credential_defense',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A SOC analyst sees an alert for LSASS access from a legitimate-looking process: `C:\\Windows\\System32\\svchost.exe` accessing `lsass.exe`. The parent process is `explorer.exe`. What is the most defensible interpretation?',
+    [
+      "The alert is suspicious — svchost.exe should not be a child of explorer.exe and should not directly access lsass. This is likely a process-masquerading attack: an attacker has renamed Mimikatz to svchost.exe and launched it from explorer",
+      "The alert is benign — svchost.exe is a legitimate Windows process",
+      "The alert is low priority — svchost access to lsass is routine Windows behaviour",
+      "The alert should be closed — svchost is a signed binary and only signed binaries can access lsass"
+    ],
+    0,
+    'Process masquerading is a common technique: the attacker renames Mimikatz to svchost.exe, places it in a writable path, and runs it. The parent process (explorer.exe) is the tell — legitimate svchost instances are children of services.exe, not explorer. The path C:\\Windows\\System32\\svchost.exe is correct, which makes the masquerade more convincing but the parent process is the diagnostic indicator.',
+    'detection_engineering',
+    45,
+    {
+      distractor_rationale: [
+      "CORRECT - process masquerading is indicated by the anomalous parent process; this is likely a renamed Mimikatz.",
+      "WRONG - svchost.exe is legitimate, but the parent process (explorer.exe) is wrong; svchost should be a child of services.exe.",
+      "WRONG - svchost accessing lsass is not routine; and the parent process is the diagnostic indicator regardless.",
+      "WRONG - a signed binary path does not guarantee the running process is legitimate; the attacker can place a renamed tool in a signed path or use a signed tool for DLL sideloading."
+      ],
+      cognitive_level: 5,
+      difficulty: 5,
+      coverage_tag: 'T1036.005',
+      rotation_bucket: 'detection_engineering',
+      last_validated: '2026-11-17'
+    }
+  ),
+
+  q(
+    'A bank CISO asks: "If we detect Mimikatz and reset every password, are we safe?" What is the most defensible answer?',
+    [
+      "Yes — password reset removes the credential theft risk and the attacker cannot return",
+      "No — the attacker may have stolen Kerberos tickets, golden tickets, or persisted via other means before detection. A full incident response is required: reset krbtgt twice, revoke all sessions, hunt for persistence, and validate that the attacker is not still active",
+      "Partially — password reset helps for NTLM hashes but not for anything else",
+      "No, but resetting all passwords and adding MFA is sufficient to prevent return"
+    ],
+    1,
+    'Password reset does not invalidate Kerberos tickets (krbtgt reset is required), does not remove persistence mechanisms, and does not detect whether the attacker has stolen anything else. The defensible answer is a full IR that includes krbtgt reset, session revocation, persistence hunting, and validation of clean state.',
+    'incident_response',
+    45,
+    {
+      distractor_rationale: [
+      "WRONG - password reset does not invalidate Kerberos tickets or persistence mechanisms; the attacker can remain active.",
+      "CORRECT - full IR: krbtgt reset twice, revoke sessions, hunt persistence, validate clean state.",
+      "WRONG - password reset helps for passwords but not for tickets or persistence; the answer should name what is still required.",
+      "WRONG - MFA helps but does not remove stolen tickets or persistence; the attacker with a valid TGT bypasses MFA for ticket requests."
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1003.001',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-17'
+    }
+  )
+],
     52: [
         q(
             "Malleable C2 profiles utilize legitimate-looking HTTP traffic patterns combined with randomized sleep jitter intervals. What is the most effective primary detection focus?",
