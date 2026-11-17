@@ -822,8 +822,10 @@ function generateModuleQuestions(moduleId, difficulty = 'medium', limit = 10, op
     return assessmentEngine.generateModuleQuestions(module, difficulty || module.difficulty, limit, options);
 }
 
-function mergeQuestionsToLimit(primary, fallback, limit) {
-    const floor = assessmentEngine.DRILL_COUNTS?.quizMin || assessmentEngine.DRILL_COUNTS?.quiz || 16;
+function mergeQuestionsToLimit(primary, fallback, limit, mode) {
+    const floor = mode === 'practice'
+        ? (assessmentEngine.DRILL_COUNTS?.practiceMin || assessmentEngine.DRILL_COUNTS?.practice || 10)
+        : (assessmentEngine.DRILL_COUNTS?.quizMin || assessmentEngine.DRILL_COUNTS?.quiz || 16);
     const target = Math.max(floor, parseInt(limit, 10) || floor);
     const out = [];
     const used = new Set();
@@ -1752,7 +1754,7 @@ app.get('/api/module-questions/:id', async (req, res) => {
     const sessionSeed = (req.session.user.id * 1000) + id + (mode === 'practice' ? 7 : 13);
     const generated = generateModuleQuestions(id, difficulty, limit, { rank: learner.rank, mode, sessionSeed });
     const refreshed = await loadRefreshedQuestionDrill(id, mode, difficulty, limit, learner.rank, sessionSeed);
-    const drill = mergeQuestionsToLimit(generated, refreshed, limit);
+    const drill = mergeQuestionsToLimit(generated, refreshed, limit, mode);
 
     if (mode === 'practice') {
         const practiceToken = crypto.randomBytes(12).toString('hex');
