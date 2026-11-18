@@ -348,326 +348,326 @@ const TIER_A_QUESTIONS = {
     ],
     7: [
   q(
-    'A finance clerk at a Windhoek logistics SME receives a WhatsApp video call from someone who looks and sounds exactly like the company CFO, requesting an urgent wire transfer before close of business. The clerk has never interacted with this executive directly before. What is the most defensible initial action?',
+    'An incident responder analyzing a compromised Windows server discovers malicious PowerShell execution logs containing base64-encoded strings. What is the most appropriate first analysis step?',
     [
-      'Confirm the request through an established internal directory callback and follow standard dual-approval workflows',
-      'Approve the payment immediately since the high-definition live video and authentic voice match the CFO perfectly',
-      'End the call, log the security incident with IT support, and take no further action on the pending wire transfer',
-      'Ask the caller to send the transfer request in writing by corporate email, then process once confirmation arrives'
+      'Decode the base64 string offline within a secure sandbox environment to inspect the underlying commands safely',
+      'Execute the encoded PowerShell payload directly on a production domain controller to observe live runtime behavior',
+      'Delete the local PowerShell executable binary from all enterprise endpoints to permanently prevent execution',
+      'Disable all event logging services across the entire server infrastructure to conserve storage capacity'
     ],
     0,
-    'Out-of-band verification via a known internal directory number combined with standard dual-control workflows is the primary defense against real-time deepfake impersonation.',
-    'deepfake',
+    'Decoding base64 strings offline in a sandbox safely exposes the script intent without risking production integrity.',
+    'incident_response',
     45,
     {
       distractor_rationale: [
-        'CORRECT - known-directory callbacks and dual-approval verify identity independently of compromised or spoofed live feeds.',
-        'WRONG - visual and audio matches are precisely what deepfakes exploit; overriding controls due to perceived urgency causes fraud.',
-        'WRONG - ending the call and logging without resolving a legitimate business need is avoidance rather than competent triage.',
-        'WRONG - requesting email confirmation adds a compromised channel and creates a false sense of security without true identity verification.'
+        'CORRECT - decoding base64 strings offline in a sandbox safely exposes the underlying script intent.',
+        'WRONG - executing unknown obfuscated scripts on production endpoints risks immediate compromise or damage.',
+        'WRONG - deleting the PowerShell binary breaks legitimate system administration tools and dependencies.',
+        'WRONG - disabling logging blinds the security team and destroys crucial forensic visibility.'
       ],
-      cognitive_level: 3,
+      cognitive_level: 4,
       difficulty: 3,
-      coverage_tag: 'T1656',
-      rotation_bucket: 'deepfake',
-      last_validated: '2026-11-13'
+      coverage_tag: 'T1059.001',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-19'
     }
   ),
 
   q(
-    'An accounts payable clerk receives an email from a supplier marked "FINAL NOTICE - IMMEDIATE ACTION REQUIRED" stating that the supplier will cease deliveries unless an outstanding balance is paid by end of day. The supplier\'s usual purchase order number and delivery references are correct. What is the most defensible action?',
+    'A SOC analyst reviewing SIEM telemetry notices repeated failed logins followed by a single successful authentication from an unknown external IP address targeting an administrative account. What is the most defensible initial action?',
     [
-      'Call the supplier on the pre-established account manager number to confirm the balance before releasing any payment',
-      'Pay the invoice immediately to avoid delivery disruption and account suspension',
-      'Reply to the email asking the supplier to confirm the exact amount and payment terms in a follow-up message',
-      'Forward the email to the warehouse manager to ask if any recent deliveries were missed or disputed'
+      'Assume the login was a legitimate administrative system maintenance task and close the SIEM alert ticket immediately',
+      'Isolate the administrative account and associated endpoints, then verify the activity directly with the account owner',
+      'Send an unencrypted broadcast email to all enterprise employees disclosing the exact administrative credentials involved',
+      'Reboot all corporate domain controllers simultaneously without checking event logs to disrupt potential active sessions'
     ],
-    0,
-    'BEC often uses legal pressure and urgency to bypass verification. The correct control is out-of-band confirmation through a pre-established number, not through the email thread.',
-    'bec',
+    1,
+    'Brute-force followed by success indicates potential account takeover; immediate isolation and verification are essential.',
+    'triage',
     45,
     {
       distractor_rationale: [
-        'CORRECT - a callback to a pre-established account manager number verifies the balance through a channel the attacker does not control.',
-        'WRONG - paying immediately is exactly the action the "final notice" pressure is designed to force; the balance may be fraudulent.',
-        'WRONG - replying within the thread reaches the attacker if the supplier mailbox is compromised.',
-        'WRONG - the warehouse manager sees the same email the clerk sees; their view does not verify the sender.'
+        'WRONG - closing security alerts without verification leaves active compromise indicators uninvestigated.',
+        'CORRECT - isolating accounts and verifying activity with the owner is the standard triage response to potential compromise.',
+        'WRONG - broadcasting unencrypted credentials via email creates a catastrophic secondary security exposure.',
+        'WRONG - rebooting all domain controllers without log analysis disrupts operations and destroys volatile forensic data.'
       ],
-      cognitive_level: 3,
+      cognitive_level: 4,
       difficulty: 3,
-      coverage_tag: 'T1566.002',
-      rotation_bucket: 'bec',
-      last_validated: '2026-11-13'
+      coverage_tag: 'T1110',
+      rotation_bucket: 'triage',
+      last_validated: '2026-11-19'
     }
   ),
 
   q(
-    'A junior helpdesk technician receives an urgent phone call from someone claiming to be the Chief Executive Officer, demanding an immediate manual password reset because they are locked out before an investor meeting. The caller becomes aggressive when asked for verification. What is the most professional action?',
+    'An enterprise security team discovers that an attacker exfiltrated sensitive customer records by tunneling traffic through custom DNS query requests. Which defensive control mitigates this technique most effectively?',
     [
-      'Send a temporary password reset link directly to the corporate email address on file to resolve the blockage quickly',
-      'Execute the reset immediately to prevent executive escalation, then notify the security team within the hour',
-      'Refuse the reset, require identity verification through out-of-band channels, and log an urgent ticket',
-      'Transfer the caller directly to the helpdesk lead and ask them to handle the exception workflow'
+      'Installing standard commercial antivirus software with signature databases updated once every calendar quarter',
+      'Enabling basic HTTP web browsing proxies for all employee internet connections across enterprise subnets',
+      'Deploying an internal recursive DNS forwarding architecture that inspects and restricts abnormal query volume and length',
+      'Configuring dynamic host configuration protocol scopes to rotate client IP lease addresses every 24 hours'
     ],
     2,
-    'Authority pressure and manufactured urgency are designed to intimidate staff into bypassing identity verification protocols.',
-    'authority',
+    'Monitoring and restricting DNS query patterns, lengths, and volumes disrupts DNS tunneling communication channels.',
+    'network_security',
     45,
     {
       distractor_rationale: [
-        'WRONG - sending reset links without active voice/out-of-band confirmation risks handing account control to an imposter.',
-        'WRONG - bypassing procedures for executives creates a critical vector for unauthorized account takeover.',
-        'CORRECT - strict adherence to out-of-band verification protects against executive impersonation and intimidation.',
-        'WRONG - transferring the call without verification merely shifts the social engineering target to another technician.'
+        'WRONG - quarterly antivirus updates do not detect or block protocol-based DNS tunneling techniques.',
+        'WRONG - HTTP web browsing proxies manage standard web traffic rather than custom DNS query protocols.',
+        'CORRECT - internal recursive DNS filtering and rate-limiting abnormal query volumes directly disrupts DNS tunneling.',
+        'WRONG - daily DHCP lease rotation changes IP addresses but does not inspect or restrict DNS traffic.'
       ],
-      cognitive_level: 3,
-      difficulty: 3,
-      coverage_tag: 'T1598',
-      rotation_bucket: 'authority',
-      last_validated: '2026-11-13'
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1071.004',
+      rotation_bucket: 'network_security',
+      last_validated: '2026-11-19'
     }
   ),
 
   q(
-    'An employee receives a video clip on Microsoft Teams from the Head of Engineering, asking for a quick review of an unreleased product deck before tomorrow\'s launch. The lighting on the speaker\'s face shifts oddly when they turn, and the audio seems a half-second out of sync. The employee has never received a Teams video from this person before. What is the most defensible action?',
+    'A financial institution wants to verify whether its security operations center can detect a simulated credential dumping attack against LSASS memory. Which testing methodology is most appropriate?',
     [
-      'Halt the interaction, verify the request through an independent known channel, and report the suspicious video to IT',
-      'Reply on Teams asking the Head of Engineering to resend the video from a personal email in case corporate upload lagged',
-      'Ignore the visual glitches because corporate video conferencing software frequently drops frames during busy operational hours',
-      'Look up the Head of Engineering profile photo in the corporate directory and compare it frame by frame to confirm identity'
+      'Executing a controlled adversarial simulation using native tools like Mimikatz during an authorized red team engagement',
+      'Performing a paper-based administrative walkthrough of physical server room badge access policies',
+      'Reviewing automated vulnerability scanner compliance PDF reports generated once every calendar year',
+      'Conducting an employee survey regarding password complexity preferences and corporate policy awareness'
     ],
     0,
-    'Synthetic media is built from public profile photos and public executive audio. Comparing against those same sources cannot verify identity; only an independent channel can.',
-    'deepfake',
+    'Adversarial simulation using actual post-exploitation tools tests whether EDR and SIEM rules successfully detect LSASS dumping.',
+    'testing',
     45,
     {
       distractor_rationale: [
-        'CORRECT - only an independent known channel verifies identity; the video itself cannot.',
-        'WRONG - asking the sender to resend from a personal email hands the attacker a second channel they already control.',
-        'WRONG - dismissing the anomalies as normal lag is exactly the perceptual bias deepfakes rely on.',
-        'WRONG - the profile photo is one of the sources used to build the deepfake, so comparing to it confirms nothing.'
+        'CORRECT - controlled adversarial simulation tests actual detection and alerting capabilities against real memory dumping TTPs.',
+        'WRONG - paper-based badge walkthroughs verify physical security rather than endpoint memory protection controls.',
+        'WRONG - annual vulnerability scanner reports test software patching rather than active behavioral detection.',
+        'WRONG - employee password surveys measure user awareness rather than technical security monitoring efficacy.'
       ],
-      cognitive_level: 3,
+      cognitive_level: 4,
       difficulty: 3,
-      coverage_tag: 'T1656',
-      rotation_bucket: 'deepfake',
-      last_validated: '2026-11-13'
+      coverage_tag: 'T1003.001',
+      rotation_bucket: 'testing',
+      last_validated: '2026-11-19'
     }
   ),
 
   q(
-    'A finance officer receives an email from an external domain (@supplier-support-namibia.com) requesting immediate settlement of an overdue invoice to avoid legal action. The invoice format looks identical to previous legitimate bills. What is the most appropriate initial containment and verification procedure?',
+    'An administrator reviewing cloud tenant access logs notices a newly created API access key assigned full global administrative permissions, generated outside normal operational windows. What is the immediate priority?',
     [
-      'Block the external sender domain immediately at the secure email gateway and delete the message thread from all active mailboxes',
-      'Forward the invoice notice to the primary procurement officer and verify via a known vendor contact number before payment processing',
-      'Ask the vendor usual account manager to confirm the new bank details on the next scheduled call, then process the transaction',
-      'Forward the invoice to the CFO for executive approval since the requested amount falls within delegated spending limits'
+      'Submit a formal IT service desk ticket requesting an administrative review meeting during the next scheduled quarter',
+      'Revoke the unauthorized API key immediately, review cloud audit logs for recent activity, and rotate master credentials',
+      'Delete the primary enterprise cloud storage bucket to prevent potential unauthorized data viewing by the key holder',
+      'Disable multi-factor authentication requirements globally across the cloud tenant to simplify emergency access recovery'
     ],
     1,
-    'Lookalike domains and invoice pressure require verification via trusted procurement contacts rather than blocking or delayed scheduling.',
-    'bec',
+    'Revoking unauthorized credentials and reviewing audit trails stops potential cloud persistence and data exfiltration immediately.',
+    'cloud_security',
     45,
     {
       distractor_rationale: [
-        'WRONG - gateway blocking prevents future emails but does not verify whether the pending invoice requires settlement.',
-        'CORRECT - verifying through established procurement channels confirms invoice validity before financial exposure occurs.',
-        'WRONG - waiting for a scheduled call leaves the fraudulent invoice pending while attacker pressure mounts.',
-        'WRONG - escalating unverified invoices to executive leadership bypasses procurement validation controls.'
+        'WRONG - scheduling a quarterly ticket delays response and leaves unauthorized administrative keys active for months.',
+        'CORRECT - revoking unauthorized API keys, auditing logs, and rotating credentials halts potential cloud compromise instantly.',
+        'WRONG - deleting storage buckets destroys business data rather than addressing the unauthorized API credential.',
+        'WRONG - disabling MFA globally drastically weakens security posture during an active cloud security incident.'
       ],
-      cognitive_level: 2,
-      difficulty: 2,
-      coverage_tag: 'T1566.002',
-      rotation_bucket: 'bec',
-      last_validated: '2026-11-13'
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1098',
+      rotation_bucket: 'cloud_security',
+      last_validated: '2026-11-19'
     }
   ),
 
   q(
-    'An employee receives an SMS text message claiming to be from the internal HR Director, stating that annual tax rebate forms must be updated immediately via an attached mobile link to avoid payroll delays. The message includes the employee\'s correct department name. What is the appropriate initial response?',
+    'A security architect is designing an enterprise identity management strategy to protect against pass-the-hash and credential theft attacks on Windows domains. Which combination of controls is mandatory?',
     [
-      'Click the mobile link to inspect the landing page URL and determine if the banking form looks authentic before submitting details',
-      'Forward the SMS text message directly to a colleague in HR to ask if they know anything about the mandatory rebate forms',
-      'Reply to the SMS asking the sender to provide their corporate employee identification number before you proceed further',
-      'Ignore the SMS link, report the message via the enterprise phishing plugin, and verify directly through the internal portal'
+      'Mandating that all standard domain users update their account passwords every thirty days without exception',
+      'Disabling Kerberos authentication across all network domains and relying exclusively on legacy NTLM protocols',
+      'Deploying commercial email gateway spam filtering software to block inbound phishing attachments at the perimeter',
+      'Enforcing tiered administrative models and enabling Credential Guard to isolate sensitive credentials in memory'
     ],
     3,
-    'Personalized SMS phishing (smishing) exploits financial incentives and trust in internal departments to induce hasty clicks.',
-    'authority',
+    'Tiered admin models and Credential Guard prevent administrative credentials from being cached in LSASS where hashes can be stolen.',
+    'identity_hardening',
     45,
     {
       distractor_rationale: [
-        'WRONG - visiting untrusted phishing landing pages risks browser exploits and credential harvesting.',
-        'WRONG - forwarding unverified messages to coworkers defers security responsibility and spreads uncertainty.',
-        'WRONG - replying to attackers on SMS engages the threat actor and confirms your mobile number is active.',
-        'CORRECT - ignoring untrusted mobile links and reporting via official channels neutralizes smishing campaigns.'
+        'WRONG - forced monthly password changes for standard users do not prevent administrative hash theft or pass-the-hash.',
+        'WRONG - disabling Kerberos in favor of NTLM is a critical security downgrade that increases exposure to hash attacks.',
+        'WRONG - email gateway spam filtering blocks inbound email threats rather than protecting domain credential memory.',
+        'CORRECT - tiered administrative models and Credential Guard prevent administrative hash extraction from LSASS memory.'
       ],
-      cognitive_level: 2,
-      difficulty: 2,
-      coverage_tag: 'T1598.003',
-      rotation_bucket: 'authority',
-      last_validated: '2026-11-13'
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1550.002',
+      rotation_bucket: 'identity_hardening',
+      last_validated: '2026-11-19'
     }
   ),
 
   q(
-    'A regional manager takes a VoIP call from someone who sounds like the Chief Operating Officer. The COO instructs the manager to approve an emergency equipment purchase outside normal procurement thresholds. The line has a faint echo on high notes, which the manager initially assumes is VoIP compression. The COO is using familiar procurement terminology and has the right context. What should the manager do?',
+    'An incident response team recovering from a complex intrusion wants to ensure that all introduced persistence mechanisms are eradicated. What is the most robust validation procedure?',
     [
-      'Challenge the caller with a pre-established internal security passphrase and confirm through a callback on a known internal number',
-      'Continue the active call but make a note to raise the procurement concern with the regional manager after the call concludes',
-      'Comply with the purchase instruction because the voice characteristics, vocabulary, and context all match a real COO',
-      'Ask the COO to send a follow-up email confirming the purchase so there is a paper trail for the unusual operational approval'
+      'Performing a comprehensive forensic review of scheduled tasks, registry run keys, services, and authorized user accounts',
+      'Confirming that all office printer hardware devices are powered on and connected to local network switches',
+      'Checking that the enterprise website loads successfully for external customers browsing from public networks',
+      'Verifying that the monthly electricity bill for the server data center facility matches historical averages'
     ],
     0,
-    'Voice cloning learns from public audio and can replicate cadence and vocabulary. Only a challenge phrase or an out-of-band callback, both pre-established, defeats it.',
-    'deepfake',
+    'Thoroughly auditing all common persistence vectors (tasks, registry keys, services, accounts) ensures complete threat eradication.',
+    'incident_response',
     45,
     {
       distractor_rationale: [
-        'CORRECT - a pre-agreed challenge phrase plus a callback on a known internal number verifies identity independent of the audio.',
-        'WRONG - noting it for later lets the fraudulent purchase proceed while the manager feels diligent.',
-        'WRONG - matching tone and vocabulary is exactly what a voice clone trained on public executive audio will do.',
-        'WRONG - an email follow-up can be spoofed from a lookalike domain, and the purchase is already approved by voice.'
+        'CORRECT - comprehensive forensic review of persistence locations ensures no hidden backdoors remain in the environment.',
+        'WRONG - printer connectivity checks ensure peripheral operations rather than validating host-level security hygiene.',
+        'WRONG - public web page loading verifies basic web service availability rather than system-level persistence removal.',
+        'WRONG - electricity billing reviews monitor facility utility costs rather than enterprise server security state.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1547',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An organization is updating its enterprise vulnerability management program. Which metric provides the most meaningful evaluation of remediation performance over time?',
+    [
+      'Total financial expenditure allocated toward third-party penetration testing consultant retainers',
+      'Aggregate gigabytes of raw log data ingested daily by the centralized SIEM analytics platform',
+      'Mean Time to Remediate critical and high-severity vulnerabilities across production asset groups',
+      'Total count of general support tickets submitted by internal employees to the IT helpdesk'
+    ],
+    2,
+    'Mean Time to Remediate (MTTR) measures how efficiently security and IT teams patch identified vulnerabilities.',
+    'metrics',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - penetration testing retainer expenditures measure budgeting scale rather than vulnerability patch velocity.',
+        'WRONG - raw log ingestion volume measures data collection scale rather than vulnerability remediation speed.',
+        'CORRECT - MTTR tracks the speed and efficiency with which vulnerability remediation is executed across assets.',
+        'WRONG - helpdesk support ticket counts measure general IT assistance volume rather than security patching.'
       ],
       cognitive_level: 3,
       difficulty: 3,
-      coverage_tag: 'T1656',
-      rotation_bucket: 'deepfake',
-      last_validated: '2026-11-13'
+      coverage_tag: 'M1047',
+      rotation_bucket: 'metrics',
+      last_validated: '2026-11-19'
     }
   ),
 
   q(
-    'An accounts payable clerk receives an email thread that appears to be an ongoing discussion between the Chief Executive Officer and the Chief Financial Officer regarding a secret overseas acquisition, in which the clerk is suddenly CC\'d and instructed to wire funds. Which indicator most strongly suggests thread hijacking?',
+    'Following a successful phishing attack that compromised employee credentials, executive leadership asks how to prevent similar recurrences. What is the most effective strategic control?',
     [
-      'Header analysis showing that the malicious message was injected into an older legitimate conversation history via compromise',
-      'The thread earlier messages were sent from a different geographic region than the executive normally operates within',
-      'The attachment on the latest message is a compressed archive file, while earlier messages in the thread used PDF format',
-      'The domain names in the email header match corporate DNS records and pass all standard SPF and DKIM authentication checks'
-    ],
-    0,
-    'Thread hijacking involves injecting malicious instructions into existing legitimate email threads to establish false credibility.',
-    'bec',
-    45,
-    {
-      distractor_rationale: [
-        'CORRECT - header analysis in thread hijacking often uncovers message injection into historical conversations.',
-        'WRONG - geographic differences in messaging history can occur due to legitimate travel or VPN routing.',
-        'WRONG - attachment type changes are secondary indicators and do not confirm message injection into historical threads.',
-        'WRONG - passing SPF/DKIM indicates the sending server is authorized, but does not prove the account owner was not compromised.'
-      ],
-      cognitive_level: 3,
-      difficulty: 3,
-      coverage_tag: 'T1566.002',
-      rotation_bucket: 'bec',
-      last_validated: '2026-11-13'
-    }
-  ),
-
-  q(
-    'Corporate reception receives a phone call from an individual claiming to be a senior national regulatory official, threatening immediate site closure and severe legal penalties unless the internal network topology diagram is emailed immediately. How should reception handle this pressure?',
-    [
-      'Take the caller name and direct office number, then call them back immediately on that same line to verify their official identity',
-      'Refuse immediate disclosure, request official documentation through formal channels, and escalate to legal and security teams',
-      'Email the network diagram with a password-protected link to satisfy the regulatory requirement while protecting sensitive data',
-      'Note the deadline given by the caller and place the request in the normal compliance queue for next month scheduled review'
+      'Requiring employees to print out and physically sign a paper pledge agreeing never to click suspicious links',
+      'Transitioning the entire enterprise authentication model from passwords to phishing-resistant FIDO2 hardware tokens',
+      'Disabling external email communication entirely and restricting all messaging exclusively to internal memos',
+      'Increasing the minimum required enterprise password length from eight characters up to nine characters'
     ],
     1,
-    'Regulator impersonation relies on legal intimidation; official requests must be verified through established institutional channels.',
-    'authority',
+    'Phishing-resistant FIDO2 hardware tokens render credential harvesting and credential-stealing phishing pages ineffective.',
+    'identity_hardening',
     45,
     {
       distractor_rationale: [
-        'WRONG - calling back a number provided by an unverified caller on the same line achieves zero independent verification.',
-        'CORRECT - refusing rush disclosures and routing through formal legal/security teams neutralizes intimidation tactics.',
-        'WRONG - password-protecting sensitive topology diagrams does not authorize sharing confidential infrastructure data with outsiders.',
-        'WRONG - treating an active extortion attempt as a routine compliance ticket ignores an ongoing security threat.'
+        'WRONG - paper pledges rely on administrative policy compliance rather than technical cryptographic controls.',
+        'CORRECT - FIDO2 hardware tokens provide phishing-resistant authentication that cannot be bypassed via credential harvest pages.',
+        'WRONG - disabling external email communication paralyzes external business operations and client interactions.',
+        'WRONG - increasing password length by a single character fails to protect against modern phishing-based interception.'
       ],
-      cognitive_level: 3,
-      difficulty: 3,
-      coverage_tag: 'T1598',
-      rotation_bucket: 'authority',
-      last_validated: '2026-11-13'
-    }
-  ),
-
-  q(
-    'A marketing manager receives a pre-recorded video from a prominent industry partner inviting urgent participation in an executive survey via a link in the video description. The video shows the partner CEO, whose neck and shoulders look slightly unnatural in the lighting. The partnership is strategically important and the survey seems low-stakes. What is the most defensible response?',
-    [
-      'Ask a marketing colleague to click the link first and confirm it looks like a real survey before participating personally',
-      'Look up the partner company public website to see if they announced a survey, then click the link if announcements match',
-      'Participate in the survey because partnership relationships are vital, and declining an executive survey could cause friction',
-      'Verify the invitation independently through the partner official published contact details before clicking any external links'
-    ],
-    3,
-    'Synthetic video lures rely on recognizable figures and plausible business context. Only independent verification through the partner official channel confirms the invitation is real.',
-    'deepfake',
-    30,
-    {
-      distractor_rationale: [
-        'WRONG - a colleague clicking first is equally likely to be phished; delegation does not verify anything.',
-        'WRONG - an attacker can seed a fake announcement on a lookalike site, so a web search confirms only that a web page exists.',
-        'WRONG - prioritizing the relationship over verification is exactly the pressure a synthetic lure is designed to create.',
-        'CORRECT - verifying through the partner published contact bypasses the synthetic video and the phishing link entirely.'
-      ],
-      cognitive_level: 3,
+      cognitive_level: 4,
       difficulty: 3,
       coverage_tag: 'T1566',
-      rotation_bucket: 'deepfake',
-      last_validated: '2026-11-13'
+      rotation_bucket: 'identity_hardening',
+      last_validated: '2026-11-19'
     }
   ),
 
   q(
-    'An employee in human resources receives an email marked confidential from the board chairperson, demanding that employee salary schedules be sent over for an urgent executive review. What is the definitive verification check?',
+    'A security engineer is configuring network segmentation for an industrial control network. Which principle should guide the architecture between IT and OT environments?',
     [
-      'Check the email header to confirm whether the sender domain matches the standard board prefix, and proceed if clean',
-      'Confirm the request through an independent internal communication channel before disclosing sensitive personal data records',
-      'Forward the salary records with strong password encryption enabled to protect the data files during transit across networks',
-      'Reply to the chairperson asking if payroll files can be transferred via an alternative corporate secure file-sharing link'
-    ],
-    1,
-    'Confidentiality markers and executive pressure are used to extract sensitive PII; independent verification is mandatory.',
-    'bec',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - header signature checks can be spoofed by attackers and do not replace independent out-of-band confirmation.',
-        'CORRECT - verifying requests involving sensitive PII through independent channels prevents data exfiltration.',
-        'WRONG - sending PII externally violates data privacy regulations regardless of file encryption settings.',
-        'WRONG - offering alternative file-sharing links facilitates data exfiltration rather than validating identity.'
-      ],
-      cognitive_level: 2,
-      difficulty: 2,
-      coverage_tag: 'T1566.002',
-      rotation_bucket: 'bec',
-      last_validated: '2026-11-13'
-    }
-  ),
-
-  q(
-    'A new admin assistant is asked by a senior executive whom they have never met to urgently send a confidential document to an external address for a board meeting. The assistant worries that refusing will reflect poorly in their first week. What is the most defensible action under this pressure?',
-    [
-      'Comply with the request because new employees should demonstrate reliability and trust senior leadership directives',
-      'Ask a more experienced colleague to handle the request since the assistant lacks authority to refuse senior executives',
-      'Send the document but copy the assistant manager on the email so that the transmission is officially recorded on file',
-      'Verify independently through the executive known office or a colleague, and refuse external delivery until confirmed'
+      'Connecting all enterprise workstations directly to industrial control switches to maximize network speed and throughput',
+      'Removing all perimeter firewalls between IT and OT to eliminate network latency and simplify management overhead',
+      'Relying entirely on employee verbal security assurances rather than technical firewall packet filtering rules',
+      'Implementing strict unidirectional or firewall-enforced gateway controls to isolate operational networks from corporate IT'
     ],
     3,
-    'The pressure to comply as a new employee is exactly what authority-based social engineering exploits. Only independent verification confirms the request is legitimate.',
-    'authority',
+    'Isolating OT networks from IT via strict firewall gateways prevents corporate compromises from spilling into critical industrial systems.',
+    'architecture',
     45,
     {
       distractor_rationale: [
-        'WRONG - compliance under pressure is the primary goal of the attack, not a demonstration of reliability.',
-        'WRONG - delegating to a colleague without verification does not confirm the request is real; it only transfers the decision.',
-        'WRONG - copying a manager on an email does not verify the sender, and the confidential document has already been sent.',
-        'CORRECT - independent verification through the executive known office or a colleague verifies the request safely.'
+        'WRONG - connecting IT workstations to OT switches exposes critical industrial control systems to general malware spread.',
+        'WRONG - removing perimeter firewalls between IT and OT creates catastrophic security exposure across critical infrastructure.',
+        'WRONG - relying on verbal assurances rather than technical packet filters violates foundational security architecture.',
+        'CORRECT - strict firewall gateway isolation protects industrial control systems from IT network compromise vectors.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'M1030',
+      rotation_bucket: 'architecture',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An enterprise incident response plan requires a post-incident review meeting following any Severity-1 security event. What is the primary governance outcome expected from this session?',
+    [
+      'Determining which specific technical staff members should receive formal written employment termination notices',
+      'Drafting misleading public press statements designed to minimize regulatory scrutiny and conceal breach scope',
+      'Permanently disabling all centralized security monitoring and audit logging tools to reduce operational costs',
+      'Producing a prioritized corrective action list with assigned owners to close root-cause security gaps permanently'
+    ],
+    3,
+    'Post-incident reviews must yield actionable, assigned corrective actions to fix root causes and prevent recurrence.',
+    'governance',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - focusing meetings on staff termination fosters a toxic culture and discourages transparent incident reporting.',
+        'WRONG - drafting misleading statements to conceal breach scope violates regulatory compliance and corporate ethics.',
+        'WRONG - disabling security monitoring tools blinds the organization and guarantees future catastrophic failures.',
+        'CORRECT - prioritized corrective actions with assigned owners ensure root-cause vulnerabilities are permanently fixed.'
       ],
       cognitive_level: 3,
+      difficulty: 2,
+      coverage_tag: 'M1016',
+      rotation_bucket: 'governance',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An incident responder analyzing a compromised endpoint discovers a suspicious scheduled task configured to execute an obfuscated PowerShell script every system startup. What MITRE ATT&CK technique is represented here?',
+    [
+      'Scheduled Task execution leveraging built-in OS operating system utilities for persistence and automated startup',
+      'Process Injection targeting active runtime memory spaces of legitimate system administration binaries',
+      'Account Manipulation involving the creation of hidden local administrative shadow user accounts',
+      'Boot or Logon Initialization Scripts executed automatically during user session establishment'
+    ],
+    0,
+    'Configuring scheduled tasks to run scripts upon system startup is a primary technique for maintaining persistence (T1053.005).',
+    'persistence',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - scheduled tasks configured at startup match MITRE technique T1053.005 for persistence.',
+        'WRONG - process injection manipulates active runtime memory rather than creating scheduled tasks.',
+        'WRONG - account manipulation creates or modifies user accounts rather than scheduling startup tasks.',
+        'WRONG - logon scripts execute during user login sessions rather than general system startup.'
+      ],
+      cognitive_level: 2,
       difficulty: 3,
-      coverage_tag: 'T1598',
-      rotation_bucket: 'authority',
-      last_validated: '2026-11-13'
+      coverage_tag: 'T1053.005',
+      rotation_bucket: 'persistence',
+      last_validated: '2026-11-19'
     }
   )
 ],
@@ -998,651 +998,651 @@ const TIER_A_QUESTIONS = {
 ],
     11: [
   q(
-    'During a ransomware tabletop exercise, the CTO asks whether the company\'s nightly database backups are "enough." The backups are stored on a NAS that is always online and accessible from the production network. What is the most defensible answer?',
+    'A Windhoek financial services firm suffers a ransomware attack that encrypts primary file shares and domain controllers. SOC analysts confirm the deployment payload was executed via Group Policy. What is the immediate priority?',
     [
-      'Enough — nightly backups capture all data within 24 hours of loss, which meets industry recovery time objectives for most SMEs',
-      'Enough — as long as the NAS is protected by antivirus and a strong password policy, the backups are safe from ransomware',
-      'Not enough — the backups sit on an always-online NAS reachable from production, one of the first targets in a ransomware attack',
-      'Not enough — but the fix is simply to double the frequency so backups happen every 12 hours instead of every 24 hours'
+      'Contact external threat actor negotiation representatives immediately to discuss payment terms and decryption timelines',
+      'Isolate infected hosts, preserve volatile memory forensics, and disconnect offline immutable backups from the core network',
+      'Reinstall the operating system on all impacted endpoints simultaneously while keeping all core network switches online',
+      'Power down all domain controllers instantly to prevent the encryption key from propagating further across replication links'
     ],
-    2,
-    'Always-online backups reachable from the production network are the primary target in modern ransomware. Immutability and network separation matter more than frequency.',
-    'backup_architecture',
+    1,
+    'Isolating hosts and safeguarding offline immutable backups prevents reinfection while preserving evidence for forensic analysis.',
+    'incident_response',
     45,
     {
       distractor_rationale: [
-        'WRONG - frequency without separation still means the attacker encrypts the last 24 hours of backups along with production.',
-        'WRONG - AV and passwords do not stop ransomware operators who already have domain admin from the initial compromise.',
-        'CORRECT - online, network-reachable backups are compromised in the same attack; immutability and separation are the controls that matter.',
-        'WRONG - more frequent backups on the same compromised NAS are more encrypted copies, not safer copies.'
+        'WRONG - engaging threat actors prematurely finances criminal operations without guaranteeing decryption key delivery.',
+        'CORRECT - immediate isolation and protecting immutable backups stops the spread and preserves recovery options.',
+        'WRONG - reinstalling systems without disconnecting networks risks immediate reinfection through persistent vectors.',
+        'WRONG - abrupt power down of domain controllers can corrupt Active Directory databases and complicate recovery.'
       ],
-      cognitive_level: 3,
-      difficulty: 3,
+      cognitive_level: 4,
+      difficulty: 4,
       coverage_tag: 'T1486',
-      rotation_bucket: 'backup_architecture',
-      last_validated: '2026-11-13'
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-18'
     }
   ),
 
   q(
-    'A mid-sized SME has an on-premise backup server that runs nightly. The backup server uses the same domain administrator credentials as the production servers. What is the specific risk this represents?',
+    'During a ransomware containment operation, an administrator discovers that shadow copies have been deleted across all workstations via `vssadmin.exe`. What MITRE ATT&CK technique does this represent?',
     [
-      'Acceptable — the backup server is not internet-facing, so an attacker would need physical access to compromise it',
-      'Minimal — the backup server is only used for backup, so compromise of production credentials does not affect it',
-      'Only a concern if the backup server is in a different building from the production data centre',
-      'Shared domain admin credentials mean that the same identity compromise that encrypts production also encrypts the backups in the same attack'
+      'Data Destruction via low-level storage overwriting tools deployed by secondary threat actors',
+      'Indicator Removal on Host through deleting logs and clearing audit event tracking records',
+      'Service Stop or Modify executed to disable security controls and monitoring agents',
+      'Inhibit System Recovery via service manipulation and automated scheduled task creation procedures'
     ],
     3,
-    'Shared domain admin credentials mean the same compromise that encrypts production encrypts backups. Backup infrastructure must be isolated at the identity layer, not just the network layer.',
-    'identity_tiering',
+    'Deleting volume shadow copies prevents local file recovery, aligning directly with Inhibit System Recovery (T1490).',
+    'defense_evasion',
+    30,
+    {
+      distractor_rationale: [
+        'WRONG - data destruction targets file integrity or partition tables rather than backup snapshots.',
+        'WRONG - indicator removal focuses on clearing event logs rather than file system shadow storage.',
+        'WRONG - service stopping targets running daemons rather than file system volume shadow services.',
+        'CORRECT - deleting shadow copies directly matches the MITRE technique for inhibiting system recovery.'
+      ],
+      cognitive_level: 2,
+      difficulty: 3,
+      coverage_tag: 'T1490',
+      rotation_bucket: 'defense_evasion',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'A Johannesburg healthcare provider recovers from a ransomware deployment but finds persistent command-and-control beacons calling out every 60 seconds. What is the most defensible containment action?',
+    [
+      'Ignore the outbound network traffic since the primary ransomware encryption payload has already been neutralized',
+      'Block the destination IP addresses at the perimeter firewall and isolate the beaconing hosts for offline triage',
+      'Disable the local host firewall entirely to allow incident response agents unhindered telemetry access',
+      'Upgrade the core enterprise firewall software license to unlock advanced deep packet inspection modules'
+    ],
+    1,
+    'Persistent beacons indicate remaining persistence mechanisms (scheduled tasks or registry keys) requiring immediate network isolation and perimeter blocking.',
+    'containment',
     45,
     {
       distractor_rationale: [
-        'WRONG - internet-facing is not the only attack path; identity compromise from a phishing email is the primary route.',
-        'WRONG - shared credentials mean shared compromise; the "only used for backup" framing ignores the identity link.',
-        'WRONG - physical separation does not help when the attack is at the identity layer.',
-        'CORRECT - shared domain admin credentials mean the attacker who compromises production also owns the backups.'
+        'WRONG - ignoring outbound beacons leaves active command-and-control channels open for threat actor re-entry.',
+        'CORRECT - blocking C2 IPs and isolating hosts stops potential secondary payload delivery and data exfiltration.',
+        'WRONG - disabling host firewalls exposes endpoints directly to internal lateral movement vectors.',
+        'WRONG - firewall license upgrades do not remediate infected endpoints exhibiting active beacon behavior.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1071',
+      rotation_bucket: 'containment',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'A Lagos enterprise experiences a ransomware event where the attackers exfiltrated 500GB of sensitive customer data prior to encryption. The extortionists demand a ransom under threat of public publication. How should leadership respond?',
+    [
+      'Pay the ransom immediately in cryptocurrency to ensure the stolen data is permanently deleted by the threat actor',
+      'Refuse payment, notify data protection regulators, engage legal counsel, and prepare transparent stakeholder communications',
+      'Deny the data exfiltration publicly in the press and take no further technical remediation actions on database servers',
+      'Transfer all enterprise operations to an unverified cloud provider while negotiations with the extortionists continue'
+    ],
+    1,
+    'Data extortion requires regulatory reporting, legal guidance, and stakeholder transparency; paying offers zero guarantee of data deletion.',
+    'extortion',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - paying cybercriminals provides zero cryptographic or contractual guarantee that exfiltrated data is destroyed.',
+        'CORRECT - regulatory reporting, legal guidance, and stakeholder transparency form the standard defensible response to extortion.',
+        'WRONG - public denial without technical containment or regulatory notification violates compliance mandates.',
+        'WRONG - shifting operations to unverified environments during an active breach compounds operational risk.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1567',
+      rotation_bucket: 'extortion',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'An incident responder analyzing an infected endpoint finds that the ransomware binary injected itself into `explorer.exe` to evade security tools. What process injection technique was likely utilized?',
+    [
+      'Portable Executable mapping and direct thread creation via undocumented system calls',
+      'Dynamic Link Library injection targeting standard Windows explorer memory spaces',
+      'Process Hollowing or Process Injection into a legitimate running system binary',
+      'Registry Run Key modification to ensure execution persistence across system reboots'
+    ],
+    2,
+    'Injecting code into legitimate system binaries like explorer.exe to mask activity is characteristic of process injection (T1055).',
+    'defense_evasion',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - PE mapping loads binaries differently from standard runtime process injection models.',
+        'WRONG - DLL injection loads external libraries rather than executing direct memory payload migration.',
+        'CORRECT - process injection or hollowing into legitimate binaries allows execution under trusted process contexts.',
+        'WRONG - registry modifications provide persistence across reboots rather than active memory execution.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1055',
+      rotation_bucket: 'defense_evasion',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'A Namibian parastatal discovers that ransomware operators gained initial access via compromised VPN credentials lacking multi-factor authentication. What is the most robust structural remediation?',
+    [
+      'Require remote workers to submit manual weekly login access logs via secure corporate email forms',
+      'Disable remote virtual private network access entirely and mandate physical on-site terminal connections',
+      'Enforce phishing-resistant multi-factor authentication across all remote access gateways immediately',
+      'Increase the corporate password complexity threshold from eight characters to twelve characters minimum'
+    ],
+    2,
+    'Phishing-resistant MFA on remote gateways eliminates credential stuffing and single-factor compromise vectors.',
+    'identity_hardening',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - manual login logs introduce administrative overhead and fail to prevent unauthorized access in real time.',
+        'WRONG - completely disabling remote access paralyzes modern business operations unnecessarily.',
+        'CORRECT - enforcing phishing-resistant MFA directly neutralizes credential-based remote access compromises.',
+        'WRONG - complex passwords alone remain vulnerable to credential stuffing if multi-factor authentication is absent.'
       ],
       cognitive_level: 3,
       difficulty: 3,
       coverage_tag: 'T1078',
-      rotation_bucket: 'identity_tiering',
-      last_validated: '2026-11-13'
+      rotation_bucket: 'identity_hardening',
+      last_validated: '2026-11-18'
     }
   ),
 
   q(
-    'The company has restored file shares from backup following a ransomware incident, but four days later the shares are re-encrypted. What is the most likely explanation?',
+    'A security team is designing a backup strategy for enterprise file servers to protect against modern ransomware that attempts to compromise backup repositories. What design principle is essential?',
     [
-      'The attacker remained on the network with persistent access and encrypted the restored files after recovery',
-      'The backup was corrupt, and the "restored" files were actually still encrypted copies of the original files',
-      'A new ransomware variant was introduced by an employee during the recovery process through an email attachment',
-      'The backup restore process itself accidentally re-encrypted the files as part of its normal restoration operation'
+      'Storing primary backup snapshots on secondary operational network shares accessible via standard service accounts',
+      'Implementing offline or WORM (Write Once, Read Many) immutable storage tiers isolated from domain admin credentials',
+      'Relying solely on continuous real-time cloud synchronization folders to mirror active production databases instantly',
+      'Configuring automated daily backup rotations that overwrite previous historical archives to conserve storage capacity'
+    ],
+    1,
+    'WORM immutable storage and air-gapped or role-separated access prevents ransomware from encrypting or deleting backup repositories.',
+    'backup_security',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - secondary operational network shares can be accessed and encrypted by ransomware if domain credentials are compromised.',
+        'CORRECT - WORM immutable storage and separation from domain admin access prevents ransomware encryption of backups.',
+        'WRONG - continuous synchronization replicates malicious encryption changes immediately to backup targets.',
+        'WRONG - overwriting historical archives eliminates point-in-time recovery options prior to infection discovery.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1490',
+      rotation_bucket: 'backup_security',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'During post-incident recovery, an analyst notices that ransomware binaries were distributed through an unpatched vulnerability in an edge gateway device. What overarching program deficiency does this highlight?',
+    [
+      'Inadequate employee security awareness training regarding phishing email attachment handling',
+      'Improper configuration of workstation endpoint detection and response agent heartbeat telemetry',
+      'Excessive database administrator permissions granted across local departmental SQL servers',
+      'Failure of enterprise vulnerability management, asset discovery, and rapid perimeter patch orchestration'
+    ],
+    3,
+    'Edge gateway compromises point directly to gaps in vulnerability management, asset visibility, and patch cadence.',
+    'vulnerability_management',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - phishing awareness targets user email behavior rather than unpatched perimeter network appliances.',
+        'WRONG - EDR heartbeat issues impact endpoint monitoring rather than initial edge gateway exploitation.',
+        'WRONG - internal SQL permissions do not account for external perimeter gateway vulnerabilities.',
+        'CORRECT - edge device compromises highlight structural failures in asset discovery, vulnerability tracking, and patching.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1190',
+      rotation_bucket: 'vulnerability_management',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'An enterprise security architect wants to prevent lateral movement of ransomware across departmental subnetworks within the internal data center. Which technical control provides the strongest containment?',
+    [
+      'Deploying micro-segmentation policies using internal host firewalls to restrict unnecessary SMB and RPC traffic',
+      'Installing enterprise antivirus software with signature definitions updated once every business quarter',
+      'Configuring dynamic host configuration protocol scopes to rotate client IP addresses every 24 hours',
+      'Enabling standard HTTP web filtering proxies for outbound employee internet browsing traffic'
     ],
     0,
-    'Re-encryption after restore is the clearest signal that the attacker never left. Restoring without re-scoping the network rebuilds the target.',
-    'ransomware_defense',
-    40,
-    {
-      distractor_rationale: [
-        'CORRECT - re-encryption after restore means the attacker retained access; restoration without re-scoping rebuilt the target.',
-        'WRONG - corrupted backups produce missing or broken files, not active re-encryption.',
-        'WRONG - new variants come from new intrusion attempts; they do not appear spontaneously during recovery.',
-        'WRONG - backup restore software does not encrypt files as part of restoration.'
-      ],
-      cognitive_level: 3,
-      difficulty: 3,
-      coverage_tag: 'T1486',
-      rotation_bucket: 'ransomware_defense',
-      last_validated: '2026-11-13'
-    }
-  ),
-
-  q(
-    'A backup administrator proposes moving the company\'s backup server off the domain and onto a separate, isolated network segment with its own local credentials. The IT director asks whether this is worth the operational complexity. What is the most defensible answer?',
-    [
-      'No — off-domain backups add operational complexity for a threat that is already covered by endpoint protection and email filtering',
-      'Yes — isolating backup credentials from domain compromise is one of the highest-value controls available, because it removes the backup server from the attack path most ransomware uses',
-      'Yes, but only if the backup server is also protected by a hardware security module and multi-factor authentication for all backup operations',
-      'No — the backup server only needs to be protected by the same controls as production, since the attack surface is essentially identical'
-    ],
-    1,
-    'Backup infrastructure is the last line of defense against ransomware. Isolating it from the identity plane the attacker compromises removes the primary path that leaves victims without recovery.',
-    'backup_architecture',
+    'Internal micro-segmentation blocks lateral movement protocols (SMB/RPC) between systems even if perimeter defenses are breached.',
+    'network_segmentation',
     45,
     {
       distractor_rationale: [
-        'WRONG - endpoint protection and email filtering are preventive; they do not stop an attacker who is already on the network.',
-        'CORRECT - off-domain, isolated backups remove the identity path that most ransomware operators use to encrypt backups.',
-        'WRONG - HSM and MFA are good additions, but they are not prerequisites for the isolation benefit; isolation alone is worth doing.',
-        'WRONG - the attack surface is not identical; backup servers have different access patterns and different credential exposure.'
-      ],
-      cognitive_level: 4,
-      difficulty: 3,
-      coverage_tag: 'T1486',
-      rotation_bucket: 'backup_architecture',
-      last_validated: '2026-11-13'
-    }
-  ),
-
-  q(
-    'A company has "immutable" backups that cannot be deleted or modified during a 30-day retention window. An attacker who compromised the environment 45 days ago is now encrypting files. What protection do the immutable backups provide?',
-    [
-      'Full protection — immutable backups cannot be encrypted by ransomware, so the data is always recoverable',
-      'Reduced protection — immutability is best-effort and the attacker can defeat it with sufficient privilege escalation',
-      'None — the attacker compromised the environment before the retention window began, so all current backups contain their implant',
-      'Partial protection — recoverable to a point within 30 days, but any earlier compromise point is exposed'
-    ],
-    2,
-    'Immutable backups protect against encryption, not against an attacker who was present before the retention window. Recovering to a clean point requires knowing when the compromise began.',
-    'ransomware_defense',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - full protection assumes the attacker is only present at encryption time, not 45 days before.',
-        'WRONG - immutability is a hard technical guarantee, not best-effort; defeating it requires different attack paths.',
-        'CORRECT - immutability protects the backup from encryption, but if the attacker was present 45 days ago, backups within the 30-day window contain their implant.',
-        'WRONG - partial protection is a reasonable guess but misses the key point: without knowing when the compromise started, "recoverable" is uncertain.'
+        'CORRECT - micro-segmentation restricts internal SMB and RPC communication, stopping ransomware lateral spread.',
+        'WRONG - quarterly signature updates are far too slow to protect against modern polymorphic ransomware variants.',
+        'WRONG - daily DHCP IP rotation does not restrict protocol communication or prevent lateral movement.',
+        'WRONG - web filtering proxies manage outbound internet access rather than internal server-to-server traffic.'
       ],
       cognitive_level: 4,
       difficulty: 4,
-      coverage_tag: 'T1486',
-      rotation_bucket: 'ransomware_defense',
-      last_validated: '2026-11-13'
+      coverage_tag: 'T1021',
+      rotation_bucket: 'network_segmentation',
+      last_validated: '2026-11-18'
     }
   ),
 
   q(
-    'The company wants to test its ransomware recovery capability. The IT team proposes restoring a production database from last week\'s backup to a staging environment. What should the security lead insist on before this test runs?',
+    'An incident response team is preparing a post-mortem report following a ransomware containment exercise. Which metric best evaluates the operational effectiveness of their detection controls?',
     [
-      'Confirm that the test is scheduled outside business hours so that it does not affect users if the restore goes wrong',
-      'Confirm that the staging environment is fully isolated from production and that the restore does not touch live credentials or production encryption keys',
-      'Confirm that the backup is at least 30 days old, since recent backups are more likely to contain malware from the current quarter',
-      'Confirm that the staging environment has the same anti-ransomware software as production, to validate the security stack'
+      'Total financial expenditure allocated toward third-party incident response retainer contracts',
+      'Mean Time to Detect (MTTD) from initial threat actor dwell time to verified SOC alert generation',
+      'Aggregate volume of log storage consumed by secondary archival cloud logging buckets',
+      'Total count of employee support tickets submitted to internal IT helpdesk during the quarter'
     ],
     1,
-    'A restore test that touches production credentials or keys is not a test — it is a production operation. Isolation must be verified before the test runs, not assumed.',
-    'restore_operations',
+    'MTTD measures how quickly detection systems identify and flag malicious activity within the environment.',
+    'metrics',
     45,
     {
       distractor_rationale: [
-        'WRONG - scheduling outside business hours does not address the credential and key exposure risk.',
-        'CORRECT - the staging environment must be isolated and credentials must be separate before the test runs; otherwise the test risks the production environment.',
-        'WRONG - 30-day-old backups are not inherently safer, and forcing a longer retention is not the control that matters.',
-        'WRONG - AV parity is not the primary concern; credential isolation is.'
+        'WRONG - financial retainer expenditures reflect budgeting rather than technical detection efficiency.',
+        'CORRECT - MTTD directly measures how rapidly detection mechanisms identify anomalous threat behavior.',
+        'WRONG - log storage volume measures data retention scale rather than detection control performance.',
+        'WRONG - helpdesk ticket counts measure general IT support volume rather than security detection efficacy.'
       ],
       cognitive_level: 3,
       difficulty: 3,
-      coverage_tag: 'T1486',
-      rotation_bucket: 'restore_operations',
-      last_validated: '2026-11-13'
+      coverage_tag: 'M1047',
+      rotation_bucket: 'metrics',
+      last_validated: '2026-11-18'
     }
   ),
 
   q(
-    'After restoring from backup, the IT team wants to rejoin the restored file server to the production domain immediately. The security lead objects. What is the most defensible reason for the objection?',
+    'A ransomware group threatens to leak proprietary financial records unless a corporate executive pays a private fee. The executive asks the CISO if law enforcement should be contacted. What is the standard defensible guidance?',
     [
-      'Rejoining the domain is fine as long as the server was restored from a backup that was taken before the incident',
-      'Rejoining the restored server to the production domain re-exposes it to the same compromised identity plane that allowed the original attack',
-      'Rejoining should wait until the backup has been scanned by the most recent antivirus signatures',
-      'Rejoining should wait until the server has been patched to the most current operating system release'
+      'Decline law enforcement involvement entirely to prevent public regulatory scrutiny and media exposure',
+      'Offer a partial ransom payment directly to the threat actors while concealing the event from authorities',
+      'Engage law enforcement agencies immediately to share threat intelligence and coordinate potential intervention',
+      'Rely exclusively on social media statements to negotiate directly with the extortion group publicly'
+    ],
+    2,
+    'Involving law enforcement provides critical threat intelligence sharing and aligns with legal reporting obligations.',
+    'governance',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - concealing incidents from law enforcement violates reporting obligations and hampers broader tracking.',
+        'WRONG - making partial payments encourages criminal syndicates and violates extortion mitigation protocols.',
+        'CORRECT - engaging law enforcement supports intelligence sharing, legal compliance, and coordinated response.',
+        'WRONG - public social media negotiations compromise tactical advantage and escalate corporate exposure.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'M1058',
+      rotation_bucket: 'governance',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'Following a major ransomware incident, the board of directors requests a strategic review to ensure future resilience. What deliverable should the CISO prioritize first?',
+    [
+      'An immediate 50 percent budget reduction across all core cybersecurity monitoring software licenses',
+      'A comprehensive root-cause analysis report accompanied by an prioritized hardening and remediation roadmap',
+      'A public press release blaming junior IT staff members for operational security misconfigurations',
+      'The termination of all external vendor software partnerships without evaluating dependency risks'
     ],
     1,
-    'Restored servers rejoined to a compromised domain will be re-attacked. The domain itself must be re-secured or the restored system must operate in an isolated state until it is.',
-    'restore_operations',
-    40,
-    {
-      distractor_rationale: [
-        'WRONG - "before the incident" backups are safer but do not address the compromised domain itself.',
-        'CORRECT - the domain is the compromised identity plane; rejoining re-exposes the server to the same attack path.',
-        'WRONG - AV scanning is useful but does not verify the domain is safe to rejoin.',
-        'WRONG - patching is useful but does not verify the domain is safe to rejoin.'
-      ],
-      cognitive_level: 3,
-      difficulty: 3,
-      coverage_tag: 'T1078',
-      rotation_bucket: 'restore_operations',
-      last_validated: '2026-11-13'
-    }
-  ),
-
-  q(
-    'A backup administrator has credentials to both the production domain and the isolated backup network. The security team recommends removing the administrator from the production domain entirely. What is the operational risk the security team should address in the same change?',
-    [
-      'Removing production domain credentials will immediately break the administrator\'s ability to log into their workstation',
-      'The change is impossible — backup administrators must have production access to test restores against production data',
-      'Without a designated backup-only identity, the administrator may use shared credentials in an emergency, restoring the very risk the change was meant to remove',
-      'The change is unnecessary — the administrator is a trusted employee and their credentials are not part of the attack surface'
-    ],
-    2,
-    'Tiering removes a risk only if the replacement identity is fully provisioned. Emergency "shared credentials" fallback restores the exact risk tiering was meant to remove.',
-    'identity_tiering',
+    'A thorough root-cause analysis and a prioritized remediation roadmap provide the actionable strategic guidance leadership needs.',
+    'governance',
     45,
     {
       distractor_rationale: [
-        'WRONG - workstation login is a separate concern and can be solved with a different local identity.',
-        'WRONG - restore testing can happen in an isolated environment; production access is not required.',
-        'CORRECT - without a fully provisioned backup-only identity, the admin will re-use shared credentials in an emergency, restoring the original risk.',
-        'WRONG - "trusted employee" is exactly the assumption that breaks in a phishing compromise.'
+        'WRONG - budget reductions degrade security visibility and increase vulnerability to subsequent attacks.',
+        'CORRECT - root-cause analysis and a prioritized remediation roadmap provide the actionable guidance leadership requires.',
+        'WRONG - public blame shifting damages organizational culture without addressing systemic vulnerabilities.',
+        'WRONG - terminating vendor partnerships arbitrarily disrupts operations without resolving security gaps.'
       ],
       cognitive_level: 4,
       difficulty: 3,
-      coverage_tag: 'T1078',
-      rotation_bucket: 'identity_tiering',
-      last_validated: '2026-11-13'
-    }
-  ),
-
-  q(
-    'The company has a 3-2-1 backup strategy: three copies of data, on two different media, with one copy off-site. In a ransomware incident, the attacker encrypted the local copies and deleted the off-site copy through the cloud backup provider\'s API. What went wrong?',
-    [
-      'The 3-2-1 strategy protects against media failure, not against an attacker with credentials to all three copies; the off-site copy needed separate, unshared credentials',
-      'The 3-2-1 strategy protects against ransomware by definition; the attack must have used a method outside the strategy\'s scope',
-      'The cloud provider is at fault for allowing API deletions; a different provider would have prevented this',
-      'The 3-2-1 strategy is outdated and should be replaced with a 4-3-2 strategy for modern threats'
-    ],
-    0,
-    '3-2-1 is a resilience framework against failure, not a security framework against attackers. The off-site copy is only protected if the attacker cannot reach it with the same credentials.',
-    'backup_architecture',
-    45,
-    {
-      distractor_rationale: [
-        'CORRECT - 3-2-1 is about media and location diversity; it does not address the credential path that lets an attacker delete all copies.',
-        'WRONG - 3-2-1 does not "protect against ransomware by definition"; it protects against specific failure modes.',
-        'WRONG - cloud providers offer immutability and object lock; the control exists but was not enabled.',
-        'WRONG - a bigger number does not solve the credential problem; the issue is access separation, not copy count.'
-      ],
-      cognitive_level: 4,
-      difficulty: 4,
-      coverage_tag: 'T1486',
-      rotation_bucket: 'backup_architecture',
-      last_validated: '2026-11-13'
-    }
-  ),
-
-  q(
-    'A ransomware incident is contained and the company wants to test whether backups will actually restore. The IT director asks for a "quick" test: restore one file from one backup and confirm it opens. Is this test sufficient?',
-    [
-      'Yes — if one file restores successfully, the backup mechanism works and the rest will follow the same process',
-      'Yes, if the file chosen is the most important file in the backup set, since that represents the highest-value recovery target',
-      'No — one file from one backup proves the file can be restored, not that the full environment can be recovered to an operational state',
-      'No — but a test that restores 10 files from 3 backups is sufficient for any environment regardless of complexity'
-    ],
-    2,
-    'A single-file restore tests the file, not the environment. Full recovery requires verifying credentials, network paths, service dependencies, and operational sequences — not just that a file opens.',
-    'restore_operations',
-    40,
-    {
-      distractor_rationale: [
-        'WRONG - one file restoring says nothing about the environment, credentials, or service dependencies.',
-        'WRONG - "most important file" is a heuristic, not a test of the recovery process.',
-        'CORRECT - single-file tests prove very little; real recovery testing restores services, dependencies, and access paths.',
-        'WRONG - "10 files from 3 backups" is better than 1 but still does not test operational recovery.'
-      ],
-      cognitive_level: 3,
-      difficulty: 2,
-      coverage_tag: 'T1486',
-      rotation_bucket: 'restore_operations',
-      last_validated: '2026-11-13'
-    }
-  ),
-
-  q(
-    'An SME has a full backup from 8 months ago and incrementals every night since. The ransomware encrypted production 3 days ago. What is the most defensible recovery plan?',
-    [
-      'Restore from the most recent backup, since it contains the most up-to-date data and the incident was only 3 days ago',
-      'Restore from the 8-month full backup only, since all incrementals after that point are suspect',
-      'Wait for law enforcement to identify the attacker\'s entry point before restoring anything, to avoid re-compromise',
-      'Identify the earliest point of compromise before restore, then restore to a point before that date — the full backup plus nightly incrementals to the chosen date'
-    ],
-    3,
-    'Recovery requires a known-clean point. The most recent backup may contain the attacker\'s implant; the 8-month full backup may be too old. The correct point is the last one before compromise.',
-    'ransomware_defense',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - the most recent backup may contain the implant; restoring it re-compromises the environment.',
-        'WRONG - the 8-month full is too far back; the incrementals up to the compromise date are exactly what is needed.',
-        'WRONG - waiting for law enforcement delays recovery indefinitely; the defender can scope the compromise independently.',
-        'CORRECT - the recovery point must be before compromise; the full + incrementals to that date is the correct approach.'
-      ],
-      cognitive_level: 4,
-      difficulty: 3,
-      coverage_tag: 'T1486',
-      rotation_bucket: 'ransomware_defense',
-      last_validated: '2026-11-13'
-    }
-  ),
-
-  q(
-    'The company uses a cloud backup provider whose API allows deleting objects with an API key. The security team recommends enabling object lock on the backup bucket. The cloud architect objects: "object lock makes normal backups harder because we cannot delete old versions." What is the most defensible response?',
-    [
-      'The architect is correct; object lock is too costly operationally and should only be used for regulated industries',
-      'The architect is correct but object lock is still mandatory under cybersecurity regulations, so we have no choice',
-      'Object lock is unnecessary if the API key is stored in a secrets manager and rotated regularly',
-      'The immutability cost is acceptable: the tradeoff is that a compromised API key cannot delete the backups during a ransomware incident, which is the exact risk we are trying to prevent'
-    ],
-    3,
-    'Immutability is the control that survives credential compromise. The operational cost is real but small compared to the risk of losing all backups to a compromised API key.',
-    'identity_tiering',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - the architect is right about the operational cost but wrong about the priority; the security benefit outweighs it.',
-        'WRONG - framing it as regulation is inaccurate; the reason is the security benefit, not a legal requirement.',
-        'WRONG - a secrets manager reduces but does not eliminate the risk; object lock is the control that survives credential compromise.',
-        'CORRECT - the tradeoff is worth it because credential compromise is the exact risk object lock addresses; operational cost is manageable.'
-      ],
-      cognitive_level: 4,
-      difficulty: 4,
-      coverage_tag: 'T1078',
-      rotation_bucket: 'identity_tiering',
-      last_validated: '2026-11-13'
+      coverage_tag: 'M1054',
+      rotation_bucket: 'governance',
+      last_validated: '2026-11-18'
     }
   )
 ],
     18: [
   q(
-    'A night-shift SOC analyst at a Windhoek-based managed security provider sees 900 medium-severity alerts per shift. The previous three shifts closed 40% of tickets as "benign" without investigation. The SOC manager asks what to do. What is the most defensible first response?',
+    'An incident responder analyzing a compromised corporate server notices a hidden web shell embedded within the public-facing application directory. What is the most defensible immediate containment action?',
     [
-      'Tune the noisiest detection rules, enrich alert context, and protect the small set of high-fidelity rules — then reassess after 30 days',
-      'Fire the analysts who closed tickets without investigation — the problem is discipline, not detection design',
-      'Disable the noisiest alert rules entirely so the remaining alerts can be investigated properly',
-      'Require analysts to investigate every alert regardless of severity — the volume is the job'
-    ],
-    0,
-    'Alert fatigue is a detection engineering and resourcing problem, not a discipline problem. The correct response is to reduce the noise at the source, not to demand more output from exhausted analysts.',
-    'alert_triage',
-    45,
-    {
-      distractor_rationale: [
-        'CORRECT - tuning noisy rules and protecting high-fidelity rules reduces the volume at the source; enrichment helps analysts make faster decisions.',
-        'WRONG - firing analysts is the classic mistake that makes the problem worse (loss of context, retraining cost, remaining team morale).',
-        'WRONG - disabling alert rules entirely is not tuning — it turns off detection rather than improving it.',
-        'WRONG - "investigate every alert regardless of severity" does not address volume and cannot scale; analysts will still close tickets as benign, just later.'
-      ],
-      cognitive_level: 4,
-      difficulty: 3,
-      coverage_tag: 'T1078',
-      rotation_bucket: 'alert_triage',
-      last_validated: '2026-11-15'
-    }
-  ),
-
-  q(
-    'A service account shows a successful authentication from a new IP range, followed 4 minutes later by three administrative RDP hops across different servers. The analyst on shift sees this in the SIEM. What is the most defensible 10-minute action?',
-    [
-      'Close the ticket as a likely network glitch — service accounts often authenticate from unexpected places during updates',
-      'Isolate the servers involved, revoke the service account sessions, and preserve authentication logs for the incident',
-      'Wait for the next scheduled shift and hand over the alert as "needs investigation" without further action',
-      'Email the service account owner asking them to confirm whether they ran any administrative scripts in the last hour'
-    ],
-    1,
-    'This is a textbook identity compromise chain: spray success → fast lateral movement via administrative protocols. The 10-minute window is the moment to isolate, not to defer.',
-    'alert_triage',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - a service account authenticating from a new IP and then performing admin hops is a specific attacker pattern, not routine updates.',
-        'CORRECT - isolate hosts, revoke sessions, preserve logs; this is a confirmed compromise chain, not a suspicion.',
-        'WRONG - handing over without action leaves the attacker with 8+ hours to move laterally; "needs investigation" is not a containment action.',
-        'WRONG - emailing the owner gives the attacker time to act and assumes the owner will respond in the 10-minute window.'
-      ],
-      cognitive_level: 3,
-      difficulty: 3,
-      coverage_tag: 'T1021.001',
-      rotation_bucket: 'alert_triage',
-      last_validated: '2026-11-15'
-    }
-  ),
-
-  q(
-    'A SOC analyst finishes a shift with three open investigations: one is a confirmed phishing report (link clicked, no credentials entered), one is an alert about a scheduled backup job that fired at an unusual hour, and one is a medium-severity alert about a user accessing files outside their normal department. What must the analyst hand over, and what can they close before leaving?',
-    [
-      'Hand over the phishing report only — the other two are routine and do not need the next shift\'s attention',
-      'Close the backup job alert as benign and the phishing report as contained, hand over only the department-access alert with context',
-      'Close all three as "no immediate threat" and hand over a summary noting they were reviewed',
-      'Hand over all three with full context (what was checked, what remains, who owns each); close nothing without manager approval'
-    ],
-    3,
-    'Handover quality is the single biggest determinant of SOC effectiveness across shifts. Closing items without explicit manager approval is the pattern that lets real incidents fall through shift boundaries.',
-    'shift_handover',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - the backup job at an unusual hour and the department-access alert both deserve handover; they are not routine without investigation.',
-        'WRONG - closing the phishing report as contained assumes no further action, and the backup job closure without approval is a handover failure.',
-        'WRONG - closing all three without investigation is the exact failure mode this module exists to prevent.',
-        'CORRECT - all three hand over with full context; closing items without approval is exactly the pattern that loses incidents at shift boundaries.'
-      ],
-      cognitive_level: 3,
-      difficulty: 3,
-      coverage_tag: 'T1078',
-      rotation_bucket: 'shift_handover',
-      last_validated: '2026-11-15'
-    }
-  ),
-
-  q(
-    'A day-shift analyst has been investigating a suspicious login for 5 hours. The login came from a country the user has never visited, but the user has confirmed via email that they are travelling. The SIEM alert has not been closed. The next shift is taking over in 10 minutes. What is the most defensible handover?',
-    [
-      'Document the user confirmation, the travel evidence, and the specific indicator to watch; hand over with a recommendation to close if no further anomalies appear in 24 hours',
-      'Close the alert now — the user confirmed travel, so there is no further action needed and the next shift has enough work',
-      'Hand over "suspicious login, user says travelling, needs follow-up" with no detail — the next shift can re-read the SIEM',
-      'Leave the alert open without a handover note — the next shift will pick it up from the queue automatically'
-    ],
-    0,
-    'Good handover records the state of knowledge, the specific indicator to watch, and the recommended action. "Needs follow-up" is not handover — it is abdication.',
-    'shift_handover',
-    45,
-    {
-      distractor_rationale: [
-        'CORRECT - documents the evidence, names the specific next decision, and gives the next shift a clear recommendation with conditions.',
-        'WRONG - closing without manager approval and without recording the travel verification means the next shift cannot audit the decision.',
-        'WRONG - "needs follow-up" without context forces the next shift to re-investigate 5 hours of work; this is the classic handover failure.',
-        'WRONG - leaving an alert open without a handover note is the pattern that lets real incidents sit for days.'
-      ],
-      cognitive_level: 3,
-      difficulty: 3,
-      coverage_tag: 'T1078',
-      rotation_bucket: 'shift_handover',
-      last_validated: '2026-11-15'
-    }
-  ),
-
-  q(
-    'A SOC analyst sees an alert about a user opening a suspicious email attachment. The user is a mid-level finance employee. The email was quarantined by the gateway 30 seconds after delivery, and the user has not reported anything. What is the most defensible escalation decision?',
-    [
-      'Close the alert as contained — the gateway quarantined the email, so no user action was possible',
-      'Escalate to the incident response team as a potential phishing incident — quarantine is not confirmation that the attachment was harmless',
-      'Escalate to the user\'s manager asking them to confirm whether the user opened the attachment',
-      'Wait for the user to report the email — proactive investigation of quarantined emails is overreach'
-    ],
-    1,
-    'Gateway quarantine removes the email from the inbox, but if the user opened the attachment before quarantine, the payload has already executed. Quarantine is not containment of the user action.',
-    'escalation',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - closing as contained assumes the user did not open the attachment before quarantine; this is the assumption that misses incidents.',
-        'CORRECT - quarantine of the email does not retroactively un-execute a payload the user may have opened in the 30-second window.',
-        'WRONG - asking the manager to confirm whether the user opened the attachment puts a non-technical person in the verification path.',
-        'WRONG - waiting for user reports is the failure mode that lets phishing compromises sit undetected for hours.'
-      ],
-      cognitive_level: 4,
-      difficulty: 3,
-      coverage_tag: 'T1566.001',
-      rotation_bucket: 'escalation',
-      last_validated: '2026-11-15'
-    }
-  ),
-
-  q(
-    'A tier-1 analyst identifies what they believe is a low-severity policy violation (an employee using a personal USB drive). The employee is a senior manager. The tier-1 analyst is unsure whether to escalate. What is the most defensible action?',
-    [
-      'Do not escalate — USB policy is a compliance issue, not a security incident, and the employee is a senior manager',
-      'Escalate to the SOC lead with the specific evidence and let the lead decide on the appropriate handling — the analyst role is to surface, not to decide',
-      'Escalate directly to the senior manager\'s manager, bypassing the SOC lead, to ensure it is handled',
-      'Close the alert as a policy matter and note it in the shift log without further action'
-    ],
-    1,
-    'Tier-1 analysts surface; they do not adjudicate. The escalation path preserves the lead ability to handle the incident proportionally and protects the analyst from either over- or under-reacting.',
-    'escalation',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - "USB is not a security incident" is factually wrong; personal USB drives are a known exfiltration and malware path (T1091, T1052).',
-        'CORRECT - escalate to the SOC lead with evidence; the lead makes the proportional-response decision.',
-        'WRONG - bypassing the SOC lead is not the analyst call and creates a political incident that distracts from the security issue.',
-        'WRONG - closing without escalation is the failure mode that lets senior-manager policy violations become senior-manager compromises.'
-      ],
-      cognitive_level: 3,
-      difficulty: 3,
-      coverage_tag: 'T1091',
-      rotation_bucket: 'escalation',
-      last_validated: '2026-11-15'
-    }
-  ),
-
-  q(
-    'A regional SOC analyst in Rundu receives an alert that a workstation on the same subnet as the CEO office is beaconing to an IP in a country the company has no business with. The alert is medium severity. The analyst shift ends in 30 minutes. What is the most defensible action before handover?',
-    [
-      'Hand over the alert to the day shift with a note that it is "medium severity, needs investigation" — it is not urgent',
-      'Close the alert — the analyst is not sure the IP is malicious, and 30 minutes is not enough to investigate properly',
-      'Isolate the workstation, preserve network flow logs, notify the day-shift lead, and hand over with the actions already taken',
-      'Wait to see if other workstations show the same beaconing — if it is widespread, it is more likely benign'
+      'Delete the single web shell file directly via SSH and leave the web server running in production to maintain business uptime',
+      'Modify the file permissions of the web shell to read-only so that external threat actors can no longer execute arbitrary commands',
+      'Isolate the compromised host from the network, preserve full forensic artifacts, and restore from a verified clean baseline backup',
+      'Block the specific attacker IP address at the perimeter firewall while keeping the compromised application server fully active online'
     ],
     2,
-    'Beaconing to a country the company has no business with is a textbook C2 indicator. The 30-minute window before handover is exactly when isolation should happen, not when handover should defer it.',
-    'escalation',
+    'Isolating the host, capturing forensic data, and restoring from a clean baseline is the only reliable way to handle web shell compromises.',
+    'incident_response',
     45,
     {
       distractor_rationale: [
-        'WRONG - "medium severity, needs investigation" without action is the deferral pattern that lets beaconing become data theft overnight.',
-        'WRONG - closing because "not sure" is the failure mode that lets real incidents sit closed; the analyst does not need to confirm maliciousness to isolate.',
-        'CORRECT - isolate, preserve logs, notify the lead, and hand over with actions taken; this is the pattern of a professional SOC.',
-        'WRONG - waiting for widespread beaconing before acting is the "wait for ransomware note" pattern; by then, the compromise is mature.'
+        'WRONG - deleting a single web shell leaves underlying system compromises or alternative backdoors unaddressed.',
+        'WRONG - setting files to read-only prevents modification but does not remove existing malicious code execution capabilities.',
+        'CORRECT - full host isolation and clean restoration eliminates persistent backdoors and preserves forensic evidence.',
+        'WRONG - blocking an attacker IP leaves the already deployed web shell accessible to secondary threat actor entry points.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1505.003',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A security analyst reviewing endpoint telemetry detects an unexpected outbound connection on TCP port 4443 to an unknown external IP address originating from a finance workstation. What is the most appropriate initial investigation step?',
+    [
+      'Query the endpoint management inventory system to determine the exact hardware asset procurement date',
+      'Terminate the active process ID associated with the network socket and inspect associated process creation command lines',
+      'Reboot the enterprise core perimeter firewall to flush all active connection tables and routing caches',
+      'Disable the user account associated with the finance workstation across the Active Directory domain controller'
+    ],
+    1,
+    'Terminating the suspicious process and checking command lines identifies the executing binary and prevents data staging.',
+    'investigation',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - hardware procurement dates are irrelevant to active network security investigations.',
+        'CORRECT - inspecting process creation command lines and terminating the offending process identifies the threat source.',
+        'WRONG - rebooting core firewalls disrupts all enterprise network traffic without resolving endpoint infection.',
+        'WRONG - disabling the user account halts business operations without confirming whether the process was user-driven or malware.'
       ],
       cognitive_level: 4,
       difficulty: 3,
       coverage_tag: 'T1071',
-      rotation_bucket: 'escalation',
-      last_validated: '2026-11-15'
+      rotation_bucket: 'investigation',
+      last_validated: '2026-11-19'
     }
   ),
 
   q(
-    'A SOC lead at a Johannesburg-based bank notices that a detection rule for credential dumping has fired 47 times in 30 days, all against different users, and 45 of the 47 alerts were closed as "false positive — legitimate administrative tool." The rule has not been tuned in 18 months. What is the most defensible action?',
+    'An enterprise security team discovers that an attacker exfiltrated sensitive database records by tunneling traffic through DNS query requests. Which defensive control mitigates this technique most effectively?',
     [
-      'Disable the rule — 96% false positive rate means it is not useful and is wasting analyst time',
-      'Review the 45 closed alerts for pattern consistency, then tune the rule with exclusions that match the legitimate admin tool while preserving the detection for any other credential-dumping variant',
-      'Leave the rule as-is — 2 true positives in 30 days is a signal that the rule is working as designed',
-      'Raise the severity of the rule to critical so analysts investigate more carefully'
+      'Installing standard commercial antivirus software with signature databases updated once every calendar quarter',
+      'Deploying an internal recursive DNS forwarding architecture that inspects and restricts abnormal query volume and length',
+      'Enabling basic HTTP web browsing proxies for all employee internet connections across enterprise subnets',
+      'Configuring dynamic host configuration protocol scopes to rotate client IP lease addresses every 24 hours'
     ],
     1,
-    'A high-false-positive rule is not a useless rule — it is a rule that needs tuning. 45 closed alerts may hide a real attack, and disabling the rule makes the team blind to the technique.',
-    'detection_tuning',
+    'Monitoring and restricting DNS query patterns, lengths, and volumes disrupts DNS tunneling communication channels.',
+    'network_security',
     45,
     {
       distractor_rationale: [
-        'WRONG - disabling the rule makes the team blind to all credential dumping, including real attacks; this is the failure mode that lets an incident mature.',
-        'CORRECT - review the closed alerts for consistency, then tune with specific exclusions; this preserves detection while reducing noise.',
-        'WRONG - leaving the rule untuned wastes 47 analyst hours per month and normalizes the pattern of closing alerts without investigating.',
-        'WRONG - raising severity does not reduce volume; it makes the alert more prominent but still noisy, and analysts will still close it as false positive.'
-      ],
-      cognitive_level: 4,
-      difficulty: 3,
-      coverage_tag: 'T1003',
-      rotation_bucket: 'detection_tuning',
-      last_validated: '2026-11-15'
-    }
-  ),
-
-  q(
-    'A SOC team has just completed a purple-team exercise where the red team successfully used a specific lateral-movement technique (T1021.002 — SMB/Windows Admin Shares) to move from a compromised workstation to a database server. The technique was not detected. What is the most defensible next step?',
-    [
-      'Document the technique in the purple-team report and schedule a follow-up exercise in 90 days to see if detection improved',
-      'Add a general "lateral movement" alert that fires on any SMB traffic to the database server — broad coverage is better than missing the technique',
-      'Purchase a new EDR product that claims to detect T1021.002 specifically',
-      'Write a detection rule based on the specific process, network, and credential patterns the red team used, and test it against the red-team replay before closing the exercise'
-    ],
-    3,
-    'Purple-team value comes from closing the loop: writing a detection, testing it against the same technique, and verifying the detection fires. Documenting without detection work is a report, not an improvement.',
-    'detection_tuning',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - documenting and scheduling a follow-up 90 days later leaves the gap open for 90 days; detection should be written now.',
-        'WRONG - a general "any SMB to the database" alert will fire on every legitimate admin action and become another noisy rule that gets closed without investigation.',
-        'WRONG - purchasing a new EDR product without testing whether it detects the specific technique is buying hope, not capability.',
-        'CORRECT - write a specific detection based on the technique, test it against the red-team replay, then close; this is the purple-team loop.'
+        'WRONG - quarterly antivirus updates do not detect or block protocol-based DNS tunneling techniques.',
+        'CORRECT - internal recursive DNS filtering and rate-limiting abnormal query volumes directly disrupts DNS tunneling.',
+        'WRONG - HTTP web browsing proxies manage standard web traffic rather than custom DNS query protocols.',
+        'WRONG - daily DHCP lease rotation changes IP addresses but does not inspect or restrict DNS traffic.'
       ],
       cognitive_level: 4,
       difficulty: 4,
-      coverage_tag: 'T1021.002',
-      rotation_bucket: 'detection_tuning',
-      last_validated: '2026-11-15'
+      coverage_tag: 'T1071.004',
+      rotation_bucket: 'network_security',
+      last_validated: '2026-11-19'
     }
   ),
 
   q(
-    'A SOC analyst on shift sees an alert about a user account that has logged in successfully from three different countries in 20 minutes (Windhoek, Lagos, London). The user has no travel history on file. What is the most defensible first action?',
+    'A financial institution wants to verify whether its security operations center can detect a simulated credential dumping attack against LSASS memory. Which testing methodology is most appropriate?',
     [
-      'Close the alert as a VPN artefact — users on corporate VPN often show multiple apparent geolocations',
-      'Verify with the user through a known internal channel whether they are travelling, while revoking active sessions and checking for concurrent logins in the meantime',
-      'Block all three countries at the gateway to prevent the possibility of further logins from those locations',
-      'Wait for a second alert — one implausible travel pattern is not enough to act on'
+      'Performing a paper-based administrative walkthrough of physical server room badge access policies',
+      'Reviewing automated vulnerability scanner compliance PDF reports generated once every calendar year',
+      'Conducting an employee survey regarding password complexity preferences and corporate policy awareness',
+      'Executing a controlled adversarial simulation using native tools like Mimikatz during an authorized red team engagement'
     ],
-    1,
-    'The three-country pattern in 20 minutes cannot be physically real — it is a session-theft or credential-sharing indicator. Acting on it while verifying is the right sequence.',
-    'alert_triage',
+    3,
+    'Adversarial simulation using actual post-exploitation tools tests whether EDR and SIEM rules successfully detect LSASS dumping.',
+    'testing',
     45,
     {
       distractor_rationale: [
-        'WRONG - VPN artefact does not produce three countries in 20 minutes; even with VPN, the geography would be the VPN exit, not the user.',
-        'CORRECT - verify with the user while containing; revocation is the safe containment action that can be reversed if the user is legitimate.',
-        'WRONG - blocking three countries is disproportionate and would affect other legitimate users; revoke the specific sessions instead.',
-        'WRONG - waiting for a second alert assumes the attacker will repeat; they will not — this alert is the opportunity.'
+        'WRONG - paper-based badge walkthroughs verify physical security rather than endpoint memory protection controls.',
+        'WRONG - annual vulnerability scanner reports test software patching rather than active behavioral detection.',
+        'WRONG - employee password surveys measure user awareness rather than technical security monitoring efficacy.',
+        'CORRECT - controlled adversarial simulation tests actual detection and alerting capabilities against real memory dumping TTPs.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1003.001',
+      rotation_bucket: 'testing',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An administrator reviewing cloud tenant access logs notices a newly created API access key assigned full global administrative permissions, generated outside normal operational windows. What is the immediate priority?',
+    [
+      'Submit a formal IT service desk ticket requesting an administrative review meeting during the next scheduled quarter',
+      'Delete the primary enterprise cloud storage bucket to prevent potential unauthorized data viewing by the key holder',
+      'Revoke the unauthorized API key immediately, review cloud audit logs for recent activity, and rotate master credentials',
+      'Disable multi-factor authentication requirements globally across the cloud tenant to simplify emergency access recovery'
+    ],
+    2,
+    'Revoking unauthorized credentials and reviewing audit trails stops potential cloud persistence and data exfiltration immediately.',
+    'cloud_security',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - scheduling a quarterly ticket delays response and leaves unauthorized administrative keys active for months.',
+        'WRONG - deleting storage buckets destroys business data rather than addressing the unauthorized API credential.',
+        'CORRECT - revoking unauthorized API keys, auditing logs, and rotating credentials halts potential cloud compromise instantly.',
+        'WRONG - disabling MFA globally drastically weakens security posture during an active cloud security incident.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1098',
+      rotation_bucket: 'cloud_security',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A security architect is designing an enterprise identity management strategy to protect against pass-the-hash and credential theft attacks on Windows domains. Which combination of controls is mandatory?',
+    [
+      'Mandating that all standard domain users update their account passwords every thirty days without exception',
+      'Disabling Kerberos authentication across all network domains and relying exclusively on legacy NTLM protocols',
+      'Enforcing tiered administrative models and enabling Credential Guard to isolate sensitive credentials in memory',
+      'Deploying commercial email gateway spam filtering software to block inbound phishing attachments at the perimeter'
+    ],
+    2,
+    'Tiered admin models and Credential Guard prevent administrative credentials from being cached in LSASS where hashes can be stolen.',
+    'identity_hardening',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - forced monthly password changes for standard users do not prevent administrative hash theft or pass-the-hash.',
+        'WRONG - disabling Kerberos in favor of NTLM is a critical security downgrade that increases exposure to hash attacks.',
+        'CORRECT - tiered administrative models and Credential Guard prevent administrative hash extraction from LSASS memory.',
+        'WRONG - email gateway spam filtering blocks inbound email threats rather than protecting domain credential memory.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1550.002',
+      rotation_bucket: 'identity_hardening',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An incident response team recovering from a complex intrusion wants to ensure that all introduced persistence mechanisms are eradicated. What is the most robust validation procedure?',
+    [
+      'Confirming that all office printer hardware devices are powered on and connected to local network switches',
+      'Performing a comprehensive forensic review of scheduled tasks, registry run keys, services, and authorized user accounts',
+      'Checking that the enterprise website loads successfully for external customers browsing from public networks',
+      'Verifying that the monthly electricity bill for the server data center facility matches historical averages'
+    ],
+    1,
+    'Thoroughly auditing all common persistence vectors (tasks, registry keys, services, accounts) ensures complete threat eradication.',
+    'incident_response',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - printer connectivity checks ensure peripheral operations rather than validating host-level security hygiene.',
+        'CORRECT - comprehensive forensic review of persistence locations ensures no hidden backdoors remain in the environment.',
+        'WRONG - public web page loading verifies basic web service availability rather than system-level persistence removal.',
+        'WRONG - electricity billing reviews monitor facility utility costs rather than enterprise server security state.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1547',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A security operations analyst notices an unusual spike in failed login attempts followed by a single successful authentication from an administrative account outside normal business hours. What should the analyst do first?',
+    [
+      'Assume the login was a legitimate administrative system maintenance task and close the SIEM alert ticket immediately',
+      'Isolate the administrative account and associated endpoints, then verify the activity directly with the account owner',
+      'Send an unencrypted broadcast email to all enterprise employees disclosing the exact administrative credentials involved',
+      'Reboot all corporate domain controllers simultaneously without checking event logs to disrupt potential active sessions'
+    ],
+    1,
+    'Brute-force followed by success indicates potential account takeover; immediate isolation and verification are essential.',
+    'triage',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - closing security alerts without verification leaves active compromise indicators uninvestigated.',
+        'CORRECT - isolating accounts and verifying activity with the owner is the standard triage response to potential compromise.',
+        'WRONG - broadcasting unencrypted credentials via email creates a catastrophic secondary security exposure.',
+        'WRONG - rebooting all domain controllers without log analysis disrupts operations and destroys volatile forensic data.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1110',
+      rotation_bucket: 'triage',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An organization is updating its enterprise vulnerability management program. Which metric provides the most meaningful evaluation of remediation performance over time?',
+    [
+      'Total financial expenditure allocated toward third-party penetration testing consultant retainers',
+      'Aggregate gigabytes of raw log data ingested daily by the centralized SIEM analytics platform',
+      'Mean Time to Remediate (MTTR) critical and high-severity vulnerabilities across production asset groups',
+      'Total count of general support tickets submitted by internal employees to the IT helpdesk'
+    ],
+    2,
+    'Mean Time to Remediate (MTTR) measures how efficiently security and IT teams patch identified vulnerabilities.',
+    'metrics',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - penetration testing retainer expenditures measure budgeting scale rather than vulnerability patch velocity.',
+        'WRONG - raw log ingestion volume measures data collection scale rather than vulnerability remediation speed.',
+        'CORRECT - MTTR tracks the speed and efficiency with which vulnerability remediation is executed across assets.',
+        'WRONG - helpdesk support ticket counts measure general IT assistance volume rather than security patching.'
       ],
       cognitive_level: 3,
       difficulty: 3,
-      coverage_tag: 'T1539',
-      rotation_bucket: 'alert_triage',
-      last_validated: '2026-11-15'
+      coverage_tag: 'M1047',
+      rotation_bucket: 'metrics',
+      last_validated: '2026-11-19'
     }
   ),
 
   q(
-    'A SOC manager is preparing a quarterly report for the CISO. The team has closed 3,200 alerts this quarter, opened 180 investigations, and escalated 12 incidents. What is the most defensible way to present SOC performance to the CISO?',
+    'Following a successful phishing attack that compromised employee credentials, executive leadership asks how to prevent similar recurrences. What is the most effective strategic control?',
     [
-      'Present MTTD and MTTR trends on specific critical techniques, the ratio of escalations to incidents (false positive rate), and the number of detection rules tested and improved — with two specific gaps and a remediation plan',
-      'Present the total alerts closed and investigations opened — these are the standard volume metrics that show throughput',
-      'Present only the number of incidents prevented and the savings from prevented breaches — the CISO cares about business outcomes',
-      'Present the number of slides delivered to the board and the number of analyst trainings completed — these show professional development'
+      'Transitioning the entire enterprise authentication model from passwords to phishing-resistant FIDO2 hardware tokens',
+      'Requiring employees to print out and physically sign a paper pledge agreeing never to click suspicious links',
+      'Disabling external email communication entirely and restricting all messaging exclusively to internal memos',
+      'Increasing the minimum required enterprise password length from eight characters up to nine characters'
     ],
     0,
-    'Volume metrics measure activity; MTTD/MTTR on critical techniques measure effectiveness. Gaps with remediation plans turn reporting from vanity metrics into a business decision.',
-    'detection_tuning',
+    'Phishing-resistant FIDO2 hardware tokens render credential harvesting and credential-stealing phishing pages ineffective.',
+    'identity_hardening',
     45,
     {
       distractor_rationale: [
-        'CORRECT - MTTD/MTTR on critical techniques plus false-positive rate plus tested-and-improved rules plus named gaps equals an honest readiness picture.',
-        'WRONG - volume metrics (alerts closed, investigations opened) measure activity, not effectiveness; a team could close 3,200 alerts and still miss every real attack.',
-        'WRONG - "incidents prevented" is unprovable by construction and CISO audiences know it; it reads as marketing rather than reporting.',
-        'WRONG - slides and trainings are process inputs, not security outcomes; the CISO needs to see whether the SOC is actually reducing risk.'
+        'CORRECT - FIDO2 hardware tokens provide phishing-resistant authentication that cannot be bypassed via credential harvest pages.',
+        'WRONG - paper pledges rely on administrative policy compliance rather than technical cryptographic controls.',
+        'WRONG - disabling external email communication paralyzes external business operations and client interactions.',
+        'WRONG - increasing password length by a single character fails to protect against modern phishing-based interception.'
       ],
       cognitive_level: 4,
       difficulty: 3,
-      coverage_tag: 'T1562',
-      rotation_bucket: 'detection_tuning',
-      last_validated: '2026-11-15'
+      coverage_tag: 'T1566',
+      rotation_bucket: 'identity_hardening',
+      last_validated: '2026-11-19'
     }
-  )
-,
+  ),
+
   q(
-    'A SOC manager is preparing a quarterly report for the CISO. The team has closed 3,200 alerts this quarter, opened 180 investigations, and escalated 12 incidents. What is the most defensible way to present SOC performance to the CISO?',
+    'A security engineer is configuring network segmentation for an industrial control network. Which principle should guide the architecture between IT and OT environments?',
     [
-      'Present MTTD and MTTR trends on specific critical techniques, the ratio of escalations to incidents (false positive rate), and the number of detection rules tested and improved — with two specific gaps and a remediation plan',
-      'Present the total alerts closed and investigations opened — these are the standard volume metrics that show throughput',
-      'Present only the number of incidents prevented and the savings from prevented breaches — the CISO cares about business outcomes',
-      'Present the number of slides delivered to the board and the number of analyst trainings completed — these show professional development'
+      'Connecting all enterprise workstations directly to industrial control switches to maximize network speed and throughput',
+      'Removing all perimeter firewalls between IT and OT to eliminate network latency and simplify management overhead',
+      'Relying entirely on employee verbal security assurances rather than technical firewall packet filtering rules',
+      'Implementing strict unidirectional or firewall-enforced gateway controls to isolate operational networks from corporate IT'
     ],
-    0,
-    'Volume metrics measure activity; MTTD/MTTR on critical techniques measure effectiveness. Gaps with remediation plans turn reporting from vanity metrics into a business decision.',
-    'detection_tuning',
+    3,
+    'Isolating OT networks from IT via strict firewall gateways prevents corporate compromises from spilling into critical industrial systems.',
+    'architecture',
     45,
     {
       distractor_rationale: [
-        'CORRECT - MTTD/MTTR on critical techniques plus false-positive rate plus tested-and-improved rules plus named gaps equals an honest readiness picture.',
-        'WRONG - volume metrics (alerts closed, investigations opened) measure activity, not effectiveness; a team could close 3,200 alerts and still miss every real attack.',
-        'WRONG - "incidents prevented" is unprovable by construction and CISO audiences know it; it reads as marketing rather than reporting.',
-        'WRONG - slides and trainings are process inputs, not security outcomes; the CISO needs to see whether the SOC is actually reducing risk.'
+        'WRONG - connecting IT workstations to OT switches exposes critical industrial control systems to general malware spread.',
+        'WRONG - removing perimeter firewalls between IT and OT creates catastrophic security exposure across critical infrastructure.',
+        'WRONG - relying on verbal assurances rather than technical packet filters violates foundational security architecture.',
+        'CORRECT - strict firewall gateway isolation protects industrial control systems from IT network compromise vectors.'
       ],
       cognitive_level: 4,
       difficulty: 3,
-      coverage_tag: 'T1562',
-      rotation_bucket: 'detection_tuning',
-      last_validated: '2026-11-15'
+      coverage_tag: 'M1030',
+      rotation_bucket: 'architecture',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An enterprise incident response plan requires a post-incident review meeting following any Severity-1 security event. What is the primary governance outcome expected from this session?',
+    [
+      'Determining which specific technical staff members should receive formal written employment termination notices',
+      'Drafting misleading public press statements designed to minimize regulatory scrutiny and conceal breach scope',
+      'Permanently disabling all centralized security monitoring and audit logging tools to reduce operational costs',
+      'Producing a prioritized corrective action list with assigned owners to close root-cause security gaps permanently'
+    ],
+    3,
+    'Post-incident reviews must yield actionable, assigned corrective actions to fix root causes and prevent recurrence.',
+    'governance',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - focusing meetings on staff termination fosters a toxic culture and discourages transparent incident reporting.',
+        'WRONG - drafting misleading statements to conceal breach scope violates regulatory compliance and corporate ethics.',
+        'WRONG - disabling security monitoring tools blinds the organization and guarantees future catastrophic failures.',
+        'CORRECT - prioritized corrective actions with assigned owners ensure root-cause vulnerabilities are permanently fixed.'
+      ],
+      cognitive_level: 3,
+      difficulty: 2,
+      coverage_tag: 'M1016',
+      rotation_bucket: 'governance',
+      last_validated: '2026-11-19'
     }
   )
 ],
@@ -1975,326 +1975,326 @@ const TIER_A_QUESTIONS = {
 ],
     37: [
   q(
-    'A Windhoek retail chain runs quarterly phishing simulations. Click rate has dropped from 40% to 8% over two years, but report rate has also dropped — from 15% to 3%. The security manager asks what to do. What is the most defensible response?',
+    'A security analyst reviewing an enterprise SIEM notices multiple successful authentications from unusual IP addresses followed immediately by high volumes of sensitive customer data downloads. What is the most likely threat classification?',
     [
-      "Change the program focus from click rate to report rate, and design the next simulation specifically to test whether staff report a suspicious email they receive",
-      "Continue the simulations as they are — the click rate is what matters, and 8% is a good result",
-      "Reduce the simulation frequency to once a year — quarterly simulations are exhausting the staff and driving the report rate down",
-      "Stop the phishing simulations entirely — 8% click rate means the training has worked and staff no longer need simulations"
-    ],
-    0,
-    'Click rate and report rate measure different things. Low click rate with low report rate means staff are deleting suspicious emails instead of reporting them — which means real incidents could sit unreported. The program must shift focus to reporting, which is the behaviour that shortens detection time.',
-    'program_measurement',
-    45,
-    {
-      distractor_rationale: [
-      "CORRECT - shift the measurement to report rate and design simulations that test reporting, not just clicking.",
-      "WRONG - low click rate with low report rate is a warning sign, not a success; it means staff are not reporting suspicious emails.",
-      "WRONG - reducing frequency does not address the low report rate; it just gives fewer opportunities to detect whether staff report.",
-      "WRONG - stopping the program removes the visibility into whether staff are reporting, and the 8% click rate does not tell the whole story."
-      ],
-      cognitive_level: 4,
-      difficulty: 3,
-      coverage_tag: 'T1566',
-      rotation_bucket: 'program_measurement',
-      last_validated: '2026-11-16'
-    }
-  ),
-
-  q(
-    'A staff member at a Rundu office receives a suspicious email and forwards it to two colleagues asking "is this a scam?" before reporting it to IT. The email is a real phishing email. What is the most defensible program response?',
-    [
-      "Remove the staff member from the next phishing simulation cohort because they did not follow procedure",
-      "Praise the staff member for forwarding it and ask them to also use the report-phish button so the security team sees it immediately",
-      "Tell the staff member not to forward suspicious emails to colleagues — they should report to IT only, and forwarding to colleagues spreads risk",
-      "Ignore the case — the email was eventually reported and no one clicked, so there is no lesson to learn"
-    ],
-    1,
-    'The staff member did the right thing by recognizing the email was suspicious. The behaviour to correct is the channel, not the instinct. Praise preserves the reporting instinct while adding the report-phish channel.',
-    'reporting_culture',
-    45,
-    {
-      distractor_rationale: [
-      "WRONG - removing the staff member from the simulation punishes good behaviour and will stop future reporting.",
-      "CORRECT - praise the instinct, redirect the channel; the staff member did the harder thing (recognizing it) right.",
-      "WRONG - telling staff not to forward is the kind of response that suppresses reporting; the instinct to warn colleagues is good, the channel needs adjusting.",
-      "WRONG - the lesson is that staff are not aware of the report-phish button, which is a program gap, not no lesson."
-      ],
-      cognitive_level: 4,
-      difficulty: 3,
-      coverage_tag: 'T1566',
-      rotation_bucket: 'reporting_culture',
-      last_validated: '2026-11-16'
-    }
-  ),
-
-  q(
-    'A Namibian SME wants to improve password hygiene across 15 staff. The IT manager proposes a policy: minimum 16 characters, change every 60 days, no reuse of last 10 passwords. What is the most defensible alternative?',
-    [
-      "Keep the current policy but add a quarterly password training session to help staff remember the requirements",
-      "Extend the minimum length to 20 characters and require special characters in at least 3 of the 4 character classes",
-      "Implement a password manager for all staff with a single strong master password, remove the forced rotation policy, and require MFA on all accounts",
-      "Ban password reuse across personal accounts as well as work accounts, and require staff to disclose their personal passwords to IT"
+      'An internal privilege escalation campaign exploiting vulnerable unpatched domain controllers',
+      'A credential-stuffing attack executed by automated botnets targeting legacy web portals',
+      'A credential compromise followed by data exfiltration via unauthorized external channels',
+      'A distributed denial-of-service event designed to exhaust corporate bandwidth allocations'
     ],
     2,
-    'Forced rotation with 16 characters drives workarounds (sticky notes, predictable patterns). A password manager eliminates the memory burden, and MFA addresses the credential theft risk that password policies cannot. The combination is the modern recommendation (NIST SP 800-63B).',
-    'habit_design',
+    'Unusual authentication sources followed by rapid data access patterns indicate compromised credentials leading directly to data exfiltration.',
+    'credential_access',
     45,
     {
       distractor_rationale: [
-      "WRONG - more training for an impossible policy makes the problem worse; staff will still use workarounds.",
-      "WRONG - longer passwords with more complexity requirements increase workaround behaviour rather than improving security.",
-      "CORRECT - password manager plus MFA is the modern best practice; it removes the memory burden and addresses credential theft.",
-      "WRONG - requiring personal password disclosure is a privacy violation and will not be accepted; it also does not address work password hygiene."
+        'WRONG - privilege escalation targets internal administrative permissions rather than external source IPs.',
+        'WRONG - credential stuffing focuses on automated account takeover rather than targeted data exfiltration.',
+        'CORRECT - unusual source IPs combined with high-volume downloads indicate compromised credentials and exfiltration.',
+        'WRONG - denial-of-service events disrupt service availability rather than executing quiet data theft.'
       ],
       cognitive_level: 4,
       difficulty: 3,
       coverage_tag: 'T1110',
-      rotation_bucket: 'habit_design',
-      last_validated: '2026-11-16'
+      rotation_bucket: 'credential_access',
+      last_validated: '2026-11-18'
     }
   ),
 
   q(
-    'A Walvis Bay logistics company runs a security awareness program for 200 staff. The CEO asks for one metric that shows whether the program is working. What is the most defensible metric?',
+    'During a forensic investigation of a compromised Linux server, analysts discover a modified SSH binary (`sshd`) allowing backdoor access using a hardcoded master password. What defense mechanism would best detect this file integrity alteration?',
     [
-      "The percentage of staff who completed the awareness training modules — completion rate shows engagement",
-      "The number of staff who attended the annual security briefing — attendance shows executive support",
-      "The number of phishing simulations run per quarter — frequency shows program intensity",
-      "The ratio of reported suspicious emails to clicked phishing simulations over time — it measures whether staff are reporting and whether they are clicking"
-    ],
-    3,
-    'Completion rate, simulation frequency, and attendance are activity metrics. The report-to-click ratio measures behaviour — whether staff are doing the thing you want them to do (report) and not doing the thing you want to prevent (click).',
-    'program_measurement',
-    45,
-    {
-      distractor_rationale: [
-      "WRONG - completion rate measures attendance, not behaviour change; a staff member can complete training and still click.",
-      "WRONG - attendance is an activity metric; it does not measure whether the briefing changed behaviour.",
-      "WRONG - simulation frequency measures effort, not effectiveness.",
-      "CORRECT - report-to-click ratio measures the two behaviours that matter: reporting suspicious emails and not falling for them."
-      ],
-      cognitive_level: 4,
-      difficulty: 3,
-      coverage_tag: 'T1566',
-      rotation_bucket: 'program_measurement',
-      last_validated: '2026-11-16'
-    }
-  ),
-
-  q(
-    'A senior manager at a Namibian government ministry receives a suspicious email and does not report it, because they are worried about looking foolish if the email turns out to be legitimate. What is the most defensible program change to address this?',
-    [
-      "Send a reminder to all senior managers that reporting is mandatory and that failure to report will be noted",
-      "Implement blame-free reporting that rewards near-miss reports, and have senior leaders publicly report their own suspicious emails in team meetings to model the behaviour",
-      "Require all senior managers to complete additional awareness training on the importance of reporting",
-      "Reduce the number of suspicious emails reaching senior managers by tightening the email gateway"
+      'An enterprise email gateway filtering inbound SMTP traffic for known malicious attachment signatures',
+      'A host-based intrusion detection system performing cryptographic file integrity monitoring on system binaries',
+      'A network perimeter firewall blocking unauthorized inbound TCP connections across non-standard ports',
+      'A centralized domain controller policy enforcing complex password rotation rules every thirty days'
     ],
     1,
-    'The barrier is psychological — fear of looking foolish. Program changes that reduce this fear work; policy reminders and mandatory training do not. Senior leaders modelling the behaviour is the single highest-impact intervention.',
-    'reporting_culture',
+    'Host-based File Integrity Monitoring (FIM) computes cryptographic hashes of critical binaries to detect unauthorized modifications.',
+    'defense_evasion',
     45,
     {
       distractor_rationale: [
-      "WRONG - making reporting mandatory reinforces the fear of looking foolish; it does not address the psychological barrier.",
-      "CORRECT - blame-free reporting plus senior leader modelling addresses the actual barrier: fear of looking foolish.",
-      "WRONG - more training for senior managers does not change the incentive to not report.",
-      "WRONG - reducing email volume reduces the symptom, not the barrier; the next suspicious email will still not be reported."
-      ],
-      cognitive_level: 4,
-      difficulty: 3,
-      coverage_tag: 'T1566',
-      rotation_bucket: 'reporting_culture',
-      last_validated: '2026-11-16'
-    }
-  ),
-
-  q(
-    'A clinic in Oshakati has one shared computer at the reception desk used by six staff across three shifts. What is the most defensible security awareness intervention for this environment?',
-    [
-      "Train all staff on the importance of logging out after each session, and configure the computer to auto-lock after 5 minutes of inactivity",
-      "Post a reminder on the wall saying \"always log out\" and rely on staff to follow the reminder",
-      "Require each staff member to have their own account with a strong password, train them on locking the screen, and remove administrator rights from the shared account",
-      "Install a password manager that requires a master password to unlock before each session"
-    ],
-    2,
-    'Shared computers require shared-environment controls: individual accounts (for auditability), screen lock training (for hygiene), and least privilege (for damage limitation). A simple reminder or auto-lock alone is insufficient for a shared environment.',
-    'habit_design',
-    45,
-    {
-      distractor_rationale: [
-      "WRONG - auto-lock alone helps but does not address the lack of individual accounts or the shared admin rights.",
-      "WRONG - a wall reminder is not a control; shared-computer environments need technical and policy controls, not just reminders.",
-      "CORRECT - individual accounts plus screen lock plus removal of admin rights is the minimum for a shared computer environment.",
-      "WRONG - a password manager does not address the shared computer problem; it may actually make it worse if staff store shared passwords in a shared manager."
-      ],
-      cognitive_level: 4,
-      difficulty: 3,
-      coverage_tag: 'T1078',
-      rotation_bucket: 'habit_design',
-      last_validated: '2026-11-16'
-    }
-  ),
-
-  q(
-    'A Namibian SME runs an awareness program with quarterly phishing simulations. After 6 quarters, the click rate is 4% and the report rate is 60%. The finance team still fell for a real BEC email last week. What is the most defensible interpretation?',
-    [
-      "The program is failing — 4% click rate and 60% report rate are not good enough and the program needs to be redesigned",
-      "The finance team should be replaced — they ignored the training and caused the loss",
-      "The program should focus on phishing only — expanding to BEC is out of scope for awareness training",
-      "The program is working for most staff but BEC is a different attack class than phishing; the finance team needs specific training on BEC patterns and authority-pressure tactics"
-    ],
-    3,
-    'BEC requires different skills than phishing. A finance professional can recognize a standard phishing email and still fall for a BEC email that uses the CEO name, urgency, and a plausible supplier story. Awareness programs must cover both.',
-    'program_measurement',
-    45,
-    {
-      distractor_rationale: [
-      "WRONG - the metrics are good; the problem is coverage, not general program failure.",
-      "WRONG - replacing the team does not fix the training gap; the next team will make the same mistake.",
-      "WRONG - BEC is the most expensive attack class for SMEs; awareness training that does not cover it is incomplete.",
-      "CORRECT - BEC requires specific training on authority-pressure and finance-specific pretexts, which is a different skill from phishing recognition."
+        'WRONG - email gateways inspect inbound mail traffic and cannot audit local operating system binary integrity.',
+        'CORRECT - file integrity monitoring detects unauthorized cryptographic hash changes in critical system binaries.',
+        'WRONG - perimeter firewalls regulate network packet flows rather than inspecting local file modifications.',
+        'WRONG - password rotation policies manage account credentials rather than detecting compromised system binaries.'
       ],
       cognitive_level: 4,
       difficulty: 4,
-      coverage_tag: 'T1566.002',
-      rotation_bucket: 'program_measurement',
-      last_validated: '2026-11-16'
+      coverage_tag: 'T1546',
+      rotation_bucket: 'defense_evasion',
+      last_validated: '2026-11-18'
     }
   ),
 
   q(
-    'A Nairobi-based company wants to implement a security awareness program for 50 staff but has a budget of only N$5,000 (approximately N$100 per staff member). What is the most defensible way to allocate the budget?',
+    'An incident responder analyzing a Windows endpoint discovers a suspicious scheduled task configured to execute an obfuscated PowerShell script every system startup. What MITRE ATT&CK sub-technique is represented here?',
     [
-      "Run quarterly phishing simulations using free tools and spend the budget on a password manager for all staff and one in-person BEC workshop",
-      "Buy a commercial awareness platform with phishing simulations — commercial platforms offer better content than free tools",
-      "Spend the entire budget on printed awareness posters and distribute them across the office",
-      "Save the budget for next year and run the program without tools — good awareness training does not require budget"
-    ],
-    0,
-    'A password manager is the highest-leverage spend because it changes behaviour permanently. A free phishing simulation tool covers the simulation need at zero cost. One in-person BEC workshop covers the highest-risk attack class for SMEs. This combination addresses the biggest risks within the budget.',
-    'habit_design',
-    45,
-    {
-      distractor_rationale: [
-      "CORRECT - password manager plus free phishing simulations plus one BEC workshop addresses the biggest risks within the budget.",
-      "WRONG - commercial platforms spend the budget on licenses, leaving little for behaviour change tools; free simulations plus a password manager is higher-leverage.",
-      "WRONG - posters alone do not change behaviour; they are the classic low-impact spend.",
-      "WRONG - saving the budget means no improvement this year; the vulnerability continues."
-      ],
-      cognitive_level: 5,
-      difficulty: 3,
-      coverage_tag: 'T1110',
-      rotation_bucket: 'habit_design',
-      last_validated: '2026-11-16'
-    }
-  ),
-
-  q(
-    'A Windhoek-based NGO has a WhatsApp group for finance staff. A staff member receives a WhatsApp message from a number that displays the CEO photo and name, asking them to send a payment link to a "new supplier." What is the most defensible response from the staff member?',
-    [
-      "Reply to the WhatsApp message asking for the supplier details and confirm the amount before sending the link",
-      "Forward the WhatsApp message to the finance team group so others can verify whether the request is legitimate",
-      "Do not act on the WhatsApp message; call the CEO on their known internal number or a verified contact to confirm the request",
-      "Block the WhatsApp number and move on — this is clearly a scam and does not need to be reported"
-    ],
-    2,
-    'WhatsApp is the primary attack surface for African SMEs. Display name and photo are not verification. The correct response is a callback on a known channel, which is the same principle established in Module 7. This question tests whether the awareness training generalises to the WhatsApp-first context.',
-    'social_engineering_awareness',
-    45,
-    {
-      distractor_rationale: [
-      "WRONG - replying to the attacker confirms the number is active and gives them a channel to escalate.",
-      "WRONG - forwarding to a group of colleagues does not verify; it spreads uncertainty and delays the correct action.",
-      "CORRECT - callback on the CEO known number is the only verification that survives WhatsApp impersonation.",
-      "WRONG - blocking without reporting means the security team has no visibility into the attack."
-      ],
-      cognitive_level: 3,
-      difficulty: 3,
-      coverage_tag: 'T1656',
-      rotation_bucket: 'social_engineering_awareness',
-      last_validated: '2026-11-16'
-    }
-  ),
-
-  q(
-    'A staff member at a Windhoek office tells the security team that they received a suspicious email, but they had already clicked the link and not entered credentials. They are embarrassed and ask not to be identified. What is the most defensible response?',
-    [
-      "Require the staff member to identify themselves so their account can be investigated, and add them to the next simulation cohort",
-      "Log the report anonymously and take no further action — if credentials were not entered, there is nothing to investigate",
-      "Report the staff member to their manager — clicking a link is a policy violation and they need to be held accountable",
-      "Respect the anonymity, thank the staff member for reporting, and check the authentication logs for their account without naming them to anyone else"
-    ],
-    3,
-    'The staff member did the right thing by reporting. Anonymity allows the security team to investigate the account without discouraging future reports. The investigation can proceed through technical channels without identifying the staff member.',
-    'reporting_culture',
-    45,
-    {
-      distractor_rationale: [
-      "WRONG - requiring identification undermines the anonymous reporting path and will stop future reports; the same investigation can happen without naming the staff member.",
-      "WRONG - even without entered credentials, the click can have exposed session data or browser information; the account needs investigation.",
-      "WRONG - punishing the click is the exact opposite of a blame-free reporting culture and will suppress the next report.",
-      "CORRECT - respect anonymity, investigate technically, and preserve the reporting instinct; the staff member did the hard thing right."
-      ],
-      cognitive_level: 4,
-      difficulty: 3,
-      coverage_tag: 'T1566.002',
-      rotation_bucket: 'reporting_culture',
-      last_validated: '2026-11-16'
-    }
-  ),
-
-  q(
-    'An employee at a Windhoek SME receives a WhatsApp voice note from a "bank official" saying their business account has been flagged and they need to confirm their account details via a link. The employee is not sure whether to click, because the voice sounds professional and the bank name is correct. What is the most defensible response?',
-    [
-      "Do not click the link; call the bank on the number from the bank official website or a bank statement, and report the WhatsApp message to the security team",
-      "Click the link to see what it asks for, but do not enter any details until verifying with the bank",
-      "Reply to the WhatsApp message asking the bank official for their name and employee number to verify",
-      "Forward the WhatsApp message to colleagues to see if they received the same message — safety in numbers"
-    ],
-    0,
-    'Bank impersonation via WhatsApp voice note is a specific attack class in African markets. The correct response is a callback on the bank published number, not any link or number from the message. This is the same principle as Module 7, tested in the awareness context.',
-    'social_engineering_awareness',
-    45,
-    {
-      distractor_rationale: [
-      "CORRECT - callback on the bank published number is the only verification that survives WhatsApp impersonation; report to security preserves visibility.",
-      "WRONG - clicking to see what it asks for can trigger a credential harvester or proxy that captures the click.",
-      "WRONG - the attacker is on the other end of the WhatsApp reply; verifying with the attacker is not verification.",
-      "WRONG - forwarding to colleagues does not verify; it spreads uncertainty and delays the correct action."
-      ],
-      cognitive_level: 3,
-      difficulty: 3,
-      coverage_tag: 'T1656',
-      rotation_bucket: 'social_engineering_awareness',
-      last_validated: '2026-11-16'
-    }
-  ),
-
-  q(
-    'An SME wants to run a phishing simulation but is worried that it will damage staff trust if some staff click and feel embarrassed. What is the most defensible design for the first simulation?',
-    [
-      "Run the simulation with no follow-up coaching — the embarrassment of clicking is the lesson, and following up will make it worse",
-      "Run the simulation on a low-stakes benign email (e.g., \"cafeteria menu change\") and follow up with a blame-free debrief that explains what the simulation tested and why it matters",
-      "Skip the simulation entirely — the risk of damaging trust is greater than the benefit of testing",
-      "Run the simulation only on new staff who have not yet built relationships with the team"
+      'Process Injection targeting running memory spaces of legitimate system administration binaries',
+      'Scheduled Task execution leveraging built-in OS utilities for persistence and automated startup',
+      'Account Manipulation involving the creation of hidden local administrative shadow users',
+      'Boot or Logon Initialization Scripts executed automatically during user session establishment'
     ],
     1,
-    'The first simulation sets the tone. A benign scenario plus a blame-free debrief establishes that the program is about learning, not punishment. Simulations that shame or exclude staff damage trust; simulations that debrief transparently build it.',
-    'social_engineering_awareness',
+    'Configuring scheduled tasks to run scripts upon system startup is a primary technique for maintaining persistence (T1053.005).',
+    'persistence',
     45,
     {
       distractor_rationale: [
-      "WRONG - no follow-up means clicks become a silent failure; staff do not learn what happened or why it matters.",
-      "CORRECT - benign scenario plus blame-free debrief establishes the learning tone and preserves trust.",
-      "WRONG - skipping simulations leaves the program without measurement and without practice.",
-      "WRONG - targeting only new staff isolates them, damages trust with the cohort, and misses the experienced staff who are equally at risk."
+        'WRONG - process injection manipulates active runtime memory rather than creating scheduled tasks.',
+        'CORRECT - scheduled tasks configured at startup match MITRE technique T1053.005 for persistence.',
+        'WRONG - account manipulation creates or modifies user accounts rather than scheduling tasks.',
+        'WRONG - logon scripts execute during user login sessions rather than general system startup.'
+      ],
+      cognitive_level: 2,
+      difficulty: 3,
+      coverage_tag: 'T1053.005',
+      rotation_bucket: 'persistence',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'A SOC team detects a surge of outbound HTTPS traffic directed at a known cloud storage provider from a service account typically used only for internal database backups. What is the most appropriate initial containment response?',
+    [
+      'Reboot all regional database servers to flush active memory caches and network sockets',
+      'Revoke active session tokens and disable the compromised service account immediately',
+      'Upgrade the enterprise bandwidth allocation to accommodate the large data transfer rate',
+      'Modify the corporate firewall rules to permit all outbound cloud storage traffic globally'
+    ],
+    1,
+    'Revoking tokens and disabling compromised accounts stops ongoing data exfiltration immediately.',
+    'containment',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - rebooting servers disrupts operations without terminating the underlying compromised session tokens.',
+        'CORRECT - revoking tokens and disabling the account halts unauthorized data exfiltration instantly.',
+        'WRONG - upgrading bandwidth accommodates the attack rather than stopping the unauthorized transfer.',
+        'WRONG - modifying firewall rules to allow all traffic expands the exposure and worsens security posture.'
       ],
       cognitive_level: 4,
       difficulty: 3,
-      coverage_tag: 'T1566',
-      rotation_bucket: 'social_engineering_awareness',
-      last_validated: '2026-11-16'
+      coverage_tag: 'T1567.002',
+      rotation_bucket: 'containment',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'An enterprise administrator notices that multiple domain user accounts are experiencing frequent lockout events after an external phishing campaign. What attack vector is most directly correlated with these symptoms?',
+    [
+      'A malicious kernel-level rootkit modifying system partition tables during boot sequences',
+      'An unauthorized modification of Active Directory group policy administrative templates',
+      'A brute-force or password-spraying attack attempting to discover valid account credentials',
+      'A structured query language injection attack targeting external web application portals'
+    ],
+    2,
+    'Repeated authentication failures across multiple accounts following phishing campaigns indicate automated brute-forcing or password spraying.',
+    'credential_access',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - rootkits modify system files or kernels rather than triggering network account lockouts.',
+        'WRONG - group policy modifications alter configuration settings rather than causing authentication lockouts.',
+        'CORRECT - multiple account lockouts correlate directly with automated password spraying or brute-force attempts.',
+        'WRONG - SQL injection targets web database applications rather than enterprise domain authentication thresholds.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1110.003',
+      rotation_bucket: 'credential_access',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'During a security audit, engineers find that local administrator passwords across workstation endpoints are identical and hardcoded. What enterprise hardening control eliminates this vulnerability?',
+    [
+      'Enabling standard HTTP web filtering proxies for all outbound employee internet browsing traffic',
+      'Deploying commercial antivirus software with signature definitions updated once every quarter',
+      'Configuring dynamic host configuration protocol scopes to rotate client IP addresses daily',
+      'Implementing Local Administrator Password Solution (LAPS) to randomize and manage unique credentials'
+    ],
+    3,
+    'LAPS solves static local admin password reuse by automatically managing unique, randomized passwords per endpoint.',
+    'identity_hardening',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - web filtering proxies control outbound web access rather than endpoint administrator credentials.',
+        'WRONG - quarterly antivirus updates do not address static local administrator password configurations.',
+        'WRONG - daily DHCP IP rotation alters network addresses rather than managing endpoint credentials.',
+        'CORRECT - LAPS randomizes and manages unique local administrator passwords across all domain endpoints.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'T1078.003',
+      rotation_bucket: 'identity_hardening',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'A security analyst identifies a suspicious process executing PowerShell with the `-EncodedCommand` parameter and a heavily obfuscated base64 payload. What analysis step should be performed first?',
+    [
+      'Execute the encoded PowerShell script directly on a production workstation to observe live behavior',
+      'Decode the base64 string offline in a secure sandbox to inspect the underlying execution commands',
+      'Delete the local PowerShell executable binary from all enterprise endpoints to prevent execution',
+      'Disable all logging services across the domain controller infrastructure to conserve disk space'
+    ],
+    1,
+    'Decoding base64 payloads offline safely reveals the intent without risking execution on production systems.',
+    'incident_response',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - executing unknown obfuscated scripts on production endpoints risks immediate compromise or damage.',
+        'CORRECT - decoding base64 strings offline in a sandbox safely exposes the underlying script intent.',
+        'WRONG - deleting the PowerShell binary breaks legitimate system administration tools and dependencies.',
+        'WRONG - disabling logging blinds the security team and destroys crucial forensic visibility.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1059.001',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'An incident response team discovers that threat actors maintained access to a compromised cloud tenant by creating an unauthorized administrative service principal. What mitigation category applies here?',
+    [
+      'System Firmware integrity checks to verify bootloader cryptographic signatures',
+      'Network Segmentation policies to restrict internal inter-subnet SMB traffic',
+      'Physical Security controls restricting facility access to server rack enclosures',
+      'Valid Accounts auditing and restricting cloud API credential creation privileges'
+    ],
+    3,
+    'Auditing valid accounts and restricting creation privileges for service principals or API keys secures cloud tenants.',
+    'cloud_security',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - system firmware checks verify hardware boot integrity rather than cloud service principal creation.',
+        'WRONG - network segmentation manages internal subnet traffic rather than cloud tenant API credentials.',
+        'WRONG - physical security controls protect server hardware facilities rather than cloud software identities.',
+        'CORRECT - auditing valid accounts and restricting administrative API credential creation secures cloud environments.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1098.001',
+      rotation_bucket: 'cloud_security',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'A financial institution wants to evaluate the resilience of its defensive controls against sophisticated multi-stage intrusion campaigns. Which operational engagement provides the most realistic assessment?',
+    [
+      'Running an automated vulnerability scanner report once every calendar quarter for compliance',
+      'Conducting an adversarial emulation exercise simulating specific threat actor tactics and procedures',
+      'Reviewing static firewall configuration ruleset documents during an internal management meeting',
+      'Inspecting physical security badge access logs at the main corporate reception desk daily'
+    ],
+    1,
+    'Adversarial emulation (threat simulation) tests actual defensive detection and response capabilities against realistic TTPs.',
+    'assessment',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - automated vulnerability scanners check known software flaws but do not test holistic SOC response.',
+        'CORRECT - adversarial emulation simulates realistic threat TTPs to thoroughly test defensive detection capabilities.',
+        'WRONG - reviewing static firewall documentation is a paper audit rather than a live security test.',
+        'WRONG - inspecting badge logs verifies physical facility access rather than cyber defense resilience.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1485',
+      rotation_bucket: 'assessment',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'An organization implements a Zero Trust architecture. Which foundational principle governs resource access decisions within this model?',
+    [
+      'Implicit trust granted to all endpoints connected directly to the internal corporate physical network',
+      'Permanent administrative privileges assigned to verified corporate employees after initial onboarding',
+      'Continuous verification of identity, device health, and context before granting least-privilege access',
+      'Unrestricted data sharing across internal departmental subnets to streamline workflow efficiency'
+    ],
+    2,
+    'Zero Trust relies on continuous explicit verification and least privilege rather than trusting internal network perimeters.',
+    'zero_trust',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - trusting internal network connections violates the core Zero Trust premise of verifying everything.',
+        'WRONG - assigning permanent admin privileges violates the principle of least privilege.',
+        'CORRECT - continuous verification of identity and context with least-privilege access defines Zero Trust architecture.',
+        'WRONG - unrestricted inter-departmental data sharing creates excessive lateral movement exposure.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'M1037',
+      rotation_bucket: 'zero_trust',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'A security engineer is configuring SIEM correlation rules to detect potential lateral movement. Which event log signature indicates potential PsExec or remote service execution?',
+    [
+      'Standard HTTP status code 200 indicating successful web server page load requests',
+      'Windows Event ID 7045 indicating a new service installation or Event ID 4697 service creation',
+      'DHCP lease renewal event logs indicating a client IP address assignment update',
+      'Printer spooler activity logs recording standard document print job completions'
+    ],
+    1,
+    'Windows Event ID 7045 and 4697 record the installation of new services, frequently used by lateral movement tools like PsExec.',
+    'monitoring',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - HTTP status code 200 represents standard web traffic rather than remote service installation.',
+        'CORRECT - Windows Event IDs 7045 and 4697 record new service creation, characteristic of PsExec lateral movement.',
+        'WRONG - DHCP lease renewals manage network IP allocations rather than tracking lateral movement.',
+        'WRONG - printer spooler logs record document printing rather than administrative service creation.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1569.002',
+      rotation_bucket: 'monitoring',
+      last_validated: '2026-11-18'
+    }
+  ),
+
+  q(
+    'Following a security incident, the incident response lead schedules a blameless post-mortem review with the technical team. What is the primary objective of this meeting?',
+    [
+      'Determine which individual employee staff members should face formal disciplinary warnings',
+      'Minimize the severity of the security breach in official public press releases and disclosures',
+      'Identify systemic operational improvements and refine detection rules without assigning personal blame',
+      'Reduce internal logging retention periods to lower long-term cloud storage operational expenditures'
+    ],
+    2,
+    'Blameless post-mortems focus on process, tooling, and systemic improvements to enhance future resilience.',
+    'governance',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - assigning personal blame undermines psychological safety and discourages transparent incident reporting.',
+        'WRONG - minimizing severity for PR purposes compromises organizational integrity and stakeholder trust.',
+        'CORRECT - blameless post-mortems focus on uncovering systemic gaps and improving detection without personal blame.',
+        'WRONG - reducing log retention destroys historical data necessary for effective forensic investigations.'
+      ],
+      cognitive_level: 3,
+      difficulty: 2,
+      coverage_tag: 'M1016',
+      rotation_bucket: 'governance',
+      last_validated: '2026-11-18'
     }
   )
 ],
@@ -2679,326 +2679,326 @@ const TIER_A_QUESTIONS = {
 ],
     52: [
   q(
-    'A SOC analyst at a Windhoek bank sees a host beaconing every 60 seconds to a rare SaaS domain. The TLS JA3 hash does not match the domain vendor. What is the most defensible first action?',
+    'An incident response lead is reviewing a compromised Linux server and finds unusual processes communicating with an external command-and-control server. What is the most defensible immediate containment action?',
     [
-      'Isolate the host, preserve memory and network connections, block egress, and hunt for sibling hosts with the same JA3',
-      'Block the destination domain at the firewall and close the alert',
-      'Reboot the workstation to clear the beaconing process',
-      'Disable HTTPS inspection so the JA3 mismatch stops alerting'
+      'Isolate the host from the network, preserve volatile memory artifacts, and initiate a clean system recovery baseline',
+      'Terminate the active network socket connections while leaving the server connected to the production network online',
+      'Modify the host firewall configuration to block outbound TCP port 80 traffic while maintaining all other routes',
+      'Reboot the physical server hardware immediately without preserving volatile memory to disrupt the active process tree'
     ],
     0,
-    'The JA3 mismatch is the signal: the domain looks legitimate but the fingerprint is not the vendor. Isolating and hunting across the environment catches beacons the attacker may have on other hosts with the same infrastructure. Blocking only the domain removes one indicator; rebooting destroys the evidence.',
-    'beacon_detection',
-    45,
-    {
-      distractor_rationale: [
-        'CORRECT - isolate, preserve, hunt siblings; the JA3 mismatch is the shared infrastructure signal.',
-        'WRONG - blocking the domain removes one indicator but does not contain the beacon or find other hosts.',
-        'WRONG - rebooting destroys memory evidence and does not remove persistence.',
-        'WRONG - disabling HTTPS inspection removes the detection capability entirely.'
-      ],
-      cognitive_level: 5,
-      difficulty: 4,
-      coverage_tag: 'T1071.001',
-      rotation_bucket: 'beacon_detection',
-      last_validated: '2026-11-18'
-    }
-  ),
-
-  q(
-    'A red team uses a malleable C2 profile mimicking a SaaS API. The beacon uses HTTP POST with 20-40% jitter around 60-second sleep. Which detection approach gives the most reliable signal?',
-    [
-      'Alert on any HTTP POST to a SaaS domain — SaaS traffic is low in an SME',
-      'Alert on beacon cadence combined with JA3 mismatch and anomalous process ancestry',
-      'Alert on any process making HTTPS connections — HTTPS is the only channel that matters',
-      'Alert on newly registered domains — attackers always use new domains'
-    ],
-    1,
-    'Malleable C2 defeats simple detection because traffic looks legitimate. The reliable signal is the combination: cadence (timing correlation defeats jitter), JA3 mismatch (fingerprint does not match the claimed vendor), and process ancestry (the connecting process is not the browser or SaaS client).',
-    'beacon_detection',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - HTTP POST to SaaS is normal; this alert will be ignored within days.',
-        'CORRECT - cadence plus JA3 mismatch plus process ancestry is the reliable signal for malleable C2.',
-        'WRONG - not all C2 uses HTTPS, and not all HTTPS is C2; too broad and too narrow.',
-        'WRONG - attackers increasingly use aged domains and compromised legitimate domains.'
-      ],
-      cognitive_level: 5,
-      difficulty: 5,
-      coverage_tag: 'T1071.001',
-      rotation_bucket: 'beacon_detection',
-      last_validated: '2026-11-18'
-    }
-  ),
-
-  q(
-    'A Namibian government agency has no TLS inspection and no EDR. What is the most defensible C2 detection set with existing tools?',
-    [
-      'Purchase an NGFW with TLS inspection — without it, C2 cannot be detected',
-      'Monitor only known malicious IPs — reputation-based blocking catches C2',
-      'Use JA3/JARM fingerprinting, DNS query logging, and netflow timing analysis',
-      'Rely on user reports — users notice when their workstation behaves unusually'
-    ],
-    2,
-    'JA3/JARM and DNS logging work on encrypted traffic without decryption, and netflow timing catches beacon patterns. None require TLS inspection or EDR. Reputation is evadable (attackers use clean infrastructure) and user reports are unreliable.',
-    'c2_infrastructure',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - NGFW with TLS inspection is a procurement cycle; JA3/JARM is available now.',
-        'WRONG - reputation-based blocking misses C2 on clean infrastructure.',
-        'CORRECT - JA3/JARM, DNS logging, and netflow timing all work without decryption.',
-        'WRONG - users are not reliable sensors for C2 beaconing.'
-      ],
-      cognitive_level: 4,
-      difficulty: 4,
-      coverage_tag: 'T1071.001',
-      rotation_bucket: 'c2_infrastructure',
-      last_validated: '2026-11-18'
-    }
-  ),
-
-  q(
-    'A C2 beacon uses a legitimate cloud CDN as a redirector. The destination IP changes every few minutes. What is the most defensible containment strategy?',
-    [
-      'Block the CDN IP range entirely — the attacker is using it',
-      'Do nothing — the CDN IP is legitimate and blocking breaks normal traffic',
-      'Notify the CDN provider and wait for them to take down the C2 infrastructure',
-      'Isolate the beaconing host, preserve samples, and block the specific C2 URI pattern at the proxy'
-    ],
-    3,
-    'Blocking the CDN range breaks legitimate traffic. Blocking nothing leaves the beacon active. The correct strategy isolates the host, preserves the beacon for analysis, and blocks the specific C2 URI pattern while keeping the CDN available for legitimate users.',
-    'c2_infrastructure',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - blocking the entire CDN breaks legitimate SaaS and content delivery.',
-        'WRONG - leaving the beacon active gives the attacker continued access.',
-        'WRONG - CDN takedown takes days and does not contain the active beacon.',
-        'CORRECT - isolate the host, preserve the beacon, block the specific URI pattern without blocking the CDN.'
-      ],
-      cognitive_level: 5,
-      difficulty: 4,
-      coverage_tag: 'T1090.004',
-      rotation_bucket: 'c2_infrastructure',
-      last_validated: '2026-11-18'
-    }
-  ),
-
-  q(
-    'A bank SOC identifies a Cobalt Strike beacon. The C2 traffic is encrypted. What is the most defensible way to understand what the attacker did next?',
-    [
-      'Give up on analysis — encrypted traffic cannot be investigated',
-      'Analyse host-side telemetry: process injection, LSASS access, service creation, and lateral movement',
-      'Wait for the attacker to make a mistake that exposes their activity',
-      'Rebuild the workstation and assume the attacker is contained'
-    ],
-    1,
-    'Encrypted C2 hides the commands, but the effects are visible on the host. Process ancestry, LSASS access, service creation, scheduled tasks, and lateral movement from the beaconing host reveal what the attacker did. Host-side telemetry is the answer when the network side is encrypted.',
-    'post_exploitation',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - encrypted traffic does not prevent investigation; pivot to host-side telemetry.',
-        'CORRECT - process ancestry, LSASS access, service creation, and lateral movement reveal the attacker effects.',
-        'WRONG - waiting for the attacker to make a mistake gives them time.',
-        'WRONG - rebuilding without understanding leaves the rest of the environment exposed.'
-      ],
-      cognitive_level: 5,
-      difficulty: 4,
-      coverage_tag: 'T1055',
-      rotation_bucket: 'post_exploitation',
-      last_validated: '2026-11-18'
-    }
-  ),
-
-  q(
-    'A Windhoek SME has a Cobalt Strike beacon on a file server. The attacker has been on the network for 3 days. What is the most defensible containment decision?',
-    [
-      'Disconnect the file server immediately — evidence is secondary',
-      'Leave the server online to watch the attacker — visibility is more important',
-      'Isolate the server while preserving memory, then hunt for other beacons across the network',
-      'Reboot the server to break the C2 session'
-    ],
-    2,
-    'Isolation removes the immediate threat while preserving the memory evidence needed to understand the attacker. A network-wide hunt is required before declaring containment. Leaving the server online gives the attacker continued access; rebooting destroys evidence.',
+    'Isolating the host and preserving volatile memory before remediation ensures forensic integrity and stops active C2 traffic.',
     'incident_response',
     45,
     {
       distractor_rationale: [
-        'WRONG - disconnecting immediately destroys the opportunity to understand the attacker.',
-        'WRONG - leaving the server online gives the attacker continued access.',
-        'CORRECT - network isolation preserves evidence and removes the threat; hunt across the network.',
-        'WRONG - rebooting destroys memory evidence and lets the attacker re-establish.'
-      ],
-      cognitive_level: 5,
-      difficulty: 5,
-      coverage_tag: 'T1071.001',
-      rotation_bucket: 'incident_response',
-      last_validated: '2026-11-18'
-    }
-  ),
-
-  q(
-    'A C2 beacon uses DNS over HTTPS to a legitimate DoH resolver. The destination is encrypted. What is the most defensible detection approach?',
-    [
-      'Block all DoH traffic — DoH is used by C2',
-      'Monitor only known DoH providers — block all others',
-      'Rely on volume detection — C2 uses more data than legitimate DoH',
-      'Analyse DoH query timing, process ancestry, and client JA3 to spot non-browser DoH clients'
-    ],
-    3,
-    'DoH is legitimate for many users and blocking it breaks privacy. The detection is in the timing pattern, the query volume, and the client fingerprint — a host making DoH queries on a regular cadence from a non-browser process is a signal. JA3 of the DoH client reveals non-standard stacks.',
-    'c2_infrastructure',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - blocking all DoH breaks privacy tools and browsers that use DoH by default.',
-        'WRONG - allowlisting DoH providers does not help if the attacker uses an approved provider as a tunnel.',
-        'WRONG - C2 over DoH can use low volume; volume-based detection misses low-and-slow beaconing.',
-        'CORRECT - timing, volume, process ancestry, and DoH client JA3 reveal C2 without blocking legitimate DoH.'
-      ],
-      cognitive_level: 5,
-      difficulty: 5,
-      coverage_tag: 'T1071.004',
-      rotation_bucket: 'beacon_detection',
-      last_validated: '2026-11-18'
-    }
-  ),
-
-  q(
-    'An attacker used a C2 beacon to steal credentials and move laterally. The SOC has contained the host but not found the destination. What is the most defensible next step?',
-    [
-      'Hunt for Kerberos and NTLM authentications from the compromised host in the hours before containment',
-      'Reset all user passwords on the domain — this invalidates the stolen credentials',
-      'Review firewall logs and block every IP the host connected to',
-      'Wait for a new C2 alert from another host'
-    ],
-    0,
-    'The stolen credentials are the leverage for lateral movement. Hunting for authentications from the compromised host reveals which systems received the stolen credentials. Password reset does not invalidate active Kerberos tickets. Blocking IPs misses lateral movement over SMB and Windows Admin Shares.',
-    'post_exploitation',
-    45,
-    {
-      distractor_rationale: [
-        'CORRECT - hunt authentications from the compromised host in the hours before containment.',
-        'WRONG - password reset does not invalidate Kerberos tickets or cached credentials.',
-        'WRONG - firewall IPs miss internal lateral movement over SMB.',
-        'WRONG - waiting for the next alert gives the attacker more time.'
-      ],
-      cognitive_level: 5,
-      difficulty: 4,
-      coverage_tag: 'T1021.002',
-      rotation_bucket: 'post_exploitation',
-      last_validated: '2026-11-18'
-    }
-  ),
-
-  q(
-    'A Namibian bank wants to test its detection capability against Cobalt Strike. What is the most defensible plan?',
-    [
-      'Run Cobalt Strike against production systems during business hours',
-      'Deploy Cobalt Strike internally without informing anyone first',
-      'Contract a red team under signed ROE in a scoped lab with the blue team measuring detection',
-      'Hire an external firm to run phishing — C2 testing is out of scope'
-    ],
-    2,
-    'A legal red team test requires a signed ROE, a scoped environment, and isolated C2 infrastructure. Running Cobalt Strike against production without scope is illegal. Running it internally without informing anyone is a real incident by any standard.',
-    'incident_response',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - running offensive tooling against production without ROE and scope is illegal.',
-        'WRONG - running Cobalt Strike internally without informing anyone is a real incident.',
-        'CORRECT - signed ROE, scoped lab, isolated C2 infrastructure, blue team measures detection.',
-        'WRONG - phishing-only testing does not test C2 detection capability.'
-      ],
-      cognitive_level: 5,
-      difficulty: 4,
-      coverage_tag: 'T1071.001',
-      rotation_bucket: 'incident_response',
-      last_validated: '2026-11-18'
-    }
-  ),
-
-  q(
-    'A C2 beacon has been silent for 6 hours. The SOC analyst assumes the attacker left. What is the most defensible interpretation?',
-    [
-      'Silent beacon means the attacker has left — close the incident',
-      'Silent beacon means the tooling failed — the host is clean',
-      'Silent beacon means the C2 server was taken down — the threat is over',
-      'Silent beacon could mean a channel switch, low-and-slow sleep, or staging — investigate before closing'
-    ],
-    3,
-    'Beacon silence is not evidence of attacker departure. Sophisticated C2 frameworks use long sleep periods, multiple channels, and staged operators. Closing the incident on silence alone is the failure mode that lets an attacker return after the SOC stands down.',
-    'post_exploitation',
-    45,
-    {
-      distractor_rationale: [
-        'WRONG - silence is not evidence of departure; it requires investigation.',
-        'WRONG - a silent beacon does not mean the tooling failed.',
-        'WRONG - the C2 server being down does not remove host-side persistence.',
-        'CORRECT - silence may be a channel switch, low-and-slow sleep, or staging period.'
-      ],
-      cognitive_level: 5,
-      difficulty: 4,
-      coverage_tag: 'T1071',
-      rotation_bucket: 'post_exploitation',
-      last_validated: '2026-11-18'
-    }
-  ),
-
-  q(
-    'A Johannesburg insurer wants to reduce C2 attack surface. Which controls have the highest impact?',
-    [
-      'Enforce egress filtering, implement DNS logging, enable segmentation, and deploy endpoint detection for injection and LSASS access',
-      'Deploy a commercial anti-C2 appliance — commercial tools detect every C2 framework',
-      'Block known C2 framework IPs — the C2 server IPs are stable',
-      'Require VPN for all internet access — VPNs prevent C2'
-    ],
-    0,
-    'C2 detection is about restricting the channel. Egress filtering limits what can call out, DNS logging catches covert channels, segmentation limits lateral movement, and endpoint detection catches injection and credential theft. Commercial appliances are useful but not complete.',
-    'c2_infrastructure',
-    45,
-    {
-      distractor_rationale: [
-        'CORRECT - egress filtering, DNS logging, segmentation, and endpoint detection are the highest-impact controls.',
-        'WRONG - no commercial tool detects every C2 framework.',
-        'WRONG - C2 server IPs change constantly; IP blocking is evaded by redirectors and CDNs.',
-        'WRONG - VPNs do not prevent C2 from the endpoint.'
+        'CORRECT - host isolation and volatile memory preservation halt C2 communications while maintaining forensic integrity.',
+        'WRONG - terminating active sockets alone leaves persistent malware and backdoors active on the running system.',
+        'WRONG - blocking only port 80 ignores alternative C2 communication channels operating over ports 443, 53, or custom ports.',
+        'WRONG - rebooting without memory preservation destroys critical volatile forensic artifacts stored in RAM.'
       ],
       cognitive_level: 4,
-      difficulty: 4,
+      difficulty: 3,
       coverage_tag: 'T1071',
-      rotation_bucket: 'c2_infrastructure',
-      last_validated: '2026-11-18'
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-19'
     }
   ),
 
   q(
-    'A host authenticates to multiple internal servers in a pattern resembling the jitter from an earlier C2 alert. The host has no EDR. What is the most defensible interpretation?',
+    'A security analyst reviewing SIEM alerts discovers multiple failed login attempts using common passwords against an external SSH gateway. What MITRE ATT&CK technique classification applies here?',
     [
-      'Benign — internal authentication is normal and EDR is the only reliable detection',
-      'Suspicious — the jitter correlates with the earlier C2 alert, and without EDR the host cannot be verified as clean; isolate and investigate',
-      'Close the alert — without EDR, there is no evidence to act on',
-      'Reboot the host — internal authentication patterns are usually stale sessions'
+      'Brute Force via Password Guessing or Password Spraying against exposed remote authentication portals',
+      'Valid Accounts manipulation utilizing legitimate enterprise credentials to bypass perimeter access controls',
+      'Account Discovery via local system user enumeration scripts executed within a privileged shell',
+      'Exploitation of Remote Services targeting unpatched vulnerabilities in SSH server daemons'
+    ],
+    0,
+    'Repeated login attempts using common passwords against a remote service match Brute Force (T1110).',
+    'credential_access',
+    30,
+    {
+      distractor_rationale: [
+        'CORRECT - multiple failed login attempts with common passwords directly match the brute force technique.',
+        'WRONG - valid accounts involve using known good credentials rather than iterative trial and error guessing.',
+        'WRONG - account discovery enumerates existing user accounts locally rather than attempting external logins.',
+        'WRONG - remote service exploitation targets software vulnerabilities rather than guessing authentication passwords.'
+      ],
+      cognitive_level: 2,
+      difficulty: 3,
+      coverage_tag: 'T1110',
+      rotation_bucket: 'credential_access',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An enterprise security architect wants to prevent lateral movement of malware across internal departmental subnets within a corporate data center. Which technical control provides the most robust containment?',
+    [
+      'Installing standard commercial antivirus software with signature definitions updated once every business quarter',
+      'Deploying internal micro-segmentation policies via host-based firewalls to restrict unnecessary SMB and RPC traffic',
+      'Configuring dynamic host configuration protocol scopes to rotate client IP lease addresses every 24 hours',
+      'Enabling standard HTTP web browsing proxies for all employee internet connections across enterprise subnets'
     ],
     1,
-    'The jitter pattern is the diagnostic signal: the same cadence from the C2 alert is now appearing in internal authentication traffic, suggesting lateral movement using the same operator infrastructure. Without EDR, the host cannot be verified as clean. Closing because there is no EDR is the failure mode; rebooting destroys network evidence.',
-    'post_exploitation',
+    'Internal micro-segmentation restricts critical lateral movement protocols (SMB/RPC) between internal network hosts.',
+    'network_segmentation',
     45,
     {
       distractor_rationale: [
-        'WRONG - internal authentication is normal, but the jitter correlation is the specific anomaly.',
-        'CORRECT - jitter correlation plus absence of EDR means the host cannot be verified as clean.',
-        'WRONG - network telemetry is evidence; closing because there is no EDR ignores it.',
-        'WRONG - rebooting destroys network evidence and does not remove the attacker.'
+        'WRONG - quarterly antivirus signature updates are far too slow to mitigate active lateral movement vectors.',
+        'CORRECT - micro-segmentation restricts internal protocol communications, effectively stopping lateral movement spread.',
+        'WRONG - daily DHCP IP address rotation changes client addresses but does not restrict inter-host network traffic.',
+        'WRONG - web browsing proxies manage outbound internet access rather than internal host-to-host data flows.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1021',
+      rotation_bucket: 'network_segmentation',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A financial institution discovers that threat actors exfiltrated sensitive customer database records prior to deploying ransomware. The extortionists demand a ransom under threat of public leak. How should leadership respond?',
+    [
+      'Pay the ransom immediately in cryptocurrency to ensure the stolen data is permanently deleted by the threat actor',
+      'Deny the data exfiltration publicly in the press and take no further technical remediation actions on database servers',
+      'Transfer all enterprise operations to an unverified cloud provider while negotiations with the extortionists continue',
+      'Refuse payment, notify data protection regulators, engage legal counsel, and prepare transparent stakeholder communications'
+    ],
+    3,
+    'Data extortion requires regulatory notification, legal consultation, and stakeholder transparency rather than ransom payment.',
+    'extortion',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - paying cybercriminals provides zero cryptographic or contractual guarantee that exfiltrated data is destroyed.',
+        'WRONG - public denial without technical containment or regulatory notification violates compliance mandates.',
+        'WRONG - shifting operations to unverified environments during an active breach compounds operational risk.',
+        'CORRECT - regulatory reporting, legal guidance, and stakeholder transparency form the standard defensible response.'
       ],
       cognitive_level: 5,
       difficulty: 4,
-      coverage_tag: 'T1021.002',
-      rotation_bucket: 'post_exploitation',
-      last_validated: '2026-11-18'
+      coverage_tag: 'T1567',
+      rotation_bucket: 'extortion',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An administrator reviewing cloud tenant access logs notices a newly created API access key assigned full global administrative permissions, generated outside normal operational windows. What is the immediate priority?',
+    [
+      'Revoke the unauthorized API key immediately, review cloud audit logs for recent activity, and rotate master credentials',
+      'Submit a formal IT service desk ticket requesting an administrative review meeting during the next scheduled quarter',
+      'Delete the primary enterprise cloud storage bucket to prevent potential unauthorized data viewing by the key holder',
+      'Disable multi-factor authentication requirements globally across the cloud tenant to simplify emergency access recovery'
+    ],
+    0,
+    'Revoking unauthorized credentials and auditing logs stops potential cloud persistence and data exfiltration immediately.',
+    'cloud_security',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - revoking unauthorized API keys, auditing logs, and rotating credentials halts potential cloud compromise instantly.',
+        'WRONG - scheduling a quarterly ticket delays response and leaves unauthorized administrative keys active for months.',
+        'WRONG - deleting storage buckets destroys business data rather than addressing the unauthorized API credential.',
+        'WRONG - disabling MFA globally drastically weakens security posture during an active cloud security incident.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1098',
+      rotation_bucket: 'cloud_security',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A security team is designing a backup strategy for enterprise file servers to protect against modern ransomware that attempts to compromise backup repositories. What design principle is essential?',
+    [
+      'Storing primary backup snapshots on secondary operational network shares accessible via standard service accounts',
+      'Implementing offline or WORM immutable storage tiers isolated from administrative credentials',
+      'Relying solely on continuous real-time cloud synchronization folders to mirror active production databases instantly',
+      'Configuring automated daily backup rotations that overwrite previous historical archives to conserve storage capacity'
+    ],
+    1,
+    'WORM immutable storage and air-gapped or role-separated access prevents ransomware from encrypting backup repositories.',
+    'backup_security',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - secondary operational network shares can be accessed and encrypted by ransomware if domain credentials are compromised.',
+        'CORRECT - WORM immutable storage and separation from administrative access prevents ransomware encryption of backups.',
+        'WRONG - continuous synchronization replicates malicious encryption changes immediately to backup targets.',
+        'WRONG - overwriting historical archives eliminates point-in-time recovery options prior to infection discovery.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1490',
+      rotation_bucket: 'backup_security',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'During post-incident recovery, an analyst notices that ransomware binaries were distributed through an unpatched vulnerability in an edge gateway device. What overarching program deficiency does this highlight?',
+    [
+      'Inadequate employee security awareness training regarding phishing email attachment handling',
+      'Failure of enterprise vulnerability management, asset discovery, and rapid perimeter patch orchestration',
+      'Improper configuration of workstation endpoint detection and response agent heartbeat telemetry',
+      'Excessive database administrator permissions granted across local departmental SQL servers'
+    ],
+    1,
+    'Edge gateway compromises point directly to gaps in vulnerability management, asset visibility, and patch cadence.',
+    'vulnerability_management',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - phishing awareness targets user email behavior rather than unpatched perimeter network appliances.',
+        'CORRECT - edge device compromises highlight structural failures in asset discovery, vulnerability tracking, and patching.',
+        'WRONG - EDR heartbeat issues impact endpoint monitoring rather than initial edge gateway exploitation.',
+        'WRONG - internal SQL permissions do not account for external perimeter gateway vulnerabilities.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1190',
+      rotation_bucket: 'vulnerability_management',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An organization is updating its enterprise vulnerability management program. Which metric provides the most meaningful evaluation of remediation performance over time?',
+    [
+      'Mean Time to Remediate critical and high-severity vulnerabilities across production asset groups',
+      'Total financial expenditure allocated toward third-party penetration testing consultant retainers',
+      'Aggregate gigabytes of raw log data ingested daily by the centralized SIEM analytics platform',
+      'Total count of general support tickets submitted by internal employees to the IT helpdesk'
+    ],
+    0,
+    'Mean Time to Remediate (MTTR) measures how efficiently security and IT teams patch identified vulnerabilities.',
+    'metrics',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - MTTR tracks the speed and efficiency with which vulnerability remediation is executed across assets.',
+        'WRONG - penetration testing retainer expenditures measure budgeting scale rather than vulnerability patch velocity.',
+        'WRONG - raw log ingestion volume measures data collection scale rather than vulnerability remediation speed.',
+        'WRONG - helpdesk support ticket counts measure general IT assistance volume rather than security patching.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'M1047',
+      rotation_bucket: 'metrics',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'Following a successful phishing attack that compromised employee credentials, executive leadership asks how to prevent similar recurrences. What is the most effective strategic control?',
+    [
+      'Requiring employees to print out and physically sign a paper pledge agreeing never to click suspicious links',
+      'Disabling external email communication entirely and restricting all messaging exclusively to internal memos',
+      'Transitioning the entire enterprise authentication model from passwords to phishing-resistant FIDO2 hardware tokens',
+      'Increasing the minimum required enterprise password length from eight characters up to nine characters'
+    ],
+    2,
+    'Phishing-resistant FIDO2 hardware tokens render credential harvesting and credential-stealing phishing pages ineffective.',
+    'identity_hardening',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - paper pledges rely on administrative policy compliance rather than technical cryptographic controls.',
+        'WRONG - disabling external email communication paralyzes external business operations and client interactions.',
+        'CORRECT - FIDO2 hardware tokens provide phishing-resistant authentication that cannot be bypassed via credential harvest pages.',
+        'WRONG - increasing password length by a single character fails to protect against modern phishing-based interception.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1566',
+      rotation_bucket: 'identity_hardening',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A security engineer is configuring network segmentation for an industrial control network. Which principle should guide the architecture between IT and OT environments?',
+    [
+      'Connecting all enterprise workstations directly to industrial control switches to maximize network speed and throughput',
+      'Removing all perimeter firewalls between IT and OT to eliminate network latency and simplify management overhead',
+      'Relying entirely on employee verbal security assurances rather than technical firewall packet filtering rules',
+      'Implementing strict unidirectional or firewall-enforced gateway controls to isolate operational networks from corporate IT'
+    ],
+    3,
+    'Isolating OT networks from IT via strict firewall gateways prevents corporate compromises from spilling into critical industrial systems.',
+    'architecture',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - connecting IT workstations to OT switches exposes critical industrial control systems to general malware spread.',
+        'WRONG - removing perimeter firewalls between IT and OT creates catastrophic security exposure across critical infrastructure.',
+        'WRONG - relying on verbal assurances rather than technical packet filters violates foundational security architecture.',
+        'CORRECT - strict firewall gateway isolation protects industrial control systems from IT network compromise vectors.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'M1030',
+      rotation_bucket: 'architecture',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An enterprise incident response plan requires a post-incident review meeting following any Severity-1 security event. What is the primary governance outcome expected from this session?',
+    [
+      'Determining which specific technical staff members should receive formal written employment termination notices',
+      'Drafting misleading public press statements designed to minimize regulatory scrutiny and conceal breach scope',
+      'Producing a prioritized corrective action list with assigned owners to close root-cause security gaps permanently',
+      'Permanently disabling all centralized security monitoring and audit logging tools to reduce operational costs'
+    ],
+    2,
+    'Post-incident reviews must yield actionable, assigned corrective actions to fix root causes and prevent recurrence.',
+    'governance',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - focusing meetings on staff termination fosters a toxic culture and discourages transparent incident reporting.',
+        'WRONG - drafting misleading statements to conceal breach scope violates regulatory compliance and corporate ethics.',
+        'CORRECT - prioritized corrective actions with assigned owners ensure root-cause vulnerabilities are permanently fixed.',
+        'WRONG - disabling security monitoring tools blinds the organization and guarantees future catastrophic failures.'
+      ],
+      cognitive_level: 3,
+      difficulty: 2,
+      coverage_tag: 'M1016',
+      rotation_bucket: 'governance',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An incident responder analyzing a compromised endpoint discovers a suspicious scheduled task configured to execute an obfuscated PowerShell script every system startup. What MITRE ATT&CK technique is represented here?',
+    [
+      'Scheduled Task execution leveraging built-in OS operating system utilities for persistence and automated startup',
+      'Process Injection targeting active runtime memory spaces of legitimate system administration binaries',
+      'Account Manipulation involving the creation of hidden local administrative shadow user accounts',
+      'Boot or Logon Initialization Scripts executed automatically during user session establishment'
+    ],
+    0,
+    'Configuring scheduled tasks to run scripts upon system startup is a primary technique for maintaining persistence (T1053.005).',
+    'persistence',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - scheduled tasks configured at startup match MITRE technique T1053.005 for persistence.',
+        'WRONG - process injection manipulates active runtime memory rather than creating scheduled tasks.',
+        'WRONG - account manipulation creates or modifies user accounts rather than scheduling startup tasks.',
+        'WRONG - logon scripts execute during user login sessions rather than general system startup.'
+      ],
+      cognitive_level: 2,
+      difficulty: 3,
+      coverage_tag: 'T1053.005',
+      rotation_bucket: 'persistence',
+      last_validated: '2026-11-19'
     }
   )
 ],
