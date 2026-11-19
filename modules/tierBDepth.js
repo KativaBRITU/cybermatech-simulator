@@ -699,6 +699,66 @@ const TIER_B_ESSAYS = {
     86: [essay('Finance dual-control procedure that survives deepfake voice and video.', 'Challenge phrases, known-number callbacks.')],
     88: [essay('Cloud IR checklist for stolen access keys used from a foreign ASN.', 'Revoke, Trail, SCP, hunt, eliminate static keys.')],
     90: [essay('Supply-chain incident memo after a typosquat steals CI secrets.', 'Rotate, audit artifacts, pin/allowlist, least-privilege CI.')]
+,
+
+  3: [
+  {
+    question: 'You are the security lead at a 200-person Namibian bank. The network is a flat VLAN spanning workstations, application servers, and databases. The CISO asks for a one-page segmentation plan: what zones you will create, what the first-phase allow rules will be, how you handle the 14 legacy applications that were not designed for segmentation, and how you will measure success in 90 days.',
+    guidelines: 'This is a segmentation design exercise. The plan must name functional zones (not physical topology), specify the allow rules between zones, address the legacy application dependency problem, and define a measurable success criterion. "We will segment the network" is not a plan.',
+    rubric: [
+      { criterion: 'Defines zones by function', points: 2, evidence_required: 'At least three functional zones (workstations, application, database, management) with the reasoning for each, not physical topology' },
+      { criterion: 'Specifies explicit allow rules with default deny', points: 2, evidence_required: 'The plan states default-deny between zones and names at least three specific allow rules with source, destination, port, and business justification' },
+      { criterion: 'Addresses the 14 legacy applications specifically', points: 2, evidence_required: 'Names the approach for legacy apps (monitor-only phase, compensating controls, per-app exemptions with review dates) rather than treating them as a single problem' },
+      { criterion: 'Provides a 90-day measurement', points: 2, evidence_required: 'States the specific metric for success (e.g., "east-west flows between zones reduced from 340 to under 50", "zero critical apps still on the flat VLAN")' },
+      { criterion: 'Names the rollback plan', points: 2, evidence_required: 'States how a zone change is reverted if it breaks a business process, and who has authority to trigger the rollback' }
+    ]
+  },
+  {
+    question: 'A Johannesburg insurer has a firewall with 340 rules. 60 allow any-to-any on ports 135 and 445. The network team says the rules are "needed for legacy file access." Write the remediation memo to the CISO: what you will remove, what you will keep and why, how you will verify no business process depends on the removed rules, and what the timeline is.',
+    guidelines: 'This is a firewall rule hygiene exercise. The memo must distinguish between rules that are genuinely needed and rules that are legacy accumulation. The verification step is the part that makes removal safe.',
+    rubric: [
+      { criterion: 'Identifies the specific rules to remove', points: 2, evidence_required: 'States that the 60 any-to-any rules on 135/445 are the removal target, and names what replaces them (scoped allow rules per source-destination pair)' },
+      { criterion: 'Identifies what to keep and why', points: 2, evidence_required: 'Names the specific rules that must be kept (business-critical allow rules) and the justification for each' },
+      { criterion: 'Provides a verification method', points: 2, evidence_required: 'States that firewall logs are analysed for the traffic the rules are currently permitting, and the results are checked with the app owners before removal' },
+      { criterion: 'Provides a timeline with owners', points: 2, evidence_required: 'At least three phases (analysis, scoped replacement, removal) with named owners and dates' },
+      { criterion: 'Names the residual risk honestly', points: 2, evidence_required: 'States what remains after the change (e.g., "some legacy apps may still need 445 to specific servers, which are now scoped but not eliminated")' }
+    ]
+  },
+  {
+    question: 'A Namibian government agency has 40 staff on VPN. The VPN concentrator is exposed directly to the internet and uses password-only authentication. The CISO wants a 90-day remediation plan. Write the plan: what you fix first, what compensating controls you add, and how you measure the reduction in exposure by day 90.',
+    guidelines: 'This is a VPN security exercise. The plan must show a phased approach: immediate exposure reduction, then structural fix. The measurement must be verifiable.',
+    rubric: [
+      { criterion: 'Prioritises the internet exposure reduction first', points: 2, evidence_required: 'States that the concentrator is moved behind a reverse proxy or management interface is hidden within 14 days, before any other change' },
+      { criterion: 'Adds MFA within 30 days', points: 2, evidence_required: 'States that phishing-resistant MFA is enforced on all VPN access within 30 days' },
+      { criterion: 'Provides compensating controls', points: 2, evidence_required: 'At least two specific compensating controls (device posture, session timeout, geo-restriction) with the specific risk each addresses' },
+      { criterion: 'Provides a measurable day-90 outcome', points: 2, evidence_required: 'States the specific metric (e.g., "zero password-only logins", "zero direct internet exposure on the management interface")' },
+      { criterion: 'Names the structural fix beyond 90 days', points: 2, evidence_required: 'States the longer-term direction (ZTNA replacement, VPN concentrator retirement) and why it is not in the 90-day scope' }
+    ]
+  },
+  {
+    question: 'A SOC analyst sees SMB traffic from a user workstation to 12 servers over 30 minutes. The user says they ran a "network file search." Write the triage decision: what you check, how you verify the explanation, what would confirm malicious intent, and what you do if the explanation is plausible but unverified.',
+    guidelines: 'This is an SMB lateral movement triage exercise. The analyst must decide between accepting, investigating further, or containing. The verification step is the part that distinguishes competent triage from guessing.',
+    rubric: [
+      { criterion: 'Names the specific checks', points: 2, evidence_required: 'At least three checks (server-side auth logs, file access logs, source workstation process tree, comparison to baseline SMB traffic) with the specific evidence each produces' },
+      { criterion: 'Verifies the user explanation', points: 2, evidence_required: 'States how the analyst verifies the "network file search" claim against actual file access records or tool inventory' },
+      { criterion: 'Names the confirm-malicious indicators', points: 2, evidence_required: 'Names at least two specific indicators that would confirm malicious intent (unusual file access pattern, access to admin shares, connections to servers outside the user role)' },
+      { criterion: 'Names the confirm-benign indicators', points: 2, evidence_required: 'Names at least two specific indicators that would confirm the legitimate explanation (matching file access, known tool on the workstation, pattern matches baseline)' },
+      { criterion: 'Provides the disposition when unverified', points: 2, evidence_required: 'States what the analyst does if the explanation is plausible but unverified (monitor the workstation, alert on further SMB, request specific tool information from the user)' }
+    ]
+  },
+  {
+    question: 'You are the CISO at a Windhoek SME. The board asks: "If we spend N$500,000 on network security this year, what changes?" Write the answer: three specific outcomes, three specific investments, one residual risk that the spend will not eliminate, and how the board will measure whether the spend worked.',
+    guidelines: 'This is a board-level investment case for network security. The outcomes must be verifiable, the investments costed, and the residual risk named. "We will be more secure" is not an outcome; "east-west SMB traffic reduced from 340 daily flows to under 50" is.',
+    rubric: [
+      { criterion: 'Provides three verifiable outcomes', points: 2, evidence_required: 'Three measurable outcomes (e.g., "east-west SMB traffic under 50 daily flows", "no password-only VPN logins", "all critical server zones segmented")' },
+      { criterion: 'Provides three costed investments', points: 2, evidence_required: 'Each investment has a specific N$ amount within the N$500,000 total and what it buys' },
+      { criterion: 'Names the residual risk honestly', points: 2, evidence_required: 'States what the spend will not eliminate (e.g., "a determined attacker with valid credentials can still move laterally within a zone")' },
+      { criterion: 'Provides a board-level measurement cadence', points: 2, evidence_required: 'States what the board sees quarterly (metrics, incidents, gaps) and who reports it' },
+      { criterion: 'Provides a trade-off the board must accept', points: 2, evidence_required: 'States one operational impact (e.g., "users will need MFA on VPN, adding 30 seconds per login", "segmentation will require application changes for two legacy systems") rather than claiming zero friction' }
+    ]
+  }
+
+  ]
 };
 
 function getTierBEssays(moduleId) {
