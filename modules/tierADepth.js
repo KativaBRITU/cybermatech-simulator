@@ -3814,6 +3814,334 @@ const TIER_A_QUESTIONS = {
             }
         )
     ]
+,
+
+  2: [
+  q(
+    'A SOC team in Windhoek sees an internal endpoint connecting to an unfamiliar external IP over HTTPS at regular intervals. What is the most defensible immediate response?',
+    [
+      'Isolate the host from the network, capture volatile memory forensics, and block the destination indicator',
+      'Block the outbound IP at the edge firewall first and keep the server online to preserve customer traffic',
+      'Restart the host service and rotate local service passwords before taking the host off the network',
+      'Collect a disk image while the server stays live in production so ongoing sessions remain observable'
+    ],
+    0,
+    'Host isolation, volatile memory capture, and indicator blocking contain control while preserving evidence.',
+    'incident_response',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - isolates the host, preserves volatile state, and blocks outbound command traffic.',
+        'WRONG - keeping the host online allows alternative channels or lateral movement to continue.',
+        'WRONG - restarting and rotating locally before isolation risks altering active threat state.',
+        'WRONG - live imaging without isolation risks missed memory state and ongoing access.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'Command and Control',
+      rotation_bucket: 'incident_response',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'During a security audit at a financial center in Frankfurt, analysts find standing administrative access held by several standard operations accounts. What is the most defensible fix?',
+    [
+      'Keep standing admin rights in place and require two-person approval before running high-risk changes',
+      'Enforce least-privilege role separation, remove standing excess privileges, and require just-in-time elevation',
+      'Move privileged accounts onto dedicated jump hosts while keeping broad group memberships active',
+      'Enforce longer password rotation intervals on privileged accounts to reduce credential reuse risk'
+    ],
+    1,
+    'Removing standing privileges and enforcing least privilege with just-in-time elevation limits blast radius.',
+    'privilege_management',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - approval workflows add friction without removing standing access if hijacked.',
+        'CORRECT - least privilege and just-in-time elevation remove standing paths for lateral spread.',
+        'WRONG - jump hosts constrain access paths but leave broad standing rights active.',
+        'WRONG - password rotation alone does not stop stolen active sessions or tokens.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'Privilege Escalation',
+      rotation_bucket: 'privilege_management',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A retail group with sites in Walvis Bay and Swakopmund sees slow, distributed login failures across many user accounts from external IPs, followed by occasional successes. What best counters this?',
+    [
+      'Enforce stricter password complexity and 60-day expiry across all user accounts to block guessing',
+      'Restrict logins to regional IP ranges while keeping legacy push-based MFA enabled for convenience',
+      'Enforce phishing-resistant multi-factor authentication, apply adaptive rate limiting, and alert on anomalies',
+      'Require users to acknowledge updated acceptable-use policies before completing webmail authentication'
+    ],
+    2,
+    'Phishing-resistant MFA paired with adaptive rate limiting and anomaly alerts counters password spraying.',
+    'identity_defense',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - password spraying targets common passwords rather than complexity or rare expiries.',
+        'WRONG - IP allowlists can be bypassed via VPNs/proxies, and push MFA faces prompt fatigue.',
+        'CORRECT - phishing-resistant MFA, adaptive rate limiting, and anomaly alerts counter spraying.',
+        'WRONG - policy acknowledgments do not block automated or phishing-assisted sign-ins.'
+      ],
+      cognitive_level: 3,
+      difficulty: 3,
+      coverage_tag: 'Credential Access',
+      rotation_bucket: 'identity_defense',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An enterprise network in Singapore allows broad east-west traffic between office workstations and internal database subnets after a VPN compromise. What architectural change best limits spread?',
+    [
+      'Place an inline intrusion prevention sensor between the VPN gateway and internal core switches',
+      'Require network access control health checks on laptops before granting internal VLAN membership',
+      'Deploy host-based endpoint detection across all workstations and database servers for faster alerting',
+      'Enforce network segmentation and strict east-west firewall policies limiting access to required ports and hosts'
+    ],
+    3,
+    'Network segmentation and strict east-west firewall policies block lateral movement across internal zones.',
+    'network_defense',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - inline inspection detects known patterns but does not enforce least-privilege reachability.',
+        'WRONG - NAC checks posture at entry but leaves broad internal access once connected.',
+        'WRONG - EDR aids detection and response, whereas segmentation prevents lateral paths upfront.',
+        'CORRECT - segmentation and east-west controls directly restrict lateral movement.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'Lateral Movement',
+      rotation_bucket: 'network_defense',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A SOC lead in London notices endpoint security agents occasionally stopping during maintenance windows while administrators deploy software updates. What is the most defensible operational control?',
+    [
+      'Protect security services with tamper protection, alert on service stops, and audit administrative changes',
+      'Allow local administrators to pause endpoint agents during scheduled change windows if documented in tickets',
+      'Rely on daily configuration drift scans to detect when an endpoint agent was stopped the previous day',
+      'Increase endpoint agent health-check intervals so brief service restarts do not generate false alerts'
+    ],
+    0,
+    'Tamper protection, stop alerts, and change auditing preserve telemetry without opening blind spots.',
+    'telemetry_integrity',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - tamper protection, stop alerts, and change audits protect monitoring integrity.',
+        'WRONG - allowing pauses creates windows an attacker can use to evade or disable controls.',
+        'WRONG - next-day drift scans react late if tampering happens while agents are stopped.',
+        'WRONG - longer health-check intervals delay spotting genuine tampering or service failures.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'Defense Evasion',
+      rotation_bucket: 'telemetry_integrity',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'After containing an intrusion at a northern branch in Oshakati, responders find a scheduled task launching an encoded script. What should they do next to ensure thorough eradication?',
+    [
+      'Remove the scheduled task and verify that the associated service account password has been rotated',
+      'Audit all common persistence locations, validate authorized accounts and tasks, and re-scan the host',
+      'Quarantine the script binary and monitor the host for 72 hours before cleaning remaining startup entries',
+      'Rebuild only the affected application directory from a clean image while keeping OS configuration intact'
+    ],
+    1,
+    'Auditing all persistence paths, validating accounts and tasks, and re-scanning prevents re-entry.',
+    'eradication',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - removing one task and rotating one password can miss other persistence hooks.',
+        'CORRECT - full persistence auditing, account/task validation, and re-scanning confirm cleanup.',
+        'WRONG - waiting 72 hours with known persistence remnants leaves active footholds in place.',
+        'WRONG - application-only rebuilds leave OS scheduled tasks, services, or run keys intact.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'Persistence',
+      rotation_bucket: 'eradication',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An organization operating across Nairobi and São Paulo wants to ensure recovery if an attacker gains administrative control over production systems. Which backup practice is most defensible?',
+    [
+      'Store encrypted backups on a dedicated backup server with separate local credentials and daily verification',
+      'Replicate critical databases continuously to a secondary region using the same service account permissions',
+      'Maintain immutable or offline backups isolated from production credentials and test restores regularly',
+      'Keep two independent backup copies on separate storage arrays managed by the same IT operations team'
+    ],
+    2,
+    'Immutable or offline backups isolated from production credentials—with tested restores—survive compromise.',
+    'resilience',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - dedicated servers with daily checks alone lack immutability or offline isolation guarantees.',
+        'WRONG - continuous replication with shared permissions can replicate destructive changes.',
+        'CORRECT - immutable/offline isolation from production credentials plus tested restores protects recovery.',
+        'WRONG - separate arrays under shared access scope still risk coordinated deletion or encryption.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'Impact',
+      rotation_bucket: 'resilience',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A security team at a logistics hub in Rotterdam spots large outbound transfers from an internal file server to an unfamiliar cloud endpoint at night. What is the most defensible response?',
+    [
+      'Throttle outbound bandwidth on the file server and review firewall logs at the start of the next shift',
+      'Place a packet capture on the egress interface and monitor whether the transfer completes cleanly',
+      'Revoke the file server service account token and wait for DLP alerts to classify the transferred files',
+      'Contain the affected server, block the destination, review access logs for staged data, and scope exposure'
+    ],
+    3,
+    'Containing the host, blocking the destination, and auditing file access logs limits exfiltration and scopes impact.',
+    'exfiltration_response',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - throttling and waiting until morning lets exfiltration continue over hours.',
+        'WRONG - passive capture alone does not stop ongoing data loss to an external target.',
+        'WRONG - waiting on DLP classification delays containment while data continues leaving.',
+        'CORRECT - host containment, destination blocking, and access log review address exfiltration.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'Exfiltration',
+      rotation_bucket: 'exfiltration_response',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A company experiences a targeted spear-phishing wave using malicious attachments and lookalike login pages. Which layered defense best reduces both delivery and user compromise?',
+    [
+      'Deploy banner warnings on external emails and run quarterly phishing simulation exercises for staff',
+      'Combine email authentication controls, attachment/link filtering, and phishing-resistant MFA with reporting',
+      'Block all ZIP and macro-enabled attachments at the mail gateway while keeping standard SMS one-time codes',
+      'Require users to open suspicious attachments inside a browser-isolated viewer without changing MFA policy'
+    ],
+    1,
+    'Email authentication, attachment/link inspection, phishing-resistant MFA, and reporting address key stages.',
+    'phishing_defense',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - banners and simulations alone do not block lookalike login pages or token capture.',
+        'CORRECT - layered technical controls plus user reporting reduce delivery and compromise risk.',
+        'WRONG - attachment rules do not stop lookalike login pages, and SMS MFA is weaker.',
+        'WRONG - isolated viewers do not stop credential capture on phishing links or web forms.'
+      ],
+      cognitive_level: 3,
+      difficulty: 2,
+      coverage_tag: 'Initial Access',
+      rotation_bucket: 'phishing_defense',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'An administrator finds an internet-facing application server running a vulnerable component with a public exploit available. What is the most defensible risk reduction approach?',
+    [
+      'Add a web application firewall rule to block known exploit payloads while scheduling patching next quarter',
+      'Move the server to a DMZ subnet and restrict SSH/management ports to internal VPN IP addresses',
+      'Patch or retire the vulnerable service, restrict exposure via network controls, and track remediation SLAs',
+      'Accept the residual risk temporarily since internal databases sit behind a separate application tier'
+    ],
+    2,
+    'Patching or retiring vulnerable exposure and restricting network reachability—tracked by SLA—closes the flaw.',
+    'vulnerability_remediation',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - WAF rules can be bypassed and delay fixing an actively exploitable flaw.',
+        'WRONG - restricting management ports leaves the vulnerable public service exposed.',
+        'CORRECT - patching/retiring, restricting exposure, and enforcing SLAs reduce risk systematically.',
+        'WRONG - multi-tier separation alone does not neutralize an exposed edge vulnerability.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'Initial Access',
+      rotation_bucket: 'vulnerability_remediation',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A regional SOC manager sees analysts spending most of their shift triaging low-fidelity alerts while high-risk detections sit queued. What is the most defensible operational improvement?',
+    [
+      'Tune noisy rules, prioritize high-fidelity detections mapped to key risks, and standardize triage playbooks',
+      'Add more tier-1 analysts to the queue so every low-fidelity alert receives a full manual investigation',
+      'Raise alert severity thresholds globally so only critical alerts appear on the main SOC monitoring board',
+      'Forward all raw endpoint and firewall events to an external managed service without tuning existing rules'
+    ],
+    0,
+    'Tuning noisy detections, prioritizing high-risk signals, and standardizing playbooks raises signal quality.',
+    'soc_operations',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - tuning noise, prioritizing high-risk signals, and playbooks improve triage focus.',
+        'WRONG - adding staff to low-fidelity noise wastes capacity without fixing signal fidelity.',
+        'WRONG - blanket severity hikes can hide medium-severity early intrusion activity.',
+        'WRONG - forwarding untuned volume moves noise without improving detection fidelity.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'Discovery',
+      rotation_bucket: 'soc_operations',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'After containing a major security incident, leadership holds a review meeting. Which approach best supports long-term organizational learning and stronger defenses?',
+    [
+      'Document the incident timeline and update the incident response policy to reflect lessons from the event',
+      'Conduct a blameless post-incident review to document root causes, refine controls, and track action items',
+      'Review detection rule performance with the SOC team and close the incident once containment is confirmed',
+      'Assign specific corrective actions to individual system owners based on who handled each alert during the event'
+    ],
+    1,
+    'Blameless post-incident reviews uncover systemic root causes across people, process, and controls.',
+    'post_incident_review',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - policy edits alone without systemic root-cause fixes and tracking leave gaps open.',
+        'CORRECT - blameless reviews surface systemic root causes and drive durable improvements.',
+        'WRONG - stopping at rule tuning and containment misses broader process or identity causes.',
+        'WRONG - tying fixes to alert handlers rather than systemic root causes misdirects effort.'
+      ],
+      cognitive_level: 3,
+      difficulty: 2,
+      coverage_tag: 'Collection',
+      rotation_bucket: 'post_incident_review',
+      last_validated: '2026-11-19'
+    }
+  )
+
+  ]
 };
 
 const TIER_A_ESSAYS = {
@@ -4394,11 +4722,62 @@ const TIER_A_ESSAYS = {
   }
 ],
     60: [
-        essay(
-            "Teach executives Pass-the-Hash using cloud session-token theft as the analogy. Include the architectural fix and a 10-minute containment checklist.",
-            "Reuse family of techniques. Tiering + short-lived creds. Clear containment steps."
-        )
-    ],
+  {
+    question: 'You are the security lead at a 200-person Namibian bank. A SOC analyst has identified a pass-the-hash attack: a stolen NTLM hash is being used from a helpdesk workstation to authenticate to three servers. The affected user is still logged in. Write the first-hour incident runbook: what you disable and revoke, in what order, what you preserve, and what you tell the CISO in the first 15 minutes.',
+    guidelines: 'This is a live pass-the-hash incident. The runbook must prioritise stopping the credential reuse and revoking the attacker sessions, while preserving evidence for scope. The CISO brief in the first 15 minutes must be specific about what is known and what is not.',
+    rubric: [
+      { criterion: 'Disables the compromised account and revokes sessions before anything else', points: 2, evidence_required: 'States that the account is disabled and all active sessions/tokens are revoked as the first action, before any investigation' },
+      { criterion: 'Isolates every server that accepted the hash', points: 2, evidence_required: 'Names the specific servers that need isolation and states that they are preserved, not rebooted, for forensic capture' },
+      { criterion: 'Preserves the specific evidence', points: 2, evidence_required: 'Names the Event ID 4624 logs, the memory of the helpdesk workstation, and the network flow logs showing the source of the hash authentications' },
+      { criterion: 'Provides a specific CISO brief in the first 15 minutes', points: 2, evidence_required: 'States what is confirmed (pass-the-hash from a specific workstation), what is not known (scope, data accessed), and what not to tell the board yet' },
+      { criterion: 'Explains why password reset alone is insufficient', points: 2, evidence_required: 'States that the attacker uses the hash, not the password, and that session revocation plus krbtgt reset (if ticket theft is suspected) is required' }
+    ]
+  },
+  {
+    question: 'A Johannesburg insurer finds a Kerberoasting attack in progress: an attacker with low-privilege domain credentials is requesting service tickets for three service accounts with weak passwords. Write the remediation memo for the CISO: what you fix now, what you fix over 90 days, and what residual risk remains even after both.',
+    guidelines: 'This is a remediation plan for Kerberoasting, not an incident response. The memo should be specific about what makes Kerberoasting possible (SPNs on weak service accounts), what fixes it now, and what structural changes prevent recurrence. The residual risk must be named.',
+    rubric: [
+      { criterion: 'Names the immediate fix', points: 2, evidence_required: 'States that the three service account passwords are rotated to 30+ character values in gMSAs within the first 24 hours' },
+      { criterion: 'Names the 90-day structural fix', points: 2, evidence_required: 'At least three actions (SPN inventory, service account inventory, password age limits, gMSA migration for all service accounts) with owners' },
+      { criterion: 'Explains what makes Kerberoasting possible', points: 2, evidence_required: 'States that any domain user can request TGS tickets for accounts with SPNs, and the ticket hash is crackable offline if the password is weak' },
+      { criterion: 'Names the residual risk honestly', points: 2, evidence_required: 'States what remains after the fix (e.g., a new service account with a short password would be vulnerable again) rather than claiming Kerberoasting is eliminated' },
+      { criterion: 'Names the verification method', points: 2, evidence_required: 'States that a Kerberoasting test is re-run after 30 days and the hashes are checked for crackability, or the requesters are audited' }
+    ]
+  },
+  {
+    question: 'You are the CISO at a Windhoek bank. The board asks: "If we spend N$2 million on credential theft defence this year, what changes?" Write the answer: three specific outcomes, three specific investments, one residual risk that the spend will not eliminate, and how the board will measure whether the spend worked.',
+    guidelines: 'This is a board-level investment case. The outcomes must be verifiable, the investments costed, and the residual risk named. "We will be more secure" is not an outcome; "no Domain Admin credentials on user workstations" is.',
+    rubric: [
+      { criterion: 'Provides three verifiable outcomes', points: 2, evidence_required: 'At least three measurable outcomes (e.g., "zero DA credentials on user workstations", "all admin workstations on Enterprise with Credential Guard", "all service accounts in gMSAs with 30+ character passwords")' },
+      { criterion: 'Provides three costed investments', points: 2, evidence_required: 'Each investment has a specific N$ amount within the N$2M total and what it buys' },
+      { criterion: 'Names the residual risk honestly', points: 2, evidence_required: 'States what the spend will not eliminate (e.g., "a determined attacker with physical access to an admin workstation can still extract credentials before Credential Guard detects")' },
+      { criterion: 'Provides a board-level measurement cadence', points: 2, evidence_required: 'States what the board sees quarterly (metrics, incidents, gaps) and who reports it' },
+      { criterion: 'Provides a trade-off the board must accept', points: 2, evidence_required: 'States one operational impact (e.g., "admin workstations will need hardware refresh", "helpdesk tickets may increase during tiering migration") rather than claiming zero friction' }
+    ]
+  },
+  {
+    question: 'A SOC analyst at a Nairobi bank sees a successful Kerberos authentication from a user account that was disabled 40 minutes ago. The analyst has no playbook for golden ticket detection. Write the first-hour runbook: what to check, who to notify, what to preserve, and what to do if the alert is confirmed as a forged ticket.',
+    guidelines: 'This is an incident runbook for a specific alert type. "Escalate to IR" is not a runbook. The runbook must name what the analyst checks in the first 10 minutes, what evidence is preserved, and the exact escalation trigger.',
+    rubric: [
+      { criterion: 'Names the specific checks in the first 10 minutes', points: 2, evidence_required: 'At least three checks (confirm account is still disabled, check krbtgt password age, check other disabled accounts for the same pattern, check DC security logs)' },
+      { criterion: 'Names the specific evidence to preserve', points: 2, evidence_required: 'States the specific logs and artifacts (DC security logs, Kerberos ticket metadata, session information from the affected systems)' },
+      { criterion: 'Names the escalation trigger and path', points: 2, evidence_required: 'States exactly when the analyst escalates to IR (confirmed forged ticket, multiple disabled accounts, krbtgt compromise indicator) and to whom' },
+      { criterion: 'Names the containment if confirmed', points: 2, evidence_required: 'States the specific containment actions (krbtgt reset twice, all admin sessions revoked, DA account password rotation) rather than "isolate the DC"' },
+      { criterion: 'Provides a post-incident action', points: 2, evidence_required: 'States one specific change that prevents recurrence (krbtgt rotation schedule, protected users group, alert on disabled account authentication)' }
+    ]
+  },
+  {
+    question: 'A Namibian government agency has 40% of workstations on Windows 10 without Credential Guard support and 60% on Windows 11. The CISO wants to prevent pass-the-hash across the whole fleet. Write the deployment plan: what you deploy where, what compensating controls replace Credential Guard on the legacy systems, how you measure coverage, and what residual risk remains.',
+    guidelines: 'This is a partial-deployment plan with a hardware constraint. The plan must show what is possible on each platform, what compensating controls replace the missing capability, and how coverage is measured. "We will deploy Credential Guard everywhere" is not a plan on mixed OS.',
+    rubric: [
+      { criterion: 'Identifies what can and cannot be deployed on each OS version', points: 2, evidence_required: 'States that Credential Guard requires Enterprise and is not available on the Windows 10 Home fleet; names the specific Enterprise features being deployed' },
+      { criterion: 'Names specific compensating controls for legacy systems', points: 2, evidence_required: 'At least three compensating controls (LAPS, removal of DA credentials from legacy workstations, LSASS access detection, admin tiering) with the specific role each plays' },
+      { criterion: 'Provides a coverage measurement', points: 2, evidence_required: 'States how coverage is measured (e.g., "Credential Guard status report from Intune on Enterprise, LSASS alert rate on legacy") and who reports it' },
+      { criterion: 'Names the residual risk honestly', points: 2, evidence_required: 'States what remains after the plan (e.g., "legacy workstations still allow LSASS memory extraction if the attacker has admin; detection is the only defence")' },
+      { criterion: 'Provides a decision on whether to upgrade the legacy fleet', points: 2, evidence_required: 'States whether upgrading legacy to Enterprise is recommended, and if so the cost per workstation and the business case' }
+    ]
+  }
+],
     70: [
         essay(
             "High-entropy DNS every 45s from one host. Write the hunt-to-contain playbook and the durable DNS architecture controls.",
