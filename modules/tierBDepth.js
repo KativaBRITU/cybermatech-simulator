@@ -357,9 +357,330 @@ const TIER_B_QUESTIONS = {
   )
 ],
     3: [
-        q('East-west traffic on a flat VLAN shows SMB admin$ from a marketing PC to ERP. Best control response?', ['Trust internal traffic always', 'Segment critical assets; hunt lateral movement; remove flat trust', 'Only harden the firewall edge', 'Disable logging to reduce noise'], 1, 'Perimeter-only thinking fails on lateral movement.', 'network', 40),
-        q('Which monitoring gap most often blinds defenders to lateral movement?', ['No edge firewall', 'No east-west / identity-correlated visibility inside the LAN', 'Too many DNS servers', 'Having TLS'], 1, 'Internal visibility + identity context beats border fetish.', 'network', 35)
+  q(
+    'East-west traffic on a flat VLAN shows SMB admin$ from a marketing PC to the ERP server. What is the most defensible first action?',
+    [
+      'Isolate the marketing PC, capture the SMB session logs, and check the ERP server for the same path',
+      'Block all SMB traffic on the VLAN immediately to stop further lateral movement across the network',
+      'Reset the marketing user password and add MFA to the ERP server before investigating the session',
+      'Monitor the SMB traffic for 24 hours to see if the connection is part of a legitimate pattern'
     ],
+    0,
+    'SMB admin$ from a marketing PC to the ERP server is a lateral movement indicator. Isolate the source, preserve logs, check the destination.',
+    'segmentation',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - isolate the source, preserve logs, check the destination.',
+        'WRONG - blocking all SMB disrupts legitimate operations and does not contain the compromised host.',
+        'WRONG - password reset and MFA help but do not stop the active SMB session or find other paths.',
+        'WRONG - 24 hours of monitoring lets the attacker continue lateral movement.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1021.002',
+      rotation_bucket: 'segmentation',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A Windhoek bank has web, application, and database servers on one flat VLAN. The CISO wants to reduce lateral movement risk. What is the most defensible first phase?',
+    [
+      'Replace the flat VLAN with three functional zones and add explicit allow rules between web, app, and data',
+      'Move the database servers to a different physical rack and require console access for database admin',
+      'Deploy a new next-generation firewall between the network core and the ISP edge only',
+      'Require all staff to use VPN for access to any server from the office network'
+    ],
+    0,
+    'Functional zones (web, app, data) with explicit allow rules are the first-phase segmentation. Physical rack separation, perimeter-only firewalls, and VPN-for-internal-access do not segment east-west paths.',
+    'segmentation',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - functional zones with explicit rules reduce east-west paths between the three tiers.',
+        'WRONG - physical rack separation does not change the network path; the VLAN still allows lateral movement.',
+        'WRONG - a perimeter firewall does not address internal east-west traffic.',
+        'WRONG - VPN for internal access adds a hop but does not segment the flat VLAN.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1021',
+      rotation_bucket: 'segmentation',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A firewall rule review finds 340 rules, 60 of which allow any-source to any-destination on ports 135 and 445. What is the most defensible action?',
+    [
+      'Document the rules as legacy exceptions and require quarterly review by the network team',
+      'Remove the 60 overly permissive rules after verifying no business-critical traffic depends on them',
+      'Add compensating IDS signatures to alert on the traffic allowed by the 60 rules',
+      'Leave the rules in place but add a change-control requirement for any new similar rule'
+    ],
+    1,
+    '60 rules allowing any-to-any on RPC and SMB are exactly the lateral movement paths attackers use. Remove them after verifying dependencies.',
+    'firewall_policy',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - documenting as legacy exceptions accepts the risk indefinitely.',
+        'CORRECT - remove the permissive rules after dependency verification.',
+        'WRONG - IDS alerts detect the exploit after the fact; they do not remove the path.',
+        'WRONG - freezing new rules without removing old ones leaves the exposure in place.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1021.002',
+      rotation_bucket: 'firewall_policy',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A Namibian government agency has a firewall with implicit allow on outbound. A workstation is beaconing to a rare IP in a country with no business ties. What is the most defensible change?',
+    [
+      'Enable egress allowlisting for known destinations and alert on any new destination',
+      'Add the rare IP to a blocklist and require users to report suspicious outbound activity',
+      'Increase firewall logging to capture the beacon traffic for monthly review',
+      'Configure the firewall to allow only HTTP and HTTPS outbound and block all other ports'
+    ],
+    0,
+    'Egress allowlisting restricts outbound to known-good destinations and catches C2 via unexpected destinations. Blocking one IP is evadable; logging without action detects after the fact; port restriction misses C2 over HTTP/HTTPS.',
+    'firewall_policy',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - egress allowlisting with new-destination alerting catches C2 and forces approval of new destinations.',
+        'WRONG - blocking one IP is evadable; the attacker changes infrastructure.',
+        'WRONG - logging without review or alerting does not stop the beacon.',
+        'WRONG - restricting to HTTP/HTTPS does not help; most C2 uses those ports.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1071',
+      rotation_bucket: 'firewall_policy',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A Johannesburg insurer wants to deploy a VPN for remote staff. The CISO asks what controls are essential. What is the most defensible answer?',
+    [
+      'Phishing-resistant MFA, device posture check, and split-tunnel disabled for sensitive applications',
+      'A 16-character password policy, split tunneling enabled for performance, and quarterly review',
+      'A commercial VPN appliance with vendor support and a 99.9% uptime SLA',
+      'Use of the VPN for all staff regardless of role, with no exceptions or guest access'
+    ],
+    0,
+    'Phishing-resistant MFA closes the credential-theft path; device posture prevents unmanaged devices; split-tunnel disabled prevents direct internet bypass for sensitive apps.',
+    'vpn_security',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - phishing-resistant MFA, device posture, and no split-tunnel for sensitive apps close the VPN attack paths.',
+        'WRONG - 16-character password is defeated by phishing; split tunneling exposes endpoints to direct internet.',
+        'WRONG - commercial appliance with SLA does not address MFA or posture.',
+        'WRONG - universal VPN without MFA or posture does not reduce credential theft risk.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1133',
+      rotation_bucket: 'vpn_security',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A Windhoek SME uses a VPN concentrator exposed directly to the internet. What is the most defensible first step?',
+    [
+      'Enable MFA on the VPN and restrict access to specific source IP ranges where staff are located',
+      'Move the VPN concentrator behind a reverse proxy and hide the management interface from the internet',
+      'Replace the VPN concentrator with a ZTNA service and decommission the concentrator after migration',
+      'Patch the VPN concentrator to the latest firmware and schedule a full replacement next budget cycle'
+    ],
+    1,
+    'Moving the concentrator behind a reverse proxy and hiding the management interface reduces exposed attack surface. MFA and IP allowlisting help but leave the management plane exposed.',
+    'vpn_security',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - MFA and IP allowlisting help but leave the management interface reachable.',
+        'CORRECT - reverse proxy and hidden management interface reduce the exposed attack surface immediately.',
+        'WRONG - ZTNA replacement is the right end state but does not protect the exposed concentrator now.',
+        'WRONG - patching helps but direct internet exposure of the management plane remains.'
+      ],
+      cognitive_level: 4,
+      difficulty: 4,
+      coverage_tag: 'T1133',
+      rotation_bucket: 'vpn_security',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'Which monitoring gap most often blinds defenders to lateral movement in a flat network?',
+    [
+      'Inadequate netflow or east-west traffic visibility between internal subnets',
+      'Missing antivirus signature updates on the perimeter firewall appliances',
+      'Lack of daily backups for the SIEM analytics platform database',
+      'Insufficient user security awareness training on suspicious attachments'
+    ],
+    0,
+    'Lateral movement happens east-west between internal hosts. Without netflow or internal traffic visibility, the SOC cannot see the SMB, RDP, and RPC connections that indicate movement.',
+    'monitoring',
+    40,
+    {
+      distractor_rationale: [
+        'CORRECT - east-west visibility is the gap that blinds defenders to lateral movement.',
+        'WRONG - AV updates on perimeter firewalls do not address internal traffic visibility.',
+        'WRONG - SIEM backup is operational resilience, not lateral movement visibility.',
+        'WRONG - awareness training addresses initial phishing, not lateral traffic observation.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1021',
+      rotation_bucket: 'monitoring',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A SOC analyst sees a spike in SMB traffic from a user workstation to multiple servers in the same hour. The user says they ran a legitimate file search. What is the most defensible action?',
+    [
+      'Accept the user explanation and close the alert without further verification',
+      'Correlate the SMB traffic with authentication logs on each server and check for unusual file access',
+      'Block all SMB traffic from that workstation immediately to prevent further connections',
+      'Raise the alert severity and wait for the next user report to confirm the pattern'
+    ],
+    1,
+    'The user explanation is plausible but not verification. Correlating SMB traffic with server-side authentication logs and file access shows whether the traffic matches a legitimate search or something else.',
+    'monitoring',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - user explanation is plausible but does not verify the traffic pattern.',
+        'CORRECT - correlate with server-side auth logs and file access to verify or refute the explanation.',
+        'WRONG - blocking without verification disrupts legitimate work and does not investigate the pattern.',
+        'WRONG - raising severity without action leaves the pattern unverified.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1021.002',
+      rotation_bucket: 'monitoring',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A Namibian bank wants to segment its network but has 14 critical applications that were not designed for segmentation. What is the most defensible phasing?',
+    [
+      'Segment all 14 applications at once with a hard deadline to force the business to adapt',
+      'Segment the highest-risk applications first, run each in monitor-only mode before enforcement',
+      'Defer segmentation entirely until all 14 applications are redesigned for segmentation',
+      'Segment only the workstations and leave the server network flat to avoid application dependencies'
+    ],
+    1,
+    'Highest-risk applications first, monitor-only before enforcement, is the standard phasing for segmentation. Segmenting all at once breaks dependencies; deferring leaves the risk open.',
+    'segmentation',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - hard deadline with no monitoring phase breaks applications and creates outages.',
+        'CORRECT - highest-risk first, monitor-only before enforcement, is the standard segmentation phasing.',
+        'WRONG - deferring entirely leaves the exposure open with no improvement.',
+        'WRONG - segmenting workstations only leaves the server-to-server paths unaddressed.'
+      ],
+      cognitive_level: 5,
+      difficulty: 4,
+      coverage_tag: 'T1021',
+      rotation_bucket: 'segmentation',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A firewall change request asks to allow any-source to any-destination on port 3389 (RDP) for a temporary three-day fix. What is the most defensible response?',
+    [
+      'Approve the change with a note to revert after three days and add a reminder to the calendar',
+      'Deny the request and require RDP access to be scoped to specific source IPs and destinations',
+      'Approve the change but add monitoring to alert on any RDP traffic during the three days',
+      'Deny the change outright and require the user to use RDP over a VPN instead'
+    ],
+    1,
+    'RDP any-to-any is exactly the exposure that enables lateral movement. Scoping the rule to specific source IPs and destinations meets the business need without the wide exposure.',
+    'firewall_policy',
+    45,
+    {
+      distractor_rationale: [
+        'WRONG - approval with a reminder leaves the wide exposure open for three days.',
+        'CORRECT - deny the wide rule and require scoping to specific sources and destinations.',
+        'WRONG - monitoring detects the exploit after the fact; the exposure remains.',
+        'WRONG - outright denial without a scoped alternative blocks legitimate work.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1021.001',
+      rotation_bucket: 'firewall_policy',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A Windhoek SME has a VPN concentrator with 40 staff. The CISO asks how to detect a compromised VPN account being used by an attacker. What is the most defensible approach?',
+    [
+      'Alert on logins from geographically impossible locations, concurrent sessions, and unusual device fingerprints',
+      'Require quarterly password changes for all VPN users and rely on the policy to prevent compromise',
+      'Monitor the VPN server uptime and connection counts for anomalies in traffic volume',
+      'Require a hardware token for all VPN users — this prevents any account compromise'
+    ],
+    0,
+    'Geographic impossibility, concurrent sessions, and device fingerprint changes are the specific signals of a compromised VPN account.',
+    'vpn_security',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - impossible travel, concurrent sessions, and device fingerprint changes detect compromised sessions.',
+        'WRONG - password changes do not detect an attacker already in the account.',
+        'WRONG - uptime and volume monitoring do not detect account compromise.',
+        'WRONG - hardware tokens prevent some attacks but do not detect an actively compromised session.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1078',
+      rotation_bucket: 'vpn_security',
+      last_validated: '2026-11-19'
+    }
+  ),
+
+  q(
+    'A SOC team is building netflow monitoring for the internal network. What is the most defensible first priority?',
+    [
+      'Capture and baseline east-west traffic between server zones to detect abnormal lateral patterns',
+      'Capture all internet-facing perimeter traffic to identify external attack attempts',
+      'Monitor only the VPN concentrator for unusual session volume and connection counts',
+      'Deploy network taps on every switch port to capture full packet data across the network'
+    ],
+    0,
+    'Lateral movement happens east-west between server zones. Baselining that traffic reveals abnormal patterns. Perimeter monitoring catches external attempts but not internal movement.',
+    'monitoring',
+    45,
+    {
+      distractor_rationale: [
+        'CORRECT - east-west baseline between server zones detects lateral movement patterns.',
+        'WRONG - perimeter monitoring is useful but does not detect internal lateral movement.',
+        'WRONG - VPN-only monitoring is too narrow to detect lateral movement.',
+        'WRONG - full packet capture on every port is costly and disproportionate for first-phase visibility.'
+      ],
+      cognitive_level: 4,
+      difficulty: 3,
+      coverage_tag: 'T1021',
+      rotation_bucket: 'monitoring',
+      last_validated: '2026-11-19'
+    }
+  )
+],
     4: [
         q('Public S3/blob with customer PII discovered. Immediate priority?', ['Leave it — cloud is shared responsibility of the vendor only', 'Remove public access; inventory exposure; rotate keys; notify per policy', 'Delete the entire cloud account', 'Post the URL on social media'], 1, 'Stop exposure first, then scope and legal clocks.', 'cloud', 40),
         q('Long-lived access keys in a Git commit — durable fix?', ['Hope nobody finds the repo', 'Rotate/revoke; remove from history where feasible; prefer short-lived roles/OIDC; scan secrets in CI', 'Disable MFA', 'Email the keys to Slack for “tracking”'], 1, 'Identity hygiene + pipeline controls beat hope.', 'cloud', 40)
